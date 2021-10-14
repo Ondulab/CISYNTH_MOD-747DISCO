@@ -10,6 +10,7 @@
 #include "cisynth_ifft.h"
 #include "synth.h"
 #include "config.h"
+#include "menu.h"
 #include "pcm5102.h"
 
 #include "lwip.h"
@@ -29,10 +30,10 @@ static void cisynth_ifft_SetHint(void);
 int cisynth_ifft(void)
 {
 	uint8_t FreqStr[256] = {0};
-//	uint32_t cis_color = 0;
+	uint32_t cis_color = 0;
 	static uint32_t start_tick;
 	uint32_t latency;
-//	int32_t i = 0;
+	int32_t i = 0;
 
 	printf("------ BW IFFT MODE START -----\n");
 	printf("-------------------------------\n");
@@ -98,7 +99,7 @@ int cisynth_ifft(void)
 static void cisynth_ifft_SetHint(void)
 {
 	/* Set Audio header description */
-//	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
-//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
-//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
+	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
+	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
+	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
 }

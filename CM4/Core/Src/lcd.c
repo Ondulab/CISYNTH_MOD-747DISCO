@@ -166,25 +166,7 @@ static void LCD_Show_Feature(uint8_t feature)
     break;
 
   case 2:
-    /* Draw Bitmap */
-    /* Draw Bitmap */
-    UTIL_LCD_DrawBitmap(20, 100, (uint8_t *)stlogo);
-    HAL_Delay(500);
 
-    UTIL_LCD_DrawBitmap(x_size/2 - 40, 100, (uint8_t *)stlogo);
-    HAL_Delay(500);
-
-    UTIL_LCD_DrawBitmap(x_size-100, 100, (uint8_t *)stlogo);
-    HAL_Delay(500);
-
-    UTIL_LCD_DrawBitmap(20, y_size- 80, (uint8_t *)stlogo);
-    HAL_Delay(500);
-
-    UTIL_LCD_DrawBitmap(x_size/2 - 40, y_size- 80, (uint8_t *)stlogo);
-    HAL_Delay(500);
-
-    UTIL_LCD_DrawBitmap(x_size-100, y_size- 80, (uint8_t *)stlogo);
-    HAL_Delay(500);
     break;
 
   case 3:

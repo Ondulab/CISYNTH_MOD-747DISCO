@@ -122,7 +122,7 @@ void SDRAM_DMA_demo (void)
 
   SDRAM_DMA_SetHint();
 
-  SdramTest = 1;
+//  SdramTest = 1;
   BSP_SDRAM_DeInit(0);
   /* SDRAM device configuration */
   if(BSP_SDRAM_Init(0) != BSP_ERROR_NONE)
@@ -184,7 +184,7 @@ void SDRAM_DMA_demo (void)
     if(CheckForUserInput() > 0)
     {
       ButtonState = 0;
-      SdramTest = 0;
+//      SdramTest = 0;
       return;
     }
   }
@@ -270,8 +270,6 @@ static void Fill_Buffer(uint32_t *pBuffer, uint32_t uwBufferLength, uint32_t uwO
   {
     pBuffer[tmpIndex] = tmpIndex + uwOffset;
   }
-  /* Clean Data Cache to update the content of the SDRAM */
-  SCB_CleanDCache_by_Addr((uint32_t*)pBuffer, uwBufferLength*4);
 }
 
 /**
@@ -283,9 +281,6 @@ static void Fill_Buffer(uint32_t *pBuffer, uint32_t uwBufferLength, uint32_t uwO
   */
 static uint8_t Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t BufferLength)
 {
-  /* Invalidate Data Cache to get the updated content of the SRAM*/
-  SCB_CleanInvalidateDCache_by_Addr((uint32_t *)pBuffer2, BufferLength*4);
-
   while (BufferLength--)
   {
     if (*pBuffer1 != *pBuffer2)

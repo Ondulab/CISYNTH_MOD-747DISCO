@@ -27,7 +27,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stlogo.h"
 #include "cisynth_ifft.h"
 #include "pictures.h"
 #include "lwip.h"
@@ -83,19 +82,12 @@ void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-static void Display_DemoDescription(void);
 static void MPU_Config(void);
 
 BSP_DemoTypedef  BSP_examples[]=
 {
 //		{AudioPlay_demo, "AUDIO PLAY", 0},
 		{QSPI_demo, "QSPI", 0},
-		{SDRAM_demo, "SDRAM", 0},
-		{SDRAM_DMA_demo, "SDRAM MDMA", 0},
-		{Joystick_demo, "JOYSTICK EXTI", 0},
-		{Touchscreen_demo1, "TOUCHSCREEN DEMO1", 0},
-		{Touchscreen_demo2, "TOUCHSCREEN DEMO2", 0},
-		{LCD_demo, "LCD", 0},
 		{SD_DMA_demo, "SD", 0},
 		{SD_IT_demo, "SD", 0},
 		{SD_POLLING_demo, "SD", 0},
@@ -187,23 +179,12 @@ HSEM notification */
   MX_DAC1_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-	/* Initialize the LCD */
-	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
-	UTIL_LCD_SetFuncDriver(&LCD_Driver);
-	UTIL_LCD_SetFont(&UTIL_LCD_DEFAULT_FONT);
-	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
-	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLACK);
-	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
 
 	printf("----------------------------------------------------------\n");
 	printf("--------- Sectral Synth Scanner CIS module START ---------\n");
 	printf("----------------------------------------------------------\n");
 
-	UTIL_LCD_DrawBitmapBW(sss_Img, (LCD_DEFAULT_WIDTH - 151) / 2, (LCD_DEFAULT_HEIGHT - 64) / 2, 151, 64, UTIL_LCD_COLOR_WHITE);
-
 	MX_LWIP_Init();
-
-	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
 
 //	cisynth_eth();
 	cisynth_ifft();
@@ -214,21 +195,6 @@ HSEM notification */
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		if(ButtonState == 1)
-		{
-			HAL_Delay(400);
-			ButtonState = 0;
-			BSP_examples[DemoIndex++].DemoFunc();
-
-			HAL_Delay(100);
-
-			if(DemoIndex >= COUNT_OF_EXAMPLE(BSP_examples))
-			{
-				NbLoop++;
-				DemoIndex = 0;
-			}
-			Display_DemoDescription();
-		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -328,48 +294,6 @@ void PeriphCommonClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-/**`MX_SAI1_Init'
- * @brief  Display main demo messages
- * @param  None
- * @retval None
- */
-static void Display_DemoDescription(void)
-{
-	char desc[64];
-	uint32_t x_size;
-	uint32_t y_size;
-
-	BSP_LCD_GetXSize(0, &x_size);
-	BSP_LCD_GetYSize(0, &y_size);
-	/* Set LCD Foreground Layer  */
-	UTIL_LCD_SetFont(&UTIL_LCD_DEFAULT_FONT);
-
-	/* Clear the LCD */
-	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_WHITE);
-	UTIL_LCD_Clear(UTIL_LCD_COLOR_WHITE);
-
-	/* Set the LCD Text Color */
-	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_DARKBLUE);
-
-	/* Display LCD messages */
-	UTIL_LCD_DisplayStringAt(0, 10, (uint8_t *)"STM32H747I BSP", CENTER_MODE);
-	UTIL_LCD_DisplayStringAt(0, 35, (uint8_t *)"Drivers examples", CENTER_MODE);
-
-	/* Draw Bitmap */
-	UTIL_LCD_DrawBitmap((x_size - 80)/2, 65, (uint8_t *)stlogo);
-
-	UTIL_LCD_SetFont(&Font12);
-	UTIL_LCD_DisplayStringAt(0, y_size - 20, (uint8_t *)"Copyright (c) STMicroelectronics 2018", CENTER_MODE);
-
-	UTIL_LCD_SetFont(&Font16);
-	BSP_LCD_FillRect(0, 0, y_size/2 + 15, x_size, 60, UTIL_LCD_COLOR_BLUE);
-	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
-	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLUE);
-	UTIL_LCD_DisplayStringAt(0, y_size / 2 + 30, (uint8_t *)"Press Wakeup button to start :", CENTER_MODE);
-	sprintf(desc,"%s example", BSP_examples[DemoIndex].DemoName);
-	UTIL_LCD_DisplayStringAt(0, y_size/2 + 45, (uint8_t *)desc, CENTER_MODE);
-}
-
 /**
  * @brief  Check for user input
  * @param  None
@@ -428,16 +352,16 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
-  /** Initializes and configures the Region and the memory to be protected
-  */
-  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
-  MPU_InitStruct.BaseAddress = SDRAM_DEVICE_ADDR;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
-  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
-
-  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+//  /** Initializes and configures the Region and the memory to be protected // SDRAM managed by CM4
+//  */
+//  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+//  MPU_InitStruct.BaseAddress = SDRAM_DEVICE_ADDR;
+//  MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
+//  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+//  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+//  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
+//
+//  HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 

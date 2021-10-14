@@ -92,9 +92,9 @@ void SD_POLLING_demo(void)
 static void SD_demo(uint32_t Mode)
 {
   uint8_t SD1_state = BSP_ERROR_NONE;
-  uint32_t x_size, y_size;
-  BSP_LCD_GetXSize(0, &x_size);
-  BSP_LCD_GetYSize(0, &y_size);
+//  uint32_t x_size, y_size;
+//  BSP_LCD_GetXSize(0, &x_size);
+//  BSP_LCD_GetYSize(0, &y_size);
 
   SdmmcTest = 0;
   SD_SetHint(Mode);
@@ -105,20 +105,20 @@ static void SD_demo(uint32_t Mode)
   /* Check if the SD card is plugged in the slot */
   if(BSP_SD_IsDetected(0) == SD_PRESENT)
   {
-    UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_GREEN);
-    UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)" SD1 Connected    ", LEFT_MODE);
+    // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_GREEN);
+    // UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)" SD1 Connected    ", LEFT_MODE);
   }
   else
   {
 
-    UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_RED);
-    UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)"SD1 Not Connected", LEFT_MODE);
+    // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_RED);
+    // UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)"SD1 Not Connected", LEFT_MODE);
   }
-  UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_BLACK);
+  // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_BLACK);
 
   if(SD1_state == BSP_ERROR_NONE)
   {
-    UTIL_LCD_DisplayStringAt(20, 100, (uint8_t *)"SD1 INITIALIZATION : OK.", LEFT_MODE);
+    // UTIL_LCD_DisplayStringAt(20, 100, (uint8_t *)"SD1 INITIALIZATION : OK.", LEFT_MODE);
 
     SD1_state = BSP_SD_Erase(0, BLOCK_START_ADDR, BLOCK_START_ADDR + NUM_OF_BLOCKS);
     /* Wait until SD card is ready to use for new operation */
@@ -126,12 +126,12 @@ static void SD_demo(uint32_t Mode)
 
     if(SD1_state != BSP_ERROR_NONE)
     {
-      UTIL_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD1 ERASE : FAILED.", LEFT_MODE);
-      UTIL_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD1 Test Aborted.", LEFT_MODE);
+      // UTIL_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD1 ERASE : FAILED.", LEFT_MODE);
+      // UTIL_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD1 Test Aborted.", LEFT_MODE);
     }
     else
     {
-      UTIL_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD1 ERASE : OK.", LEFT_MODE);
+      // UTIL_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD1 ERASE : OK.", LEFT_MODE);
 
       /* Fill the buffer to write */
       Fill_Buffer(aTxBuffer, BUFFER_WORDS_SIZE, 0x22FF);
@@ -160,12 +160,12 @@ static void SD_demo(uint32_t Mode)
 
       if(SD1_state != BSP_ERROR_NONE)
       {
-        UTIL_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD1 WRITE : FAILED.", LEFT_MODE);
-        UTIL_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD1 Test Aborted.", LEFT_MODE);
+        // UTIL_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD1 WRITE : FAILED.", LEFT_MODE);
+        // UTIL_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD1 Test Aborted.", LEFT_MODE);
       }
       else
       {
-        UTIL_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD1 WRITE : OK.", LEFT_MODE);
+        // UTIL_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD1 WRITE : OK.", LEFT_MODE);
         if(Mode == SD_DMA_MODE)
         {
           SD1_state = BSP_SD_ReadBlocks_DMA(0, (uint32_t *)aRxBuffer, BLOCK_START_ADDR, NUM_OF_BLOCKS);
@@ -194,41 +194,41 @@ static void SD_demo(uint32_t Mode)
 
         if(SD1_state != BSP_ERROR_NONE)
         {
-          UTIL_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD1 READ : FAILED.", LEFT_MODE);
-          UTIL_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD1 Test Aborted.", LEFT_MODE);
+          // UTIL_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD1 READ : FAILED.", LEFT_MODE);
+          // UTIL_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD1 Test Aborted.", LEFT_MODE);
         }
         else
         {
-          UTIL_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD1 READ : OK.", LEFT_MODE);
+          // UTIL_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD1 READ : OK.", LEFT_MODE);
           if(Buffercmp(aTxBuffer, aRxBuffer, BUFFER_WORDS_SIZE) > 0)
           {
-            UTIL_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD1 COMPARE : FAILED.", LEFT_MODE);
-            UTIL_LCD_DisplayStringAt(20, 175, (uint8_t *)"SD1 Test Aborted.", LEFT_MODE);
+            // UTIL_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD1 COMPARE : FAILED.", LEFT_MODE);
+            // UTIL_LCD_DisplayStringAt(20, 175, (uint8_t *)"SD1 Test Aborted.", LEFT_MODE);
           }
           else
           {
-            UTIL_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD1 COMPARE : OK.", LEFT_MODE);
+            // UTIL_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD1 COMPARE : OK.", LEFT_MODE);
           }
         }
       }
     }
   }
   else{
-    UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_RED);
-    UTIL_LCD_DisplayStringAt(20, 100, (uint8_t *)"SD INITIALIZATION : FAIL.", LEFT_MODE);
-    UTIL_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD Test Aborted.", LEFT_MODE);
+    // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_RED);
+    // UTIL_LCD_DisplayStringAt(20, 100, (uint8_t *)"SD INITIALIZATION : FAIL.", LEFT_MODE);
+    // UTIL_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD Test Aborted.", LEFT_MODE);
   }
   while (1)
   {
-    if(CheckForUserInput() > 0)
-    {
-      HAL_Delay(200);
-      ButtonState = 0;
-      SdmmcTest = 0;
-      BSP_SD_DeInit(0);
-      return;
-
-    }
+//    if(CheckForUserInput() > 0)
+//    {
+//      HAL_Delay(200);
+//      ButtonState = 0;
+//      SdmmcTest = 0;
+//      BSP_SD_DeInit(0);
+//      return;
+//
+//    }
   }
 }
 
@@ -239,10 +239,10 @@ static void SD_demo(uint32_t Mode)
 */
 void BSP_SD_DetectCallback(uint32_t Instance, uint32_t Status)
 {
-  uint32_t x_size, y_size;
+//  uint32_t x_size, y_size;
 
-  BSP_LCD_GetXSize(0, &x_size);
-  BSP_LCD_GetYSize(0, &y_size);
+//  BSP_LCD_GetXSize(0, &x_size);
+//  BSP_LCD_GetYSize(0, &y_size);
 
   /* Check if the SD card is plugged in the slot */
   switch(Instance)
@@ -250,18 +250,18 @@ void BSP_SD_DetectCallback(uint32_t Instance, uint32_t Status)
   case 0:
     if(Status == SD_PRESENT)
     {
-      UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_GREEN);
-      UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)" SD1 Connected    ", LEFT_MODE);
+      // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_GREEN);
+      // UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)" SD1 Connected    ", LEFT_MODE);
     }
     else
     {
-      UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_RED);
-      UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)"SD1 Not Connected", LEFT_MODE);
+      // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_RED);
+      // UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)"SD1 Not Connected", LEFT_MODE);
     }
     break;
   default:
-    UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_RED);
-    UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)"SD1 Not Connected", LEFT_MODE);
+    // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_RED);
+    // UTIL_LCD_DisplayStringAt(20, y_size - 30, (uint8_t *)"SD1 Not Connected", LEFT_MODE);
     break;
   }
 }
@@ -273,42 +273,42 @@ void BSP_SD_DetectCallback(uint32_t Instance, uint32_t Status)
 */
 static void SD_SetHint(uint32_t Mode)
 {
-  uint32_t x_size, y_size;
+//  uint32_t x_size, y_size;
 
-  BSP_LCD_GetXSize(0, &x_size);
-  BSP_LCD_GetYSize(0, &y_size);
+//  BSP_LCD_GetXSize(0, &x_size);
+//  BSP_LCD_GetYSize(0, &y_size);
 
   /* Clear the LCD */
-  UTIL_LCD_Clear(UTIL_LCD_COLOR_WHITE);
+  // UTIL_LCD_Clear(// UTIL_LCD_COLOR_WHITE);
 
   /* Set LCD Demo description */
-  UTIL_LCD_FillRect(0, 0, x_size, 87, UTIL_LCD_COLOR_BLUE);
-  UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
-  UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLUE);
-  UTIL_LCD_SetFont(&Font24);
+  // UTIL_LCD_FillRect(0, 0, x_size, 87, // UTIL_LCD_COLOR_BLUE);
+  // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_WHITE);
+  // UTIL_LCD_SetBackColor(// UTIL_LCD_COLOR_BLUE);
+  // UTIL_LCD_SetFont(&Font24);
   if(Mode == SD_DMA_MODE)
   {
-    UTIL_LCD_DisplayStringAt(0, 0, (uint8_t *)"SD1: DMA MODE", CENTER_MODE);
+    // UTIL_LCD_DisplayStringAt(0, 0, (uint8_t *)"SD1: DMA MODE", CENTER_MODE);
   }
   else if(Mode == SD_IT_MODE)
   {
-    UTIL_LCD_DisplayStringAt(0, 0, (uint8_t *)"SD1: IT MODE", CENTER_MODE);
+    // UTIL_LCD_DisplayStringAt(0, 0, (uint8_t *)"SD1: IT MODE", CENTER_MODE);
   }
   else
   {
-    UTIL_LCD_DisplayStringAt(0, 0, (uint8_t *)"SD1: POLLING MODE", CENTER_MODE);
+    // UTIL_LCD_DisplayStringAt(0, 0, (uint8_t *)"SD1: POLLING MODE", CENTER_MODE);
   }
-  UTIL_LCD_SetFont(&Font12);
-  UTIL_LCD_DisplayStringAt(0, 30, (uint8_t *)"This example shows how to write", CENTER_MODE);
-  UTIL_LCD_DisplayStringAt(0, 45, (uint8_t *)"and read data on the microSD and also", CENTER_MODE);
-  UTIL_LCD_DisplayStringAt(0, 60, (uint8_t *)"how to detect the presence of the card", CENTER_MODE);
+  // UTIL_LCD_SetFont(&Font12);
+  // UTIL_LCD_DisplayStringAt(0, 30, (uint8_t *)"This example shows how to write", CENTER_MODE);
+  // UTIL_LCD_DisplayStringAt(0, 45, (uint8_t *)"and read data on the microSD and also", CENTER_MODE);
+  // UTIL_LCD_DisplayStringAt(0, 60, (uint8_t *)"how to detect the presence of the card", CENTER_MODE);
 
   /* Set the LCD Text Color */
-  UTIL_LCD_DrawRect(10, 92, x_size - 20, y_size- 100, UTIL_LCD_COLOR_BLUE);
-  UTIL_LCD_DrawRect(11, 93, x_size - 22, y_size- 102, UTIL_LCD_COLOR_BLUE);
+  // UTIL_LCD_DrawRect(10, 92, x_size - 20, y_size- 100, // UTIL_LCD_COLOR_BLUE);
+  // UTIL_LCD_DrawRect(11, 93, x_size - 22, y_size- 102, // UTIL_LCD_COLOR_BLUE);
 
-  UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_BLACK);
-  UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_WHITE);
+  // UTIL_LCD_SetTextColor(// UTIL_LCD_COLOR_BLACK);
+  // UTIL_LCD_SetBackColor(// UTIL_LCD_COLOR_WHITE);
 }
 
 /**

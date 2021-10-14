@@ -20,7 +20,6 @@
 #include "wave_generation.h"
 #include "synth.h"
 #include "pcm5102.h"
-#include "menu.h"
 #include "udp_server.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -104,10 +103,10 @@ int32_t synth_IfftInit(void)
 	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
 
 
-	uint8_t FreqStr[256] = {0};
-	UTIL_LCD_FillRect(0, DISPLAY_AERA3_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS3_HEIGHT, UTIL_LCD_COLOR_BLACK);
-	sprintf((char *)FreqStr, " %d -> %dHz      Octave:%d", (int)waves[0].frequency, (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
-	UTIL_LCD_DisplayStringAt(0, DISPLAY_AERA3_Y1POS, (uint8_t*)FreqStr, LEFT_MODE);
+//	uint8_t FreqStr[256] = {0};
+//	UTIL_LCD_FillRect(0, DISPLAY_AERA3_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS3_HEIGHT, UTIL_LCD_COLOR_BLACK);
+//	sprintf((char *)FreqStr, " %d -> %dHz      Octave:%d", (int)waves[0].frequency, (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
+//	UTIL_LCD_DisplayStringAt(0, DISPLAY_AERA3_Y1POS, (uint8_t*)FreqStr, LEFT_MODE);
 
 	printf("First note Freq = %dHz\nSize = %d\n", (int)waves[0].frequency, (int)waves[0].area_size);
 	printf("Last  note Freq = %dHz\nSize = %d\nOctave = %d\n", (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)waves[NUMBER_OF_NOTES - 1].area_size / (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff), (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
@@ -200,7 +199,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
 	static int32_t signal_summation_L;
 	static uint32_t signal_power_summation;
 	static int16_t rfft_R;
-	static int16_t rfft_L;
+//	static int16_t rfft_L;
 	static uint16_t new_idx;
 	static uint32_t write_data_nbr;
 	static int32_t note;
@@ -278,7 +277,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
 		}
 
 		rfft_R = (signal_summation_R * ((double)max_volume) / (double)signal_power_summation);
-		rfft_L = (signal_summation_L * ((double)max_volume) / (double)signal_power_summation);
+//		rfft_L = (signal_summation_L * ((double)max_volume) / (double)signal_power_summation);
 
 		//		rfft_R = (signal_summation_R * (65535.00) / (double)signal_power_summation);
 		//		rfft_L = (signal_summation_L * (65535.00) / (double)signal_power_summation);
