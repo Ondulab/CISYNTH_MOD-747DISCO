@@ -41,7 +41,7 @@
 /**************************************************************************************/
 /********************             Display definitions              ********************/
 /**************************************************************************************/
-#define DISPLAY_REFRESH_FPS						(5)
+#define DISPLAY_REFRESH_FPS						(2)
 
 /**************************************************************************************/
 /********************              Synth definitions               ********************/
@@ -49,12 +49,13 @@
 #define SAMPLING_FREQUENCY				      	(48000)
 
 #define IFFT_1
+#define SIN										//SIN-SAW-SQR
 
 #define GAP_LIMITER
-#define IFFT_GAP_PER_MS_INCREASE				(900000)
-#define IFFT_GAP_PER_MS_DECREASE				(1000)
+#define IFFT_GAP_PER_MS_INCREASE				(100000)
+#define IFFT_GAP_PER_MS_DECREASE				(100000)
 
-#define NOISE_REDUCER							(1000)
+#define NOISE_REDUCER							(2000)
 //#define STEREO_1
 #define RELATIVE_MODE
 
@@ -95,6 +96,11 @@
 #define GW_ADDR3   								((uint8_t) 1U)
 
 /**************************************************************************************/
+/********************                  CV MODE                     ********************/
+/**************************************************************************************/
+#define IMAGE_WEIGHT							(25)
+
+/**************************************************************************************/
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
 #define AUDIO_BUFFER_SIZE             			(256)
@@ -107,10 +113,10 @@
 #define CIS_IFFT_OVERSAMPLING_RATIO				(16)
 
 #define WAVE_AMP_RESOLUTION 					(65535)   	//in decimal
-#define START_FREQUENCY     					(82)
+#define START_FREQUENCY     					(100)
 #define MAX_OCTAVE_NUMBER   					(10)
 #define SEMITONE_PER_OCTAVE 					(12)
-#define COMMA_PER_SEMITONE  					(5)
+#define COMMA_PER_SEMITONE  					(6)
 
 #define NUMBER_OF_NOTES     					(((CIS_ACTIVE_PIXELS_PER_LINE) * (CIS_ADC_OUT_LINES)) / CIS_IFFT_OVERSAMPLING_RATIO)
 

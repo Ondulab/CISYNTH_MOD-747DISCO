@@ -19,7 +19,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dac.h"
+#include "dma.h"
 #include "rng.h"
+#include "tim.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -27,6 +31,7 @@
 #include "cisynth_ifft.h"
 #include "pictures.h"
 #include "lwip.h"
+#include "synth_cv.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -176,7 +181,11 @@ HSEM notification */
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_DMA_Init();
   MX_RNG_Init();
+  MX_DAC1_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 	/* Initialize the LCD */
 	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
@@ -198,6 +207,7 @@ HSEM notification */
 
 //	cisynth_eth();
 	cisynth_ifft();
+//	cisynth_cv();
   /* USER CODE END 2 */
 
   /* Infinite loop */

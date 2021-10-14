@@ -10,6 +10,7 @@
 #include "main.h"
 #include "config.h"
 #include "rng.h"
+#include "dac.h"
 
 #include "basetypes.h"
 #include "arm_math.h"
@@ -41,6 +42,7 @@ static int16_t* full_audio_ptr;
 
 /* Variable containing black and white frame from CIS*/
 static int32_t *imageData = NULL;
+int32_t cvData[NUMBER_OF_NOTES / IMAGE_WEIGHT] = {0};
 //static uint16_t imageData[((CIS_END_CAPTURE * CIS_ADC_OUT_LINES) / CIS_IFFT_OVERSAMPLING_RATIO) - 1]; // for debug
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,6 +60,7 @@ int32_t synth_IfftInit(void)
 {
 	int32_t buffer_len = 0;
 	uint32_t aRandom32bit = 0;
+	static DAC_ChannelConfTypeDef sConfig;
 
 	printf("---------- SYNTH INIT ---------\n");
 	printf("-------------------------------\n");
@@ -102,9 +105,9 @@ int32_t synth_IfftInit(void)
 
 
 	uint8_t FreqStr[256] = {0};
-	UTIL_LCD_FillRect(0, DISPLAY_AERA2_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS2_HEIGHT, UTIL_LCD_COLOR_BLACK);
+	UTIL_LCD_FillRect(0, DISPLAY_AERA3_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS3_HEIGHT, UTIL_LCD_COLOR_BLACK);
 	sprintf((char *)FreqStr, " %d -> %dHz      Octave:%d", (int)waves[0].frequency, (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
-	UTIL_LCD_DisplayStringAt(0, DISPLAY_AERA2_Y1POS, (uint8_t*)FreqStr, LEFT_MODE);
+	UTIL_LCD_DisplayStringAt(0, DISPLAY_AERA3_Y1POS, (uint8_t*)FreqStr, LEFT_MODE);
 
 	printf("First note Freq = %dHz\nSize = %d\n", (int)waves[0].frequency, (int)waves[0].area_size);
 	printf("Last  note Freq = %dHz\nSize = %d\nOctave = %d\n", (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)waves[NUMBER_OF_NOTES - 1].area_size / (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff), (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
@@ -126,6 +129,30 @@ int32_t synth_IfftInit(void)
 	}
 	printf("-------------------------------\n");
 #endif
+
+	/*##-1- Initialize the DAC peripheral ######################################*/
+	if (HAL_DAC_Init(&hdac1) != HAL_OK)
+	{
+		/* Initialization Error */
+		Error_Handler();
+	}
+
+	/*##-1- DAC channel1 Configuration #########################################*/
+	//	sConfig.DAC_Trigger = DAC_TRIGGER_T6_TRGO;
+	sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+
+	if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC1_CHANNEL_1) != HAL_OK)
+	{
+		/* Channel configuration Error */
+		Error_Handler();
+	}
+
+	/*##-4- Enable DAC Channel1 ################################################*/
+	if (HAL_DAC_Start(&hdac1, DAC1_CHANNEL_1) != HAL_OK)
+	{
+		/* Start Error */
+		Error_Handler();
+	}
 
 	udp_serverInit();
 	pcm5102_Init();
@@ -200,7 +227,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
 				current_image_data = 0;//imageData[note] - imageData[note - 1];
 
 			if (current_image_data < NOISE_REDUCER)
-				current_image_data /= 2;
+				current_image_data /= 4;
 
 
 #else
@@ -311,7 +338,7 @@ void synth_IfftMode2(int32_t *imageData, int16_t *audioData)
 				waves[note].current_idx -= waves[note].area_size;
 
 				//store the new volume
-//				waves[note].current_volume = abs(imageData[note] - imageData[note - 1]);
+				//				waves[note].current_volume = abs(imageData[note] - imageData[note - 1]);
 
 				//add
 				static int32_t current_image_data;
@@ -423,6 +450,12 @@ void synth_IfftMode2(int32_t *imageData, int16_t *audioData)
  */
 void synth_AudioProcess(synthModeTypeDef mode)
 {
+	static uint32_t cnt = 0;
+	static uint32_t last_TRG_state = 0;
+	static uint32_t last_RST_state = 0;
+	static int32_t i = 0;
+	uint32_t tmp_accumulation = 0;
+
 	/* 1st half buffer played; so fill it and continue playing from bottom*/
 	if(*pcm5102_GetBufferState() == AUDIO_BUFFER_OFFSET_HALF)
 	{
@@ -447,5 +480,47 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		synth_IfftMode2(imageData, full_audio_ptr);
 #endif
 		SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
+	}
+
+	if (HAL_GPIO_ReadPin(ARD_D2_GPIO_Port, ARD_D2_Pin) == FALSE)
+	{
+		if (last_RST_state == TRUE)
+			cnt = 0;
+		last_RST_state = FALSE;
+	}
+	else
+	{
+		last_RST_state = TRUE;
+	}
+	if (HAL_GPIO_ReadPin(ARD_D7_GPIO_Port, ARD_D7_Pin) == TRUE)
+	{
+		if (last_TRG_state != TRUE)
+			cnt += IMAGE_WEIGHT;
+
+		last_TRG_state = TRUE;
+	}
+	else
+	{
+		last_TRG_state = FALSE;
+	}
+
+	if (cnt >= (NUMBER_OF_NOTES))
+		cnt = 0;
+
+	/*##-5- Set DAC channel1 DHR12RD register ################################################*/
+
+	for (i = 0; i < IMAGE_WEIGHT; i++)
+	{
+		if ((cnt + i) < NUMBER_OF_NOTES)
+			tmp_accumulation += (imageData[cnt + i] >> 4);
+	}
+
+	tmp_accumulation /= i;
+	cvData[cnt / IMAGE_WEIGHT - 1] = tmp_accumulation;
+
+	if (HAL_DAC_SetValue(&hdac1, DAC1_CHANNEL_1, DAC_ALIGN_12B_R, tmp_accumulation) != HAL_OK)
+	{
+		/* Setting value Error */
+		Error_Handler();
 	}
 }

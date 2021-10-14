@@ -28,6 +28,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 int32_t udp_imageData[UDP_BUFFER_SIZE] = {0};
+int32_t multiplier[NUMBER_OF_NOTES] = {2};
 
 /* Private function prototypes -----------------------------------------------*/
 void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
@@ -115,5 +116,11 @@ void udp_serverReceiveImage(int32_t *image_buff)
 	if(maxPix == IMAGE_HEADER)
 	{
 		arm_copy_q31(&udp_imageData[maxPixPosition + IMAGE_HEADER_SIZE], image_buff, NUMBER_OF_NOTES);
+		for (int i = 0; i < NUMBER_OF_NOTES; i++)
+		{
+			image_buff[i] *= 2;
+//			image_buff[i] = 65535 - image_buff[i];
+		}
+//		arm_mult_q31(image_buff, multiplier, image_buff, NUMBER_OF_NOTES);
 	}
 }

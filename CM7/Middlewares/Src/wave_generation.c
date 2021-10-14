@@ -92,7 +92,23 @@ uint32_t init_waves(int16_t **unitary_waveform, struct wave *waves)
 			//sanity check
 			if (current_unitary_waveform_cell < buffer_len)
 			{
-				(*unitary_waveform)[current_unitary_waveform_cell] = ((sin((x * 2.00 * PI )/ (float64_t)current_aera_size))) * (WAVE_AMP_RESOLUTION / 2.00);
+#ifdef SIN
+				(*unitary_waveform)[current_unitary_waveform_cell] = ((sin((x * 2.00 * PI ) / (float64_t)current_aera_size))) * (WAVE_AMP_RESOLUTION / 2.00);
+#endif
+#ifdef SAW
+				(*unitary_waveform)[current_unitary_waveform_cell] = 0;
+				for (uint32_t n = 0; n < 50; n++)
+				{
+					(*unitary_waveform)[current_unitary_waveform_cell] += pow(-1, n) * (50535 / PI) * sin( (n + 1.00) * x * 2.00 * PI / (float64_t)current_aera_size) / ((float64_t)n + 1.00);
+				}
+#endif
+#ifdef SQR
+				(*unitary_waveform)[current_unitary_waveform_cell] = 0;
+				for (uint32_t n = 0; n < 50; n++)
+				{
+					(*unitary_waveform)[current_unitary_waveform_cell] += (2 * 55535 / PI) * sin( (2.00 * n + 1.00) * x * 2.00 * PI / (float64_t)current_aera_size) / (2.00 * (float64_t)n + 1.00);
+				}
+#endif
 				current_unitary_waveform_cell++;
 			}
 		}
