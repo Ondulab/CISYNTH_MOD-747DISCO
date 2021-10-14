@@ -63,7 +63,7 @@ int cisynth_ifft(void)
 		sprintf((char *)FreqStr, "%dHz", (int)((synth_process_cnt * 1000) / latency));
 		synth_process_cnt = 0;
 
-		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
+//		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
 
 		//		static uint32_t note = 0;
 		//		if (note > NUMBER_OF_NOTES)
@@ -74,15 +74,20 @@ int cisynth_ifft(void)
 		//		synth_SetImageData(++note, 65000); //for testing
 		//		synth_SetImageData(note - 1, 0);
 
-		HAL_Delay(1);
-		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
-		{
-			UTIL_LCD_SetPixel(i, DISPLAY_AERA1_Y1POS + (DISPLAY_AERAS1_HEIGHT / 2) - (pcm5102_GetAudioData(i / 2) / 256), UTIL_LCD_COLOR_WHITE);
-		}
+//		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
+//		{
+//			UTIL_LCD_SetPixel(i, DISPLAY_AERA1_Y1POS + (DISPLAY_AERAS1_HEIGHT / 2) - (pcm5102_GetAudioData(i / 2) / 256), UTIL_LCD_COLOR_LIGHTYELLOW);
+//		}
+//
+//		UTIL_LCD_FillRect(0, DISPLAY_AERA2_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS2_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
+//		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
+//		{
+//			UTIL_LCD_SetPixel(i, DISPLAY_AERA2_Y2POS - ((cvData[((NUMBER_OF_NOTES / IMAGE_WEIGHT) * i) / DISPLAY_MAX_X_LENGTH] / 31) + 1), UTIL_LCD_COLOR_CYAN);
+//		}
 
-		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
+//		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
 
-		BSP_LED_Toggle(LED_RED);
+//		BSP_LED_Toggle(LED_RED);
 	}
 }
 #pragma GCC pop_options

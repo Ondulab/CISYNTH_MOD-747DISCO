@@ -33,6 +33,7 @@ typedef enum {
 }synthModeTypeDef;
 
 extern volatile uint32_t synth_process_cnt;
+extern int32_t cvData[];
 
 /* Exported constants --------------------------------------------------------*/
 

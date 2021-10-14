@@ -301,6 +301,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define ETH_MDIO_GPIO_Port GPIOA
 #define ETH_REF_CLK_Pin GPIO_PIN_1
 #define ETH_REF_CLK_GPIO_Port GPIOA
+#define ARD_D7_Pin GPIO_PIN_0
+#define ARD_D7_GPIO_Port GPIOJ
 #define FMC_D7_Pin GPIO_PIN_10
 #define FMC_D7_GPIO_Port GPIOE
 #define ARD_D1_Pin GPIO_PIN_8
@@ -391,6 +393,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define ETH_RXD1_GPIO_Port GPIOC
 #define ULPI_D1_Pin GPIO_PIN_0
 #define ULPI_D1_GPIO_Port GPIOB
+#define ARD_D2_Pin GPIO_PIN_3
+#define ARD_D2_GPIO_Port GPIOJ
 #define FMC_A11_Pin GPIO_PIN_1
 #define FMC_A11_GPIO_Port GPIOG
 #define FMC_D4_Pin GPIO_PIN_7

@@ -55,7 +55,7 @@ void pcm5102_Init(void)
 	printf("----------- DAC INIT ----------\n");
 	printf("-------------------------------\n");
 
-	uwVolume = 80;
+	uwVolume = 70;
 
 	AudioPlayInit->Device = AUDIO_OUT_DEVICE_HEADPHONE;
 	AudioPlayInit->ChannelsNbr = 2;
