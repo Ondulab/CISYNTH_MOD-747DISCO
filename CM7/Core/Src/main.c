@@ -280,7 +280,7 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL2.PLL2M = 25;
   PeriphClkInitStruct.PLL2.PLL2N = 344;
   PeriphClkInitStruct.PLL2.PLL2P = 7;
-  PeriphClkInitStruct.PLL2.PLL2Q = 2;
+  PeriphClkInitStruct.PLL2.PLL2Q = 6;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
@@ -318,6 +318,8 @@ void BSP_PB_Callback(Button_TypeDef Button)
 	}
 
 }
+
+#define SDRAM_DEVICE_ADDR         0xD0000000U
 /* USER CODE END 4 */
 
 /* MPU Configuration */
@@ -352,16 +354,16 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
-//  /** Initializes and configures the Region and the memory to be protected // SDRAM managed by CM4
-//  */
-//  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
-//  MPU_InitStruct.BaseAddress = SDRAM_DEVICE_ADDR;
-//  MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
-//  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-//  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-//  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
-//
-//  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+  /** Initializes and configures the Region and the memory to be protected
+  */
+  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+  MPU_InitStruct.BaseAddress = SDRAM_DEVICE_ADDR;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 

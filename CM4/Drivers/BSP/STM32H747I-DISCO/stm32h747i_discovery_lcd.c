@@ -270,54 +270,54 @@ int32_t BSP_LCD_InitEx(uint32_t Instance, uint32_t Orientation, uint32_t PixelFo
     /* Initialize LCD special pins GPIOs */
     LCD_InitSequence();
 
-    /* Initializes peripherals instance value */
-    hlcd_ltdc.Instance = LTDC;
-    hlcd_dma2d.Instance = DMA2D;
-    hlcd_dsi.Instance = DSI;
-
-    /* MSP initialization */
-#if (USE_HAL_LTDC_REGISTER_CALLBACKS == 1)
-    /* Register the LTDC MSP Callbacks */
-    if(Lcd_Ctx[Instance].IsMspCallbacksValid == 0U)
-    {
-      if(BSP_LCD_RegisterDefaultMspCallbacks(0) != BSP_ERROR_NONE)
-      {
-        return BSP_ERROR_PERIPH_FAILURE;
-      }
-    }
-#else
-    LTDC_MspInit(&hlcd_ltdc);
-#endif
-
-    DMA2D_MspInit(&hlcd_dma2d);
-
-#if (USE_HAL_DSI_REGISTER_CALLBACKS == 1)
-    /* Register the DSI MSP Callbacks */
-    if(Lcd_Ctx[Instance].IsMspCallbacksValid == 0U)
-    {
-      if(BSP_LCD_RegisterDefaultMspCallbacks(0) != BSP_ERROR_NONE)
-      {
-        return BSP_ERROR_PERIPH_FAILURE;
-      }
-    }
-#else
-    DSI_MspInit(&hlcd_dsi);
-#endif
-    if(MX_DSIHOST_DSI_Init(&hlcd_dsi, Width, Height, dsi_pixel_format) != HAL_OK)
-    {
-      ret = BSP_ERROR_PERIPH_FAILURE;
-    }
-    else if(MX_LTDC_ClockConfig(&hlcd_ltdc) != HAL_OK)
-    {
-      ret = BSP_ERROR_PERIPH_FAILURE;
-    }
-    else
-    {
-     if(MX_LTDC_Init(&hlcd_ltdc, Width, Height) != HAL_OK)
-     {
-       ret = BSP_ERROR_PERIPH_FAILURE;
-     }
-    }
+//    /* Initializes peripherals instance value */
+//    hlcd_ltdc.Instance = LTDC;
+//    hlcd_dma2d.Instance = DMA2D;
+//    hlcd_dsi.Instance = DSI;
+//
+//    /* MSP initialization */
+//#if (USE_HAL_LTDC_REGISTER_CALLBACKS == 1)
+//    /* Register the LTDC MSP Callbacks */
+//    if(Lcd_Ctx[Instance].IsMspCallbacksValid == 0U)
+//    {
+//      if(BSP_LCD_RegisterDefaultMspCallbacks(0) != BSP_ERROR_NONE)
+//      {
+//        return BSP_ERROR_PERIPH_FAILURE;
+//      }
+//    }
+//#else
+//    LTDC_MspInit(&hlcd_ltdc);
+//#endif
+//
+//    DMA2D_MspInit(&hlcd_dma2d);
+//
+//#if (USE_HAL_DSI_REGISTER_CALLBACKS == 1)
+//    /* Register the DSI MSP Callbacks */
+//    if(Lcd_Ctx[Instance].IsMspCallbacksValid == 0U)
+//    {
+//      if(BSP_LCD_RegisterDefaultMspCallbacks(0) != BSP_ERROR_NONE)
+//      {
+//        return BSP_ERROR_PERIPH_FAILURE;
+//      }
+//    }
+//#else
+//    DSI_MspInit(&hlcd_dsi);
+//#endif
+//    if(MX_DSIHOST_DSI_Init(&hlcd_dsi, Width, Height, dsi_pixel_format) != HAL_OK)
+//    {
+//      ret = BSP_ERROR_PERIPH_FAILURE;
+//    }
+//    else if(MX_LTDC_ClockConfig(&hlcd_ltdc) != HAL_OK)
+//    {
+//      ret = BSP_ERROR_PERIPH_FAILURE;
+//    }
+//    else
+//    {
+//     if(MX_LTDC_Init(&hlcd_ltdc, Width, Height) != HAL_OK)
+//     {
+//       ret = BSP_ERROR_PERIPH_FAILURE;
+//     }
+//    }
 
     if(ret == BSP_ERROR_NONE)
     {
@@ -713,103 +713,103 @@ static void LCD_DeInitSequence(void)
   /* LCD_TE_CTRL GPIO configuration */
 }
 
-/**
-  * @brief  Initializes the DSIHOST.
-  * @param  hdsi   DSI handle
-  * @param  Width  Horizontal active width
-  * @param  Height Vertical active height
-  * @param  PixelFormat DSI color coding RGB888 or RGB565
-  * @retval HAL status
-  */
-__weak HAL_StatusTypeDef MX_DSIHOST_DSI_Init(DSI_HandleTypeDef *hdsi, uint32_t Width, uint32_t Height, uint32_t PixelFormat)
-{
-  DSI_PLLInitTypeDef PLLInit;
-  DSI_VidCfgTypeDef VidCfg;
+///**
+//  * @brief  Initializes the DSIHOST.
+//  * @param  hdsi   DSI handle
+//  * @param  Width  Horizontal active width
+//  * @param  Height Vertical active height
+//  * @param  PixelFormat DSI color coding RGB888 or RGB565
+//  * @retval HAL status
+//  */
+//__weak HAL_StatusTypeDef MX_DSIHOST_DSI_Init(DSI_HandleTypeDef *hdsi, uint32_t Width, uint32_t Height, uint32_t PixelFormat)
+//{
+//  DSI_PLLInitTypeDef PLLInit;
+//  DSI_VidCfgTypeDef VidCfg;
+//
+//  hdsi->Instance = DSI;
+//  hdsi->Init.AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_DISABLE;
+//  hdsi->Init.TXEscapeCkdiv = 4;
+//  hdsi->Init.NumberOfLanes = DSI_TWO_DATA_LANES;
+//  PLLInit.PLLNDIV = 50;//100
+//  PLLInit.PLLIDF = DSI_PLL_IN_DIV5;
+//  PLLInit.PLLODF = DSI_PLL_OUT_DIV1;
+//  if (HAL_DSI_Init(hdsi, &PLLInit) != HAL_OK)
+//  {
+//    return HAL_ERROR;
+//  }
+//
+//  /* Timing parameters for all Video modes */
+//  /*
+//  The lane byte clock is set 62500 Khz
+//  The pixel clock is set to 27429 Khz
+//  */
+//  VidCfg.VirtualChannelID = 0;
+//  VidCfg.ColorCoding = PixelFormat;
+//  VidCfg.LooselyPacked = DSI_LOOSELY_PACKED_DISABLE;
+//  VidCfg.Mode = DSI_VID_MODE_BURST;
+//  VidCfg.PacketSize = Width;
+//  VidCfg.NumberOfChunks = 0;
+//  VidCfg.NullPacketSize = 0xFFFU;
+//  VidCfg.HSPolarity = DSI_HSYNC_ACTIVE_HIGH;
+//  VidCfg.VSPolarity = DSI_VSYNC_ACTIVE_HIGH;
+//  VidCfg.DEPolarity = DSI_DATA_ENABLE_ACTIVE_HIGH;
+//  VidCfg.HorizontalSyncActive = (OTM8009A_480X800_HSYNC * 62500U)/27429U;
+//  VidCfg.HorizontalBackPorch = (OTM8009A_480X800_HBP * 62500U)/27429U;
+//  VidCfg.HorizontalLine = ((Width + OTM8009A_480X800_HSYNC + OTM8009A_480X800_HBP + OTM8009A_480X800_HFP) * 62500U)/27429U;
+//  VidCfg.VerticalSyncActive = OTM8009A_480X800_VSYNC;
+//  VidCfg.VerticalBackPorch = OTM8009A_480X800_VBP;
+//  VidCfg.VerticalFrontPorch = OTM8009A_480X800_VFP;
+//  VidCfg.VerticalActive = Height;
+//  VidCfg.LPCommandEnable = DSI_LP_COMMAND_ENABLE;
+//  VidCfg.LPLargestPacketSize = 4;
+//  VidCfg.LPVACTLargestPacketSize = 4;
+//
+//  VidCfg.LPHorizontalFrontPorchEnable  = DSI_LP_HFP_ENABLE;
+//  VidCfg.LPHorizontalBackPorchEnable   = DSI_LP_HBP_ENABLE;
+//  VidCfg.LPVerticalActiveEnable        = DSI_LP_VACT_ENABLE;
+//  VidCfg.LPVerticalFrontPorchEnable    = DSI_LP_VFP_ENABLE;
+//  VidCfg.LPVerticalBackPorchEnable     = DSI_LP_VBP_ENABLE;
+//  VidCfg.LPVerticalSyncActiveEnable    = DSI_LP_VSYNC_ENABLE;
+//  VidCfg.FrameBTAAcknowledgeEnable     = DSI_FBTAA_DISABLE;
+//
+//  if (HAL_DSI_ConfigVideoMode(hdsi, &VidCfg) != HAL_OK)
+//  {
+//    return HAL_ERROR;
+//  }
+//
+//  return HAL_OK;
+//}
 
-  hdsi->Instance = DSI;
-  hdsi->Init.AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_DISABLE;
-  hdsi->Init.TXEscapeCkdiv = 4;
-  hdsi->Init.NumberOfLanes = DSI_TWO_DATA_LANES;
-  PLLInit.PLLNDIV = 100;
-  PLLInit.PLLIDF = DSI_PLL_IN_DIV5;
-  PLLInit.PLLODF = DSI_PLL_OUT_DIV1;
-  if (HAL_DSI_Init(hdsi, &PLLInit) != HAL_OK)
-  {
-    return HAL_ERROR;
-  }
-
-  /* Timing parameters for all Video modes */
-  /*
-  The lane byte clock is set 62500 Khz
-  The pixel clock is set to 27429 Khz
-  */
-  VidCfg.VirtualChannelID = 0;
-  VidCfg.ColorCoding = PixelFormat;
-  VidCfg.LooselyPacked = DSI_LOOSELY_PACKED_DISABLE;
-  VidCfg.Mode = DSI_VID_MODE_BURST;
-  VidCfg.PacketSize = Width;
-  VidCfg.NumberOfChunks = 0;
-  VidCfg.NullPacketSize = 0xFFFU;
-  VidCfg.HSPolarity = DSI_HSYNC_ACTIVE_HIGH;
-  VidCfg.VSPolarity = DSI_VSYNC_ACTIVE_HIGH;
-  VidCfg.DEPolarity = DSI_DATA_ENABLE_ACTIVE_HIGH;
-  VidCfg.HorizontalSyncActive = (OTM8009A_480X800_HSYNC * 62500U)/27429U;
-  VidCfg.HorizontalBackPorch = (OTM8009A_480X800_HBP * 62500U)/27429U;
-  VidCfg.HorizontalLine = ((Width + OTM8009A_480X800_HSYNC + OTM8009A_480X800_HBP + OTM8009A_480X800_HFP) * 62500U)/27429U;
-  VidCfg.VerticalSyncActive = OTM8009A_480X800_VSYNC;
-  VidCfg.VerticalBackPorch = OTM8009A_480X800_VBP;
-  VidCfg.VerticalFrontPorch = OTM8009A_480X800_VFP;
-  VidCfg.VerticalActive = Height;
-  VidCfg.LPCommandEnable = DSI_LP_COMMAND_ENABLE;
-  VidCfg.LPLargestPacketSize = 4;
-  VidCfg.LPVACTLargestPacketSize = 4;
-
-  VidCfg.LPHorizontalFrontPorchEnable  = DSI_LP_HFP_ENABLE;
-  VidCfg.LPHorizontalBackPorchEnable   = DSI_LP_HBP_ENABLE;
-  VidCfg.LPVerticalActiveEnable        = DSI_LP_VACT_ENABLE;
-  VidCfg.LPVerticalFrontPorchEnable    = DSI_LP_VFP_ENABLE;
-  VidCfg.LPVerticalBackPorchEnable     = DSI_LP_VBP_ENABLE;
-  VidCfg.LPVerticalSyncActiveEnable    = DSI_LP_VSYNC_ENABLE;
-  VidCfg.FrameBTAAcknowledgeEnable     = DSI_FBTAA_DISABLE;
-
-  if (HAL_DSI_ConfigVideoMode(hdsi, &VidCfg) != HAL_OK)
-  {
-    return HAL_ERROR;
-  }
-
-  return HAL_OK;
-}
-
-/**
-  * @brief  Initializes the LTDC.
-  * @param  hltdc  LTDC handle
-  * @param  Width  LTDC width
-  * @param  Height LTDC height
-  * @retval HAL status
-  */
-__weak HAL_StatusTypeDef MX_LTDC_Init(LTDC_HandleTypeDef *hltdc, uint32_t Width, uint32_t Height)
-{
-  hltdc->Instance = LTDC;
-  hltdc->Init.HSPolarity = LTDC_HSPOLARITY_AL;
-  hltdc->Init.VSPolarity = LTDC_VSPOLARITY_AL;
-  hltdc->Init.DEPolarity = LTDC_DEPOLARITY_AL;
-  hltdc->Init.PCPolarity = LTDC_PCPOLARITY_IPC;
-
-  hltdc->Init.HorizontalSync     = OTM8009A_480X800_HSYNC - 1;
-  hltdc->Init.AccumulatedHBP     = OTM8009A_480X800_HSYNC + OTM8009A_480X800_HBP - 1;
-  hltdc->Init.AccumulatedActiveW = OTM8009A_480X800_HSYNC + Width + OTM8009A_480X800_HBP - 1;
-  hltdc->Init.TotalWidth         = OTM8009A_480X800_HSYNC + Width + OTM8009A_480X800_HBP + OTM8009A_480X800_HFP - 1;
-  hltdc->Init.VerticalSync       = OTM8009A_480X800_VSYNC - 1;
-  hltdc->Init.AccumulatedVBP     = OTM8009A_480X800_VSYNC + OTM8009A_480X800_VBP - 1;
-  hltdc->Init.AccumulatedActiveH = OTM8009A_480X800_VSYNC + Height + OTM8009A_480X800_VBP - 1;
-  hltdc->Init.TotalHeigh         = OTM8009A_480X800_VSYNC + Height + OTM8009A_480X800_VBP + OTM8009A_480X800_VFP - 1;
-
-  hltdc->Init.Backcolor.Blue  = 0x00;
-  hltdc->Init.Backcolor.Green = 0x00;
-  hltdc->Init.Backcolor.Red   = 0x00;
-
-  return HAL_LTDC_Init(hltdc);
-}
+///**
+//  * @brief  Initializes the LTDC.
+//  * @param  hltdc  LTDC handle
+//  * @param  Width  LTDC width
+//  * @param  Height LTDC height
+//  * @retval HAL status
+//  */
+//__weak HAL_StatusTypeDef MX_LTDC_Init(LTDC_HandleTypeDef *hltdc, uint32_t Width, uint32_t Height)
+//{
+//  hltdc->Instance = LTDC;
+//  hltdc->Init.HSPolarity = LTDC_HSPOLARITY_AL;
+//  hltdc->Init.VSPolarity = LTDC_VSPOLARITY_AL;
+//  hltdc->Init.DEPolarity = LTDC_DEPOLARITY_AL;
+//  hltdc->Init.PCPolarity = LTDC_PCPOLARITY_IPC;
+//
+//  hltdc->Init.HorizontalSync     = OTM8009A_480X800_HSYNC - 1;
+//  hltdc->Init.AccumulatedHBP     = OTM8009A_480X800_HSYNC + OTM8009A_480X800_HBP - 1;
+//  hltdc->Init.AccumulatedActiveW = OTM8009A_480X800_HSYNC + Width + OTM8009A_480X800_HBP - 1;
+//  hltdc->Init.TotalWidth         = OTM8009A_480X800_HSYNC + Width + OTM8009A_480X800_HBP + OTM8009A_480X800_HFP - 1;
+//  hltdc->Init.VerticalSync       = OTM8009A_480X800_VSYNC - 1;
+//  hltdc->Init.AccumulatedVBP     = OTM8009A_480X800_VSYNC + OTM8009A_480X800_VBP - 1;
+//  hltdc->Init.AccumulatedActiveH = OTM8009A_480X800_VSYNC + Height + OTM8009A_480X800_VBP - 1;
+//  hltdc->Init.TotalHeigh         = OTM8009A_480X800_VSYNC + Height + OTM8009A_480X800_VBP + OTM8009A_480X800_VFP - 1;
+//
+//  hltdc->Init.Backcolor.Blue  = 0x00;
+//  hltdc->Init.Backcolor.Green = 0x00;
+//  hltdc->Init.Backcolor.Red   = 0x00;
+//
+//  return HAL_LTDC_Init(hltdc);
+//}
 
 /**
   * @brief  MX LTDC layer configuration.
@@ -852,10 +852,10 @@ __weak HAL_StatusTypeDef MX_LTDC_ClockConfig(LTDC_HandleTypeDef *hltdc)
 
   PeriphClkInitStruct.PeriphClockSelection   = RCC_PERIPHCLK_LTDC;
   PeriphClkInitStruct.PLL3.PLL3M      = 5U;
-  PeriphClkInitStruct.PLL3.PLL3N      = 132U;
-  PeriphClkInitStruct.PLL3.PLL3P      = 2U;
-  PeriphClkInitStruct.PLL3.PLL3Q      = 2U;
-  PeriphClkInitStruct.PLL3.PLL3R      = 24U;
+  PeriphClkInitStruct.PLL3.PLL3N      = 192U;
+  PeriphClkInitStruct.PLL3.PLL3P      = 8U;
+  PeriphClkInitStruct.PLL3.PLL3Q      = 8U;
+  PeriphClkInitStruct.PLL3.PLL3R      = 8U;
   PeriphClkInitStruct.PLL3.PLL3RGE    = RCC_PLLCFGR_PLL3RGE_2;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN  = 0U;
@@ -873,11 +873,11 @@ __weak HAL_StatusTypeDef MX_LTDC_ClockConfig2(LTDC_HandleTypeDef *hltdc)
   RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
 
   PeriphClkInitStruct.PeriphClockSelection    = RCC_PERIPHCLK_LTDC;
-  PeriphClkInitStruct.PLL3.PLL3M      = 1U;
-  PeriphClkInitStruct.PLL3.PLL3N      = 13U;
-  PeriphClkInitStruct.PLL3.PLL3P      = 2U;
-  PeriphClkInitStruct.PLL3.PLL3Q      = 2U;
-  PeriphClkInitStruct.PLL3.PLL3R      = 12U;
+  PeriphClkInitStruct.PLL3.PLL3M      = 5U;
+  PeriphClkInitStruct.PLL3.PLL3N      = 192U;
+  PeriphClkInitStruct.PLL3.PLL3P      = 8U;
+  PeriphClkInitStruct.PLL3.PLL3Q      = 8U;
+  PeriphClkInitStruct.PLL3.PLL3R      = 8U;
   PeriphClkInitStruct.PLL3.PLL3RGE    = RCC_PLLCFGR_PLL3RGE_2;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN  = 0U;

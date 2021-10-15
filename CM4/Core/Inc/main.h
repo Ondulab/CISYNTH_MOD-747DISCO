@@ -92,6 +92,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_NBL3_GPIO_Port GPIOI
 #define FMC_NBL2_Pin GPIO_PIN_4
 #define FMC_NBL2_GPIO_Port GPIOI
+#define JOY_RIGHT_Pin GPIO_PIN_5
+#define JOY_RIGHT_GPIO_Port GPIOK
 #define FMC_D25_Pin GPIO_PIN_1
 #define FMC_D25_GPIO_Port GPIOI
 #define FMC_D24_Pin GPIO_PIN_0
@@ -100,6 +102,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_D29_GPIO_Port GPIOI
 #define FMC_NBL1_Pin GPIO_PIN_1
 #define FMC_NBL1_GPIO_Port GPIOE
+#define JOY_LEFT_Pin GPIO_PIN_4
+#define JOY_LEFT_GPIO_Port GPIOK
 #define FMC_D26_Pin GPIO_PIN_2
 #define FMC_D26_GPIO_Port GPIOI
 #define FMC_D23_Pin GPIO_PIN_15
@@ -112,10 +116,16 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define OSC32_IN_GPIO_Port GPIOC
 #define FMC_NBL0_Pin GPIO_PIN_0
 #define FMC_NBL0_GPIO_Port GPIOE
+#define JOY_UP_Pin GPIO_PIN_6
+#define JOY_UP_GPIO_Port GPIOK
+#define JOY_DOWN_Pin GPIO_PIN_3
+#define JOY_DOWN_GPIO_Port GPIOK
 #define FMC_D27_Pin GPIO_PIN_3
 #define FMC_D27_GPIO_Port GPIOI
 #define FMC_SDCAS_Pin GPIO_PIN_15
 #define FMC_SDCAS_GPIO_Port GPIOG
+#define TOUCH_INT_Pin GPIO_PIN_7
+#define TOUCH_INT_GPIO_Port GPIOK
 #define FMC_D2_Pin GPIO_PIN_0
 #define FMC_D2_GPIO_Port GPIOD
 #define STLINK_TX_Pin GPIO_PIN_10
@@ -144,8 +154,12 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_A3_GPIO_Port GPIOF
 #define FMC_BA0_Pin GPIO_PIN_4
 #define FMC_BA0_GPIO_Port GPIOG
+#define DSI_Reset_Pin GPIO_PIN_3
+#define DSI_Reset_GPIO_Port GPIOG
 #define FMC_A12_Pin GPIO_PIN_2
 #define FMC_A12_GPIO_Port GPIOG
+#define JOY_SEL_Pin GPIO_PIN_2
+#define JOY_SEL_GPIO_Port GPIOK
 #define OSC_OUT_Pin GPIO_PIN_1
 #define OSC_OUT_GPIO_Port GPIOH
 #define OSC_IN_Pin GPIO_PIN_0

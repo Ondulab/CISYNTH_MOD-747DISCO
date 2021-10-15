@@ -20,7 +20,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma.h"
+#include "dma2d.h"
+#include "dsihost.h"
+#include "ltdc.h"
 #include "gpio.h"
+#include "fmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -102,6 +106,10 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_DMA_Init();
   MX_GPIO_Init();
+//  MX_DSIHOST_DSI_Init();
+  MX_FMC_Init();
+  MX_LTDC_Init();
+  MX_DMA2D_Init();
   /* USER CODE BEGIN 2 */
 	/* Initialize the LCD */
 	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
