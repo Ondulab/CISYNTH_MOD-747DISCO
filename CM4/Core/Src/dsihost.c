@@ -45,10 +45,10 @@ void MX_DSIHOST_DSI_Init(void)
   /* USER CODE END DSIHOST_Init 1 */
   hdsi.Instance = DSI;
   hdsi.Init.AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_DISABLE;
-  hdsi.Init.TXEscapeCkdiv = 8;
+  hdsi.Init.TXEscapeCkdiv = 4;
   hdsi.Init.NumberOfLanes = DSI_TWO_DATA_LANES;
-  PLLInit.PLLNDIV = 500;
-  PLLInit.PLLIDF = DSI_PLL_IN_DIV5;
+  PLLInit.PLLNDIV = 100;
+  PLLInit.PLLIDF = DSI_PLL_IN_DIV6;
   PLLInit.PLLODF = DSI_PLL_OUT_DIV1;
   if (HAL_DSI_Init(&hdsi, &PLLInit) != HAL_OK)
   {
@@ -67,10 +67,10 @@ void MX_DSIHOST_DSI_Init(void)
   {
     Error_Handler();
   }
-  PhyTimings.ClockLaneHS2LPTime = 20;
-  PhyTimings.ClockLaneLP2HSTime = 18;
-  PhyTimings.DataLaneHS2LPTime = 10;
-  PhyTimings.DataLaneLP2HSTime = 13;
+  PhyTimings.ClockLaneHS2LPTime = 0x14;
+  PhyTimings.ClockLaneLP2HSTime = 0x14;
+  PhyTimings.DataLaneHS2LPTime = 0x0A;
+  PhyTimings.DataLaneLP2HSTime = 0x0A;
   PhyTimings.DataLaneMaxReadTime = 0;
   PhyTimings.StopWaitTime = 0;
   if (HAL_DSI_ConfigPhyTimer(&hdsi, &PhyTimings) != HAL_OK)
@@ -92,29 +92,29 @@ void MX_DSIHOST_DSI_Init(void)
   VidCfg.VirtualChannelID = 0;
   VidCfg.ColorCoding = DSI_RGB565;
   VidCfg.LooselyPacked = DSI_LOOSELY_PACKED_DISABLE;
-  VidCfg.Mode = DSI_VID_MODE_NB_PULSES;
-  VidCfg.PacketSize = 1;
-  VidCfg.NumberOfChunks = 640;
+  VidCfg.Mode = DSI_VID_MODE_BURST;
+  VidCfg.PacketSize = 800;
+  VidCfg.NumberOfChunks = 0;
   VidCfg.NullPacketSize = 0;
-  VidCfg.HSPolarity = DSI_HSYNC_ACTIVE_LOW;
-  VidCfg.VSPolarity = DSI_VSYNC_ACTIVE_LOW;
+  VidCfg.HSPolarity = DSI_HSYNC_ACTIVE_HIGH;
+  VidCfg.VSPolarity = DSI_VSYNC_ACTIVE_HIGH;
   VidCfg.DEPolarity = DSI_DATA_ENABLE_ACTIVE_HIGH;
-  VidCfg.HorizontalSyncActive = 2;
-  VidCfg.HorizontalBackPorch = 2;
-  VidCfg.HorizontalLine = 172;
-  VidCfg.VerticalSyncActive = 4;
-  VidCfg.VerticalBackPorch = 2;
-  VidCfg.VerticalFrontPorch = 2;
+  VidCfg.HorizontalSyncActive = 4;
+  VidCfg.HorizontalBackPorch = 77;
+  VidCfg.HorizontalLine = 1982;
+  VidCfg.VerticalSyncActive = 1;
+  VidCfg.VerticalBackPorch = 15;
+  VidCfg.VerticalFrontPorch = 16;
   VidCfg.VerticalActive = 480;
-  VidCfg.LPCommandEnable = DSI_LP_COMMAND_DISABLE;
-  VidCfg.LPLargestPacketSize = 0;
-  VidCfg.LPVACTLargestPacketSize = 0;
-  VidCfg.LPHorizontalFrontPorchEnable = DSI_LP_HFP_DISABLE;
-  VidCfg.LPHorizontalBackPorchEnable = DSI_LP_HBP_DISABLE;
-  VidCfg.LPVerticalActiveEnable = DSI_LP_VACT_DISABLE;
-  VidCfg.LPVerticalFrontPorchEnable = DSI_LP_VFP_DISABLE;
-  VidCfg.LPVerticalBackPorchEnable = DSI_LP_VBP_DISABLE;
-  VidCfg.LPVerticalSyncActiveEnable = DSI_LP_VSYNC_DISABLE;
+  VidCfg.LPCommandEnable = DSI_LP_COMMAND_ENABLE;
+  VidCfg.LPLargestPacketSize = 4;
+  VidCfg.LPVACTLargestPacketSize = 4;
+  VidCfg.LPHorizontalFrontPorchEnable = DSI_LP_HFP_ENABLE;
+  VidCfg.LPHorizontalBackPorchEnable = DSI_LP_HBP_ENABLE;
+  VidCfg.LPVerticalActiveEnable = DSI_LP_VACT_ENABLE;
+  VidCfg.LPVerticalFrontPorchEnable = DSI_LP_VFP_ENABLE;
+  VidCfg.LPVerticalBackPorchEnable = DSI_LP_VBP_ENABLE;
+  VidCfg.LPVerticalSyncActiveEnable = DSI_LP_VSYNC_ENABLE;
   VidCfg.FrameBTAAcknowledgeEnable = DSI_FBTAA_DISABLE;
   if (HAL_DSI_ConfigVideoMode(&hdsi, &VidCfg) != HAL_OK)
   {
