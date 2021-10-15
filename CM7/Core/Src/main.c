@@ -21,6 +21,9 @@
 #include "main.h"
 #include "dac.h"
 #include "dma.h"
+#include "dma2d.h"
+#include "dsihost.h"
+#include "ltdc.h"
 #include "rng.h"
 #include "tim.h"
 #include "gpio.h"
@@ -183,6 +186,9 @@ HSEM notification */
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+  MX_DSIHOST_DSI_Init();
+  MX_LTDC_Init();
+  MX_DMA2D_Init();
   MX_RNG_Init();
   MX_DAC1_Init();
   MX_TIM6_Init();
