@@ -17,6 +17,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 
+#include "shared.h"
 #include "wave_generation.h"
 #include "synth.h"
 #include "pcm5102.h"
@@ -33,8 +34,9 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-static int16_t *unitary_waveform = NULL;
-static struct wave waves[NUMBER_OF_NOTES];
+static volatile int16_t *unitary_waveform = &__unitary_waveform__;
+static struct wave *waves = &__wave__;
+
 volatile uint32_t synth_process_cnt = 0;
 static int16_t* half_audio_ptr;
 static int16_t* full_audio_ptr;
@@ -73,34 +75,34 @@ int32_t synth_IfftInit(void)
 
 	memset(imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t*));
 
-#ifdef IFFT_1
-	buffer_len = init_waves(&unitary_waveform, waves);
-#else
-	buffer_len = init_waves2(&unitary_waveform, waves);
-#endif
+//#ifdef IFFT_1
+//	buffer_len = init_waves(&unitary_waveform, waves);
+//#else
+//	buffer_len = init_waves2(&unitary_waveform, waves);
+//#endif
 
 	// start with random index
-	for (uint32_t i = 0; i < NUMBER_OF_NOTES; i++)
-	{
-		if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit) != HAL_OK)
-		{
-			/* Random number generation error */
-			Error_Handler();
-		}
-		waves[i].current_idx = aRandom32bit % waves[i].area_size;
-		waves[i].current_volume = 0;
-		waves[i].phase_polarisation = 1;
-	}
+//	for (uint32_t i = 0; i < NUMBER_OF_NOTES; i++)
+//	{
+//		if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit) != HAL_OK)
+//		{
+//			/* Random number generation error */
+//			Error_Handler();
+//		}
+//		waves[i].current_idx = aRandom32bit % waves[i].area_size;
+//		waves[i].current_volume = 0;
+//		waves[i].phase_polarisation = 1;
+//	}
 
-	if (buffer_len < 0)
-	{
-		printf("RAM overflow");
-		Error_Handler();
-		return -1;
-	}
+//	if (buffer_len < 0)
+//	{
+//		printf("RAM overflow");
+//		Error_Handler();
+//		return -1;
+//	}
 
 	printf("Note number  = %d\n", (int)NUMBER_OF_NOTES);
-	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
+//	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
 
 
 //	uint8_t FreqStr[256] = {0};
@@ -265,7 +267,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
 
 			//current audio point summation
 			signal_summation_R += ((*(waves[note].start_ptr + new_idx)) * waves[note].current_volume) >> 16;
-			signal_summation_L += ((*(waves[note + 1].start_ptr + new_idx)) * waves[note + 1].current_volume) >> 16;
+//			signal_summation_L += ((*(waves[note + 1].start_ptr + new_idx)) * waves[note + 1].current_volume) >> 16;
 			//			signal_summation_L += ((*(waves[NUMBER_OF_NOTES - note].start_ptr + new_idx)) * waves[NUMBER_OF_NOTES - note].current_volume) >> 16;
 
 			// 			signal_summation_L = signal_summation_R;

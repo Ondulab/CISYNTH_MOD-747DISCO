@@ -23,12 +23,15 @@
 #include "dma2d.h"
 #include "dsihost.h"
 #include "ltdc.h"
+#include "rng.h"
 #include "gpio.h"
 #include "fmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "pictures.h"
+#include "synth.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +60,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-
+void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -110,6 +113,7 @@ int main(void)
   MX_FMC_Init();
   MX_LTDC_Init();
   MX_DMA2D_Init();
+  MX_RNG_Init();
   /* USER CODE BEGIN 2 */
 	/* Initialize the LCD */
 	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
@@ -122,6 +126,8 @@ int main(void)
 	UTIL_LCD_DrawBitmapBW(sss_Img, (LCD_DEFAULT_WIDTH - 151) / 2, (LCD_DEFAULT_HEIGHT - 64) / 2, 151, 64, UTIL_LCD_COLOR_WHITE);
 
 //	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
+	synth_IfftInit();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
