@@ -18,7 +18,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-#include "wave_generation.h"
+#include "synth.h"
 #include "synth_cv.h"
 #include "udp_server.h"
 #include "lwip.h"

@@ -27,7 +27,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cisynth_ifft.h"
-#include "pictures.h"
 #include "lwip.h"
 #include "synth_cv.h"
 /* USER CODE END Includes */
@@ -53,27 +52,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t DemoIndex = 0;
-__IO uint8_t NbLoop = 1;
 
-#ifndef USE_FULL_ASSERT
-uint32_t    ErrorCounter = 0;
-#endif
-
-/* Wave Player Pause/Resume Status. Defined as external in waveplayer.c file */
-__IO uint32_t PauseResumeStatus = IDLE_STATUS;
-
-/* Counter for Sel Joystick pressed*/
-__IO uint32_t PressCount = 0;
-__IO uint32_t ButtonState=0;
-uint8_t toggle_led = 0;
-__IO uint32_t CameraTest=0;
-/* Volume of the audio playback */
-/* Initial volume level (from 0% (Mute) to 100% (Max)) */
-__IO uint8_t volume = 60;
-__IO uint8_t VolumeChange = 0;
-__IO uint32_t SRAMTest = 0;
-__IO uint32_t SdramTest=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -83,15 +62,6 @@ static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
 static void MPU_Config(void);
 
-BSP_DemoTypedef  BSP_examples[]=
-{
-//		{AudioPlay_demo, "AUDIO PLAY", 0},
-		{QSPI_demo, "QSPI", 0},
-		{SD_DMA_demo, "SD", 0},
-		{SD_IT_demo, "SD", 0},
-		{SD_POLLING_demo, "SD", 0},
-//		{AudioRecord_demo, "AUDIO RECORD", 0},
-};
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -295,30 +265,6 @@ void PeriphCommonClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-/**
- * @brief  Check for user input
- * @param  None
- * @retval Input state (1 : active / 0 : Inactive)
- */
-uint8_t CheckForUserInput(void)
-{
-	return ButtonState;
-}
-
-/**
- * @brief  Button Callback
- * @param  Button Specifies the pin connected EXTI line
- * @retval None
- */
-void BSP_PB_Callback(Button_TypeDef Button)
-{
-	if(Button == BUTTON_WAKEUP)
-	{
-
-		ButtonState = 1;
-	}
-
-}
 
 /* USER CODE END 4 */
 

@@ -36,9 +36,7 @@ extern "C" {
 #include "string.h"
 #include "stm32h747i_discovery.h"
 #include "stm32h747i_discovery_conf.h"
-#include "stm32h747i_discovery_sd.h"
 #include "stm32h747i_discovery_audio.h"
-#include "stm32h747i_discovery_qspi.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
