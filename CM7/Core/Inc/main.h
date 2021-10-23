@@ -34,15 +34,8 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "string.h"
-#include "stm32h747i_discovery.h"
-#include "stm32h747i_discovery_lcd.h"
 #include "stm32h747i_discovery_conf.h"
-#include "stm32h747i_discovery_sd.h"
-#include "stm32h747i_discovery_ts.h"
 #include "stm32h747i_discovery_audio.h"
-#include "stm32h747i_discovery_qspi.h"
-#include "stm32h747i_discovery_sdram.h"
-#include "stm32_lcd.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -64,37 +57,21 @@ typedef enum {
 #define SD_IT_MODE       1U
 #define SD_POLLING_MODE  2U
 /* Exported variables --------------------------------------------------------*/
-extern const unsigned char stlogo[];
 extern __IO uint32_t SRAMTest;
 #ifndef USE_FULL_ASSERT
 extern uint32_t    ErrorCounter;
 #endif
-extern uint32_t JoyStickDemo ;
-extern __IO uint32_t ButtonState;
-extern __IO uint32_t JoystickStates;
-extern __IO uint32_t SdramTest;
 extern __IO uint32_t SdmmcTest;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-/**
-  * @brief  SDRAM Write read buffer start address after CAM Frame buffer
-  */
-#define SDRAM_WRITE_READ_ADDR_OFFSET ((uint32_t)0x0800)
 
 /* Defines for the Audio playing process */
 #define PAUSE_STATUS     ((uint32_t)0x00) /* Audio Player in Pause Status */
 #define RESUME_STATUS    ((uint32_t)0x01) /* Audio Player in Resume Status */
 #define IDLE_STATUS      ((uint32_t)0x02) /* Audio Player in Idle Status */
 
-
-#define LED_GREEN      LED1
-#define LED_ORANGE      LED2
-#define LED_RED      LED3
-#define LED_BLUE      LED4
-/* SDRAM write address */
-#define SDRAM_WRITE_READ_ADDR         0xD0177000
 #define AUDIO_REC_START_ADDR         SDRAM_WRITE_READ_ADDR
 #define AUDIO_REC_TOTAL_SIZE         ((uint32_t) 0x0000E000)
 #define AUDIO_RECPDM_START_ADDR      (AUDIO_REC_START_ADDR+AUDIO_REC_TOTAL_SIZE)
@@ -131,23 +108,14 @@ extern __IO uint32_t SdmmcTest;
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-void Touchscreen_demo1 (void);
-void Touchscreen_demo2 (void);
-void LCD_demo (void);
-void Joystick_demo (void);
 void SD_DMA_demo(void);
 void SD_IT_demo(void);
 void SD_POLLING_demo(void);
 void Error_Handler(void);
-void SDRAM_demo(void);
-void SDRAM_DMA_demo (void);
 void AudioPlay_demo (void);
 //void AudioRecord_demo(void);
 uint8_t AUDIO_Process(void);
 void QSPI_demo (void);
-uint8_t CheckForUserInput(void);
-uint8_t TouchScreen_GetTouchPosition(void);
-void Touchscreen_DrawBackground_Circles(uint8_t state);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -171,8 +139,6 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_D29_GPIO_Port GPIOI
 #define FMC_NBL1_Pin GPIO_PIN_1
 #define FMC_NBL1_GPIO_Port GPIOE
-#define HDMI_CEC_Pin GPIO_PIN_6
-#define HDMI_CEC_GPIO_Port GPIOB
 #define ETH_TX_EN_Pin GPIO_PIN_11
 #define ETH_TX_EN_GPIO_Port GPIOG
 #define SDIO1_D3_Pin GPIO_PIN_11

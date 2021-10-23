@@ -45,7 +45,8 @@ _Min_Stack_Size = 0x400 ; /* required amount of stack */
 MEMORY
 {
 FLASH (rx)      : ORIGIN = 0x08100000, LENGTH = 1024K
-RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 288K
+RAM_D1 (xrw)    : ORIGIN = 0x10000000, LENGTH = 128K
+RAM_SHARED (rw) : ORIGIN = 0x24000000, LENGTH = 480K      
 }
 
 /* Define output sections */
@@ -112,7 +113,18 @@ SECTIONS
     KEEP (*(.fini_array*))
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
-
+  
+  .shared :
+  {
+    KEEP (*(.shared_var));
+    KEEP (*(.params));
+    KEEP (*(.cvdata));
+    KEEP (*(.image));
+    KEEP (*(.audio));
+    KEEP (*(.wave));
+    KEEP (*(.unitary_waveform));
+  } >RAM_SHARED
+  
   /* used by the startup to initialize data */
   _sidata = LOADADDR(.data);
 
@@ -128,8 +140,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >RAM AT> FLASH
-
+  } >RAM_D1 AT> FLASH
 
   /* Uninitialized data section */
   . = ALIGN(4);
@@ -145,7 +156,7 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
-  } >RAM
+  } >RAM_D1
 
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
@@ -156,7 +167,7 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
-  } >RAM
+  } >RAM_D1
 
 
 

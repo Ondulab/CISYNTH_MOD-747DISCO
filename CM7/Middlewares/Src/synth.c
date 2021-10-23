@@ -17,10 +17,9 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-#include "wave_generation.h"
+#include "shared.h"
 #include "synth.h"
 #include "pcm5102.h"
-#include "menu.h"
 #include "udp_server.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -34,20 +33,12 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-static int16_t *unitary_waveform = NULL;
-static struct wave waves[NUMBER_OF_NOTES];
-volatile uint32_t synth_process_cnt = 0;
-static int16_t* half_audio_ptr;
-static int16_t* full_audio_ptr;
-
-/* Variable containing black and white frame from CIS*/
-static int32_t *imageData = NULL;
-int32_t cvData[NUMBER_OF_NOTES / IMAGE_WEIGHT] = {0};
-//static uint16_t imageData[((CIS_END_CAPTURE * CIS_ADC_OUT_LINES) / CIS_IFFT_OVERSAMPLING_RATIO) - 1]; // for debug
+static volatile int16_t* half_audio_ptr;
+static volatile int16_t* full_audio_ptr;
 
 /* Private function prototypes -----------------------------------------------*/
-static void synth_IfftMode(int32_t *imageData, int16_t *audioData);
-static void synth_IfftMode2(int32_t *imageData, int16_t *audioData);
+static void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData);
+static void synth_IfftMode2(volatile int32_t *imageData, volatile int16_t *audioData);
 
 /* Private user code ---------------------------------------------------------*/
 
@@ -58,56 +49,14 @@ static void synth_IfftMode2(int32_t *imageData, int16_t *audioData);
  */
 int32_t synth_IfftInit(void)
 {
-	int32_t buffer_len = 0;
-	uint32_t aRandom32bit = 0;
 	static DAC_ChannelConfTypeDef sConfig;
 
 	printf("---------- SYNTH INIT ---------\n");
 	printf("-------------------------------\n");
 
-	//allocate the contiguous memory area for storage image data
-	imageData = malloc(NUMBER_OF_NOTES * sizeof(int32_t*));
-	if (imageData == NULL)
-	{
-		Error_Handler();
-	}
-
-	memset(imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t*));
-
-#ifdef IFFT_1
-	buffer_len = init_waves(&unitary_waveform, waves);
-#else
-	buffer_len = init_waves2(&unitary_waveform, waves);
-#endif
-
-	// start with random index
-	for (uint32_t i = 0; i < NUMBER_OF_NOTES; i++)
-	{
-		if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit) != HAL_OK)
-		{
-			/* Random number generation error */
-			Error_Handler();
-		}
-		waves[i].current_idx = aRandom32bit % waves[i].area_size;
-		waves[i].current_volume = 0;
-		waves[i].phase_polarisation = 1;
-	}
-
-	if (buffer_len < 0)
-	{
-		printf("RAM overflow");
-		Error_Handler();
-		return -1;
-	}
-
 	printf("Note number  = %d\n", (int)NUMBER_OF_NOTES);
-	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
+//	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
 
-
-	uint8_t FreqStr[256] = {0};
-	UTIL_LCD_FillRect(0, DISPLAY_AERA3_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS3_HEIGHT, UTIL_LCD_COLOR_BLACK);
-	sprintf((char *)FreqStr, " %d -> %dHz      Octave:%d", (int)waves[0].frequency, (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
-	UTIL_LCD_DisplayStringAt(0, DISPLAY_AERA3_Y1POS, (uint8_t*)FreqStr, LEFT_MODE);
 
 	printf("First note Freq = %dHz\nSize = %d\n", (int)waves[0].frequency, (int)waves[0].area_size);
 	printf("Last  note Freq = %dHz\nSize = %d\nOctave = %d\n", (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)waves[NUMBER_OF_NOTES - 1].area_size / (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff), (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
@@ -194,13 +143,13 @@ int32_t synth_SetImageData(uint32_t index, int32_t value)
  */
 #pragma GCC push_options
 #pragma GCC optimize ("unroll-loops")
-void synth_IfftMode(int32_t *imageData, int16_t *audioData)
+void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 {
 	static int32_t signal_summation_R;
 	static int32_t signal_summation_L;
 	static uint32_t signal_power_summation;
 	static int16_t rfft_R;
-	static int16_t rfft_L;
+//	static int16_t rfft_L;
 	static uint16_t new_idx;
 	static uint32_t write_data_nbr;
 	static int32_t note;
@@ -266,7 +215,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
 
 			//current audio point summation
 			signal_summation_R += ((*(waves[note].start_ptr + new_idx)) * waves[note].current_volume) >> 16;
-			signal_summation_L += ((*(waves[note + 1].start_ptr + new_idx)) * waves[note + 1].current_volume) >> 16;
+//			signal_summation_L += ((*(waves[note + 1].start_ptr + new_idx)) * waves[note + 1].current_volume) >> 16;
 			//			signal_summation_L += ((*(waves[NUMBER_OF_NOTES - note].start_ptr + new_idx)) * waves[NUMBER_OF_NOTES - note].current_volume) >> 16;
 
 			// 			signal_summation_L = signal_summation_R;
@@ -278,7 +227,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
 		}
 
 		rfft_R = (signal_summation_R * ((double)max_volume) / (double)signal_power_summation);
-		rfft_L = (signal_summation_L * ((double)max_volume) / (double)signal_power_summation);
+//		rfft_L = (signal_summation_L * ((double)max_volume) / (double)signal_power_summation);
 
 		//		rfft_R = (signal_summation_R * (65535.00) / (double)signal_power_summation);
 		//		rfft_L = (signal_summation_L * (65535.00) / (double)signal_power_summation);
@@ -292,7 +241,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
 		write_data_nbr++;
 	}
 
-	synth_process_cnt += AUDIO_BUFFER_SIZE;
+	shared_var.synth_process_cnt += AUDIO_BUFFER_SIZE;
 }
 #pragma GCC pop_options
 
@@ -303,7 +252,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
  */
 #pragma GCC push_options
 #pragma GCC optimize ("unroll-loops")
-void synth_IfftMode2(int32_t *imageData, int16_t *audioData)
+void synth_IfftMode2(volatile int32_t *imageData, volatile int16_t *audioData)
 {
 	static int32_t tempWaveformBuffer[AUDIO_BUFFER_SIZE * 2];
 	static int32_t tempVolumeBuffer[AUDIO_BUFFER_SIZE * 2];
@@ -417,7 +366,7 @@ void synth_IfftMode2(int32_t *imageData, int16_t *audioData)
 		audioData[idx * 2 + 1] = rfft_L;
 	}
 
-	synth_process_cnt += AUDIO_BUFFER_SIZE;
+	shared_var.synth_process_cnt += AUDIO_BUFFER_SIZE;
 }
 #pragma GCC pop_options
 

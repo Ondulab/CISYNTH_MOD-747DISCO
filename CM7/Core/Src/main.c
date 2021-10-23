@@ -21,20 +21,18 @@
 #include "main.h"
 #include "dac.h"
 #include "dma.h"
-#include "dma2d.h"
-#include "dsihost.h"
-#include "ltdc.h"
-#include "rng.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stlogo.h"
 #include "cisynth_ifft.h"
-#include "pictures.h"
 #include "lwip.h"
 #include "synth_cv.h"
+#include "shared.h"
+#include "stdlib.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,27 +56,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t DemoIndex = 0;
-__IO uint8_t NbLoop = 1;
 
-#ifndef USE_FULL_ASSERT
-uint32_t    ErrorCounter = 0;
-#endif
-
-/* Wave Player Pause/Resume Status. Defined as external in waveplayer.c file */
-__IO uint32_t PauseResumeStatus = IDLE_STATUS;
-
-/* Counter for Sel Joystick pressed*/
-__IO uint32_t PressCount = 0;
-__IO uint32_t ButtonState=0;
-uint8_t toggle_led = 0;
-__IO uint32_t CameraTest=0;
-/* Volume of the audio playback */
-/* Initial volume level (from 0% (Mute) to 100% (Max)) */
-__IO uint8_t volume = 60;
-__IO uint8_t VolumeChange = 0;
-__IO uint32_t SRAMTest = 0;
-__IO uint32_t SdramTest=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -86,24 +64,8 @@ void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-static void Display_DemoDescription(void);
 static void MPU_Config(void);
 
-BSP_DemoTypedef  BSP_examples[]=
-{
-//		{AudioPlay_demo, "AUDIO PLAY", 0},
-		{QSPI_demo, "QSPI", 0},
-		{SDRAM_demo, "SDRAM", 0},
-		{SDRAM_DMA_demo, "SDRAM MDMA", 0},
-		{Joystick_demo, "JOYSTICK EXTI", 0},
-		{Touchscreen_demo1, "TOUCHSCREEN DEMO1", 0},
-		{Touchscreen_demo2, "TOUCHSCREEN DEMO2", 0},
-		{LCD_demo, "LCD", 0},
-		{SD_DMA_demo, "SD", 0},
-		{SD_IT_demo, "SD", 0},
-		{SD_POLLING_demo, "SD", 0},
-//		{AudioRecord_demo, "AUDIO RECORD", 0},
-};
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -118,6 +80,15 @@ BSP_DemoTypedef  BSP_examples[]=
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+
+	//Clear memory garbage
+	memset((uint32_t *)&params, 0, sizeof(struct params));
+	memset((uint32_t *)cvData, 0, NUMBER_OF_NOTES / IMAGE_WEIGHT * sizeof(int32_t));
+	memset((uint32_t *)imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t));
+	memset((uint32_t *)waves, 0,  NUMBER_OF_NOTES * sizeof(struct wave));
+	memset((uint32_t *)audioBuff, 0,  AUDIO_BUFFER_SIZE * 4);
+	memset((uint32_t *)unitary_waveform, 0, 240000 * sizeof(int16_t));
+
 
   /* USER CODE END 1 */
 /* USER CODE BEGIN Boot_Mode_Sequence_0 */
@@ -176,40 +147,24 @@ HSEM notification */
 /* USER CODE END Boot_Mode_Sequence_2 */
 
   /* USER CODE BEGIN SysInit */
-	BSP_PB_Init(BUTTON_WAKEUP, BUTTON_MODE_EXTI);
-	BSP_LED_Init(LED1);
-	BSP_LED_Init(LED2);
-	BSP_LED_Init(LED3);
-	BSP_LED_Init(LED4);
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_DSIHOST_DSI_Init();
-  MX_LTDC_Init();
-  MX_DMA2D_Init();
-  MX_RNG_Init();
+  MX_USART1_UART_Init();
   MX_DAC1_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-	/* Initialize the LCD */
-	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
-	UTIL_LCD_SetFuncDriver(&LCD_Driver);
-	UTIL_LCD_SetFont(&UTIL_LCD_DEFAULT_FONT);
-	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
-	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLACK);
-	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
+
+    HAL_Delay(3000); //todo add hardware semaphore
 
 	printf("----------------------------------------------------------\n");
 	printf("--------- Sectral Synth Scanner CIS module START ---------\n");
 	printf("----------------------------------------------------------\n");
 
-	UTIL_LCD_DrawBitmapBW(sss_Img, (LCD_DEFAULT_WIDTH - 151) / 2, (LCD_DEFAULT_HEIGHT - 64) / 2, 151, 64, UTIL_LCD_COLOR_WHITE);
-
 	MX_LWIP_Init();
-
-	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
 
 //	cisynth_eth();
 	cisynth_ifft();
@@ -220,21 +175,6 @@ HSEM notification */
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		if(ButtonState == 1)
-		{
-			HAL_Delay(400);
-			ButtonState = 0;
-			BSP_examples[DemoIndex++].DemoFunc();
-
-			HAL_Delay(100);
-
-			if(DemoIndex >= COUNT_OF_EXAMPLE(BSP_examples))
-			{
-				NbLoop++;
-				DemoIndex = 0;
-			}
-			Display_DemoDescription();
-		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -304,6 +244,9 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSI, RCC_MCODIV_1);
+  /** Enables the Clock Security System
+  */
+  HAL_RCC_EnableCSS();
 }
 
 /**
@@ -320,7 +263,7 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL2.PLL2M = 25;
   PeriphClkInitStruct.PLL2.PLL2N = 344;
   PeriphClkInitStruct.PLL2.PLL2P = 7;
-  PeriphClkInitStruct.PLL2.PLL2Q = 2;
+  PeriphClkInitStruct.PLL2.PLL2Q = 6;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
@@ -334,72 +277,7 @@ void PeriphCommonClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-/**`MX_SAI1_Init'
- * @brief  Display main demo messages
- * @param  None
- * @retval None
- */
-static void Display_DemoDescription(void)
-{
-	char desc[64];
-	uint32_t x_size;
-	uint32_t y_size;
 
-	BSP_LCD_GetXSize(0, &x_size);
-	BSP_LCD_GetYSize(0, &y_size);
-	/* Set LCD Foreground Layer  */
-	UTIL_LCD_SetFont(&UTIL_LCD_DEFAULT_FONT);
-
-	/* Clear the LCD */
-	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_WHITE);
-	UTIL_LCD_Clear(UTIL_LCD_COLOR_WHITE);
-
-	/* Set the LCD Text Color */
-	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_DARKBLUE);
-
-	/* Display LCD messages */
-	UTIL_LCD_DisplayStringAt(0, 10, (uint8_t *)"STM32H747I BSP", CENTER_MODE);
-	UTIL_LCD_DisplayStringAt(0, 35, (uint8_t *)"Drivers examples", CENTER_MODE);
-
-	/* Draw Bitmap */
-	UTIL_LCD_DrawBitmap((x_size - 80)/2, 65, (uint8_t *)stlogo);
-
-	UTIL_LCD_SetFont(&Font12);
-	UTIL_LCD_DisplayStringAt(0, y_size - 20, (uint8_t *)"Copyright (c) STMicroelectronics 2018", CENTER_MODE);
-
-	UTIL_LCD_SetFont(&Font16);
-	BSP_LCD_FillRect(0, 0, y_size/2 + 15, x_size, 60, UTIL_LCD_COLOR_BLUE);
-	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
-	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLUE);
-	UTIL_LCD_DisplayStringAt(0, y_size / 2 + 30, (uint8_t *)"Press Wakeup button to start :", CENTER_MODE);
-	sprintf(desc,"%s example", BSP_examples[DemoIndex].DemoName);
-	UTIL_LCD_DisplayStringAt(0, y_size/2 + 45, (uint8_t *)desc, CENTER_MODE);
-}
-
-/**
- * @brief  Check for user input
- * @param  None
- * @retval Input state (1 : active / 0 : Inactive)
- */
-uint8_t CheckForUserInput(void)
-{
-	return ButtonState;
-}
-
-/**
- * @brief  Button Callback
- * @param  Button Specifies the pin connected EXTI line
- * @retval None
- */
-void BSP_PB_Callback(Button_TypeDef Button)
-{
-	if(Button == BUTTON_WAKEUP)
-	{
-
-		ButtonState = 1;
-	}
-
-}
 /* USER CODE END 4 */
 
 /* MPU Configuration */
@@ -432,16 +310,6 @@ void MPU_Config(void)
   MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
   MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-
-  HAL_MPU_ConfigRegion(&MPU_InitStruct);
-  /** Initializes and configures the Region and the memory to be protected
-  */
-  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
-  MPU_InitStruct.BaseAddress = SDRAM_DEVICE_ADDR;
-  MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
-  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
   /* Enables the MPU */

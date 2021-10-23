@@ -12,14 +12,14 @@
 #include "rng.h"
 #include "dac.h"
 #include "tim.h"
-#include "menu.h"
 
 #include "basetypes.h"
 #include "arm_math.h"
 #include "stdlib.h"
 #include "stdio.h"
+#include "shared.h"
 
-#include "wave_generation.h"
+#include "synth.h"
 #include "synth_cv.h"
 #include "udp_server.h"
 #include "lwip.h"
@@ -33,8 +33,6 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-/* Variable containing black and white frame from CIS*/
-static int32_t *imageData = NULL;
 static DAC_ChannelConfTypeDef sConfig;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,10 +105,10 @@ int32_t cisynth_cv(void)
 		}
 
 		latency = HAL_GetTick() - start_tick;
-		sprintf((char *)FreqStr, "%dHz", (int)((synth_process_cnt * 1000) / latency));
+		sprintf((char *)FreqStr, "%dHz", (int)((shared_var.synth_process_cnt * 1000) / latency));
 		cnt = 0;
 
-		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
+//		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
 
 		//		static uint32_t note = 0;
 		//		if (note > NUMBER_OF_NOTES)
@@ -127,9 +125,7 @@ int32_t cisynth_cv(void)
 		//			UTIL_LCD_SetPixel(i, DISPLAY_AERA1_Y1POS + (DISPLAY_AERAS1_HEIGHT / 2) - (pcm5102_GetAudioData(i / 2) / 256), UTIL_LCD_COLOR_WHITE);
 		//		}
 
-		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
-
-		BSP_LED_Toggle(LED_RED);
+//		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
 	}
 }
 
@@ -139,13 +135,13 @@ int32_t cisynth_cvInit(void)
 	printf("-------------------------------\n");
 
 	//allocate the contiguous memory area for storage image data
-	imageData = malloc(NUMBER_OF_NOTES * sizeof(int32_t*));
-	if (imageData == NULL)
-	{
-		Error_Handler();
-	}
-
-	memset(imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t*));
+//	imageData = malloc(NUMBER_OF_NOTES * sizeof(int32_t*));
+//	if (imageData == NULL)
+//	{
+//		Error_Handler();
+//	}
+//
+//	memset(imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t*));
 
 	//	uint8_t FreqStr[256] = {0};
 	//	UTIL_LCD_FillRect(0, DISPLAY_AERA2_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS2_HEIGHT, UTIL_LCD_COLOR_BLACK);
@@ -215,8 +211,8 @@ int32_t cisynth_cvInit(void)
  */
 static void cisynth_cv_SetHint(void)
 {
-	/* Set Audio header description */
-	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
-	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
-	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
+//	/* Set Audio header description */
+//	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
+//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
+//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
 }

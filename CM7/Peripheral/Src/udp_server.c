@@ -107,7 +107,7 @@ void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, 
 	}
 }
 
-void udp_serverReceiveImage(int32_t *image_buff)
+void udp_serverReceiveImage(volatile int32_t *image_buff)
 {
 	int32_t maxPix = 0;
 	uint32_t maxPixPosition = 0;
@@ -115,7 +115,7 @@ void udp_serverReceiveImage(int32_t *image_buff)
 	arm_max_q31(udp_imageData, UDP_BUFFER_SIZE / 2, &maxPix, &maxPixPosition);
 	if(maxPix == IMAGE_HEADER)
 	{
-		arm_copy_q31(&udp_imageData[maxPixPosition + IMAGE_HEADER_SIZE], image_buff, NUMBER_OF_NOTES);
+		arm_copy_q31(&udp_imageData[maxPixPosition + IMAGE_HEADER_SIZE], (int32_t *)image_buff, NUMBER_OF_NOTES);
 		for (int i = 0; i < NUMBER_OF_NOTES; i++)
 		{
 			image_buff[i] *= 2;

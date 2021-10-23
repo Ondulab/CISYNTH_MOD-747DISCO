@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "config.h"
+#include "shared.h"
 
 /* Private includes ----------------------------------------------------------*/
 #include "pcm5102.h"
@@ -22,7 +23,7 @@ static BUFFER_AUDIO_StateTypeDef bufferAudioState;
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-static int16_t audioBuff[AUDIO_BUFFER_SIZE * 4] = {0};
+//static int16_t audioBuff[AUDIO_BUFFER_SIZE * 4] = {0};
 //ALIGN_32BYTES (static AUDIO_BufferTypeDef  buffer_ctl) = {0};
 
 /* Private typedef -----------------------------------------------------------*/
@@ -88,7 +89,7 @@ int16_t pcm5102_GetAudioData(uint32_t index)
  * @param  index
  * @retval index address
  */
-int16_t * pcm5102_GetDataPtr(uint32_t index)
+volatile int16_t * pcm5102_GetDataPtr(uint32_t index)
 {
 	return &audioBuff[index];
 }

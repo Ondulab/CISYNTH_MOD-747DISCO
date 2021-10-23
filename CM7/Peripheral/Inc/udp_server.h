@@ -25,7 +25,7 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void udp_serverInit(void);
-void udp_serverReceiveImage(int32_t *image_buff);
+void udp_serverReceiveImage(volatile int32_t *image_buff);
 
 /* Private defines -----------------------------------------------------------*/
 
