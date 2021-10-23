@@ -34,7 +34,6 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "string.h"
-#include "stm32h747i_discovery.h"
 #include "stm32h747i_discovery_conf.h"
 #include "stm32h747i_discovery_audio.h"
 /* USER CODE END Includes */
@@ -140,8 +139,6 @@ void QSPI_demo (void);
 #define FMC_D29_GPIO_Port GPIOI
 #define FMC_NBL1_Pin GPIO_PIN_1
 #define FMC_NBL1_GPIO_Port GPIOE
-#define HDMI_CEC_Pin GPIO_PIN_6
-#define HDMI_CEC_GPIO_Port GPIOB
 #define ETH_TX_EN_Pin GPIO_PIN_11
 #define ETH_TX_EN_GPIO_Port GPIOG
 #define SDIO1_D3_Pin GPIO_PIN_11

@@ -17,6 +17,7 @@
 #include "arm_math.h"
 #include "stdlib.h"
 #include "stdio.h"
+#include "shared.h"
 
 #include "synth.h"
 #include "synth_cv.h"
@@ -32,8 +33,6 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-/* Variable containing black and white frame from CIS*/
-static int32_t *imageData = NULL;
 static DAC_ChannelConfTypeDef sConfig;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -106,7 +105,7 @@ int32_t cisynth_cv(void)
 		}
 
 		latency = HAL_GetTick() - start_tick;
-		sprintf((char *)FreqStr, "%dHz", (int)((synth_process_cnt * 1000) / latency));
+		sprintf((char *)FreqStr, "%dHz", (int)((shared_var.synth_process_cnt * 1000) / latency));
 		cnt = 0;
 
 //		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
@@ -127,8 +126,6 @@ int32_t cisynth_cv(void)
 		//		}
 
 //		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
-
-		BSP_LED_Toggle(LED_RED);
 	}
 }
 
@@ -138,13 +135,13 @@ int32_t cisynth_cvInit(void)
 	printf("-------------------------------\n");
 
 	//allocate the contiguous memory area for storage image data
-	imageData = malloc(NUMBER_OF_NOTES * sizeof(int32_t*));
-	if (imageData == NULL)
-	{
-		Error_Handler();
-	}
-
-	memset(imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t*));
+//	imageData = malloc(NUMBER_OF_NOTES * sizeof(int32_t*));
+//	if (imageData == NULL)
+//	{
+//		Error_Handler();
+//	}
+//
+//	memset(imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t*));
 
 	//	uint8_t FreqStr[256] = {0};
 	//	UTIL_LCD_FillRect(0, DISPLAY_AERA2_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS2_HEIGHT, UTIL_LCD_COLOR_BLACK);

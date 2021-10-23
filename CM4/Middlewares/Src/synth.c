@@ -32,8 +32,6 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-static volatile int16_t *unitary_waveform = &__unitary_waveform__;// = NULL;
-static struct wave *waves = &__wave__;//[NUMBER_OF_NOTES];
 
 /* Variable containing black and white frame from CIS*/
 
@@ -56,19 +54,10 @@ int32_t synth_IfftInit(void)
 	printf("---------- SYNTH INIT ---------\n");
 	printf("-------------------------------\n");
 
-//	//allocate the contiguous memory area for storage image data
-//	imageData = malloc(NUMBER_OF_NOTES * sizeof(int32_t*));
-//	if (imageData == NULL)
-//	{
-//		Error_Handler();
-//	}
-
-//	memset(imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t*));
-
 #ifdef IFFT_1
-	buffer_len = init_waves(&unitary_waveform, waves);
+	buffer_len = init_waves(unitary_waveform, waves);
 #else
-	buffer_len = init_waves2(&unitary_waveform, waves);
+	buffer_len = init_waves2(unitary_waveform, waves);
 #endif
 
 	// start with random index

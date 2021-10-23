@@ -22,8 +22,8 @@
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/
-uint32_t init_waves(int16_t **unitary_waveform, struct wave *waves);
-uint32_t init_waves2(int16_t **unitary_waveform, struct wave *waves);
+uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *waves);
+uint32_t init_waves2(volatile int16_t *unitary_waveform, volatile struct wave *waves);
 
 /* Private defines -----------------------------------------------------------*/
 

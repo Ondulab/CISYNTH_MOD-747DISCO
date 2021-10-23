@@ -10,9 +10,7 @@
 #define __SYNTH_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "config.h"
 #include "stdint.h"
-#include "synth.h"
 
 /* Private includes ----------------------------------------------------------*/
 
@@ -21,9 +19,6 @@ typedef enum {
 	IFFT_MODE = 0,
 	PLAY_MODE,
 }synthModeTypeDef;
-
-extern volatile uint32_t synth_process_cnt;
-extern int32_t cvData[];
 
 /* Exported constants --------------------------------------------------------*/
 

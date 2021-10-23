@@ -138,14 +138,13 @@ SECTIONS
   
   .shared :
   {
-  	__unitary_waveform__ = .;
-  	. += (LENGTH(RAM_SHARED) / 2);
-  	__unitary_waveform__end__ = .;
-  	. = ALIGN(4);
-  	__wave__ = .;
-  	. += (LENGTH(RAM_SHARED) / 2);
-  	__wave_end__ = .;
-  	. = ALIGN(4);
+    KEEP (*(.shared_var));
+    KEEP (*(.params));
+    KEEP (*(.cvdata));
+    KEEP (*(.image));
+    KEEP (*(.audio));
+    KEEP (*(.wave));
+    KEEP (*(.unitary_waveform));
   } >RAM_SHARED
 
   /* Used by the startup to initialize data */
@@ -193,7 +192,8 @@ SECTIONS
   } >RAM_AXI
 
   /* Modification start */
-  .lwip_sec (NOLOAD) : {
+  .lwip_sec (NOLOAD) : 
+  {
     . = ABSOLUTE(0x30040000);
     *(.RxDecripSection) 
     
@@ -203,6 +203,7 @@ SECTIONS
     . = ABSOLUTE(0x30040200);
     *(.RxArraySection) 
   } >RAM_D3
+  
   /* Modification end */
 
   /* Remove information from the compiler libraries */

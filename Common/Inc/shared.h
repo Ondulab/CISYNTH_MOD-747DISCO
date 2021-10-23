@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file           : shared.c
+ * @file           : shared.h
  * @brief          : shared data structure for both cpu
  ******************************************************************************
  */
@@ -17,11 +17,12 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 #include "stdint.h"
+#include "config.h"
 
 /* Exported types ------------------------------------------------------------*/
 __attribute__ ((packed))
 struct wave {
-	int16_t *start_ptr;
+	volatile int16_t *start_ptr;
     uint16_t current_idx;
 	uint16_t area_size;
 	uint16_t octave_coeff;
@@ -30,13 +31,29 @@ struct wave {
 	float frequency;
 };
 
-extern volatile int16_t __unitary_waveform__;
-extern volatile int16_t __unitary_waveform_end__;
-extern volatile struct wave __wave__;
-extern volatile struct wave __wave_end__;
+__attribute__ ((packed))
+struct params {
+	int32_t start_frequency;
+	int32_t comma_per_semitone;
+	int32_t ifft_attack;
+	int32_t ifft_release;
+	int16_t volume;
+};
 
-extern int unitary_waveform_size;
-extern int wave_size;
+__attribute__ ((packed))
+struct shared_var {
+	int32_t synth_process_cnt;
+};
+
+extern volatile struct shared_var shared_var;
+extern volatile struct params params;
+extern volatile int32_t cvData[];
+extern volatile int32_t imageData[];
+extern volatile int16_t audioBuff[];
+extern volatile struct wave waves[];
+extern volatile int16_t unitary_waveform[] ;
+
+extern int params_size;
 
 /* Exported constants --------------------------------------------------------*/
 

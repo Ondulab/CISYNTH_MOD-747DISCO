@@ -22,6 +22,7 @@
 #include "dac.h"
 #include "dma.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -29,6 +30,9 @@
 #include "cisynth_ifft.h"
 #include "lwip.h"
 #include "synth_cv.h"
+#include "shared.h"
+#include "stdlib.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -76,6 +80,15 @@ static void MPU_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+
+	//Clear memory garbage
+	memset((uint32_t *)&params, 0, sizeof(struct params));
+	memset((uint32_t *)cvData, 0, NUMBER_OF_NOTES / IMAGE_WEIGHT * sizeof(int32_t));
+	memset((uint32_t *)imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t));
+	memset((uint32_t *)waves, 0,  NUMBER_OF_NOTES * sizeof(struct wave));
+	memset((uint32_t *)audioBuff, 0,  AUDIO_BUFFER_SIZE * 4);
+	memset((uint32_t *)unitary_waveform, 0, 240000 * sizeof(int16_t));
+
 
   /* USER CODE END 1 */
 /* USER CODE BEGIN Boot_Mode_Sequence_0 */
@@ -134,19 +147,18 @@ HSEM notification */
 /* USER CODE END Boot_Mode_Sequence_2 */
 
   /* USER CODE BEGIN SysInit */
-	BSP_PB_Init(BUTTON_WAKEUP, BUTTON_MODE_EXTI);
-	BSP_LED_Init(LED1);
-	BSP_LED_Init(LED2);
-	BSP_LED_Init(LED3);
-	BSP_LED_Init(LED4);
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+  MX_USART1_UART_Init();
   MX_DAC1_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
+
+    HAL_Delay(3000); //todo add hardware semaphore
 
 	printf("----------------------------------------------------------\n");
 	printf("--------- Sectral Synth Scanner CIS module START ---------\n");

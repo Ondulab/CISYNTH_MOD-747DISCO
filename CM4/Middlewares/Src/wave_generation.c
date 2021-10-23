@@ -53,7 +53,7 @@ static float64_t calculate_frequency(uint32_t comma_cnt)
  * @param  waves structure pointer,
  * @retval buffer length on success, negative value otherwise
  */
-uint32_t init_waves(int16_t **unitary_waveform, struct wave *waves)
+uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *waves)
 {
 	uint32_t buffer_len = 0;
 	uint32_t current_unitary_waveform_cell = 0;
@@ -93,7 +93,7 @@ uint32_t init_waves(int16_t **unitary_waveform, struct wave *waves)
 			if (current_unitary_waveform_cell < buffer_len)
 			{
 #ifdef SIN
-				(*unitary_waveform)[current_unitary_waveform_cell] = ((sin((x * 2.00 * PI ) / (float64_t)current_aera_size))) * (WAVE_AMP_RESOLUTION / 2.00);
+				unitary_waveform[current_unitary_waveform_cell] = ((sin((x * 2.00 * PI ) / (float64_t)current_aera_size))) * (WAVE_AMP_RESOLUTION / 2.00);
 #endif
 #ifdef SAW
 				(*unitary_waveform)[current_unitary_waveform_cell] = 0;
@@ -133,7 +133,7 @@ uint32_t init_waves(int16_t **unitary_waveform, struct wave *waves)
 				//store aera size
 				waves[note].area_size = current_aera_size;
 				//store pointer address
-				waves[note].start_ptr = &(*unitary_waveform)[current_unitary_waveform_cell - current_aera_size];
+				waves[note].start_ptr = &unitary_waveform[current_unitary_waveform_cell - current_aera_size];
 				//set current pointer at the same address
 				waves[note].current_idx = 0;
 			}
@@ -155,7 +155,7 @@ uint32_t init_waves(int16_t **unitary_waveform, struct wave *waves)
  * @param  waves structure pointer,
  * @retval buffer length on success, negative value otherwise
  */
-uint32_t init_waves2(int16_t **unitary_waveform, struct wave *waves)
+uint32_t init_waves2(volatile int16_t *unitary_waveform, volatile struct wave *waves)
 {
 	uint32_t buffer_len = 0;
 	uint32_t current_unitary_waveform_cell = 0;
@@ -173,11 +173,11 @@ uint32_t init_waves2(int16_t **unitary_waveform, struct wave *waves)
 	}
 
 	//allocate the contiguous memory area for storage all waveforms for the first octave_coeff
-	*unitary_waveform = malloc(buffer_len * sizeof(uint16_t*));
-	if (*unitary_waveform == NULL)
-	{
-		Error_Handler();
-	}
+//	*unitary_waveform = malloc(buffer_len * sizeof(uint16_t*));
+//	if (*unitary_waveform == NULL)
+//	{
+//		Error_Handler();
+//	}
 
 	//compute and store the waveform into unitary_waveform only for the first octave_coeff
 	for (uint32_t comma_cnt = 0; comma_cnt < COMMA_PER_OCTAVE; comma_cnt++)
@@ -197,7 +197,7 @@ uint32_t init_waves2(int16_t **unitary_waveform, struct wave *waves)
 			//sanity check
 			if (current_unitary_waveform_cell < buffer_len)
 			{
-				(*unitary_waveform)[current_unitary_waveform_cell] = ((sin((x * PI )/ (float64_t)current_aera_size))) * (WAVE_AMP_RESOLUTION / 2.00);
+				unitary_waveform[current_unitary_waveform_cell] = ((sin((x * PI )/ (float64_t)current_aera_size))) * (WAVE_AMP_RESOLUTION / 2.00);
 				current_unitary_waveform_cell++;
 			}
 		}
@@ -222,7 +222,7 @@ uint32_t init_waves2(int16_t **unitary_waveform, struct wave *waves)
 				//store aera size
 				waves[note].area_size = current_aera_size;
 				//store pointer address
-				waves[note].start_ptr = &(*unitary_waveform)[current_unitary_waveform_cell - current_aera_size];
+				waves[note].start_ptr = &unitary_waveform[current_unitary_waveform_cell - current_aera_size];
 				//set current pointer at the same address
 				waves[note].current_idx = 0;
 			}

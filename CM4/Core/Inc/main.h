@@ -39,6 +39,7 @@ extern "C" {
 #include "stm32h747i_discovery_conf.h"
 #include "stm32h747i_discovery_ts.h"
 #include "stm32h747i_discovery_sdram.h"
+#include "stm32h747i_discovery_qspi.h"
 #include "stm32_lcd.h"
 /* USER CODE END Includes */
 
@@ -94,6 +95,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_NBL2_GPIO_Port GPIOI
 #define JOY_RIGHT_Pin GPIO_PIN_5
 #define JOY_RIGHT_GPIO_Port GPIOK
+#define QSPI_BK2_IO2_Pin GPIO_PIN_9
+#define QSPI_BK2_IO2_GPIO_Port GPIOG
 #define FMC_D25_Pin GPIO_PIN_1
 #define FMC_D25_GPIO_Port GPIOI
 #define FMC_D24_Pin GPIO_PIN_0
@@ -126,6 +129,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_SDCAS_GPIO_Port GPIOG
 #define TOUCH_INT_Pin GPIO_PIN_7
 #define TOUCH_INT_GPIO_Port GPIOK
+#define QSPI_BK2_IO3_Pin GPIO_PIN_14
+#define QSPI_BK2_IO3_GPIO_Port GPIOG
 #define FMC_D2_Pin GPIO_PIN_0
 #define FMC_D2_GPIO_Port GPIOD
 #define STLINK_TX_Pin GPIO_PIN_10
@@ -150,6 +155,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_A1_GPIO_Port GPIOF
 #define FMC_A0_Pin GPIO_PIN_0
 #define FMC_A0_GPIO_Port GPIOF
+#define QSPI_BK1_NCS_Pin GPIO_PIN_6
+#define QSPI_BK1_NCS_GPIO_Port GPIOG
 #define FMC_A3_Pin GPIO_PIN_3
 #define FMC_A3_GPIO_Port GPIOF
 #define FMC_BA0_Pin GPIO_PIN_4
@@ -168,8 +175,18 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_A5_GPIO_Port GPIOF
 #define FMC_A4_Pin GPIO_PIN_4
 #define FMC_A4_GPIO_Port GPIOF
+#define QSPI_BK1_IO3_Pin GPIO_PIN_6
+#define QSPI_BK1_IO3_GPIO_Port GPIOF
+#define QSPI_BK1_IO2_Pin GPIO_PIN_7
+#define QSPI_BK1_IO2_GPIO_Port GPIOF
+#define QSPI_BK1_IO1_Pin GPIO_PIN_9
+#define QSPI_BK1_IO1_GPIO_Port GPIOF
+#define QSPI_BK2_IO0_Pin GPIO_PIN_2
+#define QSPI_BK2_IO0_GPIO_Port GPIOH
 #define FMC_D7_Pin GPIO_PIN_10
 #define FMC_D7_GPIO_Port GPIOE
+#define QSPI_BK2_IO1_Pin GPIO_PIN_3
+#define QSPI_BK2_IO1_GPIO_Port GPIOH
 #define FMC_SDNWE_Pin GPIO_PIN_5
 #define FMC_SDNWE_GPIO_Port GPIOH
 #define FMC_A7_Pin GPIO_PIN_13
@@ -188,6 +205,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_D1_GPIO_Port GPIOD
 #define FMC_D0_Pin GPIO_PIN_14
 #define FMC_D0_GPIO_Port GPIOD
+#define QSPI_CLK_Pin GPIO_PIN_2
+#define QSPI_CLK_GPIO_Port GPIOB
 #define FMC_A6_Pin GPIO_PIN_12
 #define FMC_A6_GPIO_Port GPIOF
 #define FMC_A9_Pin GPIO_PIN_15
@@ -200,6 +219,8 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #define FMC_D17_GPIO_Port GPIOH
 #define FMC_D20_Pin GPIO_PIN_12
 #define FMC_D20_GPIO_Port GPIOH
+#define QSPI_BK1_IO0_Pin GPIO_PIN_11
+#define QSPI_BK1_IO0_GPIO_Port GPIOD
 #define FMC_SDRAS_Pin GPIO_PIN_11
 #define FMC_SDRAS_GPIO_Port GPIOF
 #define FMC_A10_Pin GPIO_PIN_0

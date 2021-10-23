@@ -33,20 +33,12 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-static volatile struct wave *waves = &__wave__;
-
-volatile uint32_t synth_process_cnt = 0;
-static int16_t* half_audio_ptr;
-static int16_t* full_audio_ptr;
-
-/* Variable containing black and white frame from CIS*/
-static int32_t *imageData = NULL;
-int32_t cvData[NUMBER_OF_NOTES / IMAGE_WEIGHT] = {0};
-//static uint16_t imageData[((CIS_END_CAPTURE * CIS_ADC_OUT_LINES) / CIS_IFFT_OVERSAMPLING_RATIO) - 1]; // for debug
+static volatile int16_t* half_audio_ptr;
+static volatile int16_t* full_audio_ptr;
 
 /* Private function prototypes -----------------------------------------------*/
-static void synth_IfftMode(int32_t *imageData, int16_t *audioData);
-static void synth_IfftMode2(int32_t *imageData, int16_t *audioData);
+static void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData);
+static void synth_IfftMode2(volatile int32_t *imageData, volatile int16_t *audioData);
 
 /* Private user code ---------------------------------------------------------*/
 
@@ -61,15 +53,6 @@ int32_t synth_IfftInit(void)
 
 	printf("---------- SYNTH INIT ---------\n");
 	printf("-------------------------------\n");
-
-	//allocate the contiguous memory area for storage image data
-	imageData = malloc(NUMBER_OF_NOTES * sizeof(int32_t*));
-	if (imageData == NULL)
-	{
-		Error_Handler();
-	}
-
-	memset(imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t*));
 
 	printf("Note number  = %d\n", (int)NUMBER_OF_NOTES);
 //	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
@@ -160,7 +143,7 @@ int32_t synth_SetImageData(uint32_t index, int32_t value)
  */
 #pragma GCC push_options
 #pragma GCC optimize ("unroll-loops")
-void synth_IfftMode(int32_t *imageData, int16_t *audioData)
+void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 {
 	static int32_t signal_summation_R;
 	static int32_t signal_summation_L;
@@ -258,7 +241,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
 		write_data_nbr++;
 	}
 
-	synth_process_cnt += AUDIO_BUFFER_SIZE;
+	shared_var.synth_process_cnt += AUDIO_BUFFER_SIZE;
 }
 #pragma GCC pop_options
 
@@ -269,7 +252,7 @@ void synth_IfftMode(int32_t *imageData, int16_t *audioData)
  */
 #pragma GCC push_options
 #pragma GCC optimize ("unroll-loops")
-void synth_IfftMode2(int32_t *imageData, int16_t *audioData)
+void synth_IfftMode2(volatile int32_t *imageData, volatile int16_t *audioData)
 {
 	static int32_t tempWaveformBuffer[AUDIO_BUFFER_SIZE * 2];
 	static int32_t tempVolumeBuffer[AUDIO_BUFFER_SIZE * 2];
@@ -383,7 +366,7 @@ void synth_IfftMode2(int32_t *imageData, int16_t *audioData)
 		audioData[idx * 2 + 1] = rfft_L;
 	}
 
-	synth_process_cnt += AUDIO_BUFFER_SIZE;
+	shared_var.synth_process_cnt += AUDIO_BUFFER_SIZE;
 }
 #pragma GCC pop_options
 
