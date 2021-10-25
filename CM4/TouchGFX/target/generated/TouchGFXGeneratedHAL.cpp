@@ -27,9 +27,6 @@ using namespace touchgfx;
 
 namespace
 {
-    // Use the section "TouchGFX_Framebuffer" in the linker to specify the placement of the buffer
-    LOCATION_PRAGMA("TouchGFX_Framebuffer")
-    uint32_t frameBuf[(800 * 480 * 2 + 3) / 4 * 2] LOCATION_ATTRIBUTE("TouchGFX_Framebuffer");
     static uint16_t lcd_int_active_line;
     static uint16_t lcd_int_porch_line;
 }
@@ -38,9 +35,16 @@ void TouchGFXGeneratedHAL::initialize()
 {
     HAL::initialize();
     registerEventListener(*(Application::getInstance()));
-    enableLCDControllerInterrupt();
-    enableInterrupts();
-    setFrameBufferStartAddresses((void*)frameBuf, (void*)(frameBuf + sizeof(frameBuf) / (sizeof(uint32_t) * 2)), (void*)0);
+    registerTaskDelayFunction(&OSWrappers::taskDelay);
+    setFrameRefreshStrategy(HAL::REFRESH_STRATEGY_OPTIM_SINGLE_BUFFER_TFT_CTRL);
+    setFrameBufferStartAddresses((void*)0xD0000000, (void*)0, (void*)0);
+    /*
+     * Set whether the DMA transfers are locked to the TFT update cycle. If
+     * locked, DMA transfer will not begin until the TFT controller has finished
+     * updating the display. If not locked, DMA transfers will begin as soon as
+     * possible. Default is true (DMA is locked with TFT).
+     */
+    lockDMAToFrontPorch(true);
 }
 
 void TouchGFXGeneratedHAL::configureInterrupts()
@@ -80,7 +84,6 @@ bool TouchGFXGeneratedHAL::beginFrame()
 void TouchGFXGeneratedHAL::endFrame()
 {
     HAL::endFrame();
-    touchgfx::OSWrappers::signalRenderingDone();
 }
 
 uint16_t* TouchGFXGeneratedHAL::getTFTFrameBuffer() const
@@ -103,15 +106,29 @@ void TouchGFXGeneratedHAL::flushFrameBuffer(const touchgfx::Rect& rect)
     // the DCache must be flushed prior to DMA2D accessing it. That's done
     // using the function SCB_CleanInvalidateDCache(). Remember to enable "CPU Cache" in the
     // "System Core" settings for "Cortex M7" in CubeMX in order for this function call to work.
-    if (SCB->CCR & SCB_CCR_DC_Msk)
-    {
-        SCB_CleanInvalidateDCache();
-    }
+//    if (SCB->CCR & SCB_CCR_DC_Msk)
+//    {
+//        SCB_CleanInvalidateDCache();
+//    }
 }
 
 bool TouchGFXGeneratedHAL::blockCopy(void* RESTRICT dest, const void* RESTRICT src, uint32_t numBytes)
 {
     return HAL::blockCopy(dest, src, numBytes);
+}
+
+uint16_t TouchGFXGeneratedHAL::getTFTCurrentLine()
+{
+    // This function only requires an implementation if single buffering
+    // on LTDC display is being used (REFRESH_STRATEGY_OPTIM_SINGLE_BUFFER_TFT_CTRL).
+
+    // The CPSR register (bits 15:0) specify current line of TFT controller.
+    uint16_t curr = (uint16_t)(LTDC->CPSR & 0xffff);
+    uint16_t backPorchY = (uint16_t)(LTDC->BPCR & 0x7FF) + 1;
+
+    // The semantics of the getTFTCurrentLine() function is to return a value
+    // in the range of 0-totalheight. If we are still in back porch area, return 0.
+    return (curr < backPorchY) ? 0 : (curr - backPorchY);
 }
 
 void TouchGFXGeneratedHAL::InvalidateCache()
@@ -120,10 +137,10 @@ void TouchGFXGeneratedHAL::InvalidateCache()
     // the DCache must be flushed prior to DMA2D accessing it. That's done
     // using the function SCB_CleanInvalidateDCache(). Remember to enable "CPU Cache" in the
     // "System Core" settings for "Cortex M7" in CubeMX in order for this function call to work.
-    if (SCB->CCR & SCB_CCR_DC_Msk)
-    {
-        SCB_CleanInvalidateDCache();
-    }
+//    if (SCB->CCR & SCB_CCR_DC_Msk)
+//    {
+//        SCB_CleanInvalidateDCache();
+//    }
 }
 
 void TouchGFXGeneratedHAL::FlushCache()
@@ -132,10 +149,10 @@ void TouchGFXGeneratedHAL::FlushCache()
     // the DCache must be flushed prior to DMA2D accessing it. That's done
     // using the function SCB_CleanInvalidateDCache(). Remember to enable "CPU Cache" in the
     // "System Core" settings for "Cortex M7" in CubeMX in order for this function call to work.
-    if (SCB->CCR & SCB_CCR_DC_Msk)
-    {
-        SCB_CleanInvalidateDCache();
-    }
+//    if (SCB->CCR & SCB_CCR_DC_Msk)
+//    {
+//        SCB_CleanInvalidateDCache();
+//    }
 }
 
 extern "C"

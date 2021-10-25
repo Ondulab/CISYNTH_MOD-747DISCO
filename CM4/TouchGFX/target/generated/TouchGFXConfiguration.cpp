@@ -18,7 +18,7 @@
 #include <fonts/ApplicationFontProvider.hpp>
 #include <gui/common/FrontendHeap.hpp>
 #include <BitmapDatabase.hpp>
-#include <platform/driver/lcd/LCD16bpp.hpp>
+#include <platform/driver/lcd/LCD24bpp.hpp>
 #include <touchgfx/hal/OSWrappers.hpp>
 #include <STM32DMA.hpp>
 #include <TouchGFXHAL.hpp>
@@ -30,7 +30,7 @@ extern "C" void touchgfx_taskEntry();
 
 static STM32TouchController tc;
 static STM32H7DMA dma;
-static LCD16bpp display;
+static LCD24bpp display;
 static ApplicationFontProvider fontProvider;
 static Texts texts;
 static TouchGFXHAL hal(dma, display, tc, 800, 480);
@@ -58,14 +58,12 @@ void touchgfx_init()
 void touchgfx_taskEntry()
 {
     /*
-     * Main event loop will check for VSYNC signal, and then process next frame.
+     * Main event loop. Will wait for VSYNC signal, and then process next frame. Call
+     * this function from your GUI task.
      *
-     * Note This function returns immediately if there is no VSYNC signal.
+     * Note This function never returns
      */
-     if (OSWrappers::isVSyncAvailable())
-     {
-         hal.backPorchExited();
-     }
+    hal.taskEntry();
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

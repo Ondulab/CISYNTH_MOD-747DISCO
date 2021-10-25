@@ -26,6 +26,7 @@ protected:
      * Member Declarations
      */
     touchgfx::Box __background;
+    touchgfx::Box box1;
     touchgfx::Slider slider1;
 
 private:

@@ -63,7 +63,7 @@ void MX_LTDC_Init(void)
   pLayerCfg.WindowX1 = 800;
   pLayerCfg.WindowY0 = 0;
   pLayerCfg.WindowY1 = 480;
-  pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB565;
+  pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB888;
   pLayerCfg.Alpha = 255;
   pLayerCfg.Alpha0 = 0;
   pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
@@ -97,10 +97,10 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
   */
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
     PeriphClkInitStruct.PLL3.PLL3M = 5;
-    PeriphClkInitStruct.PLL3.PLL3N = 132;
+    PeriphClkInitStruct.PLL3.PLL3N = 161;
     PeriphClkInitStruct.PLL3.PLL3P = 4;
     PeriphClkInitStruct.PLL3.PLL3Q = 4;
-    PeriphClkInitStruct.PLL3.PLL3R = 24;
+    PeriphClkInitStruct.PLL3.PLL3R = 21;
     PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_2;
     PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
     PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
@@ -111,6 +111,10 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
 
     /* LTDC clock enable */
     __HAL_RCC_LTDC_CLK_ENABLE();
+
+    /* LTDC interrupt Init */
+    HAL_NVIC_SetPriority(LTDC_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(LTDC_IRQn);
   /* USER CODE BEGIN LTDC_MspInit 1 */
 
   /* USER CODE END LTDC_MspInit 1 */
@@ -127,6 +131,9 @@ void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* ltdcHandle)
   /* USER CODE END LTDC_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_LTDC_CLK_DISABLE();
+
+    /* LTDC interrupt Deinit */
+    HAL_NVIC_DisableIRQ(LTDC_IRQn);
   /* USER CODE BEGIN LTDC_MspDeInit 1 */
 
   /* USER CODE END LTDC_MspDeInit 1 */

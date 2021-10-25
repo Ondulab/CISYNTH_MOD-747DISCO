@@ -38,7 +38,8 @@ void MX_DSIHOST_DSI_Init(void)
   DSI_PLLInitTypeDef PLLInit = {0};
   DSI_HOST_TimeoutTypeDef HostTimeouts = {0};
   DSI_PHY_TimerTypeDef PhyTimings = {0};
-  DSI_VidCfgTypeDef VidCfg = {0};
+  DSI_LPCmdTypeDef LPCmd = {0};
+  DSI_CmdCfgTypeDef CmdCfg = {0};
 
   /* USER CODE BEGIN DSIHOST_Init 1 */
 
@@ -47,8 +48,8 @@ void MX_DSIHOST_DSI_Init(void)
   hdsi.Init.AutomaticClockLaneControl = DSI_AUTO_CLK_LANE_CTRL_DISABLE;
   hdsi.Init.TXEscapeCkdiv = 4;
   hdsi.Init.NumberOfLanes = DSI_TWO_DATA_LANES;
-  PLLInit.PLLNDIV = 100;
-  PLLInit.PLLIDF = DSI_PLL_IN_DIV6;
+  PLLInit.PLLNDIV = 99;
+  PLLInit.PLLIDF = DSI_PLL_IN_DIV5;
   PLLInit.PLLODF = DSI_PLL_OUT_DIV1;
   if (HAL_DSI_Init(&hdsi, &PLLInit) != HAL_OK)
   {
@@ -67,10 +68,10 @@ void MX_DSIHOST_DSI_Init(void)
   {
     Error_Handler();
   }
-  PhyTimings.ClockLaneHS2LPTime = 0x14;
-  PhyTimings.ClockLaneLP2HSTime = 0x14;
-  PhyTimings.DataLaneHS2LPTime = 0x0A;
-  PhyTimings.DataLaneLP2HSTime = 0x0A;
+  PhyTimings.ClockLaneHS2LPTime = 28;
+  PhyTimings.ClockLaneLP2HSTime = 33;
+  PhyTimings.DataLaneHS2LPTime = 15;
+  PhyTimings.DataLaneLP2HSTime = 25;
   PhyTimings.DataLaneMaxReadTime = 0;
   PhyTimings.StopWaitTime = 0;
   if (HAL_DSI_ConfigPhyTimer(&hdsi, &PhyTimings) != HAL_OK)
@@ -89,34 +90,35 @@ void MX_DSIHOST_DSI_Init(void)
   {
     Error_Handler();
   }
-  VidCfg.VirtualChannelID = 0;
-  VidCfg.ColorCoding = DSI_RGB565;
-  VidCfg.LooselyPacked = DSI_LOOSELY_PACKED_DISABLE;
-  VidCfg.Mode = DSI_VID_MODE_BURST;
-  VidCfg.PacketSize = 800;
-  VidCfg.NumberOfChunks = 0;
-  VidCfg.NullPacketSize = 0;
-  VidCfg.HSPolarity = DSI_HSYNC_ACTIVE_HIGH;
-  VidCfg.VSPolarity = DSI_VSYNC_ACTIVE_HIGH;
-  VidCfg.DEPolarity = DSI_DATA_ENABLE_ACTIVE_HIGH;
-  VidCfg.HorizontalSyncActive = 4;
-  VidCfg.HorizontalBackPorch = 77;
-  VidCfg.HorizontalLine = 1982;
-  VidCfg.VerticalSyncActive = 1;
-  VidCfg.VerticalBackPorch = 15;
-  VidCfg.VerticalFrontPorch = 16;
-  VidCfg.VerticalActive = 480;
-  VidCfg.LPCommandEnable = DSI_LP_COMMAND_ENABLE;
-  VidCfg.LPLargestPacketSize = 4;
-  VidCfg.LPVACTLargestPacketSize = 4;
-  VidCfg.LPHorizontalFrontPorchEnable = DSI_LP_HFP_ENABLE;
-  VidCfg.LPHorizontalBackPorchEnable = DSI_LP_HBP_ENABLE;
-  VidCfg.LPVerticalActiveEnable = DSI_LP_VACT_ENABLE;
-  VidCfg.LPVerticalFrontPorchEnable = DSI_LP_VFP_ENABLE;
-  VidCfg.LPVerticalBackPorchEnable = DSI_LP_VBP_ENABLE;
-  VidCfg.LPVerticalSyncActiveEnable = DSI_LP_VSYNC_ENABLE;
-  VidCfg.FrameBTAAcknowledgeEnable = DSI_FBTAA_DISABLE;
-  if (HAL_DSI_ConfigVideoMode(&hdsi, &VidCfg) != HAL_OK)
+  LPCmd.LPGenShortWriteNoP = DSI_LP_GSW0P_DISABLE;
+  LPCmd.LPGenShortWriteOneP = DSI_LP_GSW1P_DISABLE;
+  LPCmd.LPGenShortWriteTwoP = DSI_LP_GSW2P_DISABLE;
+  LPCmd.LPGenShortReadNoP = DSI_LP_GSR0P_DISABLE;
+  LPCmd.LPGenShortReadOneP = DSI_LP_GSR1P_DISABLE;
+  LPCmd.LPGenShortReadTwoP = DSI_LP_GSR2P_DISABLE;
+  LPCmd.LPGenLongWrite = DSI_LP_GLW_DISABLE;
+  LPCmd.LPDcsShortWriteNoP = DSI_LP_DSW0P_DISABLE;
+  LPCmd.LPDcsShortWriteOneP = DSI_LP_DSW1P_DISABLE;
+  LPCmd.LPDcsShortReadNoP = DSI_LP_DSR0P_DISABLE;
+  LPCmd.LPDcsLongWrite = DSI_LP_DLW_DISABLE;
+  LPCmd.LPMaxReadPacket = DSI_LP_MRDP_DISABLE;
+  LPCmd.AcknowledgeRequest = DSI_ACKNOWLEDGE_ENABLE;
+  if (HAL_DSI_ConfigCommand(&hdsi, &LPCmd) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  CmdCfg.VirtualChannelID = 0;
+  CmdCfg.ColorCoding = DSI_RGB888;
+  CmdCfg.CommandSize = 800;
+  CmdCfg.TearingEffectSource = DSI_TE_EXTERNAL;
+  CmdCfg.TearingEffectPolarity = DSI_TE_RISING_EDGE;
+  CmdCfg.HSPolarity = DSI_HSYNC_ACTIVE_HIGH;
+  CmdCfg.VSPolarity = DSI_VSYNC_ACTIVE_HIGH;
+  CmdCfg.DEPolarity = DSI_DATA_ENABLE_ACTIVE_HIGH;
+  CmdCfg.VSyncPol = DSI_VSYNC_RISING;
+  CmdCfg.AutomaticRefresh = DSI_AR_DISABLE;
+  CmdCfg.TEAcknowledgeRequest = DSI_TE_ACKNOWLEDGE_ENABLE;
+  if (HAL_DSI_ConfigAdaptedCommandMode(&hdsi, &CmdCfg) != HAL_OK)
   {
     Error_Handler();
   }
@@ -133,6 +135,7 @@ void MX_DSIHOST_DSI_Init(void)
 void HAL_DSI_MspInit(DSI_HandleTypeDef* dsiHandle)
 {
 
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
   if(dsiHandle->Instance==DSI)
   {
@@ -150,6 +153,27 @@ void HAL_DSI_MspInit(DSI_HandleTypeDef* dsiHandle)
 
     /* DSI clock enable */
     __HAL_RCC_DSI_CLK_ENABLE();
+
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /**DSIHOST GPIO Configuration
+    PA15 (JTDI)     ------> DSIHOST_TE
+    DSI_D1P     ------> DSIHOST_D1P
+    DSI_D1N     ------> DSIHOST_D1N
+    DSI_CKP     ------> DSIHOST_CKP
+    DSI_CKN     ------> DSIHOST_CKN
+    DSI_D0P     ------> DSIHOST_D0P
+    DSI_D0N     ------> DSIHOST_D0N
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_15;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF13_DSI;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    /* DSI interrupt Init */
+    HAL_NVIC_SetPriority(DSI_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DSI_IRQn);
   /* USER CODE BEGIN DSI_MspInit 1 */
 
   /* USER CODE END DSI_MspInit 1 */
@@ -166,6 +190,20 @@ void HAL_DSI_MspDeInit(DSI_HandleTypeDef* dsiHandle)
   /* USER CODE END DSI_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_DSI_CLK_DISABLE();
+
+    /**DSIHOST GPIO Configuration
+    PA15 (JTDI)     ------> DSIHOST_TE
+    DSI_D1P     ------> DSIHOST_D1P
+    DSI_D1N     ------> DSIHOST_D1N
+    DSI_CKP     ------> DSIHOST_CKP
+    DSI_CKN     ------> DSIHOST_CKN
+    DSI_D0P     ------> DSIHOST_D0P
+    DSI_D0N     ------> DSIHOST_D0N
+    */
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_15);
+
+    /* DSI interrupt Deinit */
+    HAL_NVIC_DisableIRQ(DSI_IRQn);
   /* USER CODE BEGIN DSI_MspDeInit 1 */
 
   /* USER CODE END DSI_MspDeInit 1 */

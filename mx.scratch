@@ -298,6 +298,9 @@
             <include>CM4/TouchGFX/target</include>
             <include>Drivers/STM32H7xx_HAL_Driver/Inc</include>
             <include>Drivers/STM32H7xx_HAL_Driver/Inc/Legacy</include>
+            <include>Middlewares/Third_Party/FreeRTOS/Source/include</include>
+            <include>Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2</include>
+            <include>Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F</include>
             <include>Drivers/CMSIS/Device/ST/STM32H7xx/Include</include>
             <include>Drivers/CMSIS/Include</include>
           </Cincludes>
@@ -330,6 +333,9 @@
         </sourceEntry>
         <sourceEntry>
           <name>Drivers</name>
+        </sourceEntry>
+        <sourceEntry>
+          <name>Middlewares</name>
         </sourceEntry>
         <sourceEntry>
           <name>CM4/</name>
@@ -435,13 +441,80 @@
             </file>
           </group>
         </group>
+        <group>
+          <name>Middlewares</name>
+          <group>
+            <name>Third_Party/FreeRTOS/</name>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/croutine.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/event_groups.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/list.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/queue.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/tasks.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/timers.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c</name>
+            </file>
+            <file>
+              <name>Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c</name>
+            </file>
+          </group>
+        </group>
       </Groups>
     </Project>
     <Project>
       <ProjectName>SSS_MOD-747DISCO_CM7</ProjectName>
       <ProjectNature>Cpp</ProjectNature>
       <Secure />
-      <filestoremove />
+      <filestoremove>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/croutine.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/event_groups.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/list.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/queue.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/tasks.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/timers.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c</name>
+        </file>
+        <file>
+          <name>Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c</name>
+        </file>
+      </filestoremove>
       <sourceEntriesToRemove>
         <sourceEntry />
       </sourceEntriesToRemove>

@@ -5,6 +5,17 @@
         "Name": "Screen1",
         "Components": [
           {
+            "Type": "Box",
+            "Name": "box1",
+            "Width": 800,
+            "Height": 480,
+            "Color": {
+              "Red": 47,
+              "Green": 61,
+              "Blue": 60
+            }
+          },
+          {
             "Type": "Slider",
             "Name": "slider1",
             "X": 60,
@@ -31,17 +42,17 @@
       "Width": 800,
       "Height": 480
     },
-    "SelectedColorDepth": 16,
+    "SelectedColorDepth": 24,
     "StartupScreenName": "Screen1",
     "SelectedStartupLanguage": "GB",
     "Skin": "Blue",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
     "UIPath": ".",
     "AvailableColorDepths": [
-      16
+      24
     ],
     "AvailableLCDs": {
-      "16": "LCD16bpp"
+      "24": "LCD24bpp"
     },
     "AvailableSections": [
       "ExtFlashSection",
@@ -55,8 +66,8 @@
     ],
     "PhysicalButtons": [],
     "FrameworkFeatures": {
-      "LCD16bpp": {
-        "Id": "LCD16bpp",
+      "LCD24bpp": {
+        "Id": "LCD24bpp",
         "IsEnabled": true
       }
     },
