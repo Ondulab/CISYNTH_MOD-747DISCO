@@ -20,6 +20,8 @@
 /* USER CODE BEGIN TouchGFXHAL.hpp */
 
 #include <TouchGFXGeneratedHAL.hpp>
+#include "stm32h747i_discovery_bus.h"
+#include "stm32h747i_discovery_errno.h"
 
 /**
  * @class TouchGFXHAL
@@ -44,10 +46,15 @@ public:
      * @param width            Width of the display.
      * @param height           Height of the display.
      */
-    TouchGFXHAL(touchgfx::DMA_Interface& dma, touchgfx::LCD& display, touchgfx::TouchController& tc, uint16_t width, uint16_t height) : TouchGFXGeneratedHAL(dma, display, tc, width, height)
-    {
-    }
+    TouchGFXHAL(touchgfx::DMA_Interface& dma, touchgfx::LCD& display, touchgfx::TouchController& tc, uint16_t width, uint16_t height);
 
+    /**
+     * @fn void TouchGFXHAL::initialize();
+     *
+     * @brief This function is responsible for initializing the entire framework.
+     *
+     *        This function is responsible for initializing the entire framework.
+     */
     void initialize();
 
     /**
@@ -117,19 +124,20 @@ public:
     virtual void flushFrameBuffer(const touchgfx::Rect& rect);
 
     /**
-     * @fn virtual bool TouchGFXHAL::blockCopy(void* RESTRICT dest, const void* RESTRICT src, uint32_t numBytes);
+     * @fn virtual void TouchGFXHAL::taskEntry();
      *
-     * @brief This function performs a platform-specific memcpy.
+     * @brief Main event loop.
      *
-     *        This function performs a platform-specific memcpy, if supported by the hardware.
+     *        Main event loop. Will wait for VSYNC signal, and then process next frame. Call
+     *        this function from your GUI task.
      *
-     * @param [out] dest Pointer to destination memory.
-     * @param [in] src   Pointer to source memory.
-     * @param numBytes   Number of bytes to copy.
-     *
-     * @return true if the copy succeeded, false if copy was not performed.
+     * @note This function never returns!
      */
-    virtual bool blockCopy(void* RESTRICT dest, const void* RESTRICT src, uint32_t numBytes);
+    virtual void taskEntry();
+
+    /* USER CODE BEGIN virtual overloaded public methods */
+
+    /* USER CODE END virtual overloaded public methods */
 
 protected:
     /**
@@ -153,6 +161,33 @@ protected:
      * @param [in,out] adr New frame buffer address.
      */
     virtual void setTFTFrameBuffer(uint16_t* adr);
+
+    /* USER CODE BEGIN virtual overloaded protected methods */
+    /**
+     * @fn virtual void TouchGFXHAL::setFrameBufferStartAddresses(void* frameBuffer, void* doubleBuffer, void* animationStorage)
+     *
+     * @brief Sets frame buffer start addresses.
+     *
+     *        Sets individual frame buffer start addresses.
+     *
+     * @param [in] frameBuffer      Buffer for frame buffer data, must be non-null.
+     * @param [in] doubleBuffer     If non-null, buffer for double buffer data. If null double buffering is disabled.
+     * @param [in] animationStorage If non-null, the animation storage. If null animation storage is disabled.
+     */
+    virtual void setFrameBufferStartAddresses(void* frameBuffer, void* doubleBuffer, void* animationStorage);
+
+    /**
+     * This function is overridden to detect whether there are any frame buffer changes in this frame.
+     * @return The value of the base implementation.
+     */
+    virtual bool beginFrame();
+
+    /**
+     * This function is overridden to detect whether there are any frame buffer changes in this frame.
+     * @note Will also call the base implementation.
+     */
+    virtual void endFrame();
+    /* USER CODE END virtual overloaded protected methods */
 };
 
 /* USER CODE END TouchGFXHAL.hpp */

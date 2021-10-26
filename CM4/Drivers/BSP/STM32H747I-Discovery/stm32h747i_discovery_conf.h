@@ -40,6 +40,9 @@
 #define LCD_LAYER_1_ADDRESS                 0xC0200000U
 
 #define USE_DMA2D_TO_FILL_RGB_RECT          0U
+/* Camera sensors defines */
+#define USE_CAMERA_SENSOR_OV5640            1U
+#define USE_CAMERA_SENSOR_OV9655            1U
 
 /* SD interface defines */
 #define USE_SD_BUS_WIDE_4B                  1U

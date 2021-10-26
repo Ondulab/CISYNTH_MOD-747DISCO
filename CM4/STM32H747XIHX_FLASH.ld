@@ -38,8 +38,8 @@ ENTRY(Reset_Handler)
 /* Highest address of the user mode stack */
 _estack = ORIGIN(RAM_D1) + LENGTH(RAM_D1); /* end of "RAM_D1" Ram type memory */
 /* Generate a link error if heap and stack don't fit into RAM */
-_Min_Heap_Size = 0x1000 ;      /* required amount of heap  */
-_Min_Stack_Size = 0x1000 ; /* required amount of stack */
+_Min_Heap_Size = 0x100 ;      /* required amount of heap  */
+_Min_Stack_Size = 0x100 ; /* required amount of stack */
 
 /* Specify the memory areas */
 MEMORY
@@ -47,7 +47,7 @@ MEMORY
 FLASH (rx)      : ORIGIN = 0x08100000, LENGTH = 1024K
 RAM_D1 (xrw)    : ORIGIN = 0x10000000, LENGTH = 128K
 RAM_SHARED (rw) : ORIGIN = 0x24000000, LENGTH = 480K  
-QSPI    (rx)    : ORIGIN = 0x94000000, LENGTH = 130720K 
+QSPI (rx)    	: ORIGIN = 0x90000000, LENGTH = 128000K 
 }
 
 /* Define output sections */
@@ -86,6 +86,20 @@ SECTIONS
     *(.rodata*)        /* .rodata* sections (constants, strings, etc.) */
     . = ALIGN(4);
   } >FLASH
+  
+  ExtFlashSection :
+  {
+    ExtThirdPartyHeader = .;
+    KEEP(*(.ExtFlashSection));
+    ExtThirdPartyHeader_end = .;
+  } >QSPI
+   
+  TextFlashSection :
+  {
+    ExtThirdPartyHeader = .;
+    KEEP(*(.TextFlashSection));
+    ExtThirdPartyHeader_end = .;
+  } >QSPI
 
   .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
   .ARM : {
@@ -169,20 +183,6 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM_D1
-  
-  ExtFlashSection :
-  {
-  ExtThirdPartyHeader = .;
-  KEEP(*(.ExtFlashSection));
-  ExtThirdPartyHeader_end = .;
-   } >QSPI
-   
-  TextFlashSection :
-  {
-  ExtThirdPartyHeader = .;
-  KEEP(*(.TextFlashSection));
-  ExtThirdPartyHeader_end = .;
-   } >QSPI
 
   /* Remove information from the standard libraries */
   /DISCARD/ :

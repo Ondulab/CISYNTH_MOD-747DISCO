@@ -1,4 +1,4 @@
-/**
+ /**
   ******************************************************************************
   * @file    stm32h747i_discovery_sdram.c
   * @author  MCD Application Team

@@ -21,7 +21,9 @@
 #include "ltdc.h"
 
 /* USER CODE BEGIN 0 */
-
+extern DSI_HandleTypeDef hdsi;
+OTM8009A_Object_t OTM8009AObj;
+OTM8009A_IO_t IOCtx;
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;
@@ -30,57 +32,89 @@ LTDC_HandleTypeDef hltdc;
 void MX_LTDC_Init(void)
 {
 
-  /* USER CODE BEGIN LTDC_Init 0 */
+	  /* USER CODE BEGIN LTDC_Init 0 */
 
-  /* USER CODE END LTDC_Init 0 */
+	  /* USER CODE END LTDC_Init 0 */
 
-  LTDC_LayerCfgTypeDef pLayerCfg = {0};
+	  LTDC_LayerCfgTypeDef pLayerCfg = {0};
 
-  /* USER CODE BEGIN LTDC_Init 1 */
+	  /* USER CODE BEGIN LTDC_Init 1 */
 
-  /* USER CODE END LTDC_Init 1 */
-  hltdc.Instance = LTDC;
-  hltdc.Init.HSPolarity = LTDC_HSPOLARITY_AH;
-  hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AH;
-  hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
-  hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
-  hltdc.Init.HorizontalSync = 0;
-  hltdc.Init.VerticalSync = 0;
-  hltdc.Init.AccumulatedHBP = 35;
-  hltdc.Init.AccumulatedVBP = 15;
-  hltdc.Init.AccumulatedActiveW = 835;
-  hltdc.Init.AccumulatedActiveH = 495;
-  hltdc.Init.TotalWidth = 869;
-  hltdc.Init.TotalHeigh = 511;
-  hltdc.Init.Backcolor.Blue = 0;
-  hltdc.Init.Backcolor.Green = 0;
-  hltdc.Init.Backcolor.Red = 0;
-  if (HAL_LTDC_Init(&hltdc) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pLayerCfg.WindowX0 = 0;
-  pLayerCfg.WindowX1 = 800;
-  pLayerCfg.WindowY0 = 0;
-  pLayerCfg.WindowY1 = 480;
-  pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB888;
-  pLayerCfg.Alpha = 255;
-  pLayerCfg.Alpha0 = 0;
-  pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
-  pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_PAxCA;
-  pLayerCfg.FBStartAdress = 0xD0000000;
-  pLayerCfg.ImageWidth = 800;
-  pLayerCfg.ImageHeight = 480;
-  pLayerCfg.Backcolor.Blue = 0;
-  pLayerCfg.Backcolor.Green = 0;
-  pLayerCfg.Backcolor.Red = 0;
-  if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN LTDC_Init 2 */
+	  /* USER CODE END LTDC_Init 1 */
+	  hltdc.Instance = LTDC;
+	  hltdc.Init.HSPolarity = LTDC_HSPOLARITY_AH;
+	  hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AH;
+	  hltdc.Init.DEPolarity = LTDC_DEPOLARITY_AL;
+	  hltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
+	  hltdc.Init.HorizontalSync = 0;
+	  hltdc.Init.VerticalSync = 0;
+	  hltdc.Init.AccumulatedHBP = 2;
+	  hltdc.Init.AccumulatedVBP = 2;
+	  hltdc.Init.AccumulatedActiveW = 402;
+	  hltdc.Init.AccumulatedActiveH = 482;
+	  hltdc.Init.TotalWidth = 403;
+	  hltdc.Init.TotalHeigh = 483;
+	  hltdc.Init.Backcolor.Blue = 0;
+	  hltdc.Init.Backcolor.Green = 0;
+	  hltdc.Init.Backcolor.Red = 0;
+	  if (HAL_LTDC_Init(&hltdc) != HAL_OK)
+	  {
+	    Error_Handler();
+	  }
+	  pLayerCfg.WindowX0 = 0;
+	  pLayerCfg.WindowX1 = 400;
+	  pLayerCfg.WindowY0 = 0;
+	  pLayerCfg.WindowY1 = 480;
+	  pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB888;
+	  pLayerCfg.Alpha = 255;
+	  pLayerCfg.Alpha0 = 0;
+	  pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
+	  pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_PAxCA;
+	  pLayerCfg.FBStartAdress = 0xD0000000;
+	  pLayerCfg.ImageWidth = 400;
+	  pLayerCfg.ImageHeight = 480;
+	  pLayerCfg.Backcolor.Blue = 0;
+	  pLayerCfg.Backcolor.Green = 0;
+	  pLayerCfg.Backcolor.Red = 0;
+	  if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
+	  {
+	    Error_Handler();
+	  }
+	  /* USER CODE BEGIN LTDC_Init 2 */
 
-  /* USER CODE END LTDC_Init 2 */
+	      /* Configure DSI PHY HS2LP and LP2HS timings */
+
+	  __HAL_LTDC_DISABLE(&hltdc);
+	  DSI_LPCmdTypeDef LPCmd;
+
+	  HAL_DSI_Start(&hdsi);
+
+	  /* Configure the audio driver */
+	  IOCtx.Address     = 0;
+	  IOCtx.GetTick     = BSP_GetTick;
+	  IOCtx.WriteReg    = DSI_IO_Write;
+	  IOCtx.ReadReg     = DSI_IO_Read;
+	  OTM8009A_RegisterBusIO(&OTM8009AObj, &IOCtx);
+
+	  OTM8009A_Init(&OTM8009AObj ,OTM8009A_FORMAT_RGB888, OTM8009A_ORIENTATION_LANDSCAPE);
+	  HAL_DSI_ShortWrite(&hdsi, 0, DSI_DCS_SHORT_PKT_WRITE_P1, OTM8009A_CMD_DISPOFF, 0x00);
+
+	  LPCmd.LPGenShortWriteNoP = DSI_LP_GSW0P_DISABLE;
+	  LPCmd.LPGenShortWriteOneP = DSI_LP_GSW1P_DISABLE;
+	  LPCmd.LPGenShortWriteTwoP = DSI_LP_GSW2P_DISABLE;
+	  LPCmd.LPGenShortReadNoP = DSI_LP_GSR0P_DISABLE;
+	  LPCmd.LPGenShortReadOneP = DSI_LP_GSR1P_DISABLE;
+	  LPCmd.LPGenShortReadTwoP = DSI_LP_GSR2P_DISABLE;
+	  LPCmd.LPGenLongWrite = DSI_LP_GLW_DISABLE;
+	  LPCmd.LPDcsShortWriteNoP = DSI_LP_DSW0P_DISABLE;
+	  LPCmd.LPDcsShortWriteOneP = DSI_LP_DSW1P_DISABLE;
+	  LPCmd.LPDcsShortReadNoP = DSI_LP_DSR0P_DISABLE;
+	  LPCmd.LPDcsLongWrite = DSI_LP_DLW_DISABLE;
+	  HAL_DSI_ConfigCommand(&hdsi, &LPCmd);
+
+	  HAL_LTDC_SetPitch(&hltdc, 800, 0);
+	  __HAL_LTDC_ENABLE(&hltdc);
+	  /* USER CODE END LTDC_Init 2 */
 
 }
 
@@ -113,7 +147,7 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
     __HAL_RCC_LTDC_CLK_ENABLE();
 
     /* LTDC interrupt Init */
-    HAL_NVIC_SetPriority(LTDC_IRQn, 5, 0);
+    HAL_NVIC_SetPriority(LTDC_IRQn, 7, 0);
     HAL_NVIC_EnableIRQ(LTDC_IRQn);
   /* USER CODE BEGIN LTDC_MspInit 1 */
 

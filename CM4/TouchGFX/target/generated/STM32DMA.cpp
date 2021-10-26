@@ -35,23 +35,13 @@ typedef struct
     const uint32_t* const data;
 } clutData_t;
 
-extern "C" void DMA2D_IRQHandler()
-{
-    /* Transfer Complete Interrupt management ************************************/
-    if ((READ_REG(DMA2D->ISR) & DMA2D_FLAG_TC) != RESET)
+extern "C" DMA2D_HandleTypeDef hdma2d;
+
+extern "C" {
+    static void DMA2D_XferCpltCallback(DMA2D_HandleTypeDef* handle)
     {
-        /* Verify Transfer Complete Interrupt */
-        if ((READ_REG(DMA2D->CR) & DMA2D_IT_TC) != RESET)
-        {
-            /* Disable the transfer complete interrupt */
-            DMA2D->CR &= ~(DMA2D_IT_TC);
-
-            /* Clear the transfer complete flag */
-            DMA2D->IFCR = (DMA2D_FLAG_TC);
-
-            /* Signal DMA queue of execution complete */
-            touchgfx::HAL::getInstance()->signalDMAInterrupt();
-        }
+        (void)handle; // Unused argument
+        HAL::getInstance()->signalDMAInterrupt();
     }
 }
 
@@ -73,9 +63,11 @@ void STM32H7DMA::initialize()
     __HAL_RCC_DMA2D_FORCE_RESET();
     __HAL_RCC_DMA2D_RELEASE_RESET();
 
+    /* Add transfer complete callback function */
+    hdma2d.XferCpltCallback = DMA2D_XferCpltCallback;
+
     /* Enable DMA2D global Interrupt */
-    HAL_NVIC_SetPriority(DMA2D_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(DMA2D_IRQn);
+    NVIC_EnableIRQ(DMA2D_IRQn);
 }
 
 inline uint32_t STM32H7DMA::getChromARTInputFormat(Bitmap::BitmapFormat format)
@@ -151,7 +143,6 @@ BlitOperations STM32H7DMA::getBlitCaps()
     return static_cast<BlitOperations>(BLIT_OP_FILL
                                        | BLIT_OP_FILL_WITH_ALPHA
                                        | BLIT_OP_COPY
-                                       | BLIT_OP_COPY_L8
                                        | BLIT_OP_COPY_WITH_ALPHA
                                        | BLIT_OP_COPY_ARGB8888
                                        | BLIT_OP_COPY_ARGB8888_WITH_ALPHA
@@ -162,7 +153,6 @@ BlitOperations STM32H7DMA::getBlitCaps()
 /*
  * void STM32H7DMA::setupDataCopy(const BlitOp& blitOp) handles blit operation of
  * BLIT_OP_COPY
- * BLIT_OP_COPY_L8
  * BLIT_OP_COPY_WITH_ALPHA
  * BLIT_OP_COPY_ARGB8888
  * BLIT_OP_COPY_ARGB8888_WITH_ALPHA
@@ -229,62 +219,6 @@ void STM32H7DMA::setupDataCopy(const BlitOp& blitOp)
         /* Set DMA2D mode */
         WRITE_REG(DMA2D->CR, DMA2D_M2M_BLEND | DMA2D_IT_TC | DMA2D_CR_START);
         break;
-  case BLIT_OP_COPY_L8:
-      {
-        const clutData_t* const palette = reinterpret_cast<const clutData_t*>(blitOp.pClut);
-        bool blend = true;
-
-        /* Set DMA2D color mode and alpha mode */
-        WRITE_REG(DMA2D->FGPFCCR, dma2dForegroundColorMode | (DMA2D_COMBINE_ALPHA << DMA2D_BGPFCCR_AM_Pos) | (blitOp.alpha << 24));
-
-        /* Write DMA2D BGPFCCR register */
-        WRITE_REG(DMA2D->BGPFCCR, dma2dBackgroundColorMode | (DMA2D_NO_MODIF_ALPHA << DMA2D_BGPFCCR_AM_Pos));
-
-        /* Configure DMA2D Stream source2 address */
-        WRITE_REG(DMA2D->BGMAR, reinterpret_cast<uint32_t>(blitOp.pDst));
-
-        /* Write foreground CLUT memory address */
-        WRITE_REG(DMA2D->FGCMAR, reinterpret_cast<uint32_t>(&palette->data));
-
-        switch ((Bitmap::ClutFormat)palette->format)
-        {
-        case Bitmap::CLUT_FORMAT_L8_ARGB8888:
-            /* Write foreground CLUT size and CLUT color mode */
-            MODIFY_REG(DMA2D->FGPFCCR, (DMA2D_FGPFCCR_CS | DMA2D_FGPFCCR_CCM), (((palette->size - 1) << DMA2D_FGPFCCR_CS_Pos) | (DMA2D_CCM_ARGB8888 << DMA2D_FGPFCCR_CCM_Pos)));
-            break;
-        case Bitmap::CLUT_FORMAT_L8_RGB888:
-            if(blitOp.alpha == 255)
-            {
-                blend = false;
-            }
-            MODIFY_REG(DMA2D->FGPFCCR, (DMA2D_FGPFCCR_CS | DMA2D_FGPFCCR_CCM), (((palette->size - 1) << DMA2D_FGPFCCR_CS_Pos) | (DMA2D_CCM_RGB888 << DMA2D_FGPFCCR_CCM_Pos)));
-            break;
-        case Bitmap::CLUT_FORMAT_L8_RGB565:
-        default:
-            assert(0 && "Unsupported format");
-            break;
-        }
-
-        /* Enable the CLUT loading for the foreground */
-        SET_BIT(DMA2D->FGPFCCR, DMA2D_FGPFCCR_START);
-
-        while ((READ_REG(DMA2D->FGPFCCR) & DMA2D_FGPFCCR_START) != 0U)
-        {
-            OSWrappers::taskYield();
-        }
-        DMA2D->IFCR = (DMA2D_FLAG_CTC);
-
-        /* Set DMA2D mode */
-        if(blend)
-        {
-            WRITE_REG(DMA2D->CR, DMA2D_M2M_BLEND | DMA2D_IT_TC | DMA2D_CR_START);
-        }
-        else
-        {
-            WRITE_REG(DMA2D->CR, DMA2D_M2M_PFC | DMA2D_IT_TC | DMA2D_CR_START);
-        }
-      }
-      break;
     case BLIT_OP_COPY_WITH_ALPHA:
         /* Set DMA2D color mode and alpha mode */
         WRITE_REG(DMA2D->FGPFCCR, dma2dForegroundColorMode | (DMA2D_COMBINE_ALPHA << DMA2D_BGPFCCR_AM_Pos) | (blitOp.alpha << 24));
@@ -294,6 +228,40 @@ void STM32H7DMA::setupDataCopy(const BlitOp& blitOp)
 
         /* Configure DMA2D Stream source2 address */
         WRITE_REG(DMA2D->BGMAR, reinterpret_cast<uint32_t>(blitOp.pDst));
+
+        if (blitOp.srcFormat == Bitmap::L8)
+        {
+            const clutData_t* const palette = reinterpret_cast<const clutData_t*>(blitOp.pClut);
+
+            /* Write foreground CLUT memory address */
+            WRITE_REG(DMA2D->FGCMAR, reinterpret_cast<uint32_t>(&palette->data));
+
+            switch ((Bitmap::ClutFormat)palette->format)
+            {
+            case Bitmap::CLUT_FORMAT_L8_ARGB8888:
+                /* Write foreground CLUT size and CLUT color mode */
+                MODIFY_REG(DMA2D->FGPFCCR, (DMA2D_FGPFCCR_CS | DMA2D_FGPFCCR_CCM), (((palette->size - 1) << DMA2D_FGPFCCR_CS_Pos) | (DMA2D_CCM_ARGB8888 << DMA2D_FGPFCCR_CCM_Pos)));
+                break;
+            case Bitmap::CLUT_FORMAT_L8_RGB888:
+                /* Write foreground CLUT size and CLUT color mode */
+                MODIFY_REG(DMA2D->FGPFCCR, (DMA2D_FGPFCCR_CS | DMA2D_FGPFCCR_CCM), (((palette->size - 1) << DMA2D_FGPFCCR_CS_Pos) | (DMA2D_CCM_RGB888 << DMA2D_FGPFCCR_CCM_Pos)));
+                break;
+            case Bitmap::CLUT_FORMAT_L8_RGB565:
+            default:
+                /* Assert for unsupported Color Format */
+                assert(0 && "Unsupported format");
+                break;
+            }
+
+            /* Enable the CLUT loading for the foreground */
+            SET_BIT(DMA2D->FGPFCCR, DMA2D_FGPFCCR_START);
+
+            while ((READ_REG(DMA2D->FGPFCCR) & DMA2D_FGPFCCR_START) != 0U)
+            {
+                OSWrappers::taskYield();
+            }
+            DMA2D->IFCR = (DMA2D_FLAG_CTC);
+        }
 
         /* Set DMA2D mode */
         WRITE_REG(DMA2D->CR, DMA2D_M2M_BLEND | DMA2D_IT_TC | DMA2D_CR_START);
@@ -316,18 +284,42 @@ void STM32H7DMA::setupDataCopy(const BlitOp& blitOp)
         /* Set DMA2D color mode and alpha mode */
         WRITE_REG(DMA2D->FGPFCCR, dma2dForegroundColorMode | (DMA2D_COMBINE_ALPHA << DMA2D_BGPFCCR_AM_Pos) | (blitOp.alpha << 24));
 
-        /* Perform pixel-format-conversion (PFC) If Bitmap format is not same format as framebuffer format */
-        if (blitOp.srcFormat != blitOp.dstFormat)
+        if (blitOp.srcFormat == Bitmap::L8)
         {
-            /* Start DMA2D : PFC Mode */
+            const clutData_t* const palette = reinterpret_cast<const clutData_t*>(blitOp.pClut);
+
+            /* Write foreground CLUT memory address */
+            WRITE_REG(DMA2D->FGCMAR, reinterpret_cast<uint32_t>(&palette->data));
+
+            /* Write foreground CLUT size and CLUT color mode */
+            MODIFY_REG(DMA2D->FGPFCCR, (DMA2D_FGPFCCR_CS | DMA2D_FGPFCCR_CCM), (((palette->size - 1) << DMA2D_FGPFCCR_CS_Pos) | (DMA2D_CCM_RGB888 << DMA2D_FGPFCCR_CCM_Pos)));
+
+            /* Enable the CLUT loading for the foreground */
+            SET_BIT(DMA2D->FGPFCCR, DMA2D_FGPFCCR_START);
+
+            while ((READ_REG(DMA2D->FGPFCCR) & DMA2D_FGPFCCR_START) != 0U)
+            {
+                OSWrappers::taskYield();
+            }
+            DMA2D->IFCR = (DMA2D_FLAG_CTC);
+
+            /* Start DMA2D */
             WRITE_REG(DMA2D->CR, DMA2D_M2M_PFC | DMA2D_IT_TC | DMA2D_CR_START);
         }
         else
         {
-            /* Start DMA2D : M2M Mode */
-            WRITE_REG(DMA2D->CR, DMA2D_M2M | DMA2D_IT_TC | DMA2D_CR_START);
+            /* Perform pixel-format-conversion (PFC) If Bitmap format is not same format as framebuffer format */
+            if (blitOp.srcFormat != blitOp.dstFormat)
+            {
+                /* Start DMA2D : PFC Mode */
+                WRITE_REG(DMA2D->CR, DMA2D_M2M_PFC | DMA2D_IT_TC | DMA2D_CR_START);
+            }
+            else
+            {
+                /* Start DMA2D : M2M Mode */
+                WRITE_REG(DMA2D->CR, DMA2D_M2M | DMA2D_IT_TC | DMA2D_CR_START);
+            }
         }
-
         break;
     }
 }

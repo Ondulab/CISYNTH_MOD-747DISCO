@@ -34,13 +34,12 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "string.h"
-#include "stm32h747i_discovery.h"
-#include "stm32h747i_discovery_lcd.h"
-#include "stm32h747i_discovery_conf.h"
-#include "stm32h747i_discovery_ts.h"
-#include "stm32h747i_discovery_sdram.h"
+
 #include "stm32h747i_discovery_qspi.h"
-#include "stm32_lcd.h"
+#include "stm32h747i_discovery_sdram.h"
+#include "stm32h747i_discovery_bus.h"
+#include "stm32h747i_discovery_errno.h"
+#include "../Components/otm8009a/otm8009a.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -63,6 +62,11 @@ extern __IO uint32_t JoystickStates;
 #define LED_BLUE      LED4
 /* SDRAM write address */
 #define SDRAM_WRITE_READ_ADDR         0xD0177000
+
+#define LCD_BL_Pin GPIO_PIN_12
+#define LCD_BL_GPIO_Port GPIOJ
+#define LCD_RESET_Pin GPIO_PIN_3
+#define LCD_RESET_GPIO_Port GPIOG
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -74,13 +78,16 @@ extern __IO uint32_t JoystickStates;
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+extern int32_t DSI_IO_Write(uint16_t ChannelNbr, uint16_t Reg, uint8_t *pData, uint16_t Size);
+extern int32_t DSI_IO_Read(uint16_t ChannelNbr, uint16_t Reg, uint8_t *pData, uint16_t Size);
+
+
 void Touchscreen_demo1 (void);
 void Touchscreen_demo2 (void);
 void LCD_demo (void);
 void Joystick_demo (void);
 void Error_Handler(void);
-void SDRAM_demo(void);
-void SDRAM_DMA_demo (void);
+
 uint8_t CheckForUserInput(void);
 uint8_t TouchScreen_GetTouchPosition(void);
 void Touchscreen_DrawBackground_Circles(uint8_t state);

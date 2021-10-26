@@ -192,19 +192,19 @@ void LTDC_IRQHandler(void)
   /* USER CODE END LTDC_IRQn 1 */
 }
 
-///**
-//  * @brief This function handles DMA2D global interrupt.
-//  */
-//void DMA2D_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN DMA2D_IRQn 0 */
-//
-//  /* USER CODE END DMA2D_IRQn 0 */
-//  HAL_DMA2D_IRQHandler(&hdma2d);
-//  /* USER CODE BEGIN DMA2D_IRQn 1 */
-//
-//  /* USER CODE END DMA2D_IRQn 1 */
-//}
+/**
+  * @brief This function handles DMA2D global interrupt.
+  */
+void DMA2D_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2D_IRQn 0 */
+
+  /* USER CODE END DMA2D_IRQn 0 */
+  HAL_DMA2D_IRQHandler(&hdma2d);
+  /* USER CODE BEGIN DMA2D_IRQn 1 */
+
+  /* USER CODE END DMA2D_IRQn 1 */
+}
 
 /**
   * @brief This function handles DSI global Interrupt.
@@ -230,55 +230,55 @@ void MDMA_IRQHandler(void)
     BSP_SDRAM_IRQHandler(0);
 }
 
-/**
-* @brief  This function handles External line 2 interrupt request.
-* @param  None
-* @retval None
-*/
-void EXTI2_IRQHandler(void)
-{
-   BSP_JOY_IRQHandler(JOY1, JOY_SEL);
-}
-
-/**
-* @brief  This function handles External line 3 interrupt request.
-* @param  None
-* @retval None
-*/
-void EXTI3_IRQHandler(void)
-{
-   BSP_JOY_IRQHandler(JOY1, JOY_DOWN);
-}
-
-/**
-* @brief  This function handles External line 4 interrupt request.
-* @param  None
-* @retval None
-*/
-void EXTI4_IRQHandler(void)
-{
-   BSP_JOY_IRQHandler(JOY1, JOY_LEFT);
-}
-
-/**
-* @brief  This function handles External lines 9 to 5 interrupt request.
-* @param  None
-* @retval None
-*/
-void EXTI9_5_IRQHandler(void)
-{
-  BSP_JOY_IRQHandler(JOY1, JOY_RIGHT);
-  BSP_JOY_IRQHandler(JOY1, JOY_UP);
-}
-
-/**
-  * @brief  This function handles External lines 15 to 10 interrupt request.
-  * @param  None
-  * @retval None
-  */
-void EXTI15_10_IRQHandler(void)
-{
-  BSP_PB_IRQHandler(BUTTON_WAKEUP);
-}
+///**
+//* @brief  This function handles External line 2 interrupt request.
+//* @param  None
+//* @retval None
+//*/
+//void EXTI2_IRQHandler(void)
+//{
+//   BSP_JOY_IRQHandler(JOY1, JOY_SEL);
+//}
+//
+///**
+//* @brief  This function handles External line 3 interrupt request.
+//* @param  None
+//* @retval None
+//*/
+//void EXTI3_IRQHandler(void)
+//{
+//   BSP_JOY_IRQHandler(JOY1, JOY_DOWN);
+//}
+//
+///**
+//* @brief  This function handles External line 4 interrupt request.
+//* @param  None
+//* @retval None
+//*/
+//void EXTI4_IRQHandler(void)
+//{
+//   BSP_JOY_IRQHandler(JOY1, JOY_LEFT);
+//}
+//
+///**
+//* @brief  This function handles External lines 9 to 5 interrupt request.
+//* @param  None
+//* @retval None
+//*/
+//void EXTI9_5_IRQHandler(void)
+//{
+//  BSP_JOY_IRQHandler(JOY1, JOY_RIGHT);
+//  BSP_JOY_IRQHandler(JOY1, JOY_UP);
+//}
+//
+///**
+//  * @brief  This function handles External lines 15 to 10 interrupt request.
+//  * @param  None
+//  * @retval None
+//  */
+//void EXTI15_10_IRQHandler(void)
+//{
+//  BSP_PB_IRQHandler(BUTTON_WAKEUP);
+//}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

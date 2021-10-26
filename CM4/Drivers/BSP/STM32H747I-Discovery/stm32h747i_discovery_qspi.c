@@ -78,7 +78,7 @@
 /** @defgroup STM32H747I_DISCO_QSPI_Exported_Variables Exported Variables
   * @{
   */
-QSPI_HandleTypeDef hqspi;
+extern QSPI_HandleTypeDef hqspi;
 BSP_QSPI_Ctx_t     QSPI_Ctx[QSPI_INSTANCES_NUMBER];
 /**
   * @}

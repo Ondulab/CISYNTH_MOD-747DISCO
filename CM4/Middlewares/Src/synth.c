@@ -85,9 +85,9 @@ int32_t synth_IfftInit(void)
 
 
 	uint8_t FreqStr[256] = {0};
-	UTIL_LCD_FillRect(0, DISPLAY_AERA3_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS3_HEIGHT, UTIL_LCD_COLOR_BLACK);
+//	UTIL_LCD_FillRect(0, DISPLAY_AERA3_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS3_HEIGHT, UTIL_LCD_COLOR_BLACK);
 	sprintf((char *)FreqStr, " %d -> %dHz      Octave:%d", (int)waves[0].frequency, (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
-	UTIL_LCD_DisplayStringAt(0, DISPLAY_AERA3_Y1POS, (uint8_t*)FreqStr, LEFT_MODE);
+//	UTIL_LCD_DisplayStringAt(0, DISPLAY_AERA3_Y1POS, (uint8_t*)FreqStr, LEFT_MODE);
 
 	printf("First note Freq = %dHz\nSize = %d\n", (int)waves[0].frequency, (int)waves[0].area_size);
 	printf("Last  note Freq = %dHz\nSize = %d\nOctave = %d\n", (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)waves[NUMBER_OF_NOTES - 1].area_size / (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff), (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));

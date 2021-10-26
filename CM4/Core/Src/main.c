@@ -61,12 +61,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-//static volatile struct params *params = &__params__;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
+static void MX_GPIO_Init2(void);
 void SystemClock_Config(void);
 static void cisynth_ifft_SetHint(void);
 int32_t synth_GetImageData(uint32_t index);
@@ -121,6 +122,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_DMA_Init();
   MX_GPIO_Init();
+  MX_GPIO_Init2();
   MX_DSIHOST_DSI_Init();
   MX_FMC_Init();
   MX_LTDC_Init();
@@ -128,28 +130,8 @@ int main(void)
   MX_RNG_Init();
   MX_QUADSPI_Init();
   MX_CRC_Init();
-//  MX_TouchGFX_Init();
+  MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
-	/* Initialize the LCD */
-	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
-	UTIL_LCD_SetFuncDriver(&LCD_Driver);
-	UTIL_LCD_SetFont(&UTIL_LCD_DEFAULT_FONT);
-	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
-	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLACK);
-	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
-
-	UTIL_LCD_DrawBitmapBW(sss_Img, (LCD_DEFAULT_WIDTH - 151) / 2, (LCD_DEFAULT_HEIGHT - 64) / 2, 151, 64, UTIL_LCD_COLOR_WHITE);
-	HAL_Delay(500);
-
-	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
-
-	MX_TouchGFX_Init();
-
-	//	QSPI_Demo();
-	QSPI_Init();
-//	QSPI_ResetData();
-
-	synth_IfftInit();
 
   /* USER CODE END 2 */
 
@@ -162,6 +144,25 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+	/* Initialize the LCD */
+//	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
+//	UTIL_LCD_SetFuncDriver(&LCD_Driver);
+//	UTIL_LCD_SetFont(&UTIL_LCD_DEFAULT_FONT);
+//	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
+//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLACK);
+//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
+//
+//	UTIL_LCD_DrawBitmapBW(sss_Img, (LCD_DEFAULT_WIDTH - 151) / 2, (LCD_DEFAULT_HEIGHT - 64) / 2, 151, 64, UTIL_LCD_COLOR_WHITE);
+//	HAL_Delay(500);
+//
+//	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
+
+	//	QSPI_Demo();
+//	QSPI_Init();
+//	QSPI_ResetData();
+
+	synth_IfftInit();
 
 	uint8_t FreqStr[256] = {0};
 	static uint32_t start_tick;
@@ -192,7 +193,7 @@ int main(void)
 		//		latency = HAL_GetTick() - start_tick;
 		sprintf((char *)FreqStr, "  %dHz", (int)((shared_var.synth_process_cnt * 1000) / (1000 / DISPLAY_REFRESH_FPS)));
 
-		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
+//		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
 
 		static uint32_t note = 10;
 		if (note > NUMBER_OF_NOTES)
@@ -212,20 +213,20 @@ int main(void)
 //					UTIL_LCD_SetPixel(i, DISPLAY_AERA1_Y1POS + (DISPLAY_AERAS1_HEIGHT / 2) - (pcm5102_GetAudioData(i / 4) / 256), UTIL_LCD_COLOR_LIGHTYELLOW);
 //				}
 
-		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
-		{
-			uint32_t height_bar = (synth_GetImageData(i * NUMBER_OF_NOTES / DISPLAY_MAX_X_LENGTH) * (DISPLAY_AERAS1_HEIGHT - 2) / 32768);
-			UTIL_LCD_DrawVLine(i, (DISPLAY_AERA1_Y1POS + DISPLAY_AERAS1_HEIGHT - 2) - height_bar, height_bar, UTIL_LCD_COLOR_WHITE);
-		}
-
-		UTIL_LCD_FillRect(0, DISPLAY_AERA2_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS2_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
-
-		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
-		{
-			UTIL_LCD_SetPixel(i, DISPLAY_AERA2_Y2POS - ((cvData[((NUMBER_OF_NOTES / IMAGE_WEIGHT) * i) / DISPLAY_MAX_X_LENGTH] / 31) - 2), UTIL_LCD_COLOR_YELLOW);
-		}
-
-		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
+//		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
+//		{
+//			uint32_t height_bar = (synth_GetImageData(i * NUMBER_OF_NOTES / DISPLAY_MAX_X_LENGTH) * (DISPLAY_AERAS1_HEIGHT - 2) / 32768);
+//			UTIL_LCD_DrawVLine(i, (DISPLAY_AERA1_Y1POS + DISPLAY_AERAS1_HEIGHT - 2) - height_bar, height_bar, UTIL_LCD_COLOR_WHITE);
+//		}
+//
+//		UTIL_LCD_FillRect(0, DISPLAY_AERA2_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS2_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
+//
+//		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
+//		{
+//			UTIL_LCD_SetPixel(i, DISPLAY_AERA2_Y2POS - ((cvData[((NUMBER_OF_NOTES / IMAGE_WEIGHT) * i) / DISPLAY_MAX_X_LENGTH] / 31) - 2), UTIL_LCD_COLOR_YELLOW);
+//		}
+//
+//		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
 
 		HAL_Delay(10);
 
@@ -237,6 +238,45 @@ int main(void)
 }
 
 /* USER CODE BEGIN 4 */
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init2(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LCD_RESET_GPIO_Port, LCD_RESET_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : LCD_BL_Pin */
+  GPIO_InitStruct.Pin = LCD_BL_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(LCD_BL_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LCD_RESET_Pin */
+  GPIO_InitStruct.Pin = LCD_RESET_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(LCD_RESET_GPIO_Port, &GPIO_InitStruct);
+
+}
+
 /**
  * @brief  Compares two buffers.
  * @param  pBuffer1, pBuffer2: buffers to be compared.
@@ -354,9 +394,9 @@ int16_t pcm5102_GetAudioData(uint32_t index)
 static void cisynth_ifft_SetHint(void)
 {
 	/* Set Audio header description */
-	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
-	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
-	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
+//	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
+//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
+//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
 }
 
 /**
