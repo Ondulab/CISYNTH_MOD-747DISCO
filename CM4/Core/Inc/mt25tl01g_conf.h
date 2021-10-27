@@ -32,6 +32,11 @@
 /** @addtogroup BSP
   * @{
   */
+
+#define CONF_MT25TL01G_READ_ENHANCE      0                       /* MMP performance enhance reade enable/disable */
+
+#define CONF_QSPI_ODS                   MT25TL01G_CR_ODS_15
+
 #define CONF_QSPI_DUMMY_CLOCK                 8U
 
 /* Dummy cycles for STR read mode */

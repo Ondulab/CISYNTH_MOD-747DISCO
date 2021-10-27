@@ -21,7 +21,8 @@
 #include "stm32h747i_discovery_ts.h"
 
 static bool bsp_ts_initialized = false;
-TS_Init_t* hTS;
+TS_Init_t handleTS;
+TS_Init_t* hTS = &handleTS;
 TS_State_t  TS_State = {0};
 
 void STM32TouchController::init()
@@ -30,7 +31,6 @@ void STM32TouchController::init()
      * Initialize touch controller and driver
      *
      */
-
     hTS->Width = 800;
     hTS->Height = 480;
     hTS->Orientation = TS_SWAP_XY | TS_SWAP_Y;
@@ -41,7 +41,7 @@ void STM32TouchController::init()
         bsp_ts_initialized = true;
     }
 
-    bsp_ts_initialized = true;
+//    bsp_ts_initialized = true;
 
     assert(bsp_ts_initialized);
 }

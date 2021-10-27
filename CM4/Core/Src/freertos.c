@@ -58,7 +58,7 @@ const osThreadAttr_t TouchGFXTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+extern portBASE_TYPE IdleTaskHook(void* p);
 /* USER CODE END FunctionPrototypes */
 
 void TouchGFX_Task(void *argument);
@@ -80,6 +80,7 @@ void vApplicationIdleHook( void )
    important that vApplicationIdleHook() is permitted to return to its calling
    function, because it is the responsibility of the idle task to clean up
    memory allocated by the kernel to any task that has since been deleted. */
+vTaskSetApplicationTaskTag(NULL, IdleTaskHook);
 }
 /* USER CODE END 2 */
 
