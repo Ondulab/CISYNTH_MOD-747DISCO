@@ -76,6 +76,7 @@ void NMI_Handler(void)
   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
 
   /* USER CODE END NonMaskableInt_IRQn 0 */
+  HAL_RCC_NMI_IRQHandler();
   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
   while (1)
   {
@@ -197,11 +198,11 @@ void LTDC_IRQHandler(void)
 //void DMA2D_IRQHandler(void)
 //{
 //  /* USER CODE BEGIN DMA2D_IRQn 0 */
-////
+//////
 //  /* USER CODE END DMA2D_IRQn 0 */
 //  HAL_DMA2D_IRQHandler(&hdma2d);
 //  /* USER CODE BEGIN DMA2D_IRQn 1 */
-////
+//////
 //  /* USER CODE END DMA2D_IRQn 1 */
 //}
 
