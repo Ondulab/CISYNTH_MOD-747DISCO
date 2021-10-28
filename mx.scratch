@@ -276,8 +276,8 @@
           <LinkSettings>
             <LinkAdditionalLibs />
           </LinkSettings>
-          <heapSize>0x200</heapSize>
-          <stackSize>0x400</stackSize>
+          <heapSize>0x1000</heapSize>
+          <stackSize>0x1000</stackSize>
           <board>STM32H747I-DISCO</board>
           <debugprobe>swd</debugprobe>
           <optimization />
@@ -535,8 +535,8 @@
           <LinkSettings>
             <LinkAdditionalLibs />
           </LinkSettings>
-          <heapSize>0x200</heapSize>
-          <stackSize>0x400</stackSize>
+          <heapSize>0x1000</heapSize>
+          <stackSize>0x1000</stackSize>
           <board>STM32H747I-DISCO</board>
           <debugprobe>swd</debugprobe>
           <optimization />

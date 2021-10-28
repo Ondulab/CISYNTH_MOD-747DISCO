@@ -442,7 +442,7 @@ extern "C" {
         {
             if (updateRegion == 0)
             {
-//                HAL_Delay(1);
+                HAL_Delay(1);
 
                 // If we transferred the left half, also transfer right half.
                 __HAL_DSI_WRAPPER_DISABLE(hdsi);

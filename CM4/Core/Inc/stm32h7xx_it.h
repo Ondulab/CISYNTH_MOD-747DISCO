@@ -55,7 +55,7 @@ void UsageFault_Handler(void);
 void DebugMon_Handler(void);
 void TIM3_IRQHandler(void);
 void LTDC_IRQHandler(void);
-//void DMA2D_IRQHandler(void);
+void DMA2D_IRQHandler(void);
 void DSI_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 

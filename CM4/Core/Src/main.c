@@ -121,7 +121,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_DMA_Init();
   MX_GPIO_Init();
-  MX_GPIO_Init2();
   MX_DSIHOST_DSI_Init();
   MX_FMC_Init();
   MX_LTDC_Init();
@@ -136,9 +135,7 @@ int main(void)
 
   /* Init scheduler */
   osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-
   MX_FREERTOS_Init();
-
   /* Start scheduler */
   osKernelStart();
 

@@ -50,7 +50,7 @@
 /* Ensure definitions are only used by the compiler, and not by the assembler. */
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
   #include <stdint.h>
-  extern uint32_t SystemCoreClock;
+  extern uint32_t SystemD2Clock;
 #endif
 #ifndef CMSIS_device_header
 #define CMSIS_device_header "stm32h7xx.h"
@@ -64,7 +64,7 @@
 #define configSUPPORT_DYNAMIC_ALLOCATION         1
 #define configUSE_IDLE_HOOK                      1
 #define configUSE_TICK_HOOK                      0
-#define configCPU_CLOCK_HZ                       ( SystemCoreClock )
+#define configCPU_CLOCK_HZ                       ( SystemD2Clock )
 #define configTICK_RATE_HZ                       ((TickType_t)1000)
 #define configMAX_PRIORITIES                     ( 56 )
 #define configMINIMAL_STACK_SIZE                 ((uint16_t)128)
@@ -93,9 +93,6 @@
 #define configTIMER_TASK_PRIORITY                ( 2 )
 #define configTIMER_QUEUE_LENGTH                 10
 #define configTIMER_TASK_STACK_DEPTH             256
-
-/* The following flag must be enabled only when using newlib */
-//#define configUSE_NEWLIB_REENTRANT          1
 
 /* CMSIS-RTOS V2 flags */
 #define configUSE_OS2_THREAD_SUSPEND_RESUME  1
@@ -161,10 +158,10 @@ header file. */
 /* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS
 standard names. */
 #define vPortSVCHandler    SVC_Handler
-//#define xPortPendSVHandler PendSV_Handler
+#define xPortPendSVHandler PendSV_Handler
 
 /* IMPORTANT: After 10.3.1 update, Systick_Handler comes from NVIC (if SYS timebase = systick), otherwise from cmsis_os2.c */
-#define USE_CUSTOM_SYSTICK_HANDLER_IMPLEMENTATION 0
+ #define USE_CUSTOM_SYSTICK_HANDLER_IMPLEMENTATION 0
 
 /* USER CODE BEGIN Defines */
 
