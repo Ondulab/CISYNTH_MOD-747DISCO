@@ -10,9 +10,9 @@
             "Width": 800,
             "Height": 480,
             "Color": {
-              "Red": 47,
-              "Green": 61,
-              "Blue": 60
+              "Red": 56,
+              "Green": 44,
+              "Blue": 44
             }
           },
           {
@@ -73,8 +73,7 @@
     },
     "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",
     "PostGenerateCommand": "touchgfx update_project --project-file=simulator/msvs/Application.vcxproj",
-    "PostGenerateTargetCommand": "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m7",
-    "PostGenerateTargetCommandOverride": "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m4",
+    "PostGenerateTargetCommand": "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m4",
     "CompileSimulatorCommand": "make -f simulator/gcc/Makefile -j8",
     "RunSimulatorCommand": "build\\bin\\simulator.exe",
     "LandscapeSkinX": 0,

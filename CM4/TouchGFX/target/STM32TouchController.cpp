@@ -41,8 +41,6 @@ void STM32TouchController::init()
         bsp_ts_initialized = true;
     }
 
-//    bsp_ts_initialized = true;
-
     assert(bsp_ts_initialized);
 }
 

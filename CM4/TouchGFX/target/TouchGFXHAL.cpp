@@ -25,7 +25,6 @@
 /* USER CODE BEGIN Includes */
 #include <touchgfx/hal/GPIO.hpp>
 #include "../Components/otm8009a/otm8009a.h"
-#include <STM32H7Instrumentation.hpp>
 #include "FreeRTOS.h"
 #include "task.h"
 /* USER CODE END Includes */
@@ -81,7 +80,7 @@ extern "C" {
 using namespace touchgfx;
 
 /* USER CODE BEGIN private class objects */
-static STM32H7Instrumentation mcuInstr;
+
 /* USER CODE END private class objects */
 
 TouchGFXHAL::TouchGFXHAL(touchgfx::DMA_Interface& dma, touchgfx::LCD& display, touchgfx::TouchController& tc, uint16_t width, uint16_t height)
@@ -114,10 +113,6 @@ void TouchGFXHAL::initialize()
 
     /* USER CODE BEGIN initialize step 2 */
     lockDMAToFrontPorch(false);
-
-    mcuInstr.init();
-    setMCUInstrumentation(&mcuInstr);
-    enableMCULoadCalculation(true);
 
     /* USER CODE END initialize step 2 */
 }
@@ -442,7 +437,7 @@ extern "C" {
         {
             if (updateRegion == 0)
             {
-                HAL_Delay(100);
+                HAL_Delay(1);
 
                 // If we transferred the left half, also transfer right half.
                 __HAL_DSI_WRAPPER_DISABLE(hdsi);
