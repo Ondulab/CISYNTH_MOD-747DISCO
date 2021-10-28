@@ -4,9 +4,14 @@
 #include <gui_generated/screen1_screen/Screen1ViewBase.hpp>
 #include <touchgfx/Color.hpp>
 #include <BitmapDatabase.hpp>
+#include <texts/TextKeysAndLanguages.hpp>
+#include <touchgfx/canvas_widget_renderer/CanvasWidgetRenderer.hpp>
+
 
 Screen1ViewBase::Screen1ViewBase()
 {
+
+    touchgfx::CanvasWidgetRenderer::setupBuffer(canvasBuffer, CANVAS_BUFFER_SIZE);
 
     __background.setPosition(0, 0, 800, 480);
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
@@ -20,9 +25,182 @@ Screen1ViewBase::Screen1ViewBase()
     slider1.setValueRange(0, 100);
     slider1.setValue(0);
 
+    toggleButton1.setXY(0, 0);
+    toggleButton1.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_TOGGLEBARS_TOGGLE_ROUND_LARGE_BUTTON_OFF_ID), touchgfx::Bitmap(BITMAP_DARK_TOGGLEBARS_TOGGLE_ROUND_LARGE_BUTTON_ON_ID));
+
+    radioButton1.setXY(733, 16);
+    radioButton1.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_INACTIVE_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_PRESSED_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_ACTIVE_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_NORMAL_ID));
+    radioButton1.setSelected(false);
+    radioButton1.setDeselectionEnabled(false);
+
+    boxWithBorder1.setPosition(288, 16, 268, 182);
+    boxWithBorder1.setColor(touchgfx::Color::getColorFromRGB(64, 64, 64));
+    boxWithBorder1.setBorderColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    boxWithBorder1.setBorderSize(5);
+
+    dynamicGraph1.setScale(1);
+    dynamicGraph1.setPosition(294, 22, 257, 170);
+    dynamicGraph1.setGraphAreaMargin(0, 0, 0, 0);
+    dynamicGraph1.setGraphAreaPadding(0, 0, 0, 0);
+    dynamicGraph1.setGraphRangeY(0, 100);
+
+    dynamicGraph1Line1.setScale(1);
+    dynamicGraph1Line1Painter.setColor(touchgfx::Color::getColorFromRGB(20, 151, 197));
+    dynamicGraph1Line1.setPainter(dynamicGraph1Line1Painter);
+    dynamicGraph1Line1.setLineWidth(2);
+    dynamicGraph1.addGraphElement(dynamicGraph1Line1);
+
+    dynamicGraph1.addDataPoint(76.91513075821447f);
+    dynamicGraph1.addDataPoint(74.95847205738002f);
+    dynamicGraph1.addDataPoint(66.88264223087391f);
+    dynamicGraph1.addDataPoint(53.647033296479556f);
+    dynamicGraph1.addDataPoint(37.515248726427586f);
+    dynamicGraph1.addDataPoint(21.539840229577827f);
+    dynamicGraph1.addDataPoint(8.850699244916715f);
+    dynamicGraph1.addDataPoint(1.9199073787026961f);
+    dynamicGraph1.addDataPoint(1.9817815367134486f);
+    dynamicGraph1.addDataPoint(8.74911546472832f);
+    dynamicGraph1.addDataPoint(20.49434288465553f);
+    dynamicGraph1.addDataPoint(34.4753246565754f);
+    dynamicGraph1.addDataPoint(47.60139571075864f);
+    dynamicGraph1.addDataPoint(57.17681988473984f);
+    dynamicGraph1.addDataPoint(61.54014821341059f);
+    dynamicGraph1.addDataPoint(60.44377291035259f);
+    dynamicGraph1.addDataPoint(55.081833661579054f);
+    dynamicGraph1.addDataPoint(47.76094002988795f);
+    dynamicGraph1.addDataPoint(41.295820468270435f);
+    dynamicGraph1.addDataPoint(38.27941667907413f);
+    dynamicGraph1.addDataPoint(40.407774759260434f);
+    dynamicGraph1.addDataPoint(48.02662143085193f);
+    dynamicGraph1.addDataPoint(60.01215673235865f);
+    dynamicGraph1.addDataPoint(74.01664173437749f);
+    dynamicGraph1.addDataPoint(87.0198112998448f);
+    dynamicGraph1.addDataPoint(96.0520550524034f);
+    dynamicGraph1.addDataPoint(98.91294887774505f);
+    dynamicGraph1.addDataPoint(94.7095588891703f);
+    dynamicGraph1.addDataPoint(84.0827351084942f);
+    dynamicGraph1.addDataPoint(69.06568957476082f);
+    dynamicGraph1.addDataPoint(52.60886347964956f);
+    dynamicGraph1.addDataPoint(37.88650833531777f);
+    dynamicGraph1.addDataPoint(27.553608055636797f);
+    dynamicGraph1.addDataPoint(23.133694755065278f);
+    dynamicGraph1.addDataPoint(24.685958909670642f);
+    dynamicGraph1.addDataPoint(30.831538263993757f);
+    dynamicGraph1.addDataPoint(39.13092983056609f);
+    dynamicGraph1.addDataPoint(46.71853923481417f);
+    dynamicGraph1.addDataPoint(51.03750505272389f);
+    dynamicGraph1.addDataPoint(50.49358525032922f);
+    dynamicGraph1.addDataPoint(44.8668828017244f);
+    dynamicGraph1.addDataPoint(35.37976005734174f);
+    dynamicGraph1.addDataPoint(24.40375063570744f);
+    dynamicGraph1.addDataPoint(14.87698196124432f);
+    dynamicGraph1.addDataPoint(9.574819893802452f);
+    dynamicGraph1.addDataPoint(10.412706042902489f);
+    dynamicGraph1.addDataPoint(17.95258291867563f);
+    dynamicGraph1.addDataPoint(31.234724548499887f);
+    dynamicGraph1.addDataPoint(47.97738401004891f);
+    dynamicGraph1.addDataPoint(65.09676177096509f);
+    dynamicGraph1.addDataPoint(79.42154828814611f);
+    dynamicGraph1.addDataPoint(88.42870382691223f);
+    dynamicGraph1.addDataPoint(90.82194610368326f);
+    dynamicGraph1.addDataPoint(86.81289435645218f);
+    dynamicGraph1.addDataPoint(78.03745597644537f);
+    dynamicGraph1.addDataPoint(67.12921377565404f);
+    dynamicGraph1.addDataPoint(57.05529566767876f);
+    dynamicGraph1.addDataPoint(50.37810108873973f);
+    dynamicGraph1.addDataPoint(48.62411167450502f);
+    dynamicGraph1.addDataPoint(51.914473249497476f);
+    dynamicGraph1.addDataPoint(58.947626017279255f);
+    dynamicGraph1.addDataPoint(67.33774307160061f);
+    dynamicGraph1.addDataPoint(74.22533480710419f);
+    dynamicGraph1.addDataPoint(77.00944989216141f);
+    dynamicGraph1.addDataPoint(74.02094644154118f);
+    dynamicGraph1.addDataPoint(64.97052332952171f);
+    dynamicGraph1.addDataPoint(51.060253528368214f);
+    dynamicGraph1.addDataPoint(34.7296963465068f);
+    dynamicGraph1.addDataPoint(19.097118252937953f);
+    dynamicGraph1.addDataPoint(7.231121590641596f);
+    dynamicGraph1.addDataPoint(1.4295931300309483f);
+    dynamicGraph1.addDataPoint(2.681313095390248f);
+    dynamicGraph1.addDataPoint(10.44107630059965f);
+    dynamicGraph1.addDataPoint(22.772693315527256f);
+    dynamicGraph1.addDataPoint(36.824487031666486f);
+    dynamicGraph1.addDataPoint(49.520803179449544f);
+    dynamicGraph1.addDataPoint(58.30049886361974f);
+    dynamicGraph1.addDataPoint(61.72217418731098f);
+    dynamicGraph1.addDataPoint(59.78885014100121f);
+    dynamicGraph1.addDataPoint(53.913706592395116f);
+    dynamicGraph1.addDataPoint(46.53661924754473f);
+    dynamicGraph1.addDataPoint(40.48687033577089f);
+    dynamicGraph1.addDataPoint(38.24964791173815f);
+    dynamicGraph1.addDataPoint(41.31756691466487f);
+    dynamicGraph1.addDataPoint(49.7875506846562f);
+    dynamicGraph1.addDataPoint(62.303292883543634f);
+    dynamicGraph1.addDataPoint(76.35872688813004f);
+    dynamicGraph1.addDataPoint(88.88934188476605f);
+    dynamicGraph1.addDataPoint(97.00746518644057f);
+    dynamicGraph1.addDataPoint(98.70207657267358f);
+    dynamicGraph1.addDataPoint(93.33211056213656f);
+    dynamicGraph1.addDataPoint(81.79242711882475f);
+    dynamicGraph1.addDataPoint(66.31146207030366f);
+    dynamicGraph1.addDataPoint(49.92941929607714f);
+    dynamicGraph1.addDataPoint(35.78382899391637f);
+    dynamicGraph1.addDataPoint(26.376188429112016f);
+    dynamicGraph1.addDataPoint(22.997852073102976f);
+    dynamicGraph1.addDataPoint(25.45421234594788f);
+    dynamicGraph1.addDataPoint(32.15307181027244f);
+    dynamicGraph1.addDataPoint(40.533974063799064f);
+
+    slider2.setXY(60, 279);
+    slider2.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
+    slider2.setupHorizontalSlider(5, 24, 0, 0, 615);
+    slider2.setValueRange(0, 100);
+    slider2.setValue(0);
+
+    textProgress1.setXY(246, 398);
+    textProgress1.setProgressIndicatorPosition(0, 0, 84, 34);
+    textProgress1.setRange(0, 100);
+    textProgress1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
+    textProgress1.setNumberOfDecimals(0);
+    textProgress1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_KTCD));
+    textProgress1.setBackground(touchgfx::Bitmap(BITMAP_DARK_PROGRESSINDICATORS_BG_MEDIUM_TEXT_PROGRESS_BG_SQUARE_ID));
+    textProgress1.setValue(60);
+
+    circleProgress1.setXY(673, 363);
+    circleProgress1.setProgressIndicatorPosition(0, 0, 104, 104);
+    circleProgress1.setRange(0, 100);
+    circleProgress1.setCenter(52, 52);
+    circleProgress1.setRadius(50);
+    circleProgress1.setLineWidth(0);
+    circleProgress1.setStartEndAngle(0, 360);
+    circleProgress1.setBackground(touchgfx::Bitmap(BITMAP_DARK_PROGRESSINDICATORS_BG_MEDIUM_CIRCLE_INDICATOR_BG_FULL_ID));
+    circleProgress1Painter.setBitmap(touchgfx::Bitmap(BITMAP_DARK_PROGRESSINDICATORS_FILL_MEDIUM_CIRCLE_INDICATOR_FILL_FULL_ID));
+    circleProgress1.setPainter(circleProgress1Painter);
+    circleProgress1.setValue(60);
+
+    repeatButton1.setXY(43, 77);
+    repeatButton1.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_BUTTONS_ROUND_EDGE_SMALL_ID), touchgfx::Bitmap(BITMAP_DARK_BUTTONS_ROUND_EDGE_SMALL_PRESSED_ID));
+    repeatButton1.setDelay(12);
+    repeatButton1.setInterval(60);
+
+    textArea1.setXY(627, 125);
+    textArea1.setColor(touchgfx::Color::getColorFromRGB(163, 163, 163));
+    textArea1.setLinespacing(0);
+    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_PCX6));
+
     add(__background);
     add(box1);
     add(slider1);
+    add(toggleButton1);
+    add(radioButton1);
+    add(boxWithBorder1);
+    add(dynamicGraph1);
+    add(slider2);
+    add(textProgress1);
+    add(circleProgress1);
+    add(repeatButton1);
+    add(textArea1);
+    radioButtonGroup1.add(radioButton1);
 }
 
 void Screen1ViewBase::setupScreen()

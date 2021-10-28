@@ -10,11 +10,11 @@
     },
     "AvailableResolutions" : [
       {
-        "Width": 400,
+        "Width": 800,
         "Height": 480
       }
     ],
-    "PostGenerateTargetCommand" : "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m7",
+    "PostGenerateTargetCommand" : "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m4",
     "Family" : "STM32H7",
     "SubFamily" : "STM32H747/757"
   },

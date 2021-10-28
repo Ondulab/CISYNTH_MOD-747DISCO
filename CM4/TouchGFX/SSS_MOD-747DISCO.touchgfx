@@ -3,6 +3,7 @@
     "Screens": [
       {
         "Name": "Screen1",
+        "CanvasBufferSize": 12000,
         "Components": [
           {
             "Type": "Box",
@@ -31,6 +32,155 @@
             "IndicatorMax": 615,
             "ValueMax": 100,
             "Style": "Style1"
+          },
+          {
+            "Type": "ToggleButton",
+            "Name": "toggleButton1",
+            "Width": 128,
+            "Height": 38,
+            "Pressed": "__designer\\Dark_Togglebars_Toggle_round_large_button_On.png",
+            "Released": "__designer\\Dark_Togglebars_Toggle_round_large_button_Off.png",
+            "Style": "Style4"
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton1",
+            "X": 733,
+            "Y": 16,
+            "Width": 44,
+            "Height": 44,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style4"
+          },
+          {
+            "Type": "BoxWithBorder",
+            "Name": "boxWithBorder1",
+            "X": 288,
+            "Y": 16,
+            "Width": 268,
+            "Height": 182,
+            "Color": {
+              "Red": 64,
+              "Green": 64,
+              "Blue": 64
+            },
+            "BorderSize": 5
+          },
+          {
+            "Type": "DynamicGraph",
+            "Name": "dynamicGraph1",
+            "X": 294,
+            "Y": 22,
+            "Width": 257,
+            "Height": 170,
+            "DataSeed": -1677191688,
+            "NumberOfValues": 100,
+            "MaxY": 100.0,
+            "Precision": "1",
+            "LastIndex": 99,
+            "XAxisScale": 1.0,
+            "InsertRandomValues": true,
+            "GraphType": "GraphWrapClear",
+            "GraphDrawers": [
+              {
+                "Type": "LineDrawer",
+                "LineWidth": 2,
+                "FileNameImage": "",
+                "Color": {
+                  "Red": 20,
+                  "Green": 151,
+                  "Blue": 197
+                }
+              }
+            ]
+          },
+          {
+            "Type": "Slider",
+            "Name": "slider2",
+            "X": 60,
+            "Y": 279,
+            "Width": 683,
+            "Height": 68,
+            "IsHorizontalSlider": true,
+            "BackgroundUnselected": "__designer\\Dark_Slider_Horizontal_Large_Slider_Round_back.png",
+            "BackgroundSelected": "__designer\\Dark_Slider_Horizontal_Large_Slider_Round_fill.png",
+            "Indicator": "__designer\\Dark_Slider_Horizontal_Large_Indicators_Slider_Round_nob.png",
+            "BackgroundX": 5,
+            "BackgroundY": 24,
+            "IndicatorMax": 615,
+            "ValueMax": 100,
+            "Style": "Style1"
+          },
+          {
+            "Type": "TextProgress",
+            "Name": "textProgress1",
+            "X": 246,
+            "Y": 398,
+            "Width": 84,
+            "Height": 34,
+            "TextId": "__SingleUse_KTCD",
+            "Style": "Style3",
+            "FileNameBackground": "__designer\\Dark_ProgressIndicators_bg_medium_text_progress_bg_square.png",
+            "IndicatorPositionWidth": 84,
+            "IndicatorPositionHeight": 34,
+            "ProgressRangeMax": 100,
+            "ProgressInitialValue": 60
+          },
+          {
+            "Type": "CircleProgress",
+            "Name": "circleProgress1",
+            "X": 673,
+            "Y": 363,
+            "Width": 104,
+            "Height": 104,
+            "FileNameProgress": "__designer\\Dark_ProgressIndicators_fill_medium_circle_indicator_fill_full.png",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "CenterX": 52,
+            "CenterY": 52,
+            "Radius": 50,
+            "EndAngle": 360,
+            "CapPrecision": "Butt",
+            "Style": "Style5",
+            "FileNameBackground": "__designer\\Dark_ProgressIndicators_bg_medium_circle_indicator_bg_full.png",
+            "ProgressRangeMax": 100,
+            "ProgressInitialValue": 60
+          },
+          {
+            "Type": "RepeatButton",
+            "Name": "repeatButton1",
+            "X": 43,
+            "Y": 77,
+            "Width": 170,
+            "Height": 60,
+            "Pressed": "__designer\\Dark_Buttons_Round_Edge_small_pressed.png",
+            "Released": "__designer\\Dark_Buttons_Round_Edge_small.png",
+            "Delay": 200,
+            "Interval": 1000,
+            "Style": "Style4"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea1",
+            "X": 627,
+            "Y": 125,
+            "Width": 41,
+            "Height": 25,
+            "TextId": "__SingleUse_PCX6",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 163,
+              "Green": 163,
+              "Blue": 163
+            },
+            "AutoSize": true
           }
         ],
         "Interactions": []
