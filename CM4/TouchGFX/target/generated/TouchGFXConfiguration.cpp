@@ -20,7 +20,7 @@
 #include <BitmapDatabase.hpp>
 #include <platform/driver/lcd/LCD24bpp.hpp>
 #include <touchgfx/hal/OSWrappers.hpp>
-#include <STM32DMA.hpp>
+#include <touchgfx/hal/NoDMA.hpp>
 #include <TouchGFXHAL.hpp>
 #include <STM32TouchController.hpp>
 #include <stm32h7xx_hal.h>
@@ -29,7 +29,7 @@ extern "C" void touchgfx_init();
 extern "C" void touchgfx_taskEntry();
 
 static STM32TouchController tc;
-static STM32H7DMA dma;
+static NoDMA dma;
 static LCD24bpp display;
 static ApplicationFontProvider fontProvider;
 static Texts texts;

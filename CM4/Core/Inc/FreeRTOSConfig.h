@@ -167,9 +167,6 @@ standard names. */
  #define USE_CUSTOM_SYSTICK_HANDLER_IMPLEMENTATION 0
 
 /* USER CODE BEGIN Defines */
-
-#define  configCHECK_FOR_STACK_OVERFLOW 1//PRE ADD
-
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
 // To measure mcu load by measure time used in the dummy idle task
 #define traceTASK_SWITCHED_OUT() xTaskCallApplicationTaskHook( pxCurrentTCB, (void*)1 )

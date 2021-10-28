@@ -36,7 +36,7 @@ void TouchGFXGeneratedHAL::initialize()
     HAL::initialize();
     registerEventListener(*(Application::getInstance()));
     registerTaskDelayFunction(&OSWrappers::taskDelay);
-    setFrameRefreshStrategy(HAL::REFRESH_STRATEGY_OPTIM_SINGLE_BUFFER_TFT_CTRL);
+//    setFrameRefreshStrategy(HAL::REFRESH_STRATEGY_OPTIM_SINGLE_BUFFER_TFT_CTRL);
     setFrameBufferStartAddresses((void*)0xD0000000, (void*)0, (void*)0);
     /*
      * Set whether the DMA transfers are locked to the TFT update cycle. If
@@ -49,19 +49,16 @@ void TouchGFXGeneratedHAL::initialize()
 
 void TouchGFXGeneratedHAL::configureInterrupts()
 {
-    NVIC_SetPriority(DMA2D_IRQn, 9);
     NVIC_SetPriority(LTDC_IRQn, 9);
 }
 
 void TouchGFXGeneratedHAL::enableInterrupts()
 {
-    NVIC_EnableIRQ(DMA2D_IRQn);
     NVIC_EnableIRQ(LTDC_IRQn);
 }
 
 void TouchGFXGeneratedHAL::disableInterrupts()
 {
-    NVIC_DisableIRQ(DMA2D_IRQn);
     NVIC_DisableIRQ(LTDC_IRQn);
 }
 
