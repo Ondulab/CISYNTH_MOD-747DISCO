@@ -82,16 +82,16 @@ void QSPI_ResetData(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
+	/* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
+	/* USER CODE END 1 */
 
-/* USER CODE BEGIN Boot_Mode_Sequence_1 */
+	/* USER CODE BEGIN Boot_Mode_Sequence_1 */
 	/*HW semaphore Clock enable*/
 	__HAL_RCC_HSEM_CLK_ENABLE();
 	/* Activate HSEM notification for Cortex-M4*/
@@ -104,63 +104,71 @@ int main(void)
 	HAL_PWREx_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFE, PWR_D2_DOMAIN);
 	/* Clear HSEM flag */
 	__HAL_HSEM_CLEAR_FLAG(__HAL_HSEM_SEMID_TO_MASK(HSEM_ID_0));
-/* USER CODE END Boot_Mode_Sequence_1 */
-  /* MCU Configuration--------------------------------------------------------*/
+	/* USER CODE END Boot_Mode_Sequence_1 */
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 	SystemClock_Config();
-  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_DMA_Init();
-  MX_GPIO_Init();
-  MX_DSIHOST_DSI_Init();
-  MX_FMC_Init();
-  MX_LTDC_Init();
-  MX_DMA2D_Init();
-  MX_RNG_Init();
-  MX_QUADSPI_Init();
-  MX_CRC_Init();
-  MX_TouchGFX_Init();
-  /* USER CODE BEGIN 2 */
+	/* Initialize all configured peripherals */
+	MX_DMA_Init();
+	MX_GPIO_Init();
+	MX_DSIHOST_DSI_Init();
+	MX_FMC_Init();
+	MX_LTDC_Init();
+	MX_DMA2D_Init();
+	MX_RNG_Init();
+	MX_QUADSPI_Init();
+	MX_CRC_Init();
+	MX_TouchGFX_Init();
+	/* USER CODE BEGIN 2 */
+	synth_IfftInit();
 
-  /* USER CODE END 2 */
+	synth_SetImageData(60, 800); //for testing
+	synth_SetImageData(10, 800); //for testing
+	synth_SetImageData(8, 7000);
+	synth_SetImageData(40, 20000); //for testing
+	synth_SetImageData(75, 10100);
+	synth_SetImageData(60, 1300); //for testing
+	synth_SetImageData(105, 500);
 
-  /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
-  /* Start scheduler */
-  osKernelStart();
+	/* USER CODE END 2 */
 
-  /* We should never get here as control is now taken by the scheduler */
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+	/* Init scheduler */
+	osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+	MX_FREERTOS_Init();
+	/* Start scheduler */
+
+	/* We should never get here as control is now taken by the scheduler */
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
+
+	osKernelStart();
 
 	/* Initialize the LCD */
-//	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
-//	UTIL_LCD_SetFuncDriver(&LCD_Driver);
-//	UTIL_LCD_SetFont(&UTIL_LCD_DEFAULT_FONT);
-//	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
-//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLACK);
-//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
-//
-//	UTIL_LCD_DrawBitmapBW(sss_Img, (LCD_DEFAULT_WIDTH - 151) / 2, (LCD_DEFAULT_HEIGHT - 64) / 2, 151, 64, UTIL_LCD_COLOR_WHITE);
-//	HAL_Delay(500);
-//
-//	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
+	//	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
+	//	UTIL_LCD_SetFuncDriver(&LCD_Driver);
+	//	UTIL_LCD_SetFont(&UTIL_LCD_DEFAULT_FONT);
+	//	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
+	//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLACK);
+	//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
+	//
+	//	UTIL_LCD_DrawBitmapBW(sss_Img, (LCD_DEFAULT_WIDTH - 151) / 2, (LCD_DEFAULT_HEIGHT - 64) / 2, 151, 64, UTIL_LCD_COLOR_WHITE);
+	//	HAL_Delay(500);
+	//
+	//	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
 
 	//	QSPI_Demo();
-//	QSPI_Init();
-//	QSPI_ResetData();
-
-	synth_IfftInit();
+	//	QSPI_Init();
+	//	QSPI_ResetData();
 
 	uint8_t FreqStr[256] = {0};
 	static uint32_t start_tick;
@@ -171,13 +179,6 @@ int main(void)
 
 	cisynth_ifft_SetHint();
 
-	synth_SetImageData(60, 18000); //for testing
-	synth_SetImageData(100, 18000); //for testing
-	synth_SetImageData(85, 5700);
-	synth_SetImageData(20, 6500); //for testing
-	synth_SetImageData(75, 3000);
-	synth_SetImageData(60, 1300); //for testing
-	synth_SetImageData(205, 2000);
 
 	while (1)
 	{
@@ -191,7 +192,7 @@ int main(void)
 		//		latency = HAL_GetTick() - start_tick;
 		sprintf((char *)FreqStr, "  %dHz", (int)((shared_var.synth_process_cnt * 1000) / (1000 / DISPLAY_REFRESH_FPS)));
 
-//		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
+		//		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
 
 		static uint32_t note = 10;
 		if (note > NUMBER_OF_NOTES)
@@ -206,72 +207,72 @@ int main(void)
 		synth_SetImageData(note - 9, 26500); //for testing
 		synth_SetImageData(note - 10, 0);
 
-//				for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
-//				{
-//					UTIL_LCD_SetPixel(i, DISPLAY_AERA1_Y1POS + (DISPLAY_AERAS1_HEIGHT / 2) - (pcm5102_GetAudioData(i / 4) / 256), UTIL_LCD_COLOR_LIGHTYELLOW);
-//				}
+		//				for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
+		//				{
+		//					UTIL_LCD_SetPixel(i, DISPLAY_AERA1_Y1POS + (DISPLAY_AERAS1_HEIGHT / 2) - (pcm5102_GetAudioData(i / 4) / 256), UTIL_LCD_COLOR_LIGHTYELLOW);
+		//				}
 
-//		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
-//		{
-//			uint32_t height_bar = (synth_GetImageData(i * NUMBER_OF_NOTES / DISPLAY_MAX_X_LENGTH) * (DISPLAY_AERAS1_HEIGHT - 2) / 32768);
-//			UTIL_LCD_DrawVLine(i, (DISPLAY_AERA1_Y1POS + DISPLAY_AERAS1_HEIGHT - 2) - height_bar, height_bar, UTIL_LCD_COLOR_WHITE);
-//		}
-//
-//		UTIL_LCD_FillRect(0, DISPLAY_AERA2_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS2_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
-//
-//		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
-//		{
-//			UTIL_LCD_SetPixel(i, DISPLAY_AERA2_Y2POS - ((cvData[((NUMBER_OF_NOTES / IMAGE_WEIGHT) * i) / DISPLAY_MAX_X_LENGTH] / 31) - 2), UTIL_LCD_COLOR_YELLOW);
-//		}
-//
-//		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
+		//		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
+		//		{
+		//			uint32_t height_bar = (synth_GetImageData(i * NUMBER_OF_NOTES / DISPLAY_MAX_X_LENGTH) * (DISPLAY_AERAS1_HEIGHT - 2) / 32768);
+		//			UTIL_LCD_DrawVLine(i, (DISPLAY_AERA1_Y1POS + DISPLAY_AERAS1_HEIGHT - 2) - height_bar, height_bar, UTIL_LCD_COLOR_WHITE);
+		//		}
+		//
+		//		UTIL_LCD_FillRect(0, DISPLAY_AERA2_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS2_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
+		//
+		//		for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
+		//		{
+		//			UTIL_LCD_SetPixel(i, DISPLAY_AERA2_Y2POS - ((cvData[((NUMBER_OF_NOTES / IMAGE_WEIGHT) * i) / DISPLAY_MAX_X_LENGTH] / 31) - 2), UTIL_LCD_COLOR_YELLOW);
+		//		}
+		//
+		//		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
 
 		HAL_Delay(10);
 
-    /* USER CODE END WHILE */
+		/* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+		/* USER CODE BEGIN 3 */
 	}
-  /* USER CODE END 3 */
+	/* USER CODE END 3 */
 }
 
 /* USER CODE BEGIN 4 */
 /**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief GPIO Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_GPIO_Init2(void)
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LCD_RESET_GPIO_Port, LCD_RESET_Pin, GPIO_PIN_RESET);
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(LCD_RESET_GPIO_Port, LCD_RESET_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : LCD_BL_Pin */
-  GPIO_InitStruct.Pin = LCD_BL_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(LCD_BL_GPIO_Port, &GPIO_InitStruct);
+	/*Configure GPIO pin : LCD_BL_Pin */
+	GPIO_InitStruct.Pin = LCD_BL_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	HAL_GPIO_Init(LCD_BL_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA8 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	/*Configure GPIO pin : PA8 */
+	GPIO_InitStruct.Pin = GPIO_PIN_8;
+	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LCD_RESET_Pin */
-  GPIO_InitStruct.Pin = LCD_RESET_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(LCD_RESET_GPIO_Port, &GPIO_InitStruct);
+	/*Configure GPIO pin : LCD_RESET_Pin */
+	GPIO_InitStruct.Pin = LCD_RESET_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	HAL_GPIO_Init(LCD_RESET_GPIO_Port, &GPIO_InitStruct);
 
 }
 
@@ -340,11 +341,11 @@ void QSPI_ResetData(void)
 		Error_Handler();
 	}
 
-//	/* Memory Mapped Mode */
-//	if(BSP_QSPI_EnableMemoryMappedMode(0)!= BSP_ERROR_NONE)
-//	{
-//		Error_Handler();
-//	}
+	//	/* Memory Mapped Mode */
+	//	if(BSP_QSPI_EnableMemoryMappedMode(0)!= BSP_ERROR_NONE)
+	//	{
+	//		Error_Handler();
+	//	}
 }
 
 /**
@@ -392,9 +393,9 @@ int16_t pcm5102_GetAudioData(uint32_t index)
 static void cisynth_ifft_SetHint(void)
 {
 	/* Set Audio header description */
-//	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
-//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
-//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
+	//	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
+	//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
+	//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
 }
 
 /**
@@ -466,55 +467,55 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
-  * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM3 interrupt took place, inside
-  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
-  * a global variable "uwTick" used as application time base.
-  * @param  htim : TIM handle
-  * @retval None
-  */
+ * @brief  Period elapsed callback in non blocking mode
+ * @note   This function is called  when TIM3 interrupt took place, inside
+ * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+ * a global variable "uwTick" used as application time base.
+ * @param  htim : TIM handle
+ * @retval None
+ */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  /* USER CODE BEGIN Callback 0 */
+	/* USER CODE BEGIN Callback 0 */
 
-  /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM3) {
-    HAL_IncTick();
-  }
-  /* USER CODE BEGIN Callback 1 */
+	/* USER CODE END Callback 0 */
+	if (htim->Instance == TIM3) {
+		HAL_IncTick();
+	}
+	/* USER CODE BEGIN Callback 1 */
 
-  /* USER CODE END Callback 1 */
+	/* USER CODE END Callback 1 */
 }
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
+	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 	while (1)
 	{
 	}
-  /* USER CODE END Error_Handler_Debug */
+	/* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
+	/* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+	/* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 
