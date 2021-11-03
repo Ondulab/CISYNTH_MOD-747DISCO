@@ -1,0 +1,87 @@
+/**
+ ******************************************************************************
+ * @file           : pcm5102.c
+ * @brief          : Audio Stereo DAC with 32-bit, 384kHz PCM Interface
+ ******************************************************************************
+ */
+
+/* Includes ------------------------------------------------------------------*/
+#include "stdio.h"
+
+#include "main.h"
+#include "config.h"
+#include "shared.h"
+
+/* Private includes ----------------------------------------------------------*/
+#include "pcm5102.h"
+
+/* Private typedef -----------------------------------------------------------*/
+
+/* Private define ------------------------------------------------------------*/
+
+/* Private macro -------------------------------------------------------------*/
+
+/* Private variables ---------------------------------------------------------*/
+
+/* Private typedef -----------------------------------------------------------*/
+typedef enum {
+	AUDIO_STATE_IDLE = 0,
+	AUDIO_STATE_INIT,
+	AUDIO_STATE_PLAYING,
+	AUDIO_STATE_PAUSE
+}AUDIO_PLAYBACK_StateTypeDef;
+
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/;
+__IO uint32_t uwVolume = VOLUME;
+__IO uint32_t uwPauseEnabledStatus = 0;
+uint32_t bytesread;
+
+//BSP_AUDIO_Init_t* AudioPlayInit;
+
+/* Private function prototypes -----------------------------------------------*/
+
+/* Private user code ---------------------------------------------------------*/
+
+/**
+ * @brief  Initialise audio peripheral
+ * @param  void
+ * @retval void
+ */
+void pcm5102_Init(void)
+{
+	printf("----------- DAC INIT ----------\n");
+	printf("-------------------------------\n");
+
+//	AudioPlayInit->Device = AUDIO_OUT_DEVICE_HEADPHONE;
+//	AudioPlayInit->ChannelsNbr = 2;
+//	AudioPlayInit->SampleRate = 48000 ;
+//	AudioPlayInit->BitsPerSample = AUDIO_RESOLUTION_16B;
+//	AudioPlayInit->Volume = uwVolume;
+//	if(BSP_AUDIO_OUT_Init(0, AudioPlayInit) != HAL_OK)
+//	{
+//		Error_Handler();
+//	}
+}
+
+/**
+ * @brief  Get audio buffer data
+ * @param  Index
+ * @retval Value
+ */
+int16_t pcm5102_GetAudioData(uint32_t index)
+{
+	//	if (index >= RFFT_BUFFER_SIZE)
+	//		Error_Handler();
+	return audioBuff[index];
+}
+
+/**
+ * @brief  Get audio buffer index pointer
+ * @param  index
+ * @retval index address
+ */
+volatile int16_t * pcm5102_GetDataPtr(uint32_t index)
+{
+	return &audioBuff[index];
+}

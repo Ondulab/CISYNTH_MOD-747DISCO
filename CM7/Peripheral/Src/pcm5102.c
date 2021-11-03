@@ -23,24 +23,14 @@ static BUFFER_AUDIO_StateTypeDef bufferAudioState;
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-//static int16_t audioBuff[AUDIO_BUFFER_SIZE * 4] = {0};
-//ALIGN_32BYTES (static AUDIO_BufferTypeDef  buffer_ctl) = {0};
 
 /* Private typedef -----------------------------------------------------------*/
-typedef enum {
-	AUDIO_STATE_IDLE = 0,
-	AUDIO_STATE_INIT,
-	AUDIO_STATE_PLAYING,
-	AUDIO_STATE_PAUSE
-}AUDIO_PLAYBACK_StateTypeDef;
+BSP_AUDIO_Init_t* AudioPlayInit;
 
 /* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/;
-__IO uint32_t uwVolume = 90;
-__IO uint32_t uwPauseEnabledStatus = 0;
-uint32_t bytesread;
 
-BSP_AUDIO_Init_t* AudioPlayInit;
+/* Private variables ---------------------------------------------------------*/;
+uint32_t bytesread;
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -56,13 +46,11 @@ void pcm5102_Init(void)
 	printf("----------- DAC INIT ----------\n");
 	printf("-------------------------------\n");
 
-	uwVolume = 70;
-
 	AudioPlayInit->Device = AUDIO_OUT_DEVICE_HEADPHONE;
 	AudioPlayInit->ChannelsNbr = 2;
 	AudioPlayInit->SampleRate = 48000 ;
 	AudioPlayInit->BitsPerSample = AUDIO_RESOLUTION_16B;
-	AudioPlayInit->Volume = uwVolume;
+	AudioPlayInit->Volume = VOLUME;
 	if(BSP_AUDIO_OUT_Init(0, AudioPlayInit) != HAL_OK)
 	{
 		Error_Handler();

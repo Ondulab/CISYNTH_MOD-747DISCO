@@ -133,6 +133,7 @@ How To use this driver:
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h747i_discovery_audio.h"
 #include "stm32h747i_discovery_bus.h"
+#include "shared.h"
 
 /** @addtogroup BSP
   * @{

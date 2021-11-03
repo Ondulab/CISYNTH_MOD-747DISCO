@@ -255,6 +255,9 @@
         <file>
           <name>Middlewares/Third_Party/LwIP/src/apps/mqtt/mqtt.c</name>
         </file>
+        <file>
+          <name>Middlewares/ST/STM32_Audio/Addons/PDM/Lib/libPDMFilter_CM7_GCC_wc32.a</name>
+        </file>
       </filestoremove>
       <sourceEntriesToRemove>
         <sourceEntry />
@@ -395,6 +398,12 @@
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c</name>
             </file>
             <file>
+              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc.c</name>
+            </file>
+            <file>
+              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc_ex.c</name>
+            </file>
+            <file>
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma2d.c</name>
             </file>
             <file>
@@ -423,12 +432,6 @@
             </file>
             <file>
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c</name>
-            </file>
-            <file>
-              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc.c</name>
-            </file>
-            <file>
-              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc_ex.c</name>
             </file>
             <file>
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dsi.c</name>
@@ -554,6 +557,7 @@
             <include>CM7/Core/Inc</include>
             <include>CM7/LWIP/App</include>
             <include>CM7/LWIP/Target</include>
+            <include>CM7/PDM2PCM/App</include>
             <include>Middlewares\ST\ARM\DSP\Inc</include>
             <include>Middlewares/Third_Party/LwIP/src/include</include>
             <include>Middlewares/Third_Party/LwIP/system</include>
@@ -561,6 +565,7 @@
             <include>Middlewares/Third_Party/LwIP/system</include>
             <include>Drivers/STM32H7xx_HAL_Driver/Inc</include>
             <include>Drivers/STM32H7xx_HAL_Driver/Inc/Legacy</include>
+            <include>Middlewares/ST/STM32_Audio/Addons/PDM/Inc</include>
             <include>Drivers/BSP/Components/lan8742</include>
             <include>Middlewares/Third_Party/LwIP/src/include/netif/ppp</include>
             <include>Drivers/CMSIS/Device/ST/STM32H7xx/Include</include>
@@ -602,6 +607,9 @@
           <name>CM7/LWIP</name>
         </sourceEntry>
         <sourceEntry>
+          <name>CM7/PDM2PCM</name>
+        </sourceEntry>
+        <sourceEntry>
           <name>Common</name>
         </sourceEntry>
         <sourceEntry>
@@ -612,6 +620,9 @@
         </sourceEntry>
         <sourceEntry>
           <name>CM7/LWIP</name>
+        </sourceEntry>
+        <sourceEntry>
+          <name>CM7/PDM2PCM</name>
         </sourceEntry>
         <sourceEntry>
           <name>CM7/Library</name>
@@ -695,6 +706,12 @@
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c</name>
             </file>
             <file>
+              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc.c</name>
+            </file>
+            <file>
+              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_crc_ex.c</name>
+            </file>
+            <file>
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.c</name>
             </file>
             <file>
@@ -776,6 +793,12 @@
         </group>
         <group>
           <name>Middlewares</name>
+          <group>
+            <name>ST/STM32_Audio/Addons/PDM/</name>
+            <file>
+              <name>Middlewares/ST/STM32_Audio/Addons/PDM/Lib/libPDMFilter_CM7_GCC_wc32.a</name>
+            </file>
+          </group>
           <group>
             <name>Third_Party/LwIP/</name>
             <file>

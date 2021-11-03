@@ -18,6 +18,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 #include "stdint.h"
 #include "config.h"
+#include "stm32h7xx_hal_sai.h"
 
 /* Exported types ------------------------------------------------------------*/
 __attribute__ ((packed))
@@ -43,15 +44,16 @@ struct params {
 __attribute__ ((packed))
 struct shared_var {
 	int32_t synth_process_cnt;
+	SAI_HandleTypeDef haudio_out_sai;
 };
 
-extern volatile struct shared_var shared_var;
+extern struct shared_var shared_var;
 extern volatile struct params params;
 extern volatile int32_t cvData[];
 extern volatile int32_t imageData[];
 extern volatile int16_t audioBuff[];
 extern volatile struct wave waves[];
-extern volatile int16_t unitary_waveform[] ;
+extern volatile int16_t unitary_waveform[];
 
 extern int params_size;
 

@@ -36,6 +36,7 @@ extern "C" {
 #include "string.h"
 #include "stm32h747i_discovery_conf.h"
 #include "stm32h747i_discovery_audio.h"
+#include "../Components/otm8009a/otm8009a.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -67,21 +68,6 @@ extern __IO uint32_t SdmmcTest;
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 
-/* Defines for the Audio playing process */
-#define PAUSE_STATUS     ((uint32_t)0x00) /* Audio Player in Pause Status */
-#define RESUME_STATUS    ((uint32_t)0x01) /* Audio Player in Resume Status */
-#define IDLE_STATUS      ((uint32_t)0x02) /* Audio Player in Idle Status */
-
-#define AUDIO_REC_START_ADDR         SDRAM_WRITE_READ_ADDR
-#define AUDIO_REC_TOTAL_SIZE         ((uint32_t) 0x0000E000)
-#define AUDIO_RECPDM_START_ADDR      (AUDIO_REC_START_ADDR+AUDIO_REC_TOTAL_SIZE)
-
-/* The Audio file is flashed with ST-Link Utility @ flash address =  AUDIO_SRC_FILE_ADDRESS */
-#define AUDIO_SRC_FILE_ADDRESS       0x08080000   /* Audio file address in flash */
-#define AUDIO_FILE_SIZE              524288
-
-#define AUDIO_PLAY_SAMPLE        0
-#define AUDIO_PLAY_RECORDED      1
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

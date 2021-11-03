@@ -19,6 +19,7 @@
 
 #include "shared.h"
 #include "wave_generation.h"
+#include "pcm5102.h"
 #include "synth.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -109,6 +110,8 @@ int32_t synth_IfftInit(void)
 	}
 	printf("-------------------------------\n");
 #endif
+
+//	pcm5102_Init();
 
 	return 0;
 }

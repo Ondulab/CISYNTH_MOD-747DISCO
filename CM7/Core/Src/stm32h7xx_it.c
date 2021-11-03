@@ -23,6 +23,7 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "shared.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -230,16 +231,6 @@ void ETH_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-
-/**
-  * @brief  This function handles SAI DMA interrupt request.
-  * @param  None
-  * @retval None
-  */
-void AUDIO_IN_SAIx_DMAx_IRQHandler()
-{
-  BSP_AUDIO_IN_IRQHandler(0,AUDIO_IN_DEVICE_DIGITAL_MIC);
-}
 /**
   * @brief  This function handles DMA2 Stream 1 interrupt request.
   * @param  None
@@ -247,17 +238,8 @@ void AUDIO_IN_SAIx_DMAx_IRQHandler()
   */
 void AUDIO_OUT_SAIx_DMAx_IRQHandler(void)
 {
-  BSP_AUDIO_OUT_IRQHandler(0);
-}
-
-/**
-  * @brief  This function handles BDMA Channel 1 for SAI_PDM interrupt request.
-  * @param  None
-  * @retval None
-  */
-void AUDIO_IN_SAI_PDMx_DMAx_IRQHandler(void)
-{
-  BSP_AUDIO_IN_IRQHandler(1, AUDIO_IN_DEVICE_DIGITAL_MIC);
+//  BSP_AUDIO_OUT_IRQHandler(0);
+	    HAL_DMA_IRQHandler(haudio_out_sai.hdmatx);
 }
 
 /* USER CODE END 1 */

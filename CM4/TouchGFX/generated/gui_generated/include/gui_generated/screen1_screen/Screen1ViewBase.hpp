@@ -9,16 +9,11 @@
 #include <gui/screen1_screen/Screen1Presenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/containers/Slider.hpp>
-#include <touchgfx/widgets/ToggleButton.hpp>
-#include <touchgfx/widgets/RadioButton.hpp>
 #include <touchgfx/widgets/BoxWithBorder.hpp>
 #include <touchgfx/widgets/graph/GraphWrapAndClear.hpp>
 #include <touchgfx/widgets/graph/GraphElements.hpp>
 #include <touchgfx/widgets/canvas/PainterRGB888.hpp>
-#include <touchgfx/containers/progress_indicators/TextProgress.hpp>
-#include <touchgfx/containers/progress_indicators/CircleProgress.hpp>
-#include <touchgfx/widgets/canvas/PainterRGB888Bitmap.hpp>
-#include <touchgfx/widgets/RepeatButton.hpp>
+#include <touchgfx/widgets/RadioButton.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
 #include <touchgfx/widgets/RadioButtonGroup.hpp>
 
@@ -40,19 +35,27 @@ protected:
     touchgfx::Box __background;
     touchgfx::Box box1;
     touchgfx::Slider slider1;
-    touchgfx::ToggleButton toggleButton1;
-    touchgfx::RadioButton radioButton1;
     touchgfx::BoxWithBorder boxWithBorder1;
-    touchgfx::GraphWrapAndClear<100> dynamicGraph1;
-    touchgfx::GraphElementLine dynamicGraph1Line1;
-    touchgfx::PainterRGB888 dynamicGraph1Line1Painter;
     touchgfx::Slider slider2;
-    touchgfx::TextProgress textProgress1;
-    touchgfx::CircleProgress circleProgress1;
-    touchgfx::PainterRGB888Bitmap circleProgress1Painter;
-    touchgfx::RepeatButton repeatButton1;
+    touchgfx::Slider slider3;
+    touchgfx::GraphWrapAndClear<100> dynamicGraph1_1;
+    touchgfx::GraphElementLine dynamicGraph1_1Line1;
+    touchgfx::PainterRGB888 dynamicGraph1_1Line1Painter;
+    touchgfx::RadioButton radioButton1;
+    touchgfx::RadioButton radioButton2;
+    touchgfx::RadioButton radioButton3;
+    touchgfx::Slider slider6;
+    touchgfx::Slider slider8;
     touchgfx::TextArea textArea1;
-    touchgfx::RadioButtonGroup<1> radioButtonGroup1;
+    touchgfx::TextArea textArea1_1;
+    touchgfx::TextArea textArea1_1_1;
+    touchgfx::TextArea textArea1_1_1_1_1;
+    touchgfx::TextArea textArea1_1_1_1_1_1;
+    touchgfx::TextArea textArea1_1_1_1_1_1_1;
+    touchgfx::TextArea textArea1_1_1_1_1_2;
+    touchgfx::Slider slider8_1;
+    touchgfx::TextArea textArea1_1_1_1_1_2_1;
+    touchgfx::RadioButtonGroup<3> radioButtonGroup1;
 
 private:
 

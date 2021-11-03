@@ -21,6 +21,7 @@
 #include "main.h"
 #include "dac.h"
 #include "dma.h"
+#include "pdm2pcm.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -156,9 +157,10 @@ HSEM notification */
   MX_USART1_UART_Init();
   MX_DAC1_Init();
   MX_TIM6_Init();
+  MX_PDM2PCM_Init();
   /* USER CODE BEGIN 2 */
 
-    HAL_Delay(3000); //todo add hardware semaphore
+    HAL_Delay(2000); //todo add hardware semaphore
 
 	printf("----------------------------------------------------------\n");
 	printf("--------- Sectral Synth Scanner CIS module START ---------\n");

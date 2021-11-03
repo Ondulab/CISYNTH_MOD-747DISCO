@@ -19,7 +19,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 __attribute__ ((section(".shared_var")))
-volatile struct shared_var shared_var;
+struct shared_var shared_var;
 
 __attribute__ ((section(".params")))
 volatile struct params params;
