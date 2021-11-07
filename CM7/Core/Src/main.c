@@ -47,6 +47,7 @@
 #ifndef HSEM_ID_0
 #define HSEM_ID_0 (0U) /* HW semaphore 0*/
 #endif
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -145,6 +146,7 @@ HSEM notification */
 	{
 		Error_Handler();
 	}
+
 /* USER CODE END Boot_Mode_Sequence_2 */
 
   /* USER CODE BEGIN SysInit */
@@ -166,7 +168,10 @@ HSEM notification */
 
 	MX_LWIP_Init();
 
-    HAL_Delay(3000); //todo add hardware semaphore
+	/* CM7 waits for CM4 to finish his task and HW sempahore 0 becomes taken */
+    while(HAL_HSEM_IsSemTaken(HSEM_ID_0) == 0)
+    {
+    }
 
 //	cisynth_eth();
 	cisynth_ifft();
