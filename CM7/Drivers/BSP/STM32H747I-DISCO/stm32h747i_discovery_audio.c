@@ -303,7 +303,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
             ret = BSP_ERROR_PERIPH_FAILURE;
           }
 #endif
-//          else
+          else
           {
 #if (USE_AUDIO_CODEC_WM8994 == 1)
             WM8994_Init_t codec_init;
@@ -442,7 +442,7 @@ __weak HAL_StatusTypeDef MX_SAI1_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Co
   *         Being __weak it can be overwritten by the application
   * @retval HAL status
   */
-__weak HAL_StatusTypeDef MX_SAI1_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate)
+HAL_StatusTypeDef MX_SAI1_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate)
 {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hsai);

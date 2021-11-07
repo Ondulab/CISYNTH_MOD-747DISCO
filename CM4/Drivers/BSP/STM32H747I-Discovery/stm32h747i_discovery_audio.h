@@ -328,11 +328,13 @@ typedef struct
 /* Audio in and out component object */
 extern void                                  *Audio_CompObj;
 /* Play  */
+//extern SAI_HandleTypeDef                      haudio_out_sai;
 extern AUDIO_OUT_Ctx_t                        Audio_Out_Ctx[];
 
 /* Audio in and out component object */
 extern void *Audio_CompObj;
 
+//extern SAI_HandleTypeDef                      haudio_in_sai;
 extern AUDIO_IN_Ctx_t                         Audio_In_Ctx[];
 /**
   * @}
@@ -380,6 +382,11 @@ void    BSP_AUDIO_OUT_HalfTransfer_CallBack(uint32_t Instance);
    error occurs. */
 void    BSP_AUDIO_OUT_Error_CallBack(uint32_t Instance);
 
+/* These function can be modified in case the current settings need to be changed
+   for specific application needs */
+HAL_StatusTypeDef MX_SAI1_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate);
+HAL_StatusTypeDef MX_SAI4_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate);
+HAL_StatusTypeDef MX_SAI1_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig);
 /**
   * @}
   */
@@ -426,6 +433,8 @@ void BSP_AUDIO_IN_HalfTransfer_CallBack(uint32_t Instance);
 void BSP_AUDIO_IN_Error_CallBack(uint32_t Instance);
 /* These function can be modified in case the current settings (e.g. DMA stream)
    need to be changed for specific application needs */
+//HAL_StatusTypeDef MX_SAI1_Block_B_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig);
+//HAL_StatusTypeDef MX_SAI4_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig);
 
 /**
   * @}

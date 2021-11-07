@@ -140,9 +140,6 @@ int main(void)
 	synth_SetImageData(60, 1300); //for testing
 	synth_SetImageData(105, 500);
 
-	HAL_Delay(3000);
-	pcm5102_Init();
-
   /* USER CODE END 2 */
 
   /* Init scheduler */

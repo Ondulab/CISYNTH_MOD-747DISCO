@@ -16,12 +16,6 @@
       <Secure />
       <filestoremove>
         <file>
-          <name>CM4/Core/Src/resmgr_utility.c</name>
-        </file>
-        <file>
-          <name>Utilities/ResourcesManager/res_mgr.c</name>
-        </file>
-        <file>
           <name>Middlewares/Third_Party/LwIP/src/netif/ppp/auth.c</name>
         </file>
         <file>
@@ -325,10 +319,7 @@
             <Aincludes>
               <include />
             </Aincludes>
-            <Cincludes>
-              <include>Utilities/ResourcesManager</include>
-              <include>Common/Inc</include>
-            </Cincludes>
+            <Cincludes />
           </inctoremove>
         </config>
       </configs>
@@ -431,6 +422,12 @@
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rng_ex.c</name>
             </file>
             <file>
+              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai.c</name>
+            </file>
+            <file>
+              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai_ex.c</name>
+            </file>
+            <file>
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c</name>
             </file>
             <file>
@@ -496,12 +493,6 @@
       <ProjectNature>Cpp</ProjectNature>
       <Secure />
       <filestoremove>
-        <file>
-          <name>CM7/Core/Src/resmgr_utility.c</name>
-        </file>
-        <file>
-          <name>Utilities/ResourcesManager/res_mgr.c</name>
-        </file>
         <file>
           <name>Middlewares/Third_Party/FreeRTOS/Source/croutine.c</name>
         </file>
@@ -609,10 +600,7 @@
             <Aincludes>
               <include />
             </Aincludes>
-            <Cincludes>
-              <include>Utilities/ResourcesManager</include>
-              <include>Common/Inc</include>
-            </Cincludes>
+            <Cincludes />
           </inctoremove>
         </config>
       </configs>

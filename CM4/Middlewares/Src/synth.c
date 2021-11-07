@@ -111,7 +111,7 @@ int32_t synth_IfftInit(void)
 	printf("-------------------------------\n");
 #endif
 
-//	pcm5102_Init();
+	pcm5102_Init();
 
 	return 0;
 }

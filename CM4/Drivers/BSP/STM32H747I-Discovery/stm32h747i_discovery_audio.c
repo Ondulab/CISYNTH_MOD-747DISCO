@@ -244,7 +244,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
     if(ret == BSP_ERROR_NONE)
     {
       /* PLL clock is set depending by the AudioFreq (44.1khz vs 48khz groups) */
-      if(0)//MX_SAI1_ClockConfig(&haudio_out_sai, AudioInit->SampleRate) != HAL_OK)
+      if(MX_SAI1_ClockConfig(&haudio_out_sai, AudioInit->SampleRate) != HAL_OK)
       {
         ret = BSP_ERROR_CLOCK_FAILURE;
       }
@@ -264,7 +264,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
           }
         }
 #else
-//        SAI_MspInit(&haudio_out_sai);
+        SAI_MspInit(&haudio_out_sai);
 #endif /* (USE_HAL_SAI_REGISTER_CALLBACKS == 1U) */
         if(ret == BSP_ERROR_NONE)
 	{
@@ -284,7 +284,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
           mx_sai_config.SlotActive        = CODEC_AUDIOFRAME_SLOT_02;
 
           /* SAI peripheral initialization: this __weak function can be redefined by the application  */
-          if(0)//MX_SAI1_Block_A_Init(&haudio_out_sai, &mx_sai_config) != HAL_OK)
+          if(MX_SAI1_Block_A_Init(&haudio_out_sai, &mx_sai_config) != HAL_OK)
           {
             ret = BSP_ERROR_PERIPH_FAILURE;
           }
@@ -375,105 +375,105 @@ int32_t BSP_AUDIO_OUT_DeInit(uint32_t Instance)
   return ret;
 }
 
-///**
-//  * @brief  Initializes the Audio Codec audio out instance (SAI).
-//  * @param  hsai SAI handle
-//  * @param  MXConfig SAI configuration structure
-//  * @note   Being __weak it can be overwritten by the application
-//  * @retval HAL status
-//  */
-//__weak HAL_StatusTypeDef MX_SAI1_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig)
-//{
-//  HAL_StatusTypeDef ret = HAL_OK;
-//
-//  /* Disable SAI peripheral to allow access to SAI internal registers */
-//  __HAL_SAI_DISABLE(hsai);
-//
-//  /* Configure SAI1_Block_A */
-//  hsai->Init.MonoStereoMode       = MXConfig->MonoStereoMode;
-//  hsai->Init.AudioFrequency       = MXConfig->AudioFrequency;
-//  hsai->Init.AudioMode            = MXConfig->AudioMode;
-//  hsai->Init.NoDivider            = SAI_MASTERDIVIDER_ENABLE;
-//  hsai->Init.Protocol             = SAI_FREE_PROTOCOL;
-//  hsai->Init.DataSize             = MXConfig->DataSize;
-//  hsai->Init.FirstBit             = SAI_FIRSTBIT_MSB;
-//  hsai->Init.ClockStrobing        = MXConfig->ClockStrobing;
-//  hsai->Init.Synchro              = MXConfig->Synchro;
-//  hsai->Init.OutputDrive          = MXConfig->OutputDrive;
-//  hsai->Init.FIFOThreshold        = SAI_FIFOTHRESHOLD_1QF;
-//  hsai->Init.SynchroExt           = MXConfig->SynchroExt;
-//  hsai->Init.CompandingMode       = SAI_NOCOMPANDING;
-//  hsai->Init.TriState             = SAI_OUTPUT_NOTRELEASED;
-//  hsai->Init.Mckdiv               = 0;
-//  hsai->Init.MckOverSampling      = SAI_MCK_OVERSAMPLING_DISABLE;
-//  hsai->Init.MckOutput            = SAI_MCK_OUTPUT_DISABLE;
-//  hsai->Init.PdmInit.Activation   = DISABLE;
-//  hsai->Init.PdmInit.ClockEnable  = 0;
-//  hsai->Init.PdmInit.MicPairsNbr  = 0;
-//
-//  /* Configure SAI_Block_x Frame */
-//  hsai->FrameInit.FrameLength       = MXConfig->FrameLength;
-//  hsai->FrameInit.ActiveFrameLength = MXConfig->ActiveFrameLength;
-//  hsai->FrameInit.FSDefinition      = SAI_FS_CHANNEL_IDENTIFICATION;
-//  hsai->FrameInit.FSPolarity        = SAI_FS_ACTIVE_LOW;
-//  hsai->FrameInit.FSOffset          = SAI_FS_BEFOREFIRSTBIT;
-//
-//  /* Configure SAI Block_x Slot */
-//  hsai->SlotInit.FirstBitOffset     = 0;
-//  hsai->SlotInit.SlotSize           = SAI_SLOTSIZE_DATASIZE;
-//  hsai->SlotInit.SlotNumber         = 4;
-//  hsai->SlotInit.SlotActive         = MXConfig->SlotActive;
-//
-//  if(HAL_SAI_Init(hsai) != HAL_OK)
-//  {
-//    ret = HAL_ERROR;
-//  }
-//
-//  __HAL_SAI_ENABLE(hsai);
-//
-//  return ret;
-//}
+/**
+  * @brief  Initializes the Audio Codec audio out instance (SAI).
+  * @param  hsai SAI handle
+  * @param  MXConfig SAI configuration structure
+  * @note   Being __weak it can be overwritten by the application
+  * @retval HAL status
+  */
+__weak HAL_StatusTypeDef MX_SAI1_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig)
+{
+  HAL_StatusTypeDef ret = HAL_OK;
 
-///**
-//  * @brief  SAI clock Config.
-//  * @param  hsai SAI handle
-//  * @param  SampleRate  Audio frequency used to play the audio stream.
-//  * @note   This API is called by BSP_AUDIO_OUT_Init() and BSP_AUDIO_OUT_SetFrequency()
-//  *         Being __weak it can be overwritten by the application
-//  * @retval HAL status
-//  */
-//__weak HAL_StatusTypeDef MX_SAI1_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate)
-//{
-//  /* Prevent unused argument(s) compilation warning */
-//  UNUSED(hsai);
-//
-//  HAL_StatusTypeDef ret = HAL_OK;
-//  RCC_PeriphCLKInitTypeDef rcc_ex_clk_init_struct;
-//  HAL_RCCEx_GetPeriphCLKConfig(&rcc_ex_clk_init_struct);
-//
-//  /* Set the PLL configuration according to the audio frequency */
-//  if((SampleRate == AUDIO_FREQUENCY_11K) || (SampleRate == AUDIO_FREQUENCY_22K) || (SampleRate == AUDIO_FREQUENCY_44K))
-//  {
-//    rcc_ex_clk_init_struct.PLL2.PLL2P = 38;
-//    rcc_ex_clk_init_struct.PLL2.PLL2N = 429;
-//  }
-//  else /* AUDIO_FREQUENCY_8K, AUDIO_FREQUENCY_16K, AUDIO_FREQUENCY_32K, AUDIO_FREQUENCY_48K, AUDIO_FREQUENCY_96K */
-//  {
-//    rcc_ex_clk_init_struct.PLL2.PLL2P = 7;
-//    rcc_ex_clk_init_struct.PLL2.PLL2N = 344;
-//  }
-//  rcc_ex_clk_init_struct.PeriphClockSelection = RCC_PERIPHCLK_SAI1;
-//  rcc_ex_clk_init_struct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLL2;
-//  rcc_ex_clk_init_struct.PLL2.PLL2Q = 1;
-//  rcc_ex_clk_init_struct.PLL2.PLL2R = 1;
-//  rcc_ex_clk_init_struct.PLL2.PLL2M = 25;
-//  if(HAL_RCCEx_PeriphCLKConfig(&rcc_ex_clk_init_struct) != HAL_OK)
-//  {
-//    ret = HAL_ERROR;
-//  }
-//
-//  return ret;
-//}
+  /* Disable SAI peripheral to allow access to SAI internal registers */
+  __HAL_SAI_DISABLE(hsai);
+
+  /* Configure SAI1_Block_A */
+  hsai->Init.MonoStereoMode       = MXConfig->MonoStereoMode;
+  hsai->Init.AudioFrequency       = MXConfig->AudioFrequency;
+  hsai->Init.AudioMode            = MXConfig->AudioMode;
+  hsai->Init.NoDivider            = SAI_MASTERDIVIDER_ENABLE;
+  hsai->Init.Protocol             = SAI_FREE_PROTOCOL;
+  hsai->Init.DataSize             = MXConfig->DataSize;
+  hsai->Init.FirstBit             = SAI_FIRSTBIT_MSB;
+  hsai->Init.ClockStrobing        = MXConfig->ClockStrobing;
+  hsai->Init.Synchro              = MXConfig->Synchro;
+  hsai->Init.OutputDrive          = MXConfig->OutputDrive;
+  hsai->Init.FIFOThreshold        = SAI_FIFOTHRESHOLD_1QF;
+  hsai->Init.SynchroExt           = MXConfig->SynchroExt;
+  hsai->Init.CompandingMode       = SAI_NOCOMPANDING;
+  hsai->Init.TriState             = SAI_OUTPUT_NOTRELEASED;
+  hsai->Init.Mckdiv               = 0;
+  hsai->Init.MckOverSampling      = SAI_MCK_OVERSAMPLING_DISABLE;
+  hsai->Init.MckOutput            = SAI_MCK_OUTPUT_DISABLE;
+  hsai->Init.PdmInit.Activation   = DISABLE;
+  hsai->Init.PdmInit.ClockEnable  = 0;
+  hsai->Init.PdmInit.MicPairsNbr  = 0;
+
+  /* Configure SAI_Block_x Frame */
+  hsai->FrameInit.FrameLength       = MXConfig->FrameLength;
+  hsai->FrameInit.ActiveFrameLength = MXConfig->ActiveFrameLength;
+  hsai->FrameInit.FSDefinition      = SAI_FS_CHANNEL_IDENTIFICATION;
+  hsai->FrameInit.FSPolarity        = SAI_FS_ACTIVE_LOW;
+  hsai->FrameInit.FSOffset          = SAI_FS_BEFOREFIRSTBIT;
+
+  /* Configure SAI Block_x Slot */
+  hsai->SlotInit.FirstBitOffset     = 0;
+  hsai->SlotInit.SlotSize           = SAI_SLOTSIZE_DATASIZE;
+  hsai->SlotInit.SlotNumber         = 4;
+  hsai->SlotInit.SlotActive         = MXConfig->SlotActive;
+
+  if(HAL_SAI_Init(hsai) != HAL_OK)
+  {
+    ret = HAL_ERROR;
+  }
+
+  __HAL_SAI_ENABLE(hsai);
+
+  return ret;
+}
+
+/**
+  * @brief  SAI clock Config.
+  * @param  hsai SAI handle
+  * @param  SampleRate  Audio frequency used to play the audio stream.
+  * @note   This API is called by BSP_AUDIO_OUT_Init() and BSP_AUDIO_OUT_SetFrequency()
+  *         Being __weak it can be overwritten by the application
+  * @retval HAL status
+  */
+__weak HAL_StatusTypeDef MX_SAI1_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate)
+{
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsai);
+
+  HAL_StatusTypeDef ret = HAL_OK;
+  RCC_PeriphCLKInitTypeDef rcc_ex_clk_init_struct;
+  HAL_RCCEx_GetPeriphCLKConfig(&rcc_ex_clk_init_struct);
+
+  /* Set the PLL configuration according to the audio frequency */
+  if((SampleRate == AUDIO_FREQUENCY_11K) || (SampleRate == AUDIO_FREQUENCY_22K) || (SampleRate == AUDIO_FREQUENCY_44K))
+  {
+    rcc_ex_clk_init_struct.PLL2.PLL2P = 38;
+    rcc_ex_clk_init_struct.PLL2.PLL2N = 429;
+  }
+  else /* AUDIO_FREQUENCY_8K, AUDIO_FREQUENCY_16K, AUDIO_FREQUENCY_32K, AUDIO_FREQUENCY_48K, AUDIO_FREQUENCY_96K */
+  {
+    rcc_ex_clk_init_struct.PLL2.PLL2P = 7;
+    rcc_ex_clk_init_struct.PLL2.PLL2N = 344;
+  }
+  rcc_ex_clk_init_struct.PeriphClockSelection = RCC_PERIPHCLK_SAI1;
+  rcc_ex_clk_init_struct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLL2;
+  rcc_ex_clk_init_struct.PLL2.PLL2Q = 1;
+  rcc_ex_clk_init_struct.PLL2.PLL2R = 1;
+  rcc_ex_clk_init_struct.PLL2.PLL2M = 25;
+  if(HAL_RCCEx_PeriphCLKConfig(&rcc_ex_clk_init_struct) != HAL_OK)
+  {
+    ret = HAL_ERROR;
+  }
+
+  return ret;
+}
 
 /**
   * @brief  SAI clock Config.
@@ -2661,45 +2661,45 @@ static void SAI_MspInit(SAI_HandleTypeDef *hsai)
   HAL_GPIO_Init(GPIOG, &gpio_init_structure);
 
 
-    /* Enable the DMA clock */
-    AUDIO_OUT_SAIx_DMAx_CLK_ENABLE();
-
-    /* Configure the hdma_saiTx handle parameters */
-    if(Audio_Out_Ctx[0].BitsPerSample == AUDIO_RESOLUTION_16B)
-    {
-      hdma_sai_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-      hdma_sai_tx.Init.MemDataAlignment    = DMA_MDATAALIGN_HALFWORD;
-    }
-    else
-    {
-      hdma_sai_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-      hdma_sai_tx.Init.MemDataAlignment    = DMA_MDATAALIGN_WORD;
-    }
-
-    hdma_sai_tx.Init.Request             = AUDIO_OUT_SAIx_DMAx_REQUEST;
-    hdma_sai_tx.Init.PeriphInc           = DMA_PINC_DISABLE;
-    hdma_sai_tx.Init.MemInc              = DMA_MINC_ENABLE;
-    hdma_sai_tx.Init.Mode                = DMA_CIRCULAR;
-    hdma_sai_tx.Init.Priority            = DMA_PRIORITY_HIGH;
-    hdma_sai_tx.Init.FIFOMode            = DMA_FIFOMODE_ENABLE;
-    hdma_sai_tx.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
-    hdma_sai_tx.Init.Direction           = DMA_MEMORY_TO_PERIPH;
-    hdma_sai_tx.Instance                 = AUDIO_OUT_SAIx_DMAx_STREAM;
-    hdma_sai_tx.Init.MemBurst            = DMA_MBURST_SINGLE;
-    hdma_sai_tx.Init.PeriphBurst         = DMA_PBURST_SINGLE;
-
-    /* Associate the DMA handle */
-    __HAL_LINKDMA(hsai, hdmatx, hdma_sai_tx);
-
-    /* Deinitialize the Stream for new transfer */
-    (void)HAL_DMA_DeInit(&hdma_sai_tx);
-
-    /* Configure the DMA Stream */
-    (void)HAL_DMA_Init(&hdma_sai_tx);
-
-    /* SAI DMA IRQ Channel configuration */
-    HAL_NVIC_SetPriority(AUDIO_OUT_SAIx_DMAx_IRQ, BSP_AUDIO_OUT_IT_PRIORITY, 0);
-    HAL_NVIC_EnableIRQ(AUDIO_OUT_SAIx_DMAx_IRQ);
+//    /* Enable the DMA clock */
+//    AUDIO_OUT_SAIx_DMAx_CLK_ENABLE();
+//
+//    /* Configure the hdma_saiTx handle parameters */
+//    if(Audio_Out_Ctx[0].BitsPerSample == AUDIO_RESOLUTION_16B)
+//    {
+//      hdma_sai_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+//      hdma_sai_tx.Init.MemDataAlignment    = DMA_MDATAALIGN_HALFWORD;
+//    }
+//    else
+//    {
+//      hdma_sai_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+//      hdma_sai_tx.Init.MemDataAlignment    = DMA_MDATAALIGN_WORD;
+//    }
+//
+//    hdma_sai_tx.Init.Request             = AUDIO_OUT_SAIx_DMAx_REQUEST;
+//    hdma_sai_tx.Init.PeriphInc           = DMA_PINC_DISABLE;
+//    hdma_sai_tx.Init.MemInc              = DMA_MINC_ENABLE;
+//    hdma_sai_tx.Init.Mode                = DMA_CIRCULAR;
+//    hdma_sai_tx.Init.Priority            = DMA_PRIORITY_HIGH;
+//    hdma_sai_tx.Init.FIFOMode            = DMA_FIFOMODE_ENABLE;
+//    hdma_sai_tx.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
+//    hdma_sai_tx.Init.Direction           = DMA_MEMORY_TO_PERIPH;
+//    hdma_sai_tx.Instance                 = AUDIO_OUT_SAIx_DMAx_STREAM;
+//    hdma_sai_tx.Init.MemBurst            = DMA_MBURST_SINGLE;
+//    hdma_sai_tx.Init.PeriphBurst         = DMA_PBURST_SINGLE;
+//
+//    /* Associate the DMA handle */
+//    __HAL_LINKDMA(hsai, hdmatx, hdma_sai_tx);
+//
+//    /* Deinitialize the Stream for new transfer */
+//    (void)HAL_DMA_DeInit(&hdma_sai_tx);
+//
+//    /* Configure the DMA Stream */
+//    (void)HAL_DMA_Init(&hdma_sai_tx);
+//
+//    /* SAI DMA IRQ Channel configuration */
+//    HAL_NVIC_SetPriority(AUDIO_OUT_SAIx_DMAx_IRQ, BSP_AUDIO_OUT_IT_PRIORITY, 0);
+//    HAL_NVIC_EnableIRQ(AUDIO_OUT_SAIx_DMAx_IRQ);
   }
 
   /* Audio In Msp initialization */
@@ -2733,36 +2733,36 @@ static void SAI_MspInit(SAI_HandleTypeDef *hsai)
     gpio_init_structure.Alternate = AUDIO_IN_SAI_PDMx_FS_SCK_AF;
     HAL_GPIO_Init(AUDIO_IN_SAI_PDMx_FS_SCK_GPIO_PORT, &gpio_init_structure);
 
-    /* Enable the DMA clock */
-      __HAL_RCC_BDMA_CLK_ENABLE();
-    /* Configure the hdma_sai_rx handle parameters */
-    hdma_sai_rx.Init.Request             = AUDIO_IN_SAI_PDMx_DMAx_REQUEST;
-    hdma_sai_rx.Init.Direction           = DMA_PERIPH_TO_MEMORY;
-    hdma_sai_rx.Init.PeriphInc           = DMA_PINC_DISABLE;
-    hdma_sai_rx.Init.MemInc              = DMA_MINC_ENABLE;
-    hdma_sai_rx.Init.PeriphDataAlignment = AUDIO_IN_SAI_PDMx_DMAx_PERIPH_DATA_SIZE;
-    hdma_sai_rx.Init.MemDataAlignment    = AUDIO_IN_SAI_PDMx_DMAx_MEM_DATA_SIZE;
-    hdma_sai_rx.Init.Mode                = DMA_CIRCULAR;
-    hdma_sai_rx.Init.Priority            = DMA_PRIORITY_HIGH;
-    hdma_sai_rx.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;
-    hdma_sai_rx.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
-    hdma_sai_rx.Init.MemBurst            = DMA_MBURST_SINGLE;
-    hdma_sai_rx.Init.PeriphBurst         = DMA_MBURST_SINGLE;
-
-    hdma_sai_rx.Instance = AUDIO_IN_SAI_PDMx_DMAx_STREAM;
-
-    /* Associate the DMA handle */
-    __HAL_LINKDMA(hsai, hdmarx, hdma_sai_rx);
-
-    /* Deinitialize the Stream for new transfer */
-    HAL_DMA_DeInit(&hdma_sai_rx);
-
-    /* Configure the DMA Stream */
-    HAL_DMA_Init(&hdma_sai_rx);
-
-    /* SAI DMA IRQ Channel configuration */
-    HAL_NVIC_SetPriority(AUDIO_IN_SAI_PDMx_DMAx_IRQ, BSP_AUDIO_IN_IT_PRIORITY, 0);
-    HAL_NVIC_EnableIRQ(AUDIO_IN_SAI_PDMx_DMAx_IRQ);
+//    /* Enable the DMA clock */
+//      __HAL_RCC_BDMA_CLK_ENABLE();
+//    /* Configure the hdma_sai_rx handle parameters */
+//    hdma_sai_rx.Init.Request             = AUDIO_IN_SAI_PDMx_DMAx_REQUEST;
+//    hdma_sai_rx.Init.Direction           = DMA_PERIPH_TO_MEMORY;
+//    hdma_sai_rx.Init.PeriphInc           = DMA_PINC_DISABLE;
+//    hdma_sai_rx.Init.MemInc              = DMA_MINC_ENABLE;
+//    hdma_sai_rx.Init.PeriphDataAlignment = AUDIO_IN_SAI_PDMx_DMAx_PERIPH_DATA_SIZE;
+//    hdma_sai_rx.Init.MemDataAlignment    = AUDIO_IN_SAI_PDMx_DMAx_MEM_DATA_SIZE;
+//    hdma_sai_rx.Init.Mode                = DMA_CIRCULAR;
+//    hdma_sai_rx.Init.Priority            = DMA_PRIORITY_HIGH;
+//    hdma_sai_rx.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;
+//    hdma_sai_rx.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
+//    hdma_sai_rx.Init.MemBurst            = DMA_MBURST_SINGLE;
+//    hdma_sai_rx.Init.PeriphBurst         = DMA_MBURST_SINGLE;
+//
+//    hdma_sai_rx.Instance = AUDIO_IN_SAI_PDMx_DMAx_STREAM;
+//
+//    /* Associate the DMA handle */
+//    __HAL_LINKDMA(hsai, hdmarx, hdma_sai_rx);
+//
+//    /* Deinitialize the Stream for new transfer */
+//    HAL_DMA_DeInit(&hdma_sai_rx);
+//
+//    /* Configure the DMA Stream */
+//    HAL_DMA_Init(&hdma_sai_rx);
+//
+//    /* SAI DMA IRQ Channel configuration */
+//    HAL_NVIC_SetPriority(AUDIO_IN_SAI_PDMx_DMAx_IRQ, BSP_AUDIO_IN_IT_PRIORITY, 0);
+//    HAL_NVIC_EnableIRQ(AUDIO_IN_SAI_PDMx_DMAx_IRQ);
   }
    /* Audio In Msp initialization */
   if(hsai->Instance == AUDIO_IN_SAIx)
@@ -2780,37 +2780,37 @@ static void SAI_MspInit(SAI_HandleTypeDef *hsai)
     gpio_init_structure.Alternate = AUDIO_IN_SAIx_AF;
     HAL_GPIO_Init(AUDIO_IN_SAIx_SD_GPIO_PORT, &gpio_init_structure);
 
-    /* Enable the DMA clock */
-    AUDIO_IN_SAIx_DMAx_CLK_ENABLE();
-
-    /* Configure the hdma_sai_rx handle parameters */
-    hdma_sai_rx.Init.Request             = AUDIO_IN_SAIx_DMAx_REQUEST;
-    hdma_sai_rx.Init.Direction           = DMA_PERIPH_TO_MEMORY;
-    hdma_sai_rx.Init.PeriphInc           = DMA_PINC_DISABLE;
-    hdma_sai_rx.Init.MemInc              = DMA_MINC_ENABLE;
-    hdma_sai_rx.Init.PeriphDataAlignment = AUDIO_IN_SAIx_DMAx_PERIPH_DATA_SIZE;
-    hdma_sai_rx.Init.MemDataAlignment    = AUDIO_IN_SAIx_DMAx_MEM_DATA_SIZE;
-    hdma_sai_rx.Init.Mode                = DMA_CIRCULAR;
-    hdma_sai_rx.Init.Priority            = DMA_PRIORITY_HIGH;
-    hdma_sai_rx.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;
-    hdma_sai_rx.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
-    hdma_sai_rx.Init.MemBurst            = DMA_MBURST_SINGLE;
-    hdma_sai_rx.Init.PeriphBurst         = DMA_MBURST_SINGLE;
-
-    hdma_sai_rx.Instance = AUDIO_IN_SAIx_DMAx_STREAM;
-
-    /* Associate the DMA handle */
-    __HAL_LINKDMA(hsai, hdmarx, hdma_sai_rx);
-
-    /* Deinitialize the Stream for new transfer */
-    HAL_DMA_DeInit(&hdma_sai_rx);
-
-    /* Configure the DMA Stream */
-    HAL_DMA_Init(&hdma_sai_rx);
-
-    /* SAI DMA IRQ Channel configuration */
-    HAL_NVIC_SetPriority(AUDIO_IN_SAIx_DMAx_IRQ, BSP_AUDIO_IN_IT_PRIORITY, 0);
-    HAL_NVIC_EnableIRQ(AUDIO_IN_SAIx_DMAx_IRQ);
+//    /* Enable the DMA clock */
+//    AUDIO_IN_SAIx_DMAx_CLK_ENABLE();
+//
+//    /* Configure the hdma_sai_rx handle parameters */
+//    hdma_sai_rx.Init.Request             = AUDIO_IN_SAIx_DMAx_REQUEST;
+//    hdma_sai_rx.Init.Direction           = DMA_PERIPH_TO_MEMORY;
+//    hdma_sai_rx.Init.PeriphInc           = DMA_PINC_DISABLE;
+//    hdma_sai_rx.Init.MemInc              = DMA_MINC_ENABLE;
+//    hdma_sai_rx.Init.PeriphDataAlignment = AUDIO_IN_SAIx_DMAx_PERIPH_DATA_SIZE;
+//    hdma_sai_rx.Init.MemDataAlignment    = AUDIO_IN_SAIx_DMAx_MEM_DATA_SIZE;
+//    hdma_sai_rx.Init.Mode                = DMA_CIRCULAR;
+//    hdma_sai_rx.Init.Priority            = DMA_PRIORITY_HIGH;
+//    hdma_sai_rx.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;
+//    hdma_sai_rx.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
+//    hdma_sai_rx.Init.MemBurst            = DMA_MBURST_SINGLE;
+//    hdma_sai_rx.Init.PeriphBurst         = DMA_MBURST_SINGLE;
+//
+//    hdma_sai_rx.Instance = AUDIO_IN_SAIx_DMAx_STREAM;
+//
+//    /* Associate the DMA handle */
+//    __HAL_LINKDMA(hsai, hdmarx, hdma_sai_rx);
+//
+//    /* Deinitialize the Stream for new transfer */
+//    HAL_DMA_DeInit(&hdma_sai_rx);
+//
+//    /* Configure the DMA Stream */
+//    HAL_DMA_Init(&hdma_sai_rx);
+//
+//    /* SAI DMA IRQ Channel configuration */
+//    HAL_NVIC_SetPriority(AUDIO_IN_SAIx_DMAx_IRQ, BSP_AUDIO_IN_IT_PRIORITY, 0);
+//    HAL_NVIC_EnableIRQ(AUDIO_IN_SAIx_DMAx_IRQ);
 
   }
 }
