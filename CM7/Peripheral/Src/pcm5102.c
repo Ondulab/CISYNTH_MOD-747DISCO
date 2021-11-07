@@ -15,9 +15,6 @@
 /* Private includes ----------------------------------------------------------*/
 #include "pcm5102.h"
 
-/* Private typedef -----------------------------------------------------------*/
-static BUFFER_AUDIO_StateTypeDef bufferAudioState;
-
 /* Private define ------------------------------------------------------------*/
 
 /* Private macro -------------------------------------------------------------*/
@@ -25,7 +22,8 @@ static BUFFER_AUDIO_StateTypeDef bufferAudioState;
 /* Private variables ---------------------------------------------------------*/
 
 /* Private typedef -----------------------------------------------------------*/
-BSP_AUDIO_Init_t* AudioPlayInit;
+BSP_AUDIO_Init_t AudioPlayInit;
+static BUFFER_AUDIO_StateTypeDef bufferAudioState;
 
 /* Private macro -------------------------------------------------------------*/
 
@@ -46,12 +44,12 @@ void pcm5102_Init(void)
 	printf("----------- DAC INIT ----------\n");
 	printf("-------------------------------\n");
 
-	AudioPlayInit->Device = AUDIO_OUT_DEVICE_HEADPHONE;
-	AudioPlayInit->ChannelsNbr = 2;
-	AudioPlayInit->SampleRate = 48000 ;
-	AudioPlayInit->BitsPerSample = AUDIO_RESOLUTION_16B;
-	AudioPlayInit->Volume = VOLUME;
-	if(BSP_AUDIO_OUT_Init(0, AudioPlayInit) != HAL_OK)
+	AudioPlayInit.Device = AUDIO_OUT_DEVICE_HEADPHONE;
+	AudioPlayInit.ChannelsNbr = 2;
+	AudioPlayInit.SampleRate = 48000U ;
+	AudioPlayInit.BitsPerSample = AUDIO_RESOLUTION_16B;
+	AudioPlayInit.Volume = VOLUME;
+	if(BSP_AUDIO_OUT_Init(0, &AudioPlayInit) != HAL_OK)
 	{
 		Error_Handler();
 	}

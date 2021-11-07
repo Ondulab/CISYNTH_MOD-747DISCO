@@ -15,8 +15,6 @@
 /* Private includes ----------------------------------------------------------*/
 #include "pcm5102.h"
 
-/* Private typedef -----------------------------------------------------------*/
-
 /* Private define ------------------------------------------------------------*/
 
 /* Private macro -------------------------------------------------------------*/
@@ -24,20 +22,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* Private typedef -----------------------------------------------------------*/
-typedef enum {
-	AUDIO_STATE_IDLE = 0,
-	AUDIO_STATE_INIT,
-	AUDIO_STATE_PLAYING,
-	AUDIO_STATE_PAUSE
-}AUDIO_PLAYBACK_StateTypeDef;
 
 /* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/;
-__IO uint32_t uwVolume = VOLUME;
-__IO uint32_t uwPauseEnabledStatus = 0;
-uint32_t bytesread;
 
-//BSP_AUDIO_Init_t* AudioPlayInit;
+/* Private variables ---------------------------------------------------------*/
+BSP_AUDIO_Init_t AudioPlayInit;
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -53,15 +42,15 @@ void pcm5102_Init(void)
 	printf("----------- DAC INIT ----------\n");
 	printf("-------------------------------\n");
 
-//	AudioPlayInit->Device = AUDIO_OUT_DEVICE_HEADPHONE;
-//	AudioPlayInit->ChannelsNbr = 2;
-//	AudioPlayInit->SampleRate = 48000 ;
-//	AudioPlayInit->BitsPerSample = AUDIO_RESOLUTION_16B;
-//	AudioPlayInit->Volume = uwVolume;
-//	if(BSP_AUDIO_OUT_Init(0, AudioPlayInit) != HAL_OK)
-//	{
-//		Error_Handler();
-//	}
+	AudioPlayInit.Device = AUDIO_OUT_DEVICE_HEADPHONE;
+	AudioPlayInit.ChannelsNbr = 2;
+	AudioPlayInit.SampleRate = 48000 ;
+	AudioPlayInit.BitsPerSample = AUDIO_RESOLUTION_16B;
+	AudioPlayInit.Volume = VOLUME;
+	if(BSP_AUDIO_OUT_Init(0, &AudioPlayInit) != HAL_OK)
+	{
+		Error_Handler();
+	}
 }
 
 /**

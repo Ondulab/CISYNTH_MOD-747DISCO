@@ -160,13 +160,13 @@ HSEM notification */
   MX_PDM2PCM_Init();
   /* USER CODE BEGIN 2 */
 
-    HAL_Delay(2000); //todo add hardware semaphore
-
 	printf("----------------------------------------------------------\n");
 	printf("--------- Sectral Synth Scanner CIS module START ---------\n");
 	printf("----------------------------------------------------------\n");
 
 	MX_LWIP_Init();
+
+    HAL_Delay(3000); //todo add hardware semaphore
 
 //	cisynth_eth();
 	cisynth_ifft();

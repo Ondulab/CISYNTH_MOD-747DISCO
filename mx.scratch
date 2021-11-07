@@ -16,6 +16,12 @@
       <Secure />
       <filestoremove>
         <file>
+          <name>CM4/Core/Src/resmgr_utility.c</name>
+        </file>
+        <file>
+          <name>Utilities/ResourcesManager/res_mgr.c</name>
+        </file>
+        <file>
           <name>Middlewares/Third_Party/LwIP/src/netif/ppp/auth.c</name>
         </file>
         <file>
@@ -319,7 +325,10 @@
             <Aincludes>
               <include />
             </Aincludes>
-            <Cincludes />
+            <Cincludes>
+              <include>Utilities/ResourcesManager</include>
+              <include>Common/Inc</include>
+            </Cincludes>
           </inctoremove>
         </config>
       </configs>
@@ -488,6 +497,12 @@
       <Secure />
       <filestoremove>
         <file>
+          <name>CM7/Core/Src/resmgr_utility.c</name>
+        </file>
+        <file>
+          <name>Utilities/ResourcesManager/res_mgr.c</name>
+        </file>
+        <file>
           <name>Middlewares/Third_Party/FreeRTOS/Source/croutine.c</name>
         </file>
         <file>
@@ -594,7 +609,10 @@
             <Aincludes>
               <include />
             </Aincludes>
-            <Cincludes />
+            <Cincludes>
+              <include>Utilities/ResourcesManager</include>
+              <include>Common/Inc</include>
+            </Cincludes>
           </inctoremove>
         </config>
       </configs>

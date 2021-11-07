@@ -129,7 +129,8 @@ int main(void)
   MX_CRC_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
-	synth_IfftInit();
+
+  synth_IfftInit();
 
 	synth_SetImageData(60, 800); //for testing
 	synth_SetImageData(10, 800); //for testing
@@ -138,6 +139,9 @@ int main(void)
 	synth_SetImageData(75, 10100);
 	synth_SetImageData(60, 1300); //for testing
 	synth_SetImageData(105, 500);
+
+	HAL_Delay(3000);
+	pcm5102_Init();
 
   /* USER CODE END 2 */
 
@@ -150,8 +154,6 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
-	osKernelStart();
 
 	/* Initialize the LCD */
 	//	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);

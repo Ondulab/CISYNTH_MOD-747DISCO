@@ -32,8 +32,8 @@
 #define USE_COM_LOG                         1U
 #define USE_BSP_COM_FEATURE                 1U
 /* LCD controllers defines */
-#define USE_LCD_CTRL_OTM8009A               1U
-#define USE_LCD_CTRL_ADV7533                1U
+#define USE_LCD_CTRL_OTM8009A               0U
+#define USE_LCD_CTRL_ADV7533                0U
 
 #define LCD_LAYER_0_ADDRESS                 0xD0000000U
 #define LCD_LAYER_1_ADDRESS                 0xD0200000U
@@ -41,24 +41,24 @@
 #define USE_DMA2D_TO_FILL_RGB_RECT          0U   
 
 /* Audio codecs defines */
-#define USE_AUDIO_CODEC_WM8994              1U
+#define USE_AUDIO_CODEC_WM8994              0U
 
 /* Default Audio IN internal buffer size */
 #define DEFAULT_AUDIO_IN_BUFFER_SIZE        64U
 /* TS supported features defines */
-#define USE_TS_GESTURE                      1U
-#define USE_TS_MULTI_TOUCH                  1U
+#define USE_TS_GESTURE                      0U
+#define USE_TS_MULTI_TOUCH                  0U
 
 /* Default TS touch number */
-#define TS_TOUCH_NBR                        2U
+#define TS_TOUCH_NBR                        0U
 #define CAMERA_FRAME_BUFFER       ((uint32_t)0xD0600000)
 
 /* IRQ priorities */
 #define BSP_SDRAM_IT_PRIORITY               15U
 #define BSP_CAMERA_IT_PRIORITY              15U
 #define BSP_BUTTON_WAKEUP_IT_PRIORITY       15U
-#define BSP_AUDIO_OUT_IT_PRIORITY           14U
-#define BSP_AUDIO_IN_IT_PRIORITY            15U
+#define BSP_AUDIO_OUT_IT_PRIORITY           5U
+#define BSP_AUDIO_IN_IT_PRIORITY            5U
 #define BSP_SD_IT_PRIORITY                  14U
 #define BSP_SD_RX_IT_PRIORITY               14U
 #define BSP_SD_TX_IT_PRIORITY               15U

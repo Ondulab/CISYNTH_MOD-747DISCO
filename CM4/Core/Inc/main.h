@@ -39,6 +39,7 @@ extern "C" {
 #include "stm32h747i_discovery_sdram.h"
 #include "stm32h747i_discovery_bus.h"
 #include "stm32h747i_discovery_errno.h"
+#include "stm32h747i_discovery_audio.h"
 #include "../Components/otm8009a/otm8009a.h"
 /* USER CODE END Includes */
 
@@ -73,9 +74,9 @@ extern __IO uint32_t JoystickStates;
   */
 #define SDRAM_WRITE_READ_ADDR_OFFSET ((uint32_t)0x0800)
 
-#define LED_GREEN      LED1
-#define LED_ORANGE      LED2
-#define LED_RED      LED3
+#define LED_GREEN     LED1
+#define LED_ORANGE    LED2
+#define LED_RED       LED3
 #define LED_BLUE      LED4
 /* SDRAM write address */
 #define SDRAM_WRITE_READ_ADDR         0xD0177000

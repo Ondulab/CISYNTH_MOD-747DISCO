@@ -155,8 +155,8 @@ How To use this driver:
 static AUDIO_Drv_t                     *Audio_Drv = NULL;
 
 /* PDM filters params */
-static PDM_Filter_Handler_t  PDM_FilterHandler[2];
-static PDM_Filter_Config_t   PDM_FilterConfig[2];
+//static PDM_Filter_Handler_t  PDM_FilterHandler[2];
+//static PDM_Filter_Config_t   PDM_FilterConfig[2];
 
 /**
   * @}
@@ -244,7 +244,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
     if(ret == BSP_ERROR_NONE)
     {
       /* PLL clock is set depending by the AudioFreq (44.1khz vs 48khz groups) */
-      if(MX_SAI1_ClockConfig(&haudio_out_sai, AudioInit->SampleRate) != HAL_OK)
+      if(0)//MX_SAI1_ClockConfig(&haudio_out_sai, AudioInit->SampleRate) != HAL_OK)
       {
         ret = BSP_ERROR_CLOCK_FAILURE;
       }
@@ -264,7 +264,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
           }
         }
 #else
-        SAI_MspInit(&haudio_out_sai);
+//        SAI_MspInit(&haudio_out_sai);
 #endif /* (USE_HAL_SAI_REGISTER_CALLBACKS == 1U) */
         if(ret == BSP_ERROR_NONE)
 	{
@@ -284,7 +284,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
           mx_sai_config.SlotActive        = CODEC_AUDIOFRAME_SLOT_02;
 
           /* SAI peripheral initialization: this __weak function can be redefined by the application  */
-          if(MX_SAI1_Block_A_Init(&haudio_out_sai, &mx_sai_config) != HAL_OK)
+          if(0)//MX_SAI1_Block_A_Init(&haudio_out_sai, &mx_sai_config) != HAL_OK)
           {
             ret = BSP_ERROR_PERIPH_FAILURE;
           }
@@ -303,7 +303,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
             ret = BSP_ERROR_PERIPH_FAILURE;
           }
 #endif
-//          else
+          else
           {
 #if (USE_AUDIO_CODEC_WM8994 == 1)
             WM8994_Init_t codec_init;
@@ -325,7 +325,7 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
             if(ret == BSP_ERROR_NONE)
             {
               /* Update BSP AUDIO OUT state */
-//              Audio_Out_Ctx[Instance].State = AUDIO_OUT_STATE_STOP;
+              Audio_Out_Ctx[Instance].State = AUDIO_OUT_STATE_STOP;
             }
           }
 	}
@@ -375,105 +375,105 @@ int32_t BSP_AUDIO_OUT_DeInit(uint32_t Instance)
   return ret;
 }
 
-/**
-  * @brief  Initializes the Audio Codec audio out instance (SAI).
-  * @param  hsai SAI handle
-  * @param  MXConfig SAI configuration structure
-  * @note   Being __weak it can be overwritten by the application
-  * @retval HAL status
-  */
-__weak HAL_StatusTypeDef MX_SAI1_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig)
-{
-  HAL_StatusTypeDef ret = HAL_OK;
+///**
+//  * @brief  Initializes the Audio Codec audio out instance (SAI).
+//  * @param  hsai SAI handle
+//  * @param  MXConfig SAI configuration structure
+//  * @note   Being __weak it can be overwritten by the application
+//  * @retval HAL status
+//  */
+//__weak HAL_StatusTypeDef MX_SAI1_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig)
+//{
+//  HAL_StatusTypeDef ret = HAL_OK;
+//
+//  /* Disable SAI peripheral to allow access to SAI internal registers */
+//  __HAL_SAI_DISABLE(hsai);
+//
+//  /* Configure SAI1_Block_A */
+//  hsai->Init.MonoStereoMode       = MXConfig->MonoStereoMode;
+//  hsai->Init.AudioFrequency       = MXConfig->AudioFrequency;
+//  hsai->Init.AudioMode            = MXConfig->AudioMode;
+//  hsai->Init.NoDivider            = SAI_MASTERDIVIDER_ENABLE;
+//  hsai->Init.Protocol             = SAI_FREE_PROTOCOL;
+//  hsai->Init.DataSize             = MXConfig->DataSize;
+//  hsai->Init.FirstBit             = SAI_FIRSTBIT_MSB;
+//  hsai->Init.ClockStrobing        = MXConfig->ClockStrobing;
+//  hsai->Init.Synchro              = MXConfig->Synchro;
+//  hsai->Init.OutputDrive          = MXConfig->OutputDrive;
+//  hsai->Init.FIFOThreshold        = SAI_FIFOTHRESHOLD_1QF;
+//  hsai->Init.SynchroExt           = MXConfig->SynchroExt;
+//  hsai->Init.CompandingMode       = SAI_NOCOMPANDING;
+//  hsai->Init.TriState             = SAI_OUTPUT_NOTRELEASED;
+//  hsai->Init.Mckdiv               = 0;
+//  hsai->Init.MckOverSampling      = SAI_MCK_OVERSAMPLING_DISABLE;
+//  hsai->Init.MckOutput            = SAI_MCK_OUTPUT_DISABLE;
+//  hsai->Init.PdmInit.Activation   = DISABLE;
+//  hsai->Init.PdmInit.ClockEnable  = 0;
+//  hsai->Init.PdmInit.MicPairsNbr  = 0;
+//
+//  /* Configure SAI_Block_x Frame */
+//  hsai->FrameInit.FrameLength       = MXConfig->FrameLength;
+//  hsai->FrameInit.ActiveFrameLength = MXConfig->ActiveFrameLength;
+//  hsai->FrameInit.FSDefinition      = SAI_FS_CHANNEL_IDENTIFICATION;
+//  hsai->FrameInit.FSPolarity        = SAI_FS_ACTIVE_LOW;
+//  hsai->FrameInit.FSOffset          = SAI_FS_BEFOREFIRSTBIT;
+//
+//  /* Configure SAI Block_x Slot */
+//  hsai->SlotInit.FirstBitOffset     = 0;
+//  hsai->SlotInit.SlotSize           = SAI_SLOTSIZE_DATASIZE;
+//  hsai->SlotInit.SlotNumber         = 4;
+//  hsai->SlotInit.SlotActive         = MXConfig->SlotActive;
+//
+//  if(HAL_SAI_Init(hsai) != HAL_OK)
+//  {
+//    ret = HAL_ERROR;
+//  }
+//
+//  __HAL_SAI_ENABLE(hsai);
+//
+//  return ret;
+//}
 
-  /* Disable SAI peripheral to allow access to SAI internal registers */
-  __HAL_SAI_DISABLE(hsai);
-
-  /* Configure SAI1_Block_A */
-  hsai->Init.MonoStereoMode       = MXConfig->MonoStereoMode;
-  hsai->Init.AudioFrequency       = MXConfig->AudioFrequency;
-  hsai->Init.AudioMode            = MXConfig->AudioMode;
-  hsai->Init.NoDivider            = SAI_MASTERDIVIDER_ENABLE;
-  hsai->Init.Protocol             = SAI_FREE_PROTOCOL;
-  hsai->Init.DataSize             = MXConfig->DataSize;
-  hsai->Init.FirstBit             = SAI_FIRSTBIT_MSB;
-  hsai->Init.ClockStrobing        = MXConfig->ClockStrobing;
-  hsai->Init.Synchro              = MXConfig->Synchro;
-  hsai->Init.OutputDrive          = MXConfig->OutputDrive;
-  hsai->Init.FIFOThreshold        = SAI_FIFOTHRESHOLD_1QF;
-  hsai->Init.SynchroExt           = MXConfig->SynchroExt;
-  hsai->Init.CompandingMode       = SAI_NOCOMPANDING;
-  hsai->Init.TriState             = SAI_OUTPUT_NOTRELEASED;
-  hsai->Init.Mckdiv               = 0;
-  hsai->Init.MckOverSampling      = SAI_MCK_OVERSAMPLING_DISABLE;
-  hsai->Init.MckOutput            = SAI_MCK_OUTPUT_DISABLE;
-  hsai->Init.PdmInit.Activation   = DISABLE;
-  hsai->Init.PdmInit.ClockEnable  = 0;
-  hsai->Init.PdmInit.MicPairsNbr  = 0;
-
-  /* Configure SAI_Block_x Frame */
-  hsai->FrameInit.FrameLength       = MXConfig->FrameLength;
-  hsai->FrameInit.ActiveFrameLength = MXConfig->ActiveFrameLength;
-  hsai->FrameInit.FSDefinition      = SAI_FS_CHANNEL_IDENTIFICATION;
-  hsai->FrameInit.FSPolarity        = SAI_FS_ACTIVE_LOW;
-  hsai->FrameInit.FSOffset          = SAI_FS_BEFOREFIRSTBIT;
-
-  /* Configure SAI Block_x Slot */
-  hsai->SlotInit.FirstBitOffset     = 0;
-  hsai->SlotInit.SlotSize           = SAI_SLOTSIZE_DATASIZE;
-  hsai->SlotInit.SlotNumber         = 4;
-  hsai->SlotInit.SlotActive         = MXConfig->SlotActive;
-
-  if(HAL_SAI_Init(hsai) != HAL_OK)
-  {
-    ret = HAL_ERROR;
-  }
-
-  __HAL_SAI_ENABLE(hsai);
-
-  return ret;
-}
-
-/**
-  * @brief  SAI clock Config.
-  * @param  hsai SAI handle
-  * @param  SampleRate  Audio frequency used to play the audio stream.
-  * @note   This API is called by BSP_AUDIO_OUT_Init() and BSP_AUDIO_OUT_SetFrequency()
-  *         Being __weak it can be overwritten by the application
-  * @retval HAL status
-  */
-__weak HAL_StatusTypeDef MX_SAI1_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate)
-{
-  /* Prevent unused argument(s) compilation warning */
-  UNUSED(hsai);
-
-  HAL_StatusTypeDef ret = HAL_OK;
-  RCC_PeriphCLKInitTypeDef rcc_ex_clk_init_struct;
-  HAL_RCCEx_GetPeriphCLKConfig(&rcc_ex_clk_init_struct);
-
-  /* Set the PLL configuration according to the audio frequency */
-  if((SampleRate == AUDIO_FREQUENCY_11K) || (SampleRate == AUDIO_FREQUENCY_22K) || (SampleRate == AUDIO_FREQUENCY_44K))
-  {
-    rcc_ex_clk_init_struct.PLL2.PLL2P = 38;
-    rcc_ex_clk_init_struct.PLL2.PLL2N = 429;
-  }
-  else /* AUDIO_FREQUENCY_8K, AUDIO_FREQUENCY_16K, AUDIO_FREQUENCY_32K, AUDIO_FREQUENCY_48K, AUDIO_FREQUENCY_96K */
-  {
-    rcc_ex_clk_init_struct.PLL2.PLL2P = 7;
-    rcc_ex_clk_init_struct.PLL2.PLL2N = 344;
-  }
-  rcc_ex_clk_init_struct.PeriphClockSelection = RCC_PERIPHCLK_SAI1;
-  rcc_ex_clk_init_struct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLL2;
-  rcc_ex_clk_init_struct.PLL2.PLL2Q = 1;
-  rcc_ex_clk_init_struct.PLL2.PLL2R = 1;
-  rcc_ex_clk_init_struct.PLL2.PLL2M = 25;
-  if(HAL_RCCEx_PeriphCLKConfig(&rcc_ex_clk_init_struct) != HAL_OK)
-  {
-    ret = HAL_ERROR;
-  }
-
-  return ret;
-}
+///**
+//  * @brief  SAI clock Config.
+//  * @param  hsai SAI handle
+//  * @param  SampleRate  Audio frequency used to play the audio stream.
+//  * @note   This API is called by BSP_AUDIO_OUT_Init() and BSP_AUDIO_OUT_SetFrequency()
+//  *         Being __weak it can be overwritten by the application
+//  * @retval HAL status
+//  */
+//__weak HAL_StatusTypeDef MX_SAI1_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate)
+//{
+//  /* Prevent unused argument(s) compilation warning */
+//  UNUSED(hsai);
+//
+//  HAL_StatusTypeDef ret = HAL_OK;
+//  RCC_PeriphCLKInitTypeDef rcc_ex_clk_init_struct;
+//  HAL_RCCEx_GetPeriphCLKConfig(&rcc_ex_clk_init_struct);
+//
+//  /* Set the PLL configuration according to the audio frequency */
+//  if((SampleRate == AUDIO_FREQUENCY_11K) || (SampleRate == AUDIO_FREQUENCY_22K) || (SampleRate == AUDIO_FREQUENCY_44K))
+//  {
+//    rcc_ex_clk_init_struct.PLL2.PLL2P = 38;
+//    rcc_ex_clk_init_struct.PLL2.PLL2N = 429;
+//  }
+//  else /* AUDIO_FREQUENCY_8K, AUDIO_FREQUENCY_16K, AUDIO_FREQUENCY_32K, AUDIO_FREQUENCY_48K, AUDIO_FREQUENCY_96K */
+//  {
+//    rcc_ex_clk_init_struct.PLL2.PLL2P = 7;
+//    rcc_ex_clk_init_struct.PLL2.PLL2N = 344;
+//  }
+//  rcc_ex_clk_init_struct.PeriphClockSelection = RCC_PERIPHCLK_SAI1;
+//  rcc_ex_clk_init_struct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLL2;
+//  rcc_ex_clk_init_struct.PLL2.PLL2Q = 1;
+//  rcc_ex_clk_init_struct.PLL2.PLL2R = 1;
+//  rcc_ex_clk_init_struct.PLL2.PLL2M = 25;
+//  if(HAL_RCCEx_PeriphCLKConfig(&rcc_ex_clk_init_struct) != HAL_OK)
+//  {
+//    ret = HAL_ERROR;
+//  }
+//
+//  return ret;
+//}
 
 /**
   * @brief  SAI clock Config.
@@ -1646,120 +1646,120 @@ int32_t BSP_AUDIO_IN_DeInit(uint32_t Instance)
   return ret;
 }
 
-/**
-  * @brief  Initializes the Audio Codec audio in instance (SAI).
-  * @param  hsai SAI handle
-  * @param  MXConfig SAI configuration structure
-  * @note   Being __weak it can be overwritten by the application
-  * @retval HAL status
-  */
-__weak HAL_StatusTypeDef MX_SAI1_Block_B_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig)
-{
-  HAL_StatusTypeDef ret = HAL_OK;
+///**
+//  * @brief  Initializes the Audio Codec audio in instance (SAI).
+//  * @param  hsai SAI handle
+//  * @param  MXConfig SAI configuration structure
+//  * @note   Being __weak it can be overwritten by the application
+//  * @retval HAL status
+//  */
+//__weak HAL_StatusTypeDef MX_SAI1_Block_B_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig)
+//{
+//  HAL_StatusTypeDef ret = HAL_OK;
+//
+//  /* Disable SAI peripheral to allow access to SAI internal registers */
+//  __HAL_SAI_DISABLE(hsai);
+//
+//  /* Configure SAI1_Block_B */
+//  hsai->Init.AudioFrequency         = MXConfig->AudioFrequency;
+//  hsai->Init.MonoStereoMode         = MXConfig->MonoStereoMode;
+//  hsai->Init.AudioMode              = MXConfig->AudioMode;
+//  hsai->Init.NoDivider              = SAI_MASTERDIVIDER_ENABLE;
+//  hsai->Init.Protocol               = SAI_FREE_PROTOCOL;
+//  hsai->Init.DataSize               = MXConfig->DataSize;
+//  hsai->Init.FirstBit               = SAI_FIRSTBIT_MSB;
+//  hsai->Init.ClockStrobing          = MXConfig->ClockStrobing;
+//  hsai->Init.Synchro                = MXConfig->Synchro;
+//  hsai->Init.OutputDrive            = MXConfig->OutputDrive;
+//  hsai->Init.FIFOThreshold          = SAI_FIFOTHRESHOLD_1QF;
+//  hsai->Init.SynchroExt             = MXConfig->SynchroExt;
+//  hsai->Init.CompandingMode         = SAI_NOCOMPANDING;
+//  hsai->Init.TriState               = SAI_OUTPUT_RELEASED;
+//  hsai->Init.Mckdiv                 = 0;
+//  hsai->Init.PdmInit.Activation     = DISABLE;
+//
+//  /* Configure SAI_Block_x Frame */
+//  hsai->FrameInit.FrameLength       = MXConfig->FrameLength;
+//  hsai->FrameInit.ActiveFrameLength = MXConfig->ActiveFrameLength;
+//  hsai->FrameInit.FSDefinition      = SAI_FS_CHANNEL_IDENTIFICATION;
+//  hsai->FrameInit.FSPolarity        = SAI_FS_ACTIVE_LOW;
+//  hsai->FrameInit.FSOffset          = SAI_FS_BEFOREFIRSTBIT;
+//
+//  /* Configure SAI Block_x Slot */
+//  hsai->SlotInit.FirstBitOffset     = 0;
+//  hsai->SlotInit.SlotSize           = SAI_SLOTSIZE_DATASIZE;
+//  hsai->SlotInit.SlotNumber         = 4;
+//  hsai->SlotInit.SlotActive        = MXConfig->SlotActive;
+//
+//  if(HAL_SAI_Init(hsai) != HAL_OK)
+//  {
+//    ret = HAL_ERROR;
+//  }
+//
+//  /* Enable SAI peripheral */
+//  __HAL_SAI_ENABLE(hsai);
+//
+//  return ret;
+//}
 
-  /* Disable SAI peripheral to allow access to SAI internal registers */
-  __HAL_SAI_DISABLE(hsai);
-
-  /* Configure SAI1_Block_B */
-  hsai->Init.AudioFrequency         = MXConfig->AudioFrequency;
-  hsai->Init.MonoStereoMode         = MXConfig->MonoStereoMode;
-  hsai->Init.AudioMode              = MXConfig->AudioMode;
-  hsai->Init.NoDivider              = SAI_MASTERDIVIDER_ENABLE;
-  hsai->Init.Protocol               = SAI_FREE_PROTOCOL;
-  hsai->Init.DataSize               = MXConfig->DataSize;
-  hsai->Init.FirstBit               = SAI_FIRSTBIT_MSB;
-  hsai->Init.ClockStrobing          = MXConfig->ClockStrobing;
-  hsai->Init.Synchro                = MXConfig->Synchro;
-  hsai->Init.OutputDrive            = MXConfig->OutputDrive;
-  hsai->Init.FIFOThreshold          = SAI_FIFOTHRESHOLD_1QF;
-  hsai->Init.SynchroExt             = MXConfig->SynchroExt;
-  hsai->Init.CompandingMode         = SAI_NOCOMPANDING;
-  hsai->Init.TriState               = SAI_OUTPUT_RELEASED;
-  hsai->Init.Mckdiv                 = 0;
-  hsai->Init.PdmInit.Activation     = DISABLE;
-
-  /* Configure SAI_Block_x Frame */
-  hsai->FrameInit.FrameLength       = MXConfig->FrameLength;
-  hsai->FrameInit.ActiveFrameLength = MXConfig->ActiveFrameLength;
-  hsai->FrameInit.FSDefinition      = SAI_FS_CHANNEL_IDENTIFICATION;
-  hsai->FrameInit.FSPolarity        = SAI_FS_ACTIVE_LOW;
-  hsai->FrameInit.FSOffset          = SAI_FS_BEFOREFIRSTBIT;
-
-  /* Configure SAI Block_x Slot */
-  hsai->SlotInit.FirstBitOffset     = 0;
-  hsai->SlotInit.SlotSize           = SAI_SLOTSIZE_DATASIZE;
-  hsai->SlotInit.SlotNumber         = 4;
-  hsai->SlotInit.SlotActive        = MXConfig->SlotActive;
-
-  if(HAL_SAI_Init(hsai) != HAL_OK)
-  {
-    ret = HAL_ERROR;
-  }
-
-  /* Enable SAI peripheral */
-  __HAL_SAI_ENABLE(hsai);
-
-  return ret;
-}
-
-/**
-  * @brief  Initializes the Audio Codec audio in instance (SAI).
-  * @param  hsai SAI handle
-  * @param  MXConfig SAI configuration structure
-  * @note   Being __weak it can be overwritten by the application
-  * @retval HAL status
-  */
-__weak HAL_StatusTypeDef MX_SAI4_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig)
-{
-  HAL_StatusTypeDef ret = HAL_OK;
-
-  /* Disable SAI peripheral to allow access to SAI internal registers */
-  __HAL_SAI_DISABLE(hsai);
-
-  /* Configure SAI4_Block_A */
-  hsai->Init.AudioFrequency         = MXConfig->AudioFrequency;
-  hsai->Init.MonoStereoMode         = MXConfig->MonoStereoMode;
-  hsai->Init.AudioMode              = MXConfig->AudioMode;
-  hsai->Init.NoDivider              = SAI_MASTERDIVIDER_DISABLE;
-  hsai->Init.Protocol               = SAI_FREE_PROTOCOL;
-  hsai->Init.DataSize               = MXConfig->DataSize;
-  hsai->Init.FirstBit               = SAI_FIRSTBIT_LSB;
-  hsai->Init.ClockStrobing          = MXConfig->ClockStrobing;
-  hsai->Init.Synchro                = MXConfig->Synchro;
-  hsai->Init.OutputDrive            = MXConfig->OutputDrive;
-  hsai->Init.FIFOThreshold          = SAI_FIFOTHRESHOLD_1QF;
-  hsai->Init.SynchroExt             = MXConfig->SynchroExt;
-  hsai->Init.CompandingMode         = SAI_NOCOMPANDING;
-  hsai->Init.TriState               = SAI_OUTPUT_RELEASED;
-  hsai->Init.Mckdiv                 = 0;
-  hsai->Init.PdmInit.Activation     = ENABLE;
-  hsai->Init.PdmInit.MicPairsNbr    = 1;
-  hsai->Init.PdmInit.ClockEnable    = SAI_PDM_CLOCK1_ENABLE;
-
-
-  /* Configure SAI_Block_x Frame */
-  hsai->FrameInit.FrameLength       = MXConfig->FrameLength;
-  hsai->FrameInit.ActiveFrameLength = MXConfig->ActiveFrameLength;
-  hsai->FrameInit.FSDefinition      = SAI_FS_STARTFRAME;
-  hsai->FrameInit.FSPolarity        = SAI_FS_ACTIVE_HIGH;
-  hsai->FrameInit.FSOffset          = SAI_FS_FIRSTBIT;
-
-  /* Configure SAI Block_x Slot */
-  hsai->SlotInit.FirstBitOffset     = 0;
-  hsai->SlotInit.SlotSize           = SAI_SLOTSIZE_DATASIZE;
-  hsai->SlotInit.SlotNumber         = 1;
-  hsai->SlotInit.SlotActive        = MXConfig->SlotActive;
-
-  if(HAL_SAI_Init(hsai) != HAL_OK)
-  {
-    ret = HAL_ERROR;
-  }
-
-  /* Enable SAI peripheral */
-  __HAL_SAI_ENABLE(hsai);
-
-  return ret;
-}
+///**
+//  * @brief  Initializes the Audio Codec audio in instance (SAI).
+//  * @param  hsai SAI handle
+//  * @param  MXConfig SAI configuration structure
+//  * @note   Being __weak it can be overwritten by the application
+//  * @retval HAL status
+//  */
+//__weak HAL_StatusTypeDef MX_SAI4_Block_A_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig)
+//{
+//  HAL_StatusTypeDef ret = HAL_OK;
+//
+//  /* Disable SAI peripheral to allow access to SAI internal registers */
+//  __HAL_SAI_DISABLE(hsai);
+//
+//  /* Configure SAI4_Block_A */
+//  hsai->Init.AudioFrequency         = MXConfig->AudioFrequency;
+//  hsai->Init.MonoStereoMode         = MXConfig->MonoStereoMode;
+//  hsai->Init.AudioMode              = MXConfig->AudioMode;
+//  hsai->Init.NoDivider              = SAI_MASTERDIVIDER_DISABLE;
+//  hsai->Init.Protocol               = SAI_FREE_PROTOCOL;
+//  hsai->Init.DataSize               = MXConfig->DataSize;
+//  hsai->Init.FirstBit               = SAI_FIRSTBIT_LSB;
+//  hsai->Init.ClockStrobing          = MXConfig->ClockStrobing;
+//  hsai->Init.Synchro                = MXConfig->Synchro;
+//  hsai->Init.OutputDrive            = MXConfig->OutputDrive;
+//  hsai->Init.FIFOThreshold          = SAI_FIFOTHRESHOLD_1QF;
+//  hsai->Init.SynchroExt             = MXConfig->SynchroExt;
+//  hsai->Init.CompandingMode         = SAI_NOCOMPANDING;
+//  hsai->Init.TriState               = SAI_OUTPUT_RELEASED;
+//  hsai->Init.Mckdiv                 = 0;
+//  hsai->Init.PdmInit.Activation     = ENABLE;
+//  hsai->Init.PdmInit.MicPairsNbr    = 1;
+//  hsai->Init.PdmInit.ClockEnable    = SAI_PDM_CLOCK1_ENABLE;
+//
+//
+//  /* Configure SAI_Block_x Frame */
+//  hsai->FrameInit.FrameLength       = MXConfig->FrameLength;
+//  hsai->FrameInit.ActiveFrameLength = MXConfig->ActiveFrameLength;
+//  hsai->FrameInit.FSDefinition      = SAI_FS_STARTFRAME;
+//  hsai->FrameInit.FSPolarity        = SAI_FS_ACTIVE_HIGH;
+//  hsai->FrameInit.FSOffset          = SAI_FS_FIRSTBIT;
+//
+//  /* Configure SAI Block_x Slot */
+//  hsai->SlotInit.FirstBitOffset     = 0;
+//  hsai->SlotInit.SlotSize           = SAI_SLOTSIZE_DATASIZE;
+//  hsai->SlotInit.SlotNumber         = 1;
+//  hsai->SlotInit.SlotActive        = MXConfig->SlotActive;
+//
+//  if(HAL_SAI_Init(hsai) != HAL_OK)
+//  {
+//    ret = HAL_ERROR;
+//  }
+//
+//  /* Enable SAI peripheral */
+//  __HAL_SAI_ENABLE(hsai);
+//
+//  return ret;
+//}
 
 
 #if  (USE_HAL_SAI_REGISTER_CALLBACKS == 1U)
@@ -1859,74 +1859,74 @@ int32_t BSP_AUDIO_IN_RegisterMspCallbacks (uint32_t Instance, BSP_AUDIO_IN_Cb_t 
 }
 #endif /* (USE_HAL_SAI_REGISTER_CALLBACKS == 1U)) */
 
-/**
-  * @brief  Initialize the PDM library.
-  * @param Instance    AUDIO IN Instance
-  * @param  AudioFreq  Audio sampling frequency
-  * @param  ChnlNbrIn  Number of input audio channels in the PDM buffer
-  * @param  ChnlNbrOut Number of desired output audio channels in the  resulting PCM buffer
-  * @retval BSP status
-  */
-int32_t BSP_AUDIO_IN_PDMToPCM_Init(uint32_t Instance, uint32_t AudioFreq, uint32_t ChnlNbrIn, uint32_t ChnlNbrOut)
-{
-  uint32_t index = 0;
+///**
+//  * @brief  Initialize the PDM library.
+//  * @param Instance    AUDIO IN Instance
+//  * @param  AudioFreq  Audio sampling frequency
+//  * @param  ChnlNbrIn  Number of input audio channels in the PDM buffer
+//  * @param  ChnlNbrOut Number of desired output audio channels in the  resulting PCM buffer
+//  * @retval BSP status
+//  */
+//int32_t BSP_AUDIO_IN_PDMToPCM_Init(uint32_t Instance, uint32_t AudioFreq, uint32_t ChnlNbrIn, uint32_t ChnlNbrOut)
+//{
+//  uint32_t index = 0;
+//
+//  if(Instance != 1U)
+//  {
+//    return BSP_ERROR_WRONG_PARAM;
+//  }
+//  else
+//  {
+//    /* Enable CRC peripheral to unlock the PDM library */
+//    __HAL_RCC_CRC_CLK_ENABLE();
+//
+//    for(index = 0; index < ChnlNbrIn; index++)
+//    {
+//      /* Init PDM filters */
+//      PDM_FilterHandler[index].bit_order  = PDM_FILTER_BIT_ORDER_MSB;
+//      PDM_FilterHandler[index].endianness = PDM_FILTER_ENDIANNESS_LE;
+//      PDM_FilterHandler[index].high_pass_tap = 2122358088;
+//      PDM_FilterHandler[index].out_ptr_channels = ChnlNbrOut;
+//      PDM_FilterHandler[index].in_ptr_channels  = ChnlNbrIn;
+//      PDM_Filter_Init((PDM_Filter_Handler_t *)(&PDM_FilterHandler[index]));
+//
+//      /* PDM lib config phase */
+//      PDM_FilterConfig[index].output_samples_number = AudioFreq/1000;
+//      PDM_FilterConfig[index].mic_gain = 24;
+//      PDM_FilterConfig[index].decimation_factor = PDM_FILTER_DEC_FACTOR_64;
+//      PDM_Filter_setConfig((PDM_Filter_Handler_t *)&PDM_FilterHandler[index], &PDM_FilterConfig[index]);
+//    }
+//  }
+//
+//  return BSP_ERROR_NONE;
+//}
 
-  if(Instance != 1U)
-  {
-    return BSP_ERROR_WRONG_PARAM;
-  }
-  else
-  {
-    /* Enable CRC peripheral to unlock the PDM library */
-    __HAL_RCC_CRC_CLK_ENABLE();
 
-    for(index = 0; index < ChnlNbrIn; index++)
-    {
-      /* Init PDM filters */
-      PDM_FilterHandler[index].bit_order  = PDM_FILTER_BIT_ORDER_MSB;
-      PDM_FilterHandler[index].endianness = PDM_FILTER_ENDIANNESS_LE;
-      PDM_FilterHandler[index].high_pass_tap = 2122358088;
-      PDM_FilterHandler[index].out_ptr_channels = ChnlNbrOut;
-      PDM_FilterHandler[index].in_ptr_channels  = ChnlNbrIn;
-      PDM_Filter_Init((PDM_Filter_Handler_t *)(&PDM_FilterHandler[index]));
-
-      /* PDM lib config phase */
-      PDM_FilterConfig[index].output_samples_number = AudioFreq/1000;
-      PDM_FilterConfig[index].mic_gain = 24;
-      PDM_FilterConfig[index].decimation_factor = PDM_FILTER_DEC_FACTOR_64;
-      PDM_Filter_setConfig((PDM_Filter_Handler_t *)&PDM_FilterHandler[index], &PDM_FilterConfig[index]);
-    }
-  }
-
-  return BSP_ERROR_NONE;
-}
-
-
-/**
-  * @brief  Converts audio format from PDM to PCM.
-  * @param  Instance  AUDIO IN Instance
-  * @param  PDMBuf    Pointer to PDM buffer data
-  * @param  PCMBuf    Pointer to PCM buffer data
-  * @retval BSP status
-  */
-int32_t BSP_AUDIO_IN_PDMToPCM(uint32_t Instance, uint16_t *PDMBuf, uint16_t *PCMBuf)
-{
-  uint32_t index = 0;
-
-  if(Instance != 1U)
-  {
-    return BSP_ERROR_WRONG_PARAM;
-  }
-  else
-  {
-    for(index = 0; index < Audio_In_Ctx[Instance].ChannelsNbr; index++)
-    {
-      PDM_Filter(&((uint8_t*)(PDMBuf))[index], (uint16_t*)&(PCMBuf[index]), &PDM_FilterHandler[index]);
-    }
-  }
-
-  return BSP_ERROR_NONE;
-}
+///**
+//  * @brief  Converts audio format from PDM to PCM.
+//  * @param  Instance  AUDIO IN Instance
+//  * @param  PDMBuf    Pointer to PDM buffer data
+//  * @param  PCMBuf    Pointer to PCM buffer data
+//  * @retval BSP status
+//  */
+//int32_t BSP_AUDIO_IN_PDMToPCM(uint32_t Instance, uint16_t *PDMBuf, uint16_t *PCMBuf)
+//{
+//  uint32_t index = 0;
+//
+//  if(Instance != 1U)
+//  {
+//    return BSP_ERROR_WRONG_PARAM;
+//  }
+//  else
+//  {
+//    for(index = 0; index < Audio_In_Ctx[Instance].ChannelsNbr; index++)
+//    {
+//      PDM_Filter(&((uint8_t*)(PDMBuf))[index], (uint16_t*)&(PCMBuf[index]), &PDM_FilterHandler[index]);
+//    }
+//  }
+//
+//  return BSP_ERROR_NONE;
+//}
 
 /**
   * @brief  Start audio recording.
@@ -2058,7 +2058,7 @@ int32_t BSP_AUDIO_IN_Resume(uint32_t Instance)
     else
     {
       if(Instance == 0U)
-      { 
+      {
         if(Audio_Drv->Resume(Audio_CompObj) != 0)
         {
           ret = BSP_ERROR_COMPONENT_FAILURE;
@@ -2066,7 +2066,7 @@ int32_t BSP_AUDIO_IN_Resume(uint32_t Instance)
       }
     }
 
-    if(ret == BSP_ERROR_NONE) 
+    if(ret == BSP_ERROR_NONE)
     {
       /* Update BSP AUDIO IN state */
       Audio_In_Ctx[Instance].State = AUDIO_IN_STATE_RECORDING;

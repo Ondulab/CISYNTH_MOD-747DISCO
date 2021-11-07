@@ -87,18 +87,22 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
   
-  ExtFlashSection :
+  /*ExtFlashSection :
   {
     ExtThirdPartyHeader = .;
     KEEP(*(.ExtFlashSection));
     ExtThirdPartyHeader_end = .;
   } >QSPI
-   
-  TextFlashSection :
+  
+   TextFlashSection :
   {
     ExtThirdPartyHeader = .;
     KEEP(*(.TextFlashSection));
     ExtThirdPartyHeader_end = .;
+  } >QSPI*/
+  
+  ExtFlashSection :
+  {   *(ExtFlashSection ExtFlashSection.*)
   } >QSPI
 
   .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
