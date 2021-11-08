@@ -236,7 +236,248 @@ int main(void)
 }
 
 /* USER CODE BEGIN 4 */
+/**
+ * @brief  Compares two buffers.
+ * @param  pBuffer1, pBuffer2: buffers to be compared.
+ * @param  BufferLength: buffer's length
+ * @retval 1: pBuffer identical to pBuffer1
+ *         0: pBuffer differs from pBuffer1
+ */
+static uint8_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint32_t BufferLength)
+{
+	while (BufferLength--)
+	{
+		if (*pBuffer1 != *pBuffer2)
+		{
+			return 1;
+		}
 
+		pBuffer1++;
+		pBuffer2++;
+	}
+
+	return 0;
+}
+
+/**
+ * @brief  QSPI reset flash data at config.h values
+ * @param  void
+ * @retval void
+ */
+void QSPI_ResetData(void)
+{
+	uint8_t qspi_aTxBuffer[BUFFER_SIZE];
+	uint8_t qspi_aRxBuffer[BUFFER_SIZE];
+	uint8_t isFlashInitialized = TRUE;
+
+	struct params *tmp_Txflash_params = (struct params *)qspi_aTxBuffer;
+	struct params *tmp_Rxflash_params = (struct params *)qspi_aRxBuffer;
+
+	HAL_QSPI_Abort(&hqspi);
+
+	HAL_QSPI_MspDeInit(&hqspi);
+
+	hqspi.Instance = QUADSPI;
+	hqspi.Init.ClockPrescaler = 3;
+	hqspi.Init.FifoThreshold = 1;
+	hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
+	hqspi.Init.FlashSize = 1;
+	hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
+	hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
+	hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
+	if (HAL_QSPI_Init(&hqspi) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	/* USER CODE BEGIN QUADSPI_Init 2 */
+	BSP_QSPI_Init_t init ;
+	init.InterfaceMode=MT25TL01G_QPI_MODE;
+	init.TransferRate= MT25TL01G_DTR_TRANSFER ;
+	init.DualFlashMode= MT25TL01G_DUALFLASH_ENABLE;
+	if (BSP_QSPI_Init(0,&init) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	/* Read back data from the QSPI memory */
+	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	if (tmp_Rxflash_params->start_frequency == 0)
+	{
+		tmp_Txflash_params->start_frequency = START_FREQUENCY;
+		isFlashInitialized = FALSE;
+	}
+	if (tmp_Rxflash_params->comma_per_semitone == 0)
+	{
+		tmp_Txflash_params->comma_per_semitone = COMMA_PER_SEMITONE;
+		isFlashInitialized = FALSE;
+	}
+	if (tmp_Rxflash_params->ifft_attack == 0)
+	{
+		tmp_Txflash_params->ifft_attack = IFFT_GAP_PER_LOOP_INCREASE;
+		isFlashInitialized = FALSE;
+	}
+	if (tmp_Rxflash_params->ifft_release == 0)
+	{
+		tmp_Txflash_params->ifft_release = IFFT_GAP_PER_LOOP_DECREASE;
+		isFlashInitialized = FALSE;
+	}
+	if (tmp_Rxflash_params->volume == 0)
+	{
+		tmp_Txflash_params->volume = VOLUME;
+		isFlashInitialized = FALSE;
+	}
+
+	if (isFlashInitialized == TRUE)
+		return;
+
+	/* Erase QSPI memory */
+	if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	if(BSP_QSPI_Write(0,qspi_aTxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	/* Read back data from the QSPI memory */
+	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	/* Checking data integrity */
+	if(Buffercmp(qspi_aRxBuffer, qspi_aTxBuffer, BUFFER_SIZE) > 0)
+	{
+		Error_Handler();
+	}
+
+	QSPI_CommandTypeDef      s_command;
+	QSPI_MemoryMappedTypeDef s_mem_mapped_cfg;
+	/* Configure the command for the read instruction */
+	s_command.InstructionMode   = QSPI_INSTRUCTION_4_LINES;
+	s_command.Instruction       = MT25TL01G_QUAD_INOUT_FAST_READ_DTR_CMD; //QUAD_INOUT_FAST_READ_CMD;
+	s_command.AddressMode       = QSPI_ADDRESS_4_LINES;
+	s_command.AddressSize       = QSPI_ADDRESS_32_BITS;
+	s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
+	s_command.DataMode          = QSPI_DATA_4_LINES;
+	s_command.DummyCycles       = MT25TL01G_DUMMY_CYCLES_READ_QUAD_DTR; //N25Q128A_DUMMY_CYCLES_READ_QUAD;
+	s_command.DdrMode           = QSPI_DDR_MODE_ENABLE;
+	s_command.DdrHoldHalfCycle  = QSPI_DDR_HHC_HALF_CLK_DELAY;
+	s_command.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;
+
+	/* Configure the memory mapped mode */
+	s_mem_mapped_cfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE;
+	s_mem_mapped_cfg.TimeOutPeriod     = 0;
+
+	if (HAL_QSPI_MemoryMapped(&hqspi, &s_command, &s_mem_mapped_cfg) != HAL_OK)
+	{
+		Error_Handler();
+	}
+//
+//	/* Memory Mapped Mode */
+//	if(BSP_QSPI_EnableMemoryMappedMode(0)!= BSP_ERROR_NONE)
+//	{
+//		Error_Handler();
+//	}
+}
+
+/**
+ * @brief  Get Image buffer data
+ * @param  Index
+ * @retval Value
+ */
+int32_t synth_GetImageData(uint32_t index)
+{
+	//	if (index >= RFFT_BUFFER_SIZE)
+	//		Error_Handler();
+	return imageData[index];
+}
+
+/**
+ * @brief  Set Image buffer data
+ * @param  Index
+ * @retval Value
+ */
+int32_t synth_SetImageData(uint32_t index, int32_t value)
+{
+	//	if (index >= RFFT_BUFFER_SIZE)
+	//		Error_Handler();
+	imageData[index] = value;
+	return 0;
+}
+
+/**
+ * @brief System Clock Configuration
+ * @retval None
+ */
+void SystemClock_Config(void)
+{
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+	/** Supply configuration update enable
+	 */
+	HAL_PWREx_ConfigSupply(PWR_DIRECT_SMPS_SUPPLY);
+	/** Configure the main internal regulator output voltage
+	 */
+	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
+
+	while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+	/** Macro to configure the PLL clock source
+	 */
+	__HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
+	/** Initializes the RCC Oscillators according to the specified parameters
+	 * in the RCC_OscInitTypeDef structure.
+	 */
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSI
+			|RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
+	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+	RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
+	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+	RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+	RCC_OscInitStruct.PLL.PLLM = 5;
+	RCC_OscInitStruct.PLL.PLLN = 192;
+	RCC_OscInitStruct.PLL.PLLP = 2;
+	RCC_OscInitStruct.PLL.PLLQ = 5;
+	RCC_OscInitStruct.PLL.PLLR = 2;
+	RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
+	RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
+	RCC_OscInitStruct.PLL.PLLFRACN = 0;
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	/** Initializes the CPU, AHB and APB buses clocks
+	 */
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+			|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
+			|RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV2;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV2;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
+	RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
+
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+	{
+		Error_Handler();
+	}
+	HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSI, RCC_MCODIV_1);
+	/** Enables the Clock Security System
+	 */
+	HAL_RCC_EnableCSS();
+}
 /* USER CODE END 4 */
 
 /**

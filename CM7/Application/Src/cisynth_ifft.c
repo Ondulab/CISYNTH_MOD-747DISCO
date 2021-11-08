@@ -29,13 +29,9 @@ extern __IO uint32_t synth_process_cnt;
 int cisynth_ifft(void)
 {
 	static uint32_t start_tick;
-	static uint32_t note = 10;
 	uint32_t aRandom32bit_Note = 0;
 	uint32_t aRandom32bit_Volume = 0;
 	uint32_t aRandom32bit_Repeat = 100;
-	uint32_t demoNoteTable[10] = {0};
-	uint32_t tmp_demoNoteTable[10] = {0};
-	uint32_t index = 0;
 
 	printf("------ BW IFFT MODE START -----\n");
 	printf("-------------------------------\n");
@@ -49,29 +45,36 @@ int cisynth_ifft(void)
 		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
 
-		if (HAL_GetTick() - start_tick >= 10)// aRandom32bit_Repeat)
+		if (HAL_GetTick() - start_tick >= aRandom32bit_Repeat)
 		{
-			//			if (note > NUMBER_OF_NOTES - 11)
-			//			{
-			//				synth_SetImageData(note - 10, 0);
-			//				note = 10;
-			//			}
-			//
-			//			synth_SetImageData(note - 10, 0);
-			//			synth_SetImageData(note, 10500);
-			//
-			//			note+= 10;
-			//
+
+			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Note) != HAL_OK)
+			{
+				/* Random number generation error */
+				Error_Handler();
+			}
+			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Volume) != HAL_OK)
+			{
+				/* Random number generation error */
+				Error_Handler();
+			}
+			synth_SetImageData(aRandom32bit_Note % (NUMBER_OF_NOTES - 1), aRandom32bit_Volume % 32000);
+
 			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Note) != HAL_OK)
 			{
 				/* Random number generation error */
 				Error_Handler();
 			}
 
-			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Volume) != HAL_OK)
+			if (aRandom32bit_Note > 3800000000)
 			{
-				/* Random number generation error */
-				Error_Handler();
+				for (uint32_t y = 0; y < NUMBER_OF_NOTES - 1; y++)
+				{
+					if ((aRandom32bit_Volume % 32000) < synth_GetImageData(y))
+						synth_SetImageData(y, synth_GetImageData(y) - (aRandom32bit_Volume % 32000));
+					else
+						synth_SetImageData(y, 0);
+				}
 			}
 
 			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Repeat) != HAL_OK)
@@ -80,15 +83,7 @@ int cisynth_ifft(void)
 				Error_Handler();
 			}
 
-			tmp_demoNoteTable[index++] = aRandom32bit_Note % (NUMBER_OF_NOTES - 1);
-			if (index > 9)
-					index = 0;
-
-			synth_SetImageData(tmp_demoNoteTable[0], aRandom32bit_Volume % 32000);
-
-			synth_SetImageData(tmp_demoNoteTable[(index - 10) % 10], 0);
-
-//			aRandom32bit_Repeat = aRandom32bit_Repeat % 500 + 10;
+			aRandom32bit_Repeat = aRandom32bit_Repeat % 200 + 50;
 
 			start_tick = HAL_GetTick();
 		}
