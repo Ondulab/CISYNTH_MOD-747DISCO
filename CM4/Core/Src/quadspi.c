@@ -90,117 +90,86 @@ void QSPI_Init(void)
  */
 void QSPI_Demo(void)
 {
-//	/* QSPI info structure */
-//	BSP_QSPI_Info_t pQSPI_Info;
-//	uint8_t status;
-//
-//	QSPI_SetHint();
-//
-//	/*##-1- Configure the QSPI device ##########################################*/
-//	/* QSPI device configuration */
-//	BSP_QSPI_Init_t init ;
-//	init.InterfaceMode=MT25TL01G_QPI_MODE;
-//	init.TransferRate= MT25TL01G_DTR_TRANSFER ;
-//	init.DualFlashMode= MT25TL01G_DUALFLASH_ENABLE;
-//	status = BSP_QSPI_Init(0,&init);
-//
-//	if (status != BSP_ERROR_NONE)
-//	{
-//		UTIL_LCD_DisplayStringAt(20, 100, (uint8_t*)"QSPI Initialization : FAILED.", LEFT_MODE);
-//		UTIL_LCD_DisplayStringAt(20, 115, (uint8_t*)"QSPI Test Aborted.", LEFT_MODE);
-//		UTIL_LCD_DisplayStringAt(20, 145, (uint8_t*)"Check the hardware configuration :", LEFT_MODE);
-//		UTIL_LCD_DisplayStringAt(20, 160, (uint8_t*)"  refer to the UM of the board", LEFT_MODE);
-//		UTIL_LCD_DisplayStringAt(20, 175, (uint8_t*)"  for the hardware modifications", LEFT_MODE);
-//		UTIL_LCD_DisplayStringAt(20, 190, (uint8_t*)"  to connect the QSPI memory", LEFT_MODE);
-//	}
-//
-//	else
-//	{
-//		UTIL_LCD_DisplayStringAt(20, 100, (uint8_t*)"QSPI Initialization : OK.", LEFT_MODE);
-//
-//		/*##-2- Read & check the QSPI info #######################################*/
-//		/* Initialize the structure */
-//		pQSPI_Info.FlashSize          = (uint32_t)0x00;
-//		pQSPI_Info.EraseSectorSize    = (uint32_t)0x00;
-//		pQSPI_Info.EraseSectorsNumber = (uint32_t)0x00;
-//		pQSPI_Info.ProgPageSize       = (uint32_t)0x00;
-//		pQSPI_Info.ProgPagesNumber    = (uint32_t)0x00;
-//
-//		/* Read the QSPI memory info */
-//		BSP_QSPI_GetInfo(0,&pQSPI_Info);
-//
-//		/* Test the correctness */
-//		if((pQSPI_Info.FlashSize != 0x8000000) || (pQSPI_Info.EraseSectorSize != 0x2000)  ||
-//				(pQSPI_Info.ProgPageSize != 0x100)  || (pQSPI_Info.EraseSectorsNumber != 0x4000) ||
-//				(pQSPI_Info.ProgPagesNumber != 0x80000))
-//		{
-//			UTIL_LCD_DisplayStringAt(20, 115, (uint8_t*)"QSPI GET INFO : FAILED.", LEFT_MODE);
-//			UTIL_LCD_DisplayStringAt(20, 130, (uint8_t*)"QSPI Test Aborted.", LEFT_MODE);
-//		}
-//		else
-//		{
-//			UTIL_LCD_DisplayStringAt(20, 115, (uint8_t*)"QSPI GET INFO : OK.   ", LEFT_MODE);
-//
-//			/*##-3- Erase QSPI memory ################################################*/
-//			if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
-//			{
-//				UTIL_LCD_DisplayStringAt(20, 130, (uint8_t*)"QSPI ERASE : FAILED.", LEFT_MODE);
-//				UTIL_LCD_DisplayStringAt(20, 145, (uint8_t*)"QSPI Test Aborted.", LEFT_MODE);
-//			}
-//			else
-//			{
-//				UTIL_LCD_DisplayStringAt(20, 130, (uint8_t*)"QSPI ERASE : OK.   ", LEFT_MODE);
-//
-//				/*##-4- QSPI memory read/write access  #################################*/
-//				/* Fill the buffer to write */
-//				Fill_Buffer(qspi_aTxBuffer, BUFFER_SIZE, 0xD20F);
-//
-//				/* Write data to the QSPI memory */
-//				if(BSP_QSPI_Write(0,qspi_aTxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-//				{
-//					UTIL_LCD_DisplayStringAt(20, 145, (uint8_t*)"QSPI WRITE : FAILED.", LEFT_MODE);
-//					UTIL_LCD_DisplayStringAt(20, 160, (uint8_t*)"QSPI Test Aborted.", LEFT_MODE);
-//				}
-//				else
-//				{
-//					UTIL_LCD_DisplayStringAt(20, 145, (uint8_t*)"QSPI WRITE : OK.     ", LEFT_MODE);
-//
-//					/* Read back data from the QSPI memory */
-//					if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-//					{
-//						UTIL_LCD_DisplayStringAt(20, 160, (uint8_t*)"QSPI READ : FAILED.", LEFT_MODE);
-//						UTIL_LCD_DisplayStringAt(20, 175, (uint8_t*)"QSPI Test Aborted.", LEFT_MODE);
-//					}
-//					else
-//					{
-//						UTIL_LCD_DisplayStringAt(20, 160, (uint8_t*)"QSPI READ :  OK.    ", LEFT_MODE);
-//
-//						/*##-5- Checking data integrity ############################################*/
-//						if(Buffercmp(qspi_aRxBuffer, qspi_aTxBuffer, BUFFER_SIZE) > 0)
-//						{
-//							UTIL_LCD_DisplayStringAt(20, 175, (uint8_t*)"QSPI COMPARE : FAILED.", LEFT_MODE);
-//							UTIL_LCD_DisplayStringAt(20, 190, (uint8_t*)"QSPI Test Aborted.", LEFT_MODE);
-//						}
-//						else
-//						{
-//							UTIL_LCD_DisplayStringAt(20, 175, (uint8_t*)"QSPI COMPARE : OK.     ", LEFT_MODE);
-//							/*##-6-Memory Mapped Mode ###############################################*/
-//							if(BSP_QSPI_EnableMemoryMappedMode(0)!=BSP_ERROR_NONE)
-//							{
-//								UTIL_LCD_DisplayStringAt(20, 190, (uint8_t*)"QSPI Memory Mapped Mode : FAILED.     ", LEFT_MODE);
-//								UTIL_LCD_DisplayStringAt(20, 190, (uint8_t*)"QSPI Test Aborted.", LEFT_MODE);
-//							}
-//							else
-//							{
-//								UTIL_LCD_DisplayStringAt(20, 190, (uint8_t*)"QSPI Memory Mapped Mode : OK.     ", LEFT_MODE);
-//								UTIL_LCD_DisplayStringAt(20, 175, (uint8_t*)"QSPI Test : OK.     ", LEFT_MODE);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
+	/* QSPI info structure */
+	BSP_QSPI_Info_t pQSPI_Info;
+	uint8_t status;
+
+	QSPI_SetHint();
+
+	/*##-1- Configure the QSPI device ##########################################*/
+	/* QSPI device configuration */
+	BSP_QSPI_Init_t init ;
+	init.InterfaceMode=MT25TL01G_QPI_MODE;
+	init.TransferRate= MT25TL01G_DTR_TRANSFER ;
+	init.DualFlashMode= MT25TL01G_DUALFLASH_ENABLE;
+	status = BSP_QSPI_Init(0,&init);
+
+	if (status != BSP_ERROR_NONE)
+	{
+	}
+
+	else
+	{
+		/*##-2- Read & check the QSPI info #######################################*/
+		/* Initialize the structure */
+		pQSPI_Info.FlashSize          = (uint32_t)0x00;
+		pQSPI_Info.EraseSectorSize    = (uint32_t)0x00;
+		pQSPI_Info.EraseSectorsNumber = (uint32_t)0x00;
+		pQSPI_Info.ProgPageSize       = (uint32_t)0x00;
+		pQSPI_Info.ProgPagesNumber    = (uint32_t)0x00;
+
+		/* Read the QSPI memory info */
+		BSP_QSPI_GetInfo(0,&pQSPI_Info);
+
+		/* Test the correctness */
+		if((pQSPI_Info.FlashSize != 0x8000000) || (pQSPI_Info.EraseSectorSize != 0x2000)  ||
+				(pQSPI_Info.ProgPageSize != 0x100)  || (pQSPI_Info.EraseSectorsNumber != 0x4000) ||
+				(pQSPI_Info.ProgPagesNumber != 0x80000))
+		{
+		}
+		else
+		{
+			/*##-3- Erase QSPI memory ################################################*/
+			if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
+			{
+			}
+			else
+			{
+				/*##-4- QSPI memory read/write access  #################################*/
+				/* Fill the buffer to write */
+				Fill_Buffer(qspi_aTxBuffer, BUFFER_SIZE, 0xD20F);
+
+				/* Write data to the QSPI memory */
+				if(BSP_QSPI_Write(0,qspi_aTxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+				{
+				}
+				else
+				{
+					/* Read back data from the QSPI memory */
+					if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+					{
+					}
+					else
+					{
+						/*##-5- Checking data integrity ############################################*/
+						if(Buffercmp(qspi_aRxBuffer, qspi_aTxBuffer, BUFFER_SIZE) > 0)
+						{
+						}
+						else
+						{
+							/*##-6-Memory Mapped Mode ###############################################*/
+							if(BSP_QSPI_EnableMemoryMappedMode(0)!=BSP_ERROR_NONE)
+							{
+							}
+							else
+							{
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 /**
@@ -210,30 +179,30 @@ void QSPI_Demo(void)
  */
 static void QSPI_SetHint(void)
 {
-//	uint32_t x_size;
-//	uint32_t y_size;
-//	BSP_LCD_GetXSize(0, &x_size);
-//	BSP_LCD_GetYSize(0, &y_size);
-//	/* Clear the LCD */
-//	UTIL_LCD_Clear(UTIL_LCD_COLOR_WHITE);
-//
-//	/* Set LCD Demo description */
-//	UTIL_LCD_FillRect(0, 0, x_size, 80,UTIL_LCD_COLOR_BLUE);
-//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
-//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLUE);
-//	UTIL_LCD_SetFont(&Font24);
-//	UTIL_LCD_DisplayStringAt(0, 0, (uint8_t*)"QSPI", CENTER_MODE);
-//	UTIL_LCD_SetFont(&Font12);
-//	UTIL_LCD_DisplayStringAt(0, 30, (uint8_t*)"This example shows how to write", CENTER_MODE);
-//	UTIL_LCD_DisplayStringAt(0, 45, (uint8_t*)"and read data on QSPI memory", CENTER_MODE);
-//	UTIL_LCD_DisplayStringAt(0, 60, (uint8_t*)"(Hardware modifications needed)", CENTER_MODE);
-//
-//	/* Set the LCD Text Color */
-//	UTIL_LCD_DrawRect(10, 90, x_size - 20,y_size- 100,UTIL_LCD_COLOR_BLUE);
-//	UTIL_LCD_DrawRect(11, 91, x_size - 22, y_size- 102,UTIL_LCD_COLOR_BLUE);
-//
-//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_BLACK);
-//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_WHITE);
+	//	uint32_t x_size;
+	//	uint32_t y_size;
+	//	BSP_LCD_GetXSize(0, &x_size);
+	//	BSP_LCD_GetYSize(0, &y_size);
+	//	/* Clear the LCD */
+	//	UTIL_LCD_Clear(UTIL_LCD_COLOR_WHITE);
+	//
+	//	/* Set LCD Demo description */
+	//	UTIL_LCD_FillRect(0, 0, x_size, 80,UTIL_LCD_COLOR_BLUE);
+	//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
+	//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLUE);
+	//	UTIL_LCD_SetFont(&Font24);
+	//	UTIL_LCD_DisplayStringAt(0, 0, (uint8_t*)"QSPI", CENTER_MODE);
+	//	UTIL_LCD_SetFont(&Font12);
+	//	UTIL_LCD_DisplayStringAt(0, 30, (uint8_t*)"This example shows how to write", CENTER_MODE);
+	//	UTIL_LCD_DisplayStringAt(0, 45, (uint8_t*)"and read data on QSPI memory", CENTER_MODE);
+	//	UTIL_LCD_DisplayStringAt(0, 60, (uint8_t*)"(Hardware modifications needed)", CENTER_MODE);
+	//
+	//	/* Set the LCD Text Color */
+	//	UTIL_LCD_DrawRect(10, 90, x_size - 20,y_size- 100,UTIL_LCD_COLOR_BLUE);
+	//	UTIL_LCD_DrawRect(11, 91, x_size - 22, y_size- 102,UTIL_LCD_COLOR_BLUE);
+	//
+	//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_BLACK);
+	//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_WHITE);
 }
 
 /**
@@ -305,19 +274,39 @@ void MX_QUADSPI_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN QUADSPI_Init 2 */
-	  BSP_QSPI_Init_t init ;
-	  init.InterfaceMode=MT25TL01G_QPI_MODE;
-	  init.TransferRate= MT25TL01G_DTR_TRANSFER ;
-	  init.DualFlashMode= MT25TL01G_DUALFLASH_ENABLE;
-	  if (BSP_QSPI_Init(0,&init) != BSP_ERROR_NONE)
-	  {
-	    Error_Handler();
-	  }
-	  if (BSP_QSPI_EnableMemoryMappedMode(0) != BSP_ERROR_NONE)
-	  {
-	    Error_Handler();
-	  }
-  /* USER CODE BEGIN QUADSPI_Init 2 */
+	BSP_QSPI_Init_t init ;
+	init.InterfaceMode=MT25TL01G_QPI_MODE;
+	init.TransferRate= MT25TL01G_DTR_TRANSFER ;
+	init.DualFlashMode= MT25TL01G_DUALFLASH_ENABLE;
+	if (BSP_QSPI_Init(0,&init) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	QSPI_CommandTypeDef      s_command;
+	QSPI_MemoryMappedTypeDef s_mem_mapped_cfg;
+	/* Configure the command for the read instruction */
+	s_command.InstructionMode   = QSPI_INSTRUCTION_4_LINES;
+	s_command.Instruction       = MT25TL01G_QUAD_INOUT_FAST_READ_DTR_CMD; //QUAD_INOUT_FAST_READ_CMD;
+	s_command.AddressMode       = QSPI_ADDRESS_4_LINES;
+	s_command.AddressSize       = QSPI_ADDRESS_32_BITS;
+	s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
+	s_command.DataMode          = QSPI_DATA_4_LINES;
+	s_command.DummyCycles       = MT25TL01G_DUMMY_CYCLES_READ_QUAD_DTR; //N25Q128A_DUMMY_CYCLES_READ_QUAD;
+	s_command.DdrMode           = QSPI_DDR_MODE_ENABLE;
+	s_command.DdrHoldHalfCycle  = QSPI_DDR_HHC_HALF_CLK_DELAY;
+	s_command.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;
+
+	/* Configure the memory mapped mode */
+	s_mem_mapped_cfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE;
+	s_mem_mapped_cfg.TimeOutPeriod     = 0;
+
+	if (HAL_QSPI_MemoryMapped(&hqspi, &s_command, &s_mem_mapped_cfg) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	/* USER CODE BEGIN QUADSPI_Init 2 */
 
   /* USER CODE END QUADSPI_Init 2 */
 

@@ -24,6 +24,19 @@ public:
     virtual ~Screen1ViewBase() {}
     virtual void setupScreen();
 
+    /*
+     * Virtual Action Handlers
+     */
+    virtual void Attack_Slider_Callback(int value)
+    {
+        // Override and implement this function in Screen1
+    }
+
+    virtual void Release_Slider_Callback(int value)
+    {
+        // Override and implement this function in Screen1
+    }
+
 protected:
     FrontendApplication& application() {
         return *static_cast<FrontendApplication*>(touchgfx::Application::getInstance());
@@ -58,6 +71,16 @@ protected:
     touchgfx::RadioButtonGroup<3> radioButtonGroup1;
 
 private:
+
+    /*
+     * Callback Declarations
+     */
+    touchgfx::Callback<Screen1ViewBase, const touchgfx::Slider&, int> sliderValueChangedCallback;
+
+    /*
+     * Callback Handler Declarations
+     */
+    void sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value);
 
     /*
      * Canvas Buffer Size

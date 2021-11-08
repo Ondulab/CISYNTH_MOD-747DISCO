@@ -38,6 +38,7 @@
 #include "menu.h"
 #include "shared.h"
 #include "quadspi.h"
+#include "basetypes.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,12 +68,10 @@
 /* Private function prototypes -----------------------------------------------*/
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-static void MX_GPIO_Init2(void);
-void SystemClock_Config(void);
-static void cisynth_ifft_SetHint(void);
+void QSPI_ResetData(void);
 int32_t synth_GetImageData(uint32_t index);
 int32_t synth_SetImageData(uint32_t index, int32_t value);
-void QSPI_ResetData(void);
+void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -110,7 +109,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  SystemClock_Config();
+	SystemClock_Config();
   /* USER CODE END Init */
 
   /* USER CODE BEGIN SysInit */
@@ -129,21 +128,21 @@ int main(void)
   MX_CRC_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
+//	QSPI_ResetData();
+	synth_IfftInit();
 
-  synth_IfftInit();
+	//  synth_SetImageData(60, 800); //for testing
+	//  synth_SetImageData(10, 800); //for testing
+	//  synth_SetImageData(8, 7000);
+	//  synth_SetImageData(40, 20000); //for testing
+	//  synth_SetImageData(75, 10100);
+	//  synth_SetImageData(60, 1300); //for testing
+	//  synth_SetImageData(105, 500);
 
-  synth_SetImageData(60, 800); //for testing
-  synth_SetImageData(10, 800); //for testing
-  synth_SetImageData(8, 7000);
-  synth_SetImageData(40, 20000); //for testing
-  synth_SetImageData(75, 10100);
-  synth_SetImageData(60, 1300); //for testing
-  synth_SetImageData(105, 500);
-
-  /* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
-  HAL_HSEM_FastTake(HSEM_ID_0);
-  /* Do not forget to release the HW semaphore 0 once needed */
-  HAL_HSEM_Release(HSEM_ID_0, 0);
+	/* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
+	HAL_HSEM_FastTake(HSEM_ID_0);
+	/* Do not forget to release the HW semaphore 0 once needed */
+	HAL_HSEM_Release(HSEM_ID_0, 0);
 
   /* USER CODE END 2 */
 
@@ -170,18 +169,14 @@ int main(void)
 	//
 	//	UTIL_LCD_Clear(UTIL_LCD_COLOR_BLACK);
 
-	//	QSPI_Demo();
+	//		QSPI_Demo();
 	//	QSPI_Init();
 	//	QSPI_ResetData();
 
-	uint8_t FreqStr[256] = {0};
-	static uint32_t start_tick;
-	uint32_t latency;
-	uint32_t i = 0;
-
-	HAL_Delay(100);
-
-	cisynth_ifft_SetHint();
+	//	uint8_t FreqStr[256] = {0};
+	//	static uint32_t start_tick;
+	//	uint32_t latency;
+	//	uint32_t i = 0;
 
 
 	while (1)
@@ -190,26 +185,26 @@ int main(void)
 
 		//		while ((params.synth_process_cnt) < (SAMPLING_FREQUENCY / DISPLAY_REFRESH_FPS));
 
-		shared_var.synth_process_cnt = 0;
-		HAL_Delay(1000 / DISPLAY_REFRESH_FPS);
+		//		shared_var.synth_process_cnt = 0;
+		//		HAL_Delay(1000 / DISPLAY_REFRESH_FPS);
 
 		//		latency = HAL_GetTick() - start_tick;
-		sprintf((char *)FreqStr, "  %dHz", (int)((shared_var.synth_process_cnt * 1000) / (1000 / DISPLAY_REFRESH_FPS)));
+		//		sprintf((char *)FreqStr, "  %dHz", (int)((shared_var.synth_process_cnt * 1000) / (1000 / DISPLAY_REFRESH_FPS)));
 
 		//		UTIL_LCD_FillRect(0, DISPLAY_AERA1_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_AERAS1_HEIGHT, UTIL_LCD_COLOR_ST_GRAY_DARK);
 
-		static uint32_t note = 10;
-		if (note > NUMBER_OF_NOTES)
-		{
-			note = 10;
-			synth_SetImageData(note - 10, 0);
-		}
-
-		synth_SetImageData(note++, 10500); //for testing
-		synth_SetImageData(note - 1, 0);
-
-		synth_SetImageData(note - 9, 26500); //for testing
-		synth_SetImageData(note - 10, 0);
+		//		static uint32_t note = 10;
+		//		if (note > NUMBER_OF_NOTES)
+		//		{
+		//			note = 10;
+		//			synth_SetImageData(note - 10, 0);
+		//		}
+		//
+		//		synth_SetImageData(note++, 10500); //for testing
+		//		synth_SetImageData(note - 1, 0);
+		//
+		//		synth_SetImageData(note - 9, 26500); //for testing
+		//		synth_SetImageData(note - 10, 0);
 
 		//				for (i = 0; i < ((DISPLAY_MAX_X_LENGTH) - 1); i++)
 		//				{
@@ -231,7 +226,7 @@ int main(void)
 		//
 		//		UTIL_LCD_DisplayStringAt(0, 1, (uint8_t*)FreqStr, RIGHT_MODE);
 
-		HAL_Delay(10);
+		//		HAL_Delay(10);
 
     /* USER CODE END WHILE */
 
@@ -241,221 +236,7 @@ int main(void)
 }
 
 /* USER CODE BEGIN 4 */
-/**
- * @brief GPIO Initialization Function
- * @param None
- * @retval None
- */
-static void MX_GPIO_Init2(void)
-{
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
-
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(LCD_RESET_GPIO_Port, LCD_RESET_Pin, GPIO_PIN_RESET);
-
-	/*Configure GPIO pin : LCD_BL_Pin */
-	GPIO_InitStruct.Pin = LCD_BL_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	HAL_GPIO_Init(LCD_BL_GPIO_Port, &GPIO_InitStruct);
-
-	/*Configure GPIO pin : PA8 */
-	GPIO_InitStruct.Pin = GPIO_PIN_8;
-	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-	/*Configure GPIO pin : LCD_RESET_Pin */
-	GPIO_InitStruct.Pin = LCD_RESET_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	HAL_GPIO_Init(LCD_RESET_GPIO_Port, &GPIO_InitStruct);
-
-}
-
-/**
- * @brief  Compares two buffers.
- * @param  pBuffer1, pBuffer2: buffers to be compared.
- * @param  BufferLength: buffer's length
- * @retval 1: pBuffer identical to pBuffer1
- *         0: pBuffer differs from pBuffer1
- */
-static uint8_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint32_t BufferLength)
-{
-	while (BufferLength--)
-	{
-		if (*pBuffer1 != *pBuffer2)
-		{
-			return 1;
-		}
-
-		pBuffer1++;
-		pBuffer2++;
-	}
-
-	return 0;
-}
-
-/**
- * @brief  QSPI reset flash data at config.h values
- * @param  void
- * @retval void
- */
-void QSPI_ResetData(void)
-{
-	uint8_t qspi_aTxBuffer[BUFFER_SIZE];
-	uint8_t qspi_aRxBuffer[BUFFER_SIZE];
-
-	struct params *tmp_flash_params;
-	tmp_flash_params = (struct params *)qspi_aTxBuffer;
-
-	/* Erase QSPI memory */
-	if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-
-	tmp_flash_params->start_frequency = START_FREQUENCY;
-	tmp_flash_params->comma_per_semitone = COMMA_PER_SEMITONE;
-	tmp_flash_params->ifft_attack = IFFT_GAP_PER_MS_INCREASE;
-	tmp_flash_params->ifft_release = IFFT_GAP_PER_MS_DECREASE;
-	tmp_flash_params->volume = 100;
-
-	if(BSP_QSPI_Write(0,qspi_aTxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-
-	/* Read back data from the QSPI memory */
-	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-
-	/* Checking data integrity */
-	if(Buffercmp(qspi_aRxBuffer, qspi_aTxBuffer, BUFFER_SIZE) > 0)
-	{
-		Error_Handler();
-	}
-
-	//	/* Memory Mapped Mode */
-	//	if(BSP_QSPI_EnableMemoryMappedMode(0)!= BSP_ERROR_NONE)
-	//	{
-	//		Error_Handler();
-	//	}
-}
-
-/**
- * @brief  Get Image buffer data
- * @param  Index
- * @retval Value
- */
-int32_t synth_GetImageData(uint32_t index)
-{
-	//	if (index >= RFFT_BUFFER_SIZE)
-	//		Error_Handler();
-	return imageData[index];
-}
-
-/**
- * @brief  Set Image buffer data
- * @param  Index
- * @retval Value
- */
-int32_t synth_SetImageData(uint32_t index, int32_t value)
-{
-	//	if (index >= RFFT_BUFFER_SIZE)
-	//		Error_Handler();
-	imageData[index] = value;
-	return 0;
-}
-
-/**
- * @brief  Display Audio demo hint
- * @param  None
- * @retval None
- */
-static void cisynth_ifft_SetHint(void)
-{
-	/* Set Audio header description */
-	//	UTIL_LCD_FillRect(0, DISPLAY_HEAD_Y1POS, DISPLAY_MAX_X_LENGTH, DISPLAY_HEAD_Y2POS, UTIL_LCD_COLOR_BLACK);
-	//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"SPECTRAL SYNTH SCANNER 3", CENTER_MODE);
-	//	UTIL_LCD_DisplayStringAt(0, 1, (uint8_t *)"IFFT BW", LEFT_MODE);
-}
-
-/**
- * @brief System Clock Configuration
- * @retval None
- */
-void SystemClock_Config(void)
-{
-	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-	/** Supply configuration update enable
-	 */
-	HAL_PWREx_ConfigSupply(PWR_DIRECT_SMPS_SUPPLY);
-	/** Configure the main internal regulator output voltage
-	 */
-	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
-
-	while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
-	/** Macro to configure the PLL clock source
-	 */
-	__HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
-	/** Initializes the RCC Oscillators according to the specified parameters
-	 * in the RCC_OscInitTypeDef structure.
-	 */
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSI
-			|RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
-	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-	RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
-	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-	RCC_OscInitStruct.LSIState = RCC_LSI_ON;
-	RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
-	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-	RCC_OscInitStruct.PLL.PLLM = 5;
-	RCC_OscInitStruct.PLL.PLLN = 192;
-	RCC_OscInitStruct.PLL.PLLP = 2;
-	RCC_OscInitStruct.PLL.PLLQ = 5;
-	RCC_OscInitStruct.PLL.PLLR = 2;
-	RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
-	RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
-	RCC_OscInitStruct.PLL.PLLFRACN = 0;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/** Initializes the CPU, AHB and APB buses clocks
-	 */
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-			|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-			|RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
-	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-	RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
-	RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV2;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV2;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
-	RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
-
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSI, RCC_MCODIV_1);
-	/** Enables the Clock Security System
-	 */
-	HAL_RCC_EnableCSS();
-}
 /* USER CODE END 4 */
 
 /**

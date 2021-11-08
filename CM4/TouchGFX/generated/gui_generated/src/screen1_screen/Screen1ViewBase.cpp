@@ -8,7 +8,8 @@
 #include <touchgfx/canvas_widget_renderer/CanvasWidgetRenderer.hpp>
 
 
-Screen1ViewBase::Screen1ViewBase()
+Screen1ViewBase::Screen1ViewBase() :
+    sliderValueChangedCallback(this, &Screen1ViewBase::sliderValueChangedCallbackHandler)
 {
 
     touchgfx::CanvasWidgetRenderer::setupBuffer(canvasBuffer, CANVAS_BUFFER_SIZE);
@@ -19,11 +20,11 @@ Screen1ViewBase::Screen1ViewBase()
     box1.setPosition(0, 0, 800, 480);
     box1.setColor(touchgfx::Color::getColorFromRGB(56, 44, 44));
 
-    slider1.setXY(15, 276);
+    slider1.setXY(15, 255);
     slider1.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
     slider1.setupHorizontalSlider(5, 24, 0, 0, 615);
     slider1.setValueRange(0, 100);
-    slider1.setValue(0);
+    slider1.setValue(90);
 
     boxWithBorder1.setPosition(15, 38, 237, 193);
     boxWithBorder1.setColor(touchgfx::Color::getColorFromRGB(64, 64, 64));
@@ -34,13 +35,15 @@ Screen1ViewBase::Screen1ViewBase()
     slider2.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
     slider2.setupHorizontalSlider(5, 24, 0, 0, 615);
     slider2.setValueRange(0, 100);
-    slider2.setValue(0);
+    slider2.setValue(75);
+    slider2.setNewValueCallback(sliderValueChangedCallback);
 
     slider3.setXY(15, 412);
     slider3.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
     slider3.setupHorizontalSlider(5, 24, 0, 0, 615);
     slider3.setValueRange(0, 100);
-    slider3.setValue(0);
+    slider3.setValue(25);
+    slider3.setNewValueCallback(sliderValueChangedCallback);
 
     dynamicGraph1_1.setScale(1);
     dynamicGraph1_1.setPosition(21, 45, 224, 178);
@@ -182,7 +185,7 @@ Screen1ViewBase::Screen1ViewBase()
     slider8.setValueRange(0, 100);
     slider8.setValue(0);
 
-    textArea1.setXY(710, 298);
+    textArea1.setXY(710, 277);
     textArea1.setColor(touchgfx::Color::getColorFromRGB(176, 176, 176));
     textArea1.setLinespacing(0);
     textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_9TY6));
@@ -257,4 +260,22 @@ Screen1ViewBase::Screen1ViewBase()
 void Screen1ViewBase::setupScreen()
 {
 
+}
+
+void Screen1ViewBase::sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value)
+{
+    if (&src == &slider2)
+    {
+        //Attack_Slider
+        //When slider2 value changed call virtual function
+        //Call Attack_Slider_Callback
+        Attack_Slider_Callback(value);
+    }
+    else if (&src == &slider3)
+    {
+        //Release_Slider
+        //When slider3 value changed call virtual function
+        //Call Release_Slider_Callback
+        Release_Slider_Callback(value);
+    }
 }

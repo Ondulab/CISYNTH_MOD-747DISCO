@@ -157,6 +157,7 @@ void HAL_DSI_MspInit(DSI_HandleTypeDef* dsiHandle)
     /* DSI clock enable */
     __HAL_RCC_DSI_CLK_ENABLE();
 
+    ();
     __HAL_RCC_GPIOJ_CLK_ENABLE();
     /**DSIHOST GPIO Configuration
     DSI_D1P     ------> DSIHOST_D1P

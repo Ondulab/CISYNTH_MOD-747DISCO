@@ -194,13 +194,13 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 				//gap limiter to minimize glitchs
 				if (waves[note].current_volume < current_image_data)
 				{
-					waves[note].current_volume += IFFT_GAP_PER_MS_INCREASE / (SAMPLING_FREQUENCY / 1000);
+					waves[note].current_volume += params.ifft_attack; //IFFT_GAP_PER_MS_INCREASE / (SAMPLING_FREQUENCY / 1000);
 					if (waves[note].current_volume > current_image_data)
 						waves[note].current_volume = current_image_data;
 				}
 				else
 				{
-					waves[note].current_volume -= IFFT_GAP_PER_MS_DECREASE / (SAMPLING_FREQUENCY / 1000);
+					waves[note].current_volume -= params.ifft_release; //IFFT_GAP_PER_LOOP_DECREASE / (SAMPLING_FREQUENCY / 1000);
 					if (waves[note].current_volume < current_image_data)
 						waves[note].current_volume = current_image_data;
 				}

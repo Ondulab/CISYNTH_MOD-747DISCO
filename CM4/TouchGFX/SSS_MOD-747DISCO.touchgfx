@@ -20,7 +20,7 @@
             "Type": "Slider",
             "Name": "slider1",
             "X": 15,
-            "Y": 276,
+            "Y": 255,
             "Width": 683,
             "Height": 68,
             "IsHorizontalSlider": true,
@@ -31,6 +31,7 @@
             "BackgroundY": 24,
             "IndicatorMax": 615,
             "ValueMax": 100,
+            "InitValue": 90,
             "Style": "Style1"
           },
           {
@@ -62,6 +63,7 @@
             "BackgroundY": 24,
             "IndicatorMax": 615,
             "ValueMax": 100,
+            "InitValue": 75,
             "Style": "Style1"
           },
           {
@@ -79,6 +81,7 @@
             "BackgroundY": 24,
             "IndicatorMax": 615,
             "ValueMax": 100,
+            "InitValue": 25,
             "Style": "Style1"
           },
           {
@@ -188,7 +191,7 @@
             "Type": "TextArea",
             "Name": "textArea1",
             "X": 710,
-            "Y": 298,
+            "Y": 277,
             "Width": 74,
             "Height": 25,
             "TextId": "__SingleUse_9TY6",
@@ -221,7 +224,7 @@
             "Name": "textArea1_1_1",
             "X": 710,
             "Y": 434,
-            "Width": 75,
+            "Width": 77,
             "Height": 25,
             "TextId": "__SingleUse_ISHT",
             "TextRotation": "0",
@@ -329,7 +332,30 @@
             "AutoSize": true
           }
         ],
-        "Interactions": []
+        "Interactions": [
+          {
+            "InteractionName": "Attack_Slider",
+            "Trigger": {
+              "Type": "TriggerSliderValueChanged",
+              "TriggerComponent": "slider2"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "Attack_Slider_Callback"
+            }
+          },
+          {
+            "InteractionName": "Release_Slider",
+            "Trigger": {
+              "Type": "TriggerSliderValueChanged",
+              "TriggerComponent": "slider3"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "Release_Slider_Callback"
+            }
+          }
+        ]
       }
     ],
     "CustomContainerDefinitions": [],

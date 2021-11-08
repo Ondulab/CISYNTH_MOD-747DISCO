@@ -9,7 +9,7 @@
 /********************            QSPI FLASH definitions            ********************/
 /**************************************************************************************/
 #define BUFFER_SIZE         ((uint32_t)0x0200)
-#define WRITE_READ_ADDR     ((uint32_t)0x0050)
+#define WRITE_READ_ADDR     ((uint32_t)0x50A0000)
 
 /**************************************************************************************/
 /********************              debug definitions               ********************/
@@ -32,8 +32,8 @@
 #define SIN										//SIN-SAW-SQR
 
 #define GAP_LIMITER
-#define IFFT_GAP_PER_MS_INCREASE				(100000)
-#define IFFT_GAP_PER_MS_DECREASE				(1000)
+#define IFFT_GAP_PER_LOOP_INCREASE				(100000)
+#define IFFT_GAP_PER_LOOP_DECREASE				(1000)
 
 #define NOISE_REDUCER							(200)
 //#define STEREO_1
@@ -94,10 +94,10 @@
 #define CIS_IFFT_OVERSAMPLING_RATIO				(16)
 
 #define WAVE_AMP_RESOLUTION 					(65535)   	//in decimal
-#define START_FREQUENCY     					(80)
+#define START_FREQUENCY     					(180)
 #define MAX_OCTAVE_NUMBER   					(10)
 #define SEMITONE_PER_OCTAVE 					(12)
-#define COMMA_PER_SEMITONE  					(4)
+#define COMMA_PER_SEMITONE  					(5)
 
 #define NUMBER_OF_NOTES     					(((CIS_ACTIVE_PIXELS_PER_LINE) * (CIS_ADC_OUT_LINES)) / CIS_IFFT_OVERSAMPLING_RATIO)
 

@@ -8,7 +8,7 @@
       <Translation Language="GB">Attack</Translation>
     </Text>
     <Text Id="__SingleUse_ISHT" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">Sustain</Translation>
+      <Translation Language="GB">Release</Translation>
     </Text>
     <Text Id="__SingleUse_SYL5" TypographyId="Default" Alignment="Left" Direction="LTR">
       <Translation Language="GB">SAW</Translation>
