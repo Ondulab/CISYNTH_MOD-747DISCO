@@ -63,7 +63,7 @@
             "BackgroundY": 24,
             "IndicatorMax": 615,
             "ValueMax": 100,
-            "InitValue": 75,
+            "InitValue": 50,
             "Style": "Style1"
           },
           {
@@ -81,7 +81,7 @@
             "BackgroundY": 24,
             "IndicatorMax": 615,
             "ValueMax": 100,
-            "InitValue": 25,
+            "InitValue": 50,
             "Style": "Style1"
           },
           {

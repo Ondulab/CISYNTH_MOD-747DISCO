@@ -35,6 +35,7 @@
 class TouchGFXHAL : public TouchGFXGeneratedHAL
 {
 public:
+
     /**
      * @fn TouchGFXHAL::TouchGFXHAL(touchgfx::DMA_Interface& dma, touchgfx::LCD& display, touchgfx::TouchController& tc, uint16_t width, uint16_t height) : TouchGFXGeneratedHAL(dma, display, tc, width, height)
      *

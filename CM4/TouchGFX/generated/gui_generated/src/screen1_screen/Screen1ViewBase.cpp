@@ -35,14 +35,14 @@ Screen1ViewBase::Screen1ViewBase() :
     slider2.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
     slider2.setupHorizontalSlider(5, 24, 0, 0, 615);
     slider2.setValueRange(0, 100);
-    slider2.setValue(75);
+    slider2.setValue(50);
     slider2.setNewValueCallback(sliderValueChangedCallback);
 
     slider3.setXY(15, 412);
     slider3.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
     slider3.setupHorizontalSlider(5, 24, 0, 0, 615);
     slider3.setValueRange(0, 100);
-    slider3.setValue(25);
+    slider3.setValue(50);
     slider3.setNewValueCallback(sliderValueChangedCallback);
 
     dynamicGraph1_1.setScale(1);

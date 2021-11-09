@@ -69,6 +69,8 @@
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 void QSPI_ResetData(void);
+void QSPI_memoryMappedToIndirect(void);
+void QSPI_indirectToMemoryMapped(void);
 int32_t synth_GetImageData(uint32_t index);
 int32_t synth_SetImageData(uint32_t index, int32_t value);
 void SystemClock_Config(void);
@@ -80,16 +82,16 @@ void SystemClock_Config(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
+	/* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
+	/* USER CODE END 1 */
 
-/* USER CODE BEGIN Boot_Mode_Sequence_1 */
+	/* USER CODE BEGIN Boot_Mode_Sequence_1 */
 	/*HW semaphore Clock enable*/
 	__HAL_RCC_HSEM_CLK_ENABLE();
 	/* Activate HSEM notification for Cortex-M4*/
@@ -102,33 +104,33 @@ int main(void)
 	HAL_PWREx_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFE, PWR_D2_DOMAIN);
 	/* Clear HSEM flag */
 	__HAL_HSEM_CLEAR_FLAG(__HAL_HSEM_SEMID_TO_MASK(HSEM_ID_0));
-/* USER CODE END Boot_Mode_Sequence_1 */
-  /* MCU Configuration--------------------------------------------------------*/
+	/* USER CODE END Boot_Mode_Sequence_1 */
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 	SystemClock_Config();
-  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_DMA_Init();
-  MX_GPIO_Init();
-  MX_DSIHOST_DSI_Init();
-  MX_FMC_Init();
-  MX_LTDC_Init();
-  MX_DMA2D_Init();
-  MX_RNG_Init();
-  MX_QUADSPI_Init();
-  MX_CRC_Init();
-  MX_TouchGFX_Init();
-  /* USER CODE BEGIN 2 */
-//	QSPI_ResetData();
+	/* Initialize all configured peripherals */
+	MX_DMA_Init();
+	MX_GPIO_Init();
+	MX_DSIHOST_DSI_Init();
+	MX_FMC_Init();
+	MX_LTDC_Init();
+	MX_DMA2D_Init();
+	MX_RNG_Init();
+	MX_QUADSPI_Init();
+	MX_CRC_Init();
+	MX_TouchGFX_Init();
+	/* USER CODE BEGIN 2 */
+	QSPI_ResetData();
 	synth_IfftInit();
 
 	//  synth_SetImageData(60, 800); //for testing
@@ -144,17 +146,17 @@ int main(void)
 	/* Do not forget to release the HW semaphore 0 once needed */
 	HAL_HSEM_Release(HSEM_ID_0, 0);
 
-  /* USER CODE END 2 */
+	/* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
-  /* Start scheduler */
-  osKernelStart();
+	/* Init scheduler */
+	osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+	MX_FREERTOS_Init();
+	/* Start scheduler */
+	osKernelStart();
 
-  /* We should never get here as control is now taken by the scheduler */
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+	/* We should never get here as control is now taken by the scheduler */
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
 
 	/* Initialize the LCD */
 	//	BSP_LCD_Init(0, LCD_ORIENTATION_LANDSCAPE);
@@ -228,11 +230,11 @@ int main(void)
 
 		//		HAL_Delay(10);
 
-    /* USER CODE END WHILE */
+		/* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+		/* USER CODE BEGIN 3 */
 	}
-  /* USER CODE END 3 */
+	/* USER CODE END 3 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -273,31 +275,7 @@ void QSPI_ResetData(void)
 	struct params *tmp_Txflash_params = (struct params *)qspi_aTxBuffer;
 	struct params *tmp_Rxflash_params = (struct params *)qspi_aRxBuffer;
 
-	HAL_QSPI_Abort(&hqspi);
-
-	HAL_QSPI_MspDeInit(&hqspi);
-
-	hqspi.Instance = QUADSPI;
-	hqspi.Init.ClockPrescaler = 3;
-	hqspi.Init.FifoThreshold = 1;
-	hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
-	hqspi.Init.FlashSize = 1;
-	hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
-	hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
-	hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
-	if (HAL_QSPI_Init(&hqspi) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN QUADSPI_Init 2 */
-	BSP_QSPI_Init_t init ;
-	init.InterfaceMode=MT25TL01G_QPI_MODE;
-	init.TransferRate= MT25TL01G_DTR_TRANSFER ;
-	init.DualFlashMode= MT25TL01G_DUALFLASH_ENABLE;
-	if (BSP_QSPI_Init(0,&init) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
+	QSPI_memoryMappedToIndirect();
 
 	/* Read back data from the QSPI memory */
 	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
@@ -332,7 +310,10 @@ void QSPI_ResetData(void)
 	}
 
 	if (isFlashInitialized == TRUE)
+	{
+		QSPI_indirectToMemoryMapped();
 		return;
+	}
 
 	/* Erase QSPI memory */
 	if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
@@ -357,34 +338,91 @@ void QSPI_ResetData(void)
 		Error_Handler();
 	}
 
-	QSPI_CommandTypeDef      s_command;
-	QSPI_MemoryMappedTypeDef s_mem_mapped_cfg;
-	/* Configure the command for the read instruction */
-	s_command.InstructionMode   = QSPI_INSTRUCTION_4_LINES;
-	s_command.Instruction       = MT25TL01G_QUAD_INOUT_FAST_READ_DTR_CMD; //QUAD_INOUT_FAST_READ_CMD;
-	s_command.AddressMode       = QSPI_ADDRESS_4_LINES;
-	s_command.AddressSize       = QSPI_ADDRESS_32_BITS;
-	s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
-	s_command.DataMode          = QSPI_DATA_4_LINES;
-	s_command.DummyCycles       = MT25TL01G_DUMMY_CYCLES_READ_QUAD_DTR; //N25Q128A_DUMMY_CYCLES_READ_QUAD;
-	s_command.DdrMode           = QSPI_DDR_MODE_ENABLE;
-	s_command.DdrHoldHalfCycle  = QSPI_DDR_HHC_HALF_CLK_DELAY;
-	s_command.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;
+	QSPI_indirectToMemoryMapped();
+}
 
-	/* Configure the memory mapped mode */
-	s_mem_mapped_cfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE;
-	s_mem_mapped_cfg.TimeOutPeriod     = 0;
-
-	if (HAL_QSPI_MemoryMapped(&hqspi, &s_command, &s_mem_mapped_cfg) != HAL_OK)
+/**
+ * @brief  Switch from memory mapped QSPI acces mode to indirect mode
+ * @param  void
+ * @retval void
+ */
+void QSPI_memoryMappedToIndirect(void)
+{
+	HAL_QSPI_DeInit(&hqspi);
+	hqspi.Instance = QUADSPI;
+	hqspi.Init.ClockPrescaler = 3;
+	hqspi.Init.FifoThreshold = 1;
+	hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
+	hqspi.Init.FlashSize = 1;
+	hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
+	hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
+	hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
+	if (HAL_QSPI_Init(&hqspi) != HAL_OK)
 	{
 		Error_Handler();
 	}
-//
-//	/* Memory Mapped Mode */
-//	if(BSP_QSPI_EnableMemoryMappedMode(0)!= BSP_ERROR_NONE)
-//	{
-//		Error_Handler();
-//	}
+
+	//    if (BSP_QSPI_DisableMemoryMappedMode(0) != BSP_ERROR_NONE)
+	//    {
+	//        Error_Handler();
+	//    }
+
+	//    BSP_QSPI_DeInit(0);
+
+	BSP_QSPI_Init_t init;
+	init.InterfaceMode = MT25TL01G_QPI_MODE;
+	init.TransferRate = MT25TL01G_DTR_TRANSFER;
+	init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
+
+	extern BSP_QSPI_Ctx_t QSPI_Ctx[QSPI_INSTANCES_NUMBER];
+	QSPI_Ctx[0].IsInitialized = QSPI_ACCESS_NONE;
+
+	if (BSP_QSPI_Init(0, &init) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+}
+
+/**
+ * @brief  Switch from indirect QSPI acces to memory mapped mode
+ * @param  void
+ * @retval void
+ */
+void QSPI_indirectToMemoryMapped(void)
+{
+	HAL_QSPI_DeInit(&hqspi);
+	hqspi.Instance = QUADSPI;
+	hqspi.Init.ClockPrescaler = 3;
+	hqspi.Init.FifoThreshold = 1;
+	hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
+	hqspi.Init.FlashSize = 1;
+	hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
+	hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
+	hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
+	if (HAL_QSPI_Init(&hqspi) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+//	BSP_QSPI_DeInit(0);
+
+	BSP_QSPI_Init_t init;
+	init.InterfaceMode = MT25TL01G_QPI_MODE;
+	init.TransferRate = MT25TL01G_DTR_TRANSFER;
+	init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
+
+	extern BSP_QSPI_Ctx_t QSPI_Ctx[QSPI_INSTANCES_NUMBER];
+	QSPI_Ctx[0].IsInitialized = QSPI_ACCESS_NONE;
+
+	if (BSP_QSPI_Init(0, &init) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+	if (BSP_QSPI_EnableMemoryMappedMode(0) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+	HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
 }
 
 /**
@@ -481,55 +519,55 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
-  * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM3 interrupt took place, inside
-  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
-  * a global variable "uwTick" used as application time base.
-  * @param  htim : TIM handle
-  * @retval None
-  */
+ * @brief  Period elapsed callback in non blocking mode
+ * @note   This function is called  when TIM3 interrupt took place, inside
+ * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+ * a global variable "uwTick" used as application time base.
+ * @param  htim : TIM handle
+ * @retval None
+ */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  /* USER CODE BEGIN Callback 0 */
+	/* USER CODE BEGIN Callback 0 */
 
-  /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM3) {
-    HAL_IncTick();
-  }
-  /* USER CODE BEGIN Callback 1 */
+	/* USER CODE END Callback 0 */
+	if (htim->Instance == TIM3) {
+		HAL_IncTick();
+	}
+	/* USER CODE BEGIN Callback 1 */
 
-  /* USER CODE END Callback 1 */
+	/* USER CODE END Callback 1 */
 }
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
+	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 	while (1)
 	{
 	}
-  /* USER CODE END Error_Handler_Debug */
+	/* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
+	/* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
+	/* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 
