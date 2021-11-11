@@ -23,205 +23,19 @@
 /* USER CODE BEGIN 0 */
 #include "main.h"
 #include "config.h"
+#include "shared.h"
+#include "basetypes.h"
 
 /* Private define ------------------------------------------------------------*/
 
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-uint8_t qspi_aTxBuffer[BUFFER_SIZE];
-uint8_t qspi_aRxBuffer[BUFFER_SIZE];
 
 /* Private function prototypes -----------------------------------------------*/
-static void QSPI_SetHint(void);
-static void Fill_Buffer(uint8_t *pBuffer, uint32_t uwBufferLenght, uint32_t uwOffset);
+static void QSPI_memoryMappedToIndirect(void);
+static void QSPI_indirectToMemoryMapped(void);
 static uint8_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint32_t BufferLength);
-
-/**
- * @brief  QSPI Init
- * @param  None
- * @retval None
- */
-void QSPI_Init(void)
-{
-	/* QSPI info structure */
-	BSP_QSPI_Info_t pQSPI_Info;
-	uint8_t status;
-
-	/*##-1- Configure the QSPI device ##########################################*/
-	/* QSPI device configuration */
-	BSP_QSPI_Init_t init ;
-	init.InterfaceMode=MT25TL01G_QPI_MODE;
-	init.TransferRate= MT25TL01G_DTR_TRANSFER ;
-	init.DualFlashMode= MT25TL01G_DUALFLASH_ENABLE;
-	status = BSP_QSPI_Init(0,&init);
-
-	if (status != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-	else
-	{
-		/*##-2- Read & check the QSPI info #######################################*/
-		/* Initialize the structure */
-		pQSPI_Info.FlashSize          = (uint32_t)0x00;
-		pQSPI_Info.EraseSectorSize    = (uint32_t)0x00;
-		pQSPI_Info.EraseSectorsNumber = (uint32_t)0x00;
-		pQSPI_Info.ProgPageSize       = (uint32_t)0x00;
-		pQSPI_Info.ProgPagesNumber    = (uint32_t)0x00;
-
-		/* Read the QSPI memory info */
-		BSP_QSPI_GetInfo(0,&pQSPI_Info);
-
-		/* Test the correctness */
-		if((pQSPI_Info.FlashSize != 0x8000000) || (pQSPI_Info.EraseSectorSize != 0x2000)  ||
-				(pQSPI_Info.ProgPageSize != 0x100)  || (pQSPI_Info.EraseSectorsNumber != 0x4000) ||
-				(pQSPI_Info.ProgPagesNumber != 0x80000))
-		{
-			Error_Handler();
-		}
-	}
-}
-
-/**
- * @brief  QSPI Demo
- * @param  None
- * @retval None
- */
-void QSPI_Demo(void)
-{
-	/* QSPI info structure */
-	BSP_QSPI_Info_t pQSPI_Info;
-	uint8_t status;
-
-	QSPI_SetHint();
-
-	/*##-1- Configure the QSPI device ##########################################*/
-	/* QSPI device configuration */
-	BSP_QSPI_Init_t init ;
-	init.InterfaceMode=MT25TL01G_QPI_MODE;
-	init.TransferRate= MT25TL01G_DTR_TRANSFER ;
-	init.DualFlashMode= MT25TL01G_DUALFLASH_ENABLE;
-	status = BSP_QSPI_Init(0,&init);
-
-	if (status != BSP_ERROR_NONE)
-	{
-	}
-
-	else
-	{
-		/*##-2- Read & check the QSPI info #######################################*/
-		/* Initialize the structure */
-		pQSPI_Info.FlashSize          = (uint32_t)0x00;
-		pQSPI_Info.EraseSectorSize    = (uint32_t)0x00;
-		pQSPI_Info.EraseSectorsNumber = (uint32_t)0x00;
-		pQSPI_Info.ProgPageSize       = (uint32_t)0x00;
-		pQSPI_Info.ProgPagesNumber    = (uint32_t)0x00;
-
-		/* Read the QSPI memory info */
-		BSP_QSPI_GetInfo(0,&pQSPI_Info);
-
-		/* Test the correctness */
-		if((pQSPI_Info.FlashSize != 0x8000000) || (pQSPI_Info.EraseSectorSize != 0x2000)  ||
-				(pQSPI_Info.ProgPageSize != 0x100)  || (pQSPI_Info.EraseSectorsNumber != 0x4000) ||
-				(pQSPI_Info.ProgPagesNumber != 0x80000))
-		{
-		}
-		else
-		{
-			/*##-3- Erase QSPI memory ################################################*/
-			if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
-			{
-			}
-			else
-			{
-				/*##-4- QSPI memory read/write access  #################################*/
-				/* Fill the buffer to write */
-				Fill_Buffer(qspi_aTxBuffer, BUFFER_SIZE, 0xD20F);
-
-				/* Write data to the QSPI memory */
-				if(BSP_QSPI_Write(0,qspi_aTxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-				{
-				}
-				else
-				{
-					/* Read back data from the QSPI memory */
-					if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-					{
-					}
-					else
-					{
-						/*##-5- Checking data integrity ############################################*/
-						if(Buffercmp(qspi_aRxBuffer, qspi_aTxBuffer, BUFFER_SIZE) > 0)
-						{
-						}
-						else
-						{
-							/*##-6-Memory Mapped Mode ###############################################*/
-							if(BSP_QSPI_EnableMemoryMappedMode(0)!=BSP_ERROR_NONE)
-							{
-							}
-							else
-							{
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-/**
- * @brief  Display QSPI Demo Hint
- * @param  None
- * @retval None
- */
-static void QSPI_SetHint(void)
-{
-	//	uint32_t x_size;
-	//	uint32_t y_size;
-	//	BSP_LCD_GetXSize(0, &x_size);
-	//	BSP_LCD_GetYSize(0, &y_size);
-	//	/* Clear the LCD */
-	//	UTIL_LCD_Clear(UTIL_LCD_COLOR_WHITE);
-	//
-	//	/* Set LCD Demo description */
-	//	UTIL_LCD_FillRect(0, 0, x_size, 80,UTIL_LCD_COLOR_BLUE);
-	//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
-	//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_BLUE);
-	//	UTIL_LCD_SetFont(&Font24);
-	//	UTIL_LCD_DisplayStringAt(0, 0, (uint8_t*)"QSPI", CENTER_MODE);
-	//	UTIL_LCD_SetFont(&Font12);
-	//	UTIL_LCD_DisplayStringAt(0, 30, (uint8_t*)"This example shows how to write", CENTER_MODE);
-	//	UTIL_LCD_DisplayStringAt(0, 45, (uint8_t*)"and read data on QSPI memory", CENTER_MODE);
-	//	UTIL_LCD_DisplayStringAt(0, 60, (uint8_t*)"(Hardware modifications needed)", CENTER_MODE);
-	//
-	//	/* Set the LCD Text Color */
-	//	UTIL_LCD_DrawRect(10, 90, x_size - 20,y_size- 100,UTIL_LCD_COLOR_BLUE);
-	//	UTIL_LCD_DrawRect(11, 91, x_size - 22, y_size- 102,UTIL_LCD_COLOR_BLUE);
-	//
-	//	UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_BLACK);
-	//	UTIL_LCD_SetBackColor(UTIL_LCD_COLOR_WHITE);
-}
-
-/**
- * @brief  Fills buffer with user predefined data.
- * @param  pBuffer: pointer on the buffer to fill
- * @param  uwBufferLenght: size of the buffer to fill
- * @param  uwOffset: first value to fill on the buffer
- * @retval None
- */
-static void Fill_Buffer(uint8_t *pBuffer, uint32_t uwBufferLenght, uint32_t uwOffset)
-{
-	uint32_t tmpIndex = 0;
-
-	/* Put in global buffer different values */
-	for (tmpIndex = 0; tmpIndex < uwBufferLenght; tmpIndex++ )
-	{
-		pBuffer[tmpIndex] = tmpIndex + uwOffset;
-	}
-}
 
 /**
  * @brief  Compares two buffers.
@@ -244,6 +58,248 @@ static uint8_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint32_t BufferLe
 	}
 
 	return 0;
+}
+
+/**
+ * @brief  Switch from memory mapped QSPI acces mode to indirect mode
+ * @param  void
+ * @retval void
+ */
+static void QSPI_memoryMappedToIndirect(void)
+{
+	HAL_QSPI_DeInit(&hqspi);
+	hqspi.Instance = QUADSPI;
+	hqspi.Init.ClockPrescaler = 3;
+	hqspi.Init.FifoThreshold = 1;
+	hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
+	hqspi.Init.FlashSize = 1;
+	hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
+	hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
+	hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
+	if (HAL_QSPI_Init(&hqspi) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	//    if (BSP_QSPI_DisableMemoryMappedMode(0) != BSP_ERROR_NONE)
+	//    {
+	//        Error_Handler();
+	//    }
+
+	//    BSP_QSPI_DeInit(0);
+
+	BSP_QSPI_Init_t init;
+	init.InterfaceMode = MT25TL01G_QPI_MODE;
+	init.TransferRate = MT25TL01G_DTR_TRANSFER;
+	init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
+
+	extern BSP_QSPI_Ctx_t QSPI_Ctx[QSPI_INSTANCES_NUMBER];
+	QSPI_Ctx[0].IsInitialized = QSPI_ACCESS_NONE;
+
+	if (BSP_QSPI_Init(0, &init) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+}
+
+/**
+ * @brief  Switch from indirect QSPI acces to memory mapped mode
+ * @param  void
+ * @retval void
+ */
+static void QSPI_indirectToMemoryMapped(void)
+{
+	HAL_QSPI_DeInit(&hqspi);
+	hqspi.Instance = QUADSPI;
+	hqspi.Init.ClockPrescaler = 3;
+	hqspi.Init.FifoThreshold = 1;
+	hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
+	hqspi.Init.FlashSize = 1;
+	hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
+	hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
+	hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
+	if (HAL_QSPI_Init(&hqspi) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	//	BSP_QSPI_DeInit(0);
+
+	BSP_QSPI_Init_t init;
+	init.InterfaceMode = MT25TL01G_QPI_MODE;
+	init.TransferRate = MT25TL01G_DTR_TRANSFER;
+	init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
+
+	extern BSP_QSPI_Ctx_t QSPI_Ctx[QSPI_INSTANCES_NUMBER];
+	QSPI_Ctx[0].IsInitialized = QSPI_ACCESS_NONE;
+
+	if (BSP_QSPI_Init(0, &init) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+	if (BSP_QSPI_EnableMemoryMappedMode(0) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+	HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
+}
+
+/**
+ * @brief  QSPI reset flash data at config.h values
+ * @param  void
+ * @retval void
+ */
+void QSPI_ResetData(void)
+{
+	uint8_t qspi_aTxBuffer[BUFFER_SIZE];
+	uint8_t qspi_aRxBuffer[BUFFER_SIZE];
+	uint8_t isFlashInitialized = TRUE;
+
+	struct flashParms *tmp_Txflash_params = (struct flashParms *)qspi_aTxBuffer;
+	struct flashParms *tmp_Rxflash_params = (struct flashParms *)qspi_aRxBuffer;
+
+	QSPI_memoryMappedToIndirect();
+
+	/* Read back data from the QSPI memory */
+	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	if (tmp_Rxflash_params->params.start_frequency == 0)
+	{
+		tmp_Txflash_params->params.start_frequency = START_FREQUENCY;
+		isFlashInitialized = FALSE;
+	}
+	if (tmp_Rxflash_params->params.comma_per_semitone == 0)
+	{
+		tmp_Txflash_params->params.comma_per_semitone = COMMA_PER_SEMITONE;
+		isFlashInitialized = FALSE;
+	}
+	if (tmp_Rxflash_params->params.ifft_attack == 0)
+	{
+		tmp_Txflash_params->params.ifft_attack = IFFT_GAP_PER_LOOP_INCREASE;
+		isFlashInitialized = FALSE;
+	}
+	if (tmp_Rxflash_params->params.ifft_release == 0)
+	{
+		tmp_Txflash_params->params.ifft_release = IFFT_GAP_PER_LOOP_DECREASE;
+		isFlashInitialized = FALSE;
+	}
+	if (tmp_Rxflash_params->params.volume == 0)
+	{
+		tmp_Txflash_params->params.volume = VOLUME;
+		isFlashInitialized = FALSE;
+	}
+
+	if (isFlashInitialized == TRUE)
+	{
+		QSPI_indirectToMemoryMapped();
+		return;
+	}
+
+	/* Erase QSPI memory */
+	if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	if(BSP_QSPI_Write(0,qspi_aTxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	/* Read back data from the QSPI memory */
+	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	/* Checking data integrity */
+	if(Buffercmp(qspi_aRxBuffer, qspi_aTxBuffer, BUFFER_SIZE) > 0)
+	{
+		Error_Handler();
+	}
+
+	QSPI_indirectToMemoryMapped();
+}
+
+/**
+ * @brief  QSPI initialize flash data at config.h values
+ * @param  void
+ * @retval void
+ */
+void QSPI_InitSharedData(void)
+{
+	uint8_t qspi_aRxBuffer[BUFFER_SIZE];
+
+	struct flashParms *tmp_Rxflash_params = (struct flashParms *)qspi_aRxBuffer;
+
+	QSPI_memoryMappedToIndirect();
+
+	/* Read back data from the QSPI memory */
+	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	params.start_frequency 			= tmp_Rxflash_params->params.start_frequency;
+	params.comma_per_semitone		= tmp_Rxflash_params->params.comma_per_semitone;
+	params.ifft_attack				= tmp_Rxflash_params->params.ifft_attack;
+	params.ifft_release				= tmp_Rxflash_params->params.ifft_release;
+	params.volume					= tmp_Rxflash_params->params.volume;
+	guiValues.attackSlider			= tmp_Rxflash_params->guiValues.attackSlider;
+	guiValues.releaseSlider			= tmp_Rxflash_params->guiValues.releaseSlider;
+
+	QSPI_indirectToMemoryMapped();
+}
+
+/**
+ * @brief  QSPI update flash data with shared RAM values
+ * @param  void
+ * @retval void
+ */
+void QSPI_UpdateData(void)
+{
+	uint8_t qspi_aTxBuffer[BUFFER_SIZE];
+	uint8_t qspi_aRxBuffer[BUFFER_SIZE];
+
+	struct flashParms *tmp_Txflash_params = (struct flashParms *)qspi_aTxBuffer;
+
+	QSPI_memoryMappedToIndirect();
+
+	tmp_Txflash_params->params.start_frequency = START_FREQUENCY;
+	tmp_Txflash_params->params.comma_per_semitone = COMMA_PER_SEMITONE;
+	tmp_Txflash_params->params.ifft_attack = params.ifft_attack;
+	tmp_Txflash_params->params.ifft_release = params.ifft_release;
+	tmp_Txflash_params->params.volume = VOLUME;
+	tmp_Txflash_params->guiValues.attackSlider = guiValues.attackSlider;
+	tmp_Txflash_params->guiValues.releaseSlider = guiValues.releaseSlider;
+
+	/* Erase QSPI memory */
+	if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	if(BSP_QSPI_Write(0,qspi_aTxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	/* Read back data from the QSPI memory */
+	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
+	{
+		Error_Handler();
+	}
+
+	/* Checking data integrity */
+	if(Buffercmp(qspi_aRxBuffer, qspi_aTxBuffer, BUFFER_SIZE) > 0)
+	{
+		Error_Handler();
+	}
+
+	QSPI_indirectToMemoryMapped();
 }
 
 /* USER CODE END 0 */
@@ -282,29 +338,6 @@ void MX_QUADSPI_Init(void)
 	{
 		Error_Handler();
 	}
-
-	//	QSPI_CommandTypeDef      s_command;
-	//	QSPI_MemoryMappedTypeDef s_mem_mapped_cfg;
-	//	/* Configure the command for the read instruction */
-	//	s_command.InstructionMode   = QSPI_INSTRUCTION_4_LINES;
-	//	s_command.Instruction       = MT25TL01G_QUAD_INOUT_FAST_READ_DTR_CMD; //QUAD_INOUT_FAST_READ_CMD;
-	//	s_command.AddressMode       = QSPI_ADDRESS_4_LINES;
-	//	s_command.AddressSize       = QSPI_ADDRESS_32_BITS;
-	//	s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
-	//	s_command.DataMode          = QSPI_DATA_4_LINES;
-	//	s_command.DummyCycles       = MT25TL01G_DUMMY_CYCLES_READ_QUAD_DTR; //N25Q128A_DUMMY_CYCLES_READ_QUAD;
-	//	s_command.DdrMode           = QSPI_DDR_MODE_ENABLE;
-	//	s_command.DdrHoldHalfCycle  = QSPI_DDR_HHC_HALF_CLK_DELAY;
-	//	s_command.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;
-	//
-	//	/* Configure the memory mapped mode */
-	//	s_mem_mapped_cfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE;
-	//	s_mem_mapped_cfg.TimeOutPeriod     = 0;
-	//
-	//	if (HAL_QSPI_MemoryMapped(&hqspi, &s_command, &s_mem_mapped_cfg) != HAL_OK)
-	//	{
-	//		Error_Handler();
-	//	}
 
 	if (BSP_QSPI_EnableMemoryMappedMode(0) != BSP_ERROR_NONE)
 	{

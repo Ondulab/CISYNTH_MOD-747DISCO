@@ -6,9 +6,9 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
+#include <gui_var.h>
 #include "stm32h7xx_hal.h"
 #include "main.h"
-#include "menu.h"
 #include "config.h"
 #include "rng.h"
 

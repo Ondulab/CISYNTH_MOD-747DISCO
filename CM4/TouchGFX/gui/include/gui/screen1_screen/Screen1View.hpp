@@ -11,8 +11,9 @@ public:
     virtual ~Screen1View() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
-    virtual void Attack_Slider_Callback(int value);
-    virtual void Release_Slider_Callback(int value);
+    virtual void attackSliderChanged(int value);
+    virtual void releaseSliderChanged(int value);
+    virtual void saveButtonClicked();
 protected:
 };
 

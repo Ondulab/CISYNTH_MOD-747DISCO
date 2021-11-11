@@ -18,6 +18,7 @@
  */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <gui_var.h>
 #include "main.h"
 #include "cmsis_os.h"
 #include "crc.h"
@@ -35,10 +36,8 @@
 /* USER CODE BEGIN Includes */
 #include "pictures.h"
 #include "synth.h"
-#include "menu.h"
 #include "shared.h"
 #include "quadspi.h"
-#include "basetypes.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,9 +67,6 @@
 /* Private function prototypes -----------------------------------------------*/
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-void QSPI_ResetData(void);
-void QSPI_memoryMappedToIndirect(void);
-void QSPI_indirectToMemoryMapped(void);
 int32_t synth_GetImageData(uint32_t index);
 int32_t synth_SetImageData(uint32_t index, int32_t value);
 void SystemClock_Config(void);
@@ -130,7 +126,7 @@ int main(void)
 	MX_CRC_Init();
 	MX_TouchGFX_Init();
 	/* USER CODE BEGIN 2 */
-	QSPI_ResetData();
+	QSPI_InitSharedData();
 	synth_IfftInit();
 
 	//  synth_SetImageData(60, 800); //for testing
@@ -238,192 +234,6 @@ int main(void)
 }
 
 /* USER CODE BEGIN 4 */
-/**
- * @brief  Compares two buffers.
- * @param  pBuffer1, pBuffer2: buffers to be compared.
- * @param  BufferLength: buffer's length
- * @retval 1: pBuffer identical to pBuffer1
- *         0: pBuffer differs from pBuffer1
- */
-static uint8_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint32_t BufferLength)
-{
-	while (BufferLength--)
-	{
-		if (*pBuffer1 != *pBuffer2)
-		{
-			return 1;
-		}
-
-		pBuffer1++;
-		pBuffer2++;
-	}
-
-	return 0;
-}
-
-/**
- * @brief  QSPI reset flash data at config.h values
- * @param  void
- * @retval void
- */
-void QSPI_ResetData(void)
-{
-	uint8_t qspi_aTxBuffer[BUFFER_SIZE];
-	uint8_t qspi_aRxBuffer[BUFFER_SIZE];
-	uint8_t isFlashInitialized = TRUE;
-
-	struct params *tmp_Txflash_params = (struct params *)qspi_aTxBuffer;
-	struct params *tmp_Rxflash_params = (struct params *)qspi_aRxBuffer;
-
-	QSPI_memoryMappedToIndirect();
-
-	/* Read back data from the QSPI memory */
-	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-
-	if (tmp_Rxflash_params->start_frequency == 0)
-	{
-		tmp_Txflash_params->start_frequency = START_FREQUENCY;
-		isFlashInitialized = FALSE;
-	}
-	if (tmp_Rxflash_params->comma_per_semitone == 0)
-	{
-		tmp_Txflash_params->comma_per_semitone = COMMA_PER_SEMITONE;
-		isFlashInitialized = FALSE;
-	}
-	if (tmp_Rxflash_params->ifft_attack == 0)
-	{
-		tmp_Txflash_params->ifft_attack = IFFT_GAP_PER_LOOP_INCREASE;
-		isFlashInitialized = FALSE;
-	}
-	if (tmp_Rxflash_params->ifft_release == 0)
-	{
-		tmp_Txflash_params->ifft_release = IFFT_GAP_PER_LOOP_DECREASE;
-		isFlashInitialized = FALSE;
-	}
-	if (tmp_Rxflash_params->volume == 0)
-	{
-		tmp_Txflash_params->volume = VOLUME;
-		isFlashInitialized = FALSE;
-	}
-
-	if (isFlashInitialized == TRUE)
-	{
-		QSPI_indirectToMemoryMapped();
-		return;
-	}
-
-	/* Erase QSPI memory */
-	if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-
-	if(BSP_QSPI_Write(0,qspi_aTxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-
-	/* Read back data from the QSPI memory */
-	if(BSP_QSPI_Read(0,qspi_aRxBuffer, WRITE_READ_ADDR, BUFFER_SIZE) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-
-	/* Checking data integrity */
-	if(Buffercmp(qspi_aRxBuffer, qspi_aTxBuffer, BUFFER_SIZE) > 0)
-	{
-		Error_Handler();
-	}
-
-	QSPI_indirectToMemoryMapped();
-}
-
-/**
- * @brief  Switch from memory mapped QSPI acces mode to indirect mode
- * @param  void
- * @retval void
- */
-void QSPI_memoryMappedToIndirect(void)
-{
-	HAL_QSPI_DeInit(&hqspi);
-	hqspi.Instance = QUADSPI;
-	hqspi.Init.ClockPrescaler = 3;
-	hqspi.Init.FifoThreshold = 1;
-	hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
-	hqspi.Init.FlashSize = 1;
-	hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
-	hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
-	hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
-	if (HAL_QSPI_Init(&hqspi) != HAL_OK)
-	{
-		Error_Handler();
-	}
-
-	//    if (BSP_QSPI_DisableMemoryMappedMode(0) != BSP_ERROR_NONE)
-	//    {
-	//        Error_Handler();
-	//    }
-
-	//    BSP_QSPI_DeInit(0);
-
-	BSP_QSPI_Init_t init;
-	init.InterfaceMode = MT25TL01G_QPI_MODE;
-	init.TransferRate = MT25TL01G_DTR_TRANSFER;
-	init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
-
-	extern BSP_QSPI_Ctx_t QSPI_Ctx[QSPI_INSTANCES_NUMBER];
-	QSPI_Ctx[0].IsInitialized = QSPI_ACCESS_NONE;
-
-	if (BSP_QSPI_Init(0, &init) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-}
-
-/**
- * @brief  Switch from indirect QSPI acces to memory mapped mode
- * @param  void
- * @retval void
- */
-void QSPI_indirectToMemoryMapped(void)
-{
-	HAL_QSPI_DeInit(&hqspi);
-	hqspi.Instance = QUADSPI;
-	hqspi.Init.ClockPrescaler = 3;
-	hqspi.Init.FifoThreshold = 1;
-	hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
-	hqspi.Init.FlashSize = 1;
-	hqspi.Init.ChipSelectHighTime = QSPI_CS_HIGH_TIME_1_CYCLE;
-	hqspi.Init.ClockMode = QSPI_CLOCK_MODE_0;
-	hqspi.Init.DualFlash = QSPI_DUALFLASH_ENABLE;
-	if (HAL_QSPI_Init(&hqspi) != HAL_OK)
-	{
-		Error_Handler();
-	}
-
-//	BSP_QSPI_DeInit(0);
-
-	BSP_QSPI_Init_t init;
-	init.InterfaceMode = MT25TL01G_QPI_MODE;
-	init.TransferRate = MT25TL01G_DTR_TRANSFER;
-	init.DualFlashMode = MT25TL01G_DUALFLASH_ENABLE;
-
-	extern BSP_QSPI_Ctx_t QSPI_Ctx[QSPI_INSTANCES_NUMBER];
-	QSPI_Ctx[0].IsInitialized = QSPI_ACCESS_NONE;
-
-	if (BSP_QSPI_Init(0, &init) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-	if (BSP_QSPI_EnableMemoryMappedMode(0) != BSP_ERROR_NONE)
-	{
-		Error_Handler();
-	}
-	HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
-}
 
 /**
  * @brief  Get Image buffer data

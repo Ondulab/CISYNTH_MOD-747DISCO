@@ -9,6 +9,7 @@
 
 
 Screen1ViewBase::Screen1ViewBase() :
+    buttonCallback(this, &Screen1ViewBase::buttonCallbackHandler),
     sliderValueChangedCallback(this, &Screen1ViewBase::sliderValueChangedCallbackHandler)
 {
 
@@ -31,19 +32,19 @@ Screen1ViewBase::Screen1ViewBase() :
     boxWithBorder1.setBorderColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     boxWithBorder1.setBorderSize(5);
 
-    slider2.setXY(15, 344);
-    slider2.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
-    slider2.setupHorizontalSlider(5, 24, 0, 0, 615);
-    slider2.setValueRange(0, 100);
-    slider2.setValue(50);
-    slider2.setNewValueCallback(sliderValueChangedCallback);
+    attackSlider.setXY(15, 344);
+    attackSlider.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
+    attackSlider.setupHorizontalSlider(5, 24, 0, 0, 615);
+    attackSlider.setValueRange(0, 100);
+    attackSlider.setValue(50);
+    attackSlider.setNewValueCallback(sliderValueChangedCallback);
 
-    slider3.setXY(15, 412);
-    slider3.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
-    slider3.setupHorizontalSlider(5, 24, 0, 0, 615);
-    slider3.setValueRange(0, 100);
-    slider3.setValue(50);
-    slider3.setNewValueCallback(sliderValueChangedCallback);
+    releasaSlider.setXY(15, 412);
+    releasaSlider.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_SLIDER_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_DARK_SLIDER_HORIZONTAL_LARGE_INDICATORS_SLIDER_ROUND_NOB_ID));
+    releasaSlider.setupHorizontalSlider(5, 24, 0, 0, 615);
+    releasaSlider.setValueRange(0, 100);
+    releasaSlider.setValue(50);
+    releasaSlider.setNewValueCallback(sliderValueChangedCallback);
 
     dynamicGraph1_1.setScale(1);
     dynamicGraph1_1.setPosition(21, 45, 224, 178);
@@ -160,8 +161,8 @@ Screen1ViewBase::Screen1ViewBase() :
 
     radioButton1.setXY(271, 112);
     radioButton1.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_INACTIVE_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_PRESSED_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_ACTIVE_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_NORMAL_ID));
-    radioButton1.setSelected(false);
-    radioButton1.setDeselectionEnabled(true);
+    radioButton1.setSelected(true);
+    radioButton1.setDeselectionEnabled(false);
 
     radioButton2.setXY(271, 187);
     radioButton2.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_INACTIVE_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_PRESSED_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_ACTIVE_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_NORMAL_ID));
@@ -170,7 +171,7 @@ Screen1ViewBase::Screen1ViewBase() :
 
     radioButton3.setXY(271, 38);
     radioButton3.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_INACTIVE_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_PRESSED_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_ACTIVE_ID), touchgfx::Bitmap(BITMAP_DARK_CHECK_BUTTONS_CHECK_MARK_NORMAL_ID));
-    radioButton3.setSelected(true);
+    radioButton3.setSelected(false);
     radioButton3.setDeselectionEnabled(false);
 
     slider6.setXY(378, 38);
@@ -231,12 +232,19 @@ Screen1ViewBase::Screen1ViewBase() :
     textArea1_1_1_1_1_2_1.setLinespacing(0);
     textArea1_1_1_1_1_2_1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_SKGI));
 
+    SaveButton.setXY(740, 0);
+    SaveButton.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_BUTTONS_SQUARE_ICON_BUTTON_ID), touchgfx::Bitmap(BITMAP_DARK_BUTTONS_SQUARE_ICON_BUTTON_PRESSED_ID));
+    SaveButton.setLabelText(touchgfx::TypedText(T___SINGLEUSE_YOFK));
+    SaveButton.setLabelColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    SaveButton.setLabelColorPressed(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    SaveButton.setAction(buttonCallback);
+
     add(__background);
     add(box1);
     add(slider1);
     add(boxWithBorder1);
-    add(slider2);
-    add(slider3);
+    add(attackSlider);
+    add(releasaSlider);
     add(dynamicGraph1_1);
     add(radioButton1);
     add(radioButton2);
@@ -252,6 +260,7 @@ Screen1ViewBase::Screen1ViewBase() :
     add(textArea1_1_1_1_1_2);
     add(slider8_1);
     add(textArea1_1_1_1_1_2_1);
+    add(SaveButton);
     radioButtonGroup1.add(radioButton1);
     radioButtonGroup1.add(radioButton2);
     radioButtonGroup1.add(radioButton3);
@@ -262,20 +271,31 @@ void Screen1ViewBase::setupScreen()
 
 }
 
+void Screen1ViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
+{
+    if (&src == &SaveButton)
+    {
+        //saveButtonClicked
+        //When SaveButton clicked call virtual function
+        //Call saveButtonClicked
+        saveButtonClicked();
+    }
+}
+
 void Screen1ViewBase::sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value)
 {
-    if (&src == &slider2)
+    if (&src == &attackSlider)
     {
-        //Attack_Slider
-        //When slider2 value changed call virtual function
-        //Call Attack_Slider_Callback
-        Attack_Slider_Callback(value);
+        //attackSliderChanged
+        //When attackSlider value changed call virtual function
+        //Call attackSliderChanged
+        attackSliderChanged(value);
     }
-    else if (&src == &slider3)
+    else if (&src == &releasaSlider)
     {
-        //Release_Slider
-        //When slider3 value changed call virtual function
-        //Call Release_Slider_Callback
-        Release_Slider_Callback(value);
+        //releaseSliderChanged
+        //When releasaSlider value changed call virtual function
+        //Call releaseSliderChanged
+        releaseSliderChanged(value);
     }
 }

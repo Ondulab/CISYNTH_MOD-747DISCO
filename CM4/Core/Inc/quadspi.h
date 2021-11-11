@@ -28,20 +28,28 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+#include "gui_var.h"
+#include "shared.h"
+#include "stdint.h"
 
 /* USER CODE END Includes */
 
 extern QSPI_HandleTypeDef hqspi;
 
 /* USER CODE BEGIN Private defines */
+struct flashParms {
+	struct params params;
+	struct guiValues guiValues;
+};
 
 /* USER CODE END Private defines */
 
 void MX_QUADSPI_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void QSPI_Init(void);
-void QSPI_Demo(void);
+void QSPI_ResetData(void);
+void QSPI_InitSharedData(void);
+void QSPI_UpdateData(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

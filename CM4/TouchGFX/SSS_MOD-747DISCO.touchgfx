@@ -50,7 +50,7 @@
           },
           {
             "Type": "Slider",
-            "Name": "slider2",
+            "Name": "attackSlider",
             "X": 15,
             "Y": 344,
             "Width": 683,
@@ -68,7 +68,7 @@
           },
           {
             "Type": "Slider",
-            "Name": "slider3",
+            "Name": "releasaSlider",
             "X": 15,
             "Y": 412,
             "Width": 683,
@@ -118,7 +118,7 @@
             "Y": 112,
             "Width": 44,
             "Height": 44,
-            "Deselectable": true,
+            "Selected": true,
             "FileNameSelected": "__designer\\Dark_Check_buttons_Check_mark_active.png",
             "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_mark_normal.png",
             "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_mark_inactive.png",
@@ -147,7 +147,6 @@
             "Y": 38,
             "Width": 44,
             "Height": 44,
-            "Selected": true,
             "FileNameSelected": "__designer\\Dark_Check_buttons_Check_mark_active.png",
             "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_mark_normal.png",
             "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_mark_inactive.png",
@@ -330,29 +329,62 @@
               "Blue": 176
             },
             "AutoSize": true
+          },
+          {
+            "Type": "ButtonWithLabel",
+            "Name": "SaveButton",
+            "X": 740,
+            "Width": 60,
+            "Height": 60,
+            "Pressed": "__designer\\Dark_Buttons_Square_icon_button_pressed.png",
+            "Released": "__designer\\Dark_Buttons_Square_icon_button.png",
+            "TextId": "__SingleUse_YOFK",
+            "ReleasedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "PressedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextRotation": "0",
+            "Style": "Style9"
           }
         ],
         "Interactions": [
           {
-            "InteractionName": "Attack_Slider",
+            "InteractionName": "attackSliderChanged",
             "Trigger": {
               "Type": "TriggerSliderValueChanged",
-              "TriggerComponent": "slider2"
+              "TriggerComponent": "attackSlider"
             },
             "Action": {
               "Type": "ActionCustom",
-              "FunctionName": "Attack_Slider_Callback"
+              "FunctionName": "attackSliderChanged"
             }
           },
           {
-            "InteractionName": "Release_Slider",
+            "InteractionName": "releaseSliderChanged",
             "Trigger": {
               "Type": "TriggerSliderValueChanged",
-              "TriggerComponent": "slider3"
+              "TriggerComponent": "releasaSlider"
             },
             "Action": {
               "Type": "ActionCustom",
-              "FunctionName": "Release_Slider_Callback"
+              "FunctionName": "releaseSliderChanged"
+            }
+          },
+          {
+            "InteractionName": "saveButtonClicked",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "SaveButton"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "saveButtonClicked"
             }
           }
         ]

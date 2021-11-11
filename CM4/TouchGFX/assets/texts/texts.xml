@@ -25,10 +25,14 @@
     <Text Id="__SingleUse_SKGI" TypographyId="Default" Alignment="Left" Direction="LTR">
       <Translation Language="GB">Start F</Translation>
     </Text>
+    <Text Id="__SingleUse_YOFK" TypographyId="Typography_00" Alignment="Center" Direction="LTR">
+      <Translation Language="GB">Save</Translation>
+    </Text>
   </Texts>
   <Typographies>
     <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" FallbackCharacter="?" />
     <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" FallbackCharacter="?" />
     <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" FallbackCharacter="?" />
+    <Typography Id="Typography_00" Font="verdana.ttf" Size="16" Bpp="4" FallbackCharacter="?" />
   </Typographies>
 </TextDatabase>

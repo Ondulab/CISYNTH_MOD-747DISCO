@@ -15,6 +15,7 @@
 #include <touchgfx/widgets/canvas/PainterRGB888.hpp>
 #include <touchgfx/widgets/RadioButton.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
+#include <touchgfx/widgets/ButtonWithLabel.hpp>
 #include <touchgfx/widgets/RadioButtonGroup.hpp>
 
 class Screen1ViewBase : public touchgfx::View<Screen1Presenter>
@@ -27,12 +28,17 @@ public:
     /*
      * Virtual Action Handlers
      */
-    virtual void Attack_Slider_Callback(int value)
+    virtual void attackSliderChanged(int value)
     {
         // Override and implement this function in Screen1
     }
 
-    virtual void Release_Slider_Callback(int value)
+    virtual void releaseSliderChanged(int value)
+    {
+        // Override and implement this function in Screen1
+    }
+
+    virtual void saveButtonClicked()
     {
         // Override and implement this function in Screen1
     }
@@ -49,8 +55,8 @@ protected:
     touchgfx::Box box1;
     touchgfx::Slider slider1;
     touchgfx::BoxWithBorder boxWithBorder1;
-    touchgfx::Slider slider2;
-    touchgfx::Slider slider3;
+    touchgfx::Slider attackSlider;
+    touchgfx::Slider releasaSlider;
     touchgfx::GraphWrapAndClear<100> dynamicGraph1_1;
     touchgfx::GraphElementLine dynamicGraph1_1Line1;
     touchgfx::PainterRGB888 dynamicGraph1_1Line1Painter;
@@ -68,6 +74,7 @@ protected:
     touchgfx::TextArea textArea1_1_1_1_1_2;
     touchgfx::Slider slider8_1;
     touchgfx::TextArea textArea1_1_1_1_1_2_1;
+    touchgfx::ButtonWithLabel SaveButton;
     touchgfx::RadioButtonGroup<3> radioButtonGroup1;
 
 private:
@@ -75,11 +82,13 @@ private:
     /*
      * Callback Declarations
      */
+    touchgfx::Callback<Screen1ViewBase, const touchgfx::AbstractButton&> buttonCallback;
     touchgfx::Callback<Screen1ViewBase, const touchgfx::Slider&, int> sliderValueChangedCallback;
 
     /*
      * Callback Handler Declarations
      */
+    void buttonCallbackHandler(const touchgfx::AbstractButton& src);
     void sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value);
 
     /*
