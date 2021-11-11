@@ -129,14 +129,6 @@ int main(void)
 	QSPI_InitSharedData();
 	synth_IfftInit();
 
-	//  synth_SetImageData(60, 800); //for testing
-	//  synth_SetImageData(10, 800); //for testing
-	//  synth_SetImageData(8, 7000);
-	//  synth_SetImageData(40, 20000); //for testing
-	//  synth_SetImageData(75, 10100);
-	//  synth_SetImageData(60, 1300); //for testing
-	//  synth_SetImageData(105, 500);
-
 	/* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
 	HAL_HSEM_FastTake(HSEM_ID_0);
 	/* Do not forget to release the HW semaphore 0 once needed */

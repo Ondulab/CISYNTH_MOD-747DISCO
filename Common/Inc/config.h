@@ -95,7 +95,7 @@
 
 #define WAVE_AMP_RESOLUTION 					(65535)   	//in decimal
 #define START_FREQUENCY     					(80)
-#define MAX_OCTAVE_NUMBER   					(10)
+#define MAX_OCTAVE_NUMBER   					(20)
 #define SEMITONE_PER_OCTAVE 					(12)
 #define COMMA_PER_SEMITONE  					(5)
 

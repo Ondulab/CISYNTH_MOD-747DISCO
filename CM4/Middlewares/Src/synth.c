@@ -33,10 +33,7 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-
-/* Variable containing black and white frame from CIS*/
-
-//static uint16_t imageData[((CIS_END_CAPTURE * CIS_ADC_OUT_LINES) / CIS_IFFT_OVERSAMPLING_RATIO) - 1]; // for debug
+struct waveParams wavesGeneratorParams;
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -55,8 +52,16 @@ int32_t synth_IfftInit(void)
 	printf("---------- SYNTH INIT ---------\n");
 	printf("-------------------------------\n");
 
+	// initialize default parameters
+	wavesGeneratorParams.commaPerSemitone = COMMA_PER_SEMITONE;
+	wavesGeneratorParams.startFrequency = START_FREQUENCY;
+	wavesGeneratorParams.harmonizationType = MAJOR;
+	wavesGeneratorParams.harmonizationLevel = 100;
+	wavesGeneratorParams.waveformType = SIN_WAVE;
+	wavesGeneratorParams.waveformOrder = 5;
+
 #ifdef IFFT_1
-	buffer_len = init_waves(unitary_waveform, waves);
+	buffer_len = init_waves(unitary_waveform, waves, &wavesGeneratorParams);
 #else
 	buffer_len = init_waves2(unitary_waveform, waves);
 #endif
@@ -74,7 +79,7 @@ int32_t synth_IfftInit(void)
 		waves[i].phase_polarisation = 1;
 	}
 
-	if (buffer_len < 0)
+	if (buffer_len > (240000-1))
 	{
 		printf("RAM overflow");
 		Error_Handler();

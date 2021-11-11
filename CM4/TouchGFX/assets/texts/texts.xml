@@ -2,7 +2,7 @@
 <TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.18.0">
   <Texts>
     <Text Id="__SingleUse_9TY6" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">Volume</Translation>
+      <Translation Language="GB">Harmo.</Translation>
     </Text>
     <Text Id="__SingleUse_ECYK" TypographyId="Default" Alignment="Left" Direction="LTR">
       <Translation Language="GB">Attack</Translation>
@@ -27,6 +27,9 @@
     </Text>
     <Text Id="__SingleUse_YOFK" TypographyId="Typography_00" Alignment="Center" Direction="LTR">
       <Translation Language="GB">Save</Translation>
+    </Text>
+    <Text Id="__SingleUse_E089" TypographyId="Default" Alignment="Left" Direction="LTR">
+      <Translation Language="GB">Order</Translation>
     </Text>
   </Texts>
   <Typographies>

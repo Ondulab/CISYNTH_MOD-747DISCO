@@ -20,6 +20,9 @@ typedef enum {
 	PLAY_MODE,
 }synthModeTypeDef;
 
+/* Exported variables --------------------------------------------------------*/
+extern struct waveParams wavesGeneratorParams;
+
 /* Exported constants --------------------------------------------------------*/
 
 /* Exported macro ------------------------------------------------------------*/

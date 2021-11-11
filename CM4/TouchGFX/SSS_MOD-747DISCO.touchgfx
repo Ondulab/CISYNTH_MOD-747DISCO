@@ -2,7 +2,7 @@
   "Application": {
     "Screens": [
       {
-        "Name": "Screen1",
+        "Name": "mainScreen",
         "CanvasBufferSize": 12000,
         "Components": [
           {
@@ -113,7 +113,7 @@
           },
           {
             "Type": "RadioButton",
-            "Name": "radioButton1",
+            "Name": "SIN_Button",
             "X": 271,
             "Y": 112,
             "Width": 44,
@@ -128,7 +128,7 @@
           },
           {
             "Type": "RadioButton",
-            "Name": "radioButton2",
+            "Name": "SQR_Button",
             "X": 271,
             "Y": 187,
             "Width": 44,
@@ -142,7 +142,7 @@
           },
           {
             "Type": "RadioButton",
-            "Name": "radioButton3",
+            "Name": "SAW_Button",
             "X": 271,
             "Y": 38,
             "Width": 44,
@@ -156,7 +156,7 @@
           },
           {
             "Type": "Slider",
-            "Name": "slider6",
+            "Name": "waveFormOrderSlider",
             "X": 378,
             "Y": 38,
             "Width": 40,
@@ -167,12 +167,14 @@
             "IndicatorPos": 3,
             "IndicatorMax": 135,
             "IndicatorMin": 4,
-            "ValueMax": 100,
+            "ValueMax": 25,
+            "ValueMin": 1,
+            "InitValue": 5,
             "Style": "Style1"
           },
           {
             "Type": "Slider",
-            "Name": "slider8",
+            "Name": "commaSlider",
             "X": 530,
             "Y": 38,
             "Width": 40,
@@ -183,12 +185,14 @@
             "IndicatorPos": 3,
             "IndicatorMax": 135,
             "IndicatorMin": 4,
-            "ValueMax": 100,
+            "ValueMax": 10,
+            "ValueMin": 1,
+            "InitValue": 1,
             "Style": "Style1"
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1",
+            "Name": "textHarmonization",
             "X": 710,
             "Y": 277,
             "Width": 74,
@@ -204,7 +208,7 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1_1",
+            "Name": "textAttack",
             "X": 710,
             "Y": 366,
             "Width": 64,
@@ -220,8 +224,8 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1_1_1",
-            "X": 710,
+            "Name": "textRelease",
+            "X": 709,
             "Y": 434,
             "Width": 77,
             "Height": 25,
@@ -236,7 +240,7 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1_1_1_1_1",
+            "Name": "textSAW",
             "X": 324,
             "Y": 48,
             "Width": 46,
@@ -252,8 +256,8 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1_1_1_1_1_1",
-            "X": 324,
+            "Name": "textSIN",
+            "X": 327,
             "Y": 122,
             "Width": 37,
             "Height": 25,
@@ -268,7 +272,7 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1_1_1_1_1_1_1",
+            "Name": "textSQR",
             "X": 324,
             "Y": 198,
             "Width": 43,
@@ -284,7 +288,7 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1_1_1_1_1_2",
+            "Name": "textComma",
             "X": 512,
             "Y": 13,
             "Width": 77,
@@ -300,8 +304,8 @@
           },
           {
             "Type": "Slider",
-            "Name": "slider8_1",
-            "X": 647,
+            "Name": "startFreqSlider",
+            "X": 643,
             "Y": 38,
             "Width": 40,
             "Height": 193,
@@ -311,12 +315,14 @@
             "IndicatorPos": 3,
             "IndicatorMax": 135,
             "IndicatorMin": 4,
-            "ValueMax": 100,
+            "ValueMax": 200,
+            "ValueMin": 20,
+            "InitValue": 50,
             "Style": "Style1"
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1_1_1_1_1_2_1",
+            "Name": "textStartFreq",
             "X": 629,
             "Y": 13,
             "Width": 69,
@@ -332,7 +338,7 @@
           },
           {
             "Type": "ButtonWithLabel",
-            "Name": "SaveButton",
+            "Name": "saveButton",
             "X": 740,
             "Width": 60,
             "Height": 60,
@@ -351,6 +357,22 @@
             },
             "TextRotation": "0",
             "Style": "Style9"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textComma_1",
+            "X": 370,
+            "Y": 13,
+            "Width": 57,
+            "Height": 25,
+            "TextId": "__SingleUse_E089",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 176,
+              "Green": 176,
+              "Blue": 176
+            },
+            "AutoSize": true
           }
         ],
         "Interactions": [
@@ -380,11 +402,77 @@
             "InteractionName": "saveButtonClicked",
             "Trigger": {
               "Type": "TriggerClicked",
-              "TriggerComponent": "SaveButton"
+              "TriggerComponent": "saveButton"
             },
             "Action": {
               "Type": "ActionCustom",
               "FunctionName": "saveButtonClicked"
+            }
+          },
+          {
+            "InteractionName": "sawButtonSelected",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "SAW_Button"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "sawButtonSelected"
+            }
+          },
+          {
+            "InteractionName": "sqrButtonSelected",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "SQR_Button"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "sqrButtonSelected"
+            }
+          },
+          {
+            "InteractionName": "sinButtonSelected",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "SIN_Button"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "sinButtonSelected"
+            }
+          },
+          {
+            "InteractionName": "waveFormOrderSliderChanged",
+            "Trigger": {
+              "Type": "TriggerSliderValueConfirmed",
+              "TriggerComponent": "waveFormOrderSlider"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "waveFormOrderSliderChanged"
+            }
+          },
+          {
+            "InteractionName": "startFreqSliderChanged",
+            "Trigger": {
+              "Type": "TriggerSliderValueConfirmed",
+              "TriggerComponent": "startFreqSlider"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "startFreqSliderChanged"
+            }
+          },
+          {
+            "InteractionName": "commaSliderChanged",
+            "Trigger": {
+              "Type": "TriggerSliderValueConfirmed",
+              "TriggerComponent": "commaSlider"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "commaSliderChanged"
             }
           }
         ]
@@ -397,7 +485,7 @@
       "Height": 480
     },
     "SelectedColorDepth": 24,
-    "StartupScreenName": "Screen1",
+    "StartupScreenName": "mainScreen",
     "SelectedStartupLanguage": "GB",
     "Skin": "Dark",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
