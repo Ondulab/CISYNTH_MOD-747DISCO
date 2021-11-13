@@ -13,15 +13,20 @@ extern "C" {
 #include "gui_var.h"
 #include "synth.h"
 #include "wave_generation.h"
+
+#ifndef HSEM_ID_1
+#define HSEM_ID_1 (0U) /* HW semaphore 0*/
+#endif
+
 #endif
 
 mainScreenView::mainScreenView()
-				{
+{
 #ifndef SIMULATOR
 	attackSlider.setValue(guiValues.attackSlider);
 	releasaSlider.setValue(guiValues.releaseSlider);
 #endif
-				}
+}
 
 void mainScreenView::setupScreen()
 {
@@ -91,8 +96,12 @@ void mainScreenView::waveFormOrderSliderChanged(int value)
 void mainScreenView::startFreqSliderChanged(int value)
 {
 #ifndef SIMULATOR
+	/* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
+	HAL_HSEM_FastTake(HSEM_ID_1);
 	wavesGeneratorParams.startFrequency = value;
 	init_waves(unitary_waveform, waves, &wavesGeneratorParams);
+	/* Do not forget to release the HW semaphore 0 once needed */
+	HAL_HSEM_Release(HSEM_ID_1, 0);
 #endif
 }
 

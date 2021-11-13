@@ -37,7 +37,7 @@ __attribute__ ((section(".wave")))
 volatile struct wave waves[NUMBER_OF_NOTES];
 
 __attribute__ ((section(".unitary_waveform")))
-volatile int16_t unitary_waveform[240000];
+volatile int16_t unitary_waveform[WAVEFORM_TABLE_SIZE];
 
 /* Private function prototypes -----------------------------------------------*/
 

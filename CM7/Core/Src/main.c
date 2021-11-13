@@ -44,7 +44,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
 #ifndef HSEM_ID_0
 #define HSEM_ID_0 (0U) /* HW semaphore 0*/
 #endif
@@ -168,12 +167,12 @@ HSEM notification */
 	printf("--------- Sectral Synth Scanner CIS module START ---------\n");
 	printf("----------------------------------------------------------\n");
 
-	MX_LWIP_Init();
-
 	/* CM7 waits for CM4 to finish his task and HW sempahore 0 becomes taken */
     while(HAL_HSEM_IsSemTaken(HSEM_ID_0) == 0)
     {
     }
+
+    MX_LWIP_Init();
 
 //	cisynth_eth();
 	cisynth_ifft();
@@ -321,6 +320,7 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 

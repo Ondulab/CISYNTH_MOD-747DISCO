@@ -61,7 +61,7 @@
 #define IP_ADDR0   								((uint8_t) 192U)
 #define IP_ADDR1   								((uint8_t) 168U)
 #define IP_ADDR2   								((uint8_t) 0U)
-#define IP_ADDR3   								((uint8_t) 1U)
+#define IP_ADDR3   								((uint8_t//) 1U)
 
 /*NETMASK*/
 #define NETMASK_ADDR0   						((uint8_t) 255U)
@@ -84,7 +84,7 @@
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
 #define AUDIO_BUFFER_SIZE             			(256)
-#define VOLUME									(40)
+#define VOLUME									(100)
 
 /**************************************************************************************/
 /********************         Wave generation definitions          ********************/
@@ -94,7 +94,7 @@
 #define CIS_IFFT_OVERSAMPLING_RATIO				(16)
 
 #define WAVE_AMP_RESOLUTION 					(65535)   	//in decimal
-#define START_FREQUENCY     					(80)
+#define START_FREQUENCY     					(40)
 #define MAX_OCTAVE_NUMBER   					(20)
 #define SEMITONE_PER_OCTAVE 					(12)
 #define COMMA_PER_SEMITONE  					(5)

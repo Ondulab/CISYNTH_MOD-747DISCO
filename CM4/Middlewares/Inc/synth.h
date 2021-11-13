@@ -21,7 +21,7 @@ typedef enum {
 }synthModeTypeDef;
 
 /* Exported variables --------------------------------------------------------*/
-extern struct waveParams wavesGeneratorParams;
+extern volatile struct waveParams wavesGeneratorParams;
 
 /* Exported constants --------------------------------------------------------*/
 

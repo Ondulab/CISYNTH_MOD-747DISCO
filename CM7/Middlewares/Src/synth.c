@@ -27,8 +27,9 @@
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/
-
-/* Private typedef -----------------------------------------------------------*/
+#ifndef HSEM_ID_0
+#define HSEM_ID_0 (0U) /* HW semaphore 0*/
+#endif
 
 /* Private macro -------------------------------------------------------------*/
 
@@ -55,7 +56,7 @@ int32_t synth_IfftInit(void)
 	printf("-------------------------------\n");
 
 	printf("Note number  = %d\n", (int)NUMBER_OF_NOTES);
-//	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
+	//	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
 
 
 	printf("First note Freq = %dHz\nSize = %d\n", (int)waves[0].frequency, (int)waves[0].area_size);
@@ -149,7 +150,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 	static int32_t signal_summation_L;
 	static uint32_t signal_power_summation;
 	static int16_t rfft_R;
-//	static int16_t rfft_L;
+	//	static int16_t rfft_L;
 	static uint16_t new_idx;
 	static uint32_t write_data_nbr;
 	static int32_t note;
@@ -215,7 +216,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 
 			//current audio point summation
 			signal_summation_R += ((*(waves[note].start_ptr + new_idx)) * waves[note].current_volume) >> 16;
-//			signal_summation_L += ((*(waves[note + 1].start_ptr + new_idx)) * waves[note + 1].current_volume) >> 16;
+			//			signal_summation_L += ((*(waves[note + 1].start_ptr + new_idx)) * waves[note + 1].current_volume) >> 16;
 			//			signal_summation_L += ((*(waves[NUMBER_OF_NOTES - note].start_ptr + new_idx)) * waves[NUMBER_OF_NOTES - note].current_volume) >> 16;
 
 			// 			signal_summation_L = signal_summation_R;
@@ -227,7 +228,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 		}
 
 		rfft_R = (signal_summation_R * ((double)max_volume) / (double)signal_power_summation);
-//		rfft_L = (signal_summation_L * ((double)max_volume) / (double)signal_power_summation);
+		//		rfft_L = (signal_summation_L * ((double)max_volume) / (double)signal_power_summation);
 
 		//		rfft_R = (signal_summation_R * (65535.00) / (double)signal_power_summation);
 		//		rfft_L = (signal_summation_L * (65535.00) / (double)signal_power_summation);
@@ -430,6 +431,9 @@ void synth_AudioProcess(synthModeTypeDef mode)
 #endif
 		SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 	}
+
+	SCB_CleanInvalidateDCache_by_Addr((uint32_t *)waves, NUMBER_OF_NOTES * 20);
+	SCB_CleanInvalidateDCache_by_Addr((uint32_t *)unitary_waveform, WAVEFORM_TABLE_SIZE * 2);
 
 	if (HAL_GPIO_ReadPin(ARD_D2_GPIO_Port, ARD_D2_Pin) == FALSE)
 	{

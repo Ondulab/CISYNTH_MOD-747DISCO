@@ -10,7 +10,7 @@
     },
     "AvailableResolutions" : [
       {
-        "Width": 800,
+        "Width": 400,
         "Height": 480
       }
     ],

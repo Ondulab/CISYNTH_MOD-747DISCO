@@ -33,7 +33,7 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-struct waveParams wavesGeneratorParams;
+volatile struct waveParams wavesGeneratorParams;
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -58,10 +58,10 @@ int32_t synth_IfftInit(void)
 	wavesGeneratorParams.harmonizationType = MAJOR;
 	wavesGeneratorParams.harmonizationLevel = 100;
 	wavesGeneratorParams.waveformType = SIN_WAVE;
-	wavesGeneratorParams.waveformOrder = 5;
+	wavesGeneratorParams.waveformOrder = 1;
 
 #ifdef IFFT_1
-	buffer_len = init_waves(unitary_waveform, waves, &wavesGeneratorParams);
+	buffer_len = init_waves(unitary_waveform, waves, &wavesGeneratorParams); //24002070 24000C30
 #else
 	buffer_len = init_waves2(unitary_waveform, waves);
 #endif

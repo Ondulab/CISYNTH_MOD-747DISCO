@@ -28,8 +28,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* Private function prototypes -----------------------------------------------*/
-static float64_t calculate_frequency(uint32_t comma_cnt, struct waveParams *params);
-static uint32_t calculate_waveform(uint32_t current_aera_size, uint32_t current_unitary_waveform_cell, uint32_t buffer_len, struct waveParams *params);
+static float64_t calculate_frequency(uint32_t comma_cnt, volatile struct waveParams *params);
+static uint32_t calculate_waveform(uint32_t current_aera_size, uint32_t current_unitary_waveform_cell, uint32_t buffer_len, volatile struct waveParams *params);
 
 /* Private user code ---------------------------------------------------------*/
 
@@ -38,10 +38,10 @@ static uint32_t calculate_waveform(uint32_t current_aera_size, uint32_t current_
  * @param  comma cnt
  * @retval frequency
  */
-static float64_t calculate_frequency(uint32_t comma_cnt, struct waveParams *params)
+static float64_t calculate_frequency(uint32_t comma_cnt, volatile struct waveParams *params)
 {
-	float64_t frequency = 0.0;
-	frequency = params->startFrequency * pow(2, (comma_cnt / (12.0 * ((SEMITONE_PER_OCTAVE * params->commaPerSemitone) / (12.0 / (log(2)) * log((params->startFrequency * 2.0) / params->startFrequency))))));
+	float64_t frequency = 0.00;
+	frequency = params->startFrequency * pow(2, ((float64_t)comma_cnt / (12.0 * ((SEMITONE_PER_OCTAVE * (float64_t)params->commaPerSemitone) / (12.00 / (log(2)) * log((params->startFrequency * 2.00) / (float64_t)params->startFrequency))))));
 
 	return frequency;
 }
@@ -54,7 +54,7 @@ static float64_t calculate_frequency(uint32_t comma_cnt, struct waveParams *para
  * @param  waveParams *params,
  * @retval current_unitary_waveform_cell
  */
-static uint32_t calculate_waveform(uint32_t current_aera_size, uint32_t current_unitary_waveform_cell, uint32_t buffer_len, struct waveParams *params)
+static uint32_t calculate_waveform(uint32_t current_aera_size, uint32_t current_unitary_waveform_cell, uint32_t buffer_len, volatile struct waveParams *params)
 {
 	unitary_waveform[current_unitary_waveform_cell] = 0;
 	uint32_t max = 0;
@@ -153,11 +153,11 @@ static uint32_t calculate_waveform(uint32_t current_aera_size, uint32_t current_
  * @param  params wave parameters,
  * @retval buffer length on success, negative value otherwise
  */
-uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *waves, struct waveParams *params)
+uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *params)
 {
 	uint32_t buffer_len = 0;
-	uint32_t current_unitary_waveform_cell = 0;
 	uint32_t note = 0;
+	uint32_t current_unitary_waveform_cell = 0;
 
 	printf("---------- WAVES INIT ---------\n");
 	printf("-------------------------------\n");
@@ -226,7 +226,7 @@ uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *wa
  * @param  params wave parameters,
  * @retval buffer length on success, negative value otherwise
  */
-uint32_t init_waves2(volatile int16_t *unitary_waveform, volatile struct wave *waves, struct waveParams *params)
+uint32_t init_waves2(volatile int16_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *params)
 {
 	uint32_t buffer_len = 0;
 	uint32_t current_unitary_waveform_cell = 0;

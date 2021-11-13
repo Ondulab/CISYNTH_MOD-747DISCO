@@ -12,6 +12,7 @@
 #include "config.h"
 #include "pcm5102.h"
 #include "rng.h"
+#include "shared.h"
 
 #include "lwip.h"
 
@@ -19,6 +20,10 @@
 #include "stdbool.h"
 
 extern __IO uint32_t synth_process_cnt;
+
+#ifndef HSEM_ID_1
+#define HSEM_ID_1 (0U) /* HW semaphore 0*/
+#endif
 
 /**
  * @brief  The application entry point.
@@ -45,48 +50,62 @@ int cisynth_ifft(void)
 		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
 
-		if (HAL_GetTick() - start_tick >= aRandom32bit_Repeat)
-		{
+//		synth_SetImageData(100, 30000);
 
-			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Note) != HAL_OK)
-			{
-				/* Random number generation error */
-				Error_Handler();
-			}
-			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Volume) != HAL_OK)
-			{
-				/* Random number generation error */
-				Error_Handler();
-			}
-			synth_SetImageData(aRandom32bit_Note % (NUMBER_OF_NOTES - 1), aRandom32bit_Volume % 32000);
+		/* CM7 waits for CM4 to finish his task and HW sempahore 0 becomes taken */
+//	    while(HAL_HSEM_IsSemTaken(HSEM_ID_1) == 0)
+//	    {
+//	    }
 
-			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Note) != HAL_OK)
-			{
-				/* Random number generation error */
-				Error_Handler();
-			}
-
-			if (aRandom32bit_Note > 3800000000)
-			{
-				for (uint32_t y = 0; y < NUMBER_OF_NOTES - 1; y++)
-				{
-					if ((aRandom32bit_Volume % 32000) < synth_GetImageData(y))
-						synth_SetImageData(y, synth_GetImageData(y) - (aRandom32bit_Volume % 32000));
-					else
-						synth_SetImageData(y, 0);
-				}
-			}
-
-			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Repeat) != HAL_OK)
-			{
-				/* Random number generation error */
-				Error_Handler();
-			}
-
-			aRandom32bit_Repeat = aRandom32bit_Repeat % 200 + 50;
-
-			start_tick = HAL_GetTick();
-		}
+//		if (HAL_GetTick() - start_tick >= 100)// aRandom32bit_Repeat)
+//		{
+//			SCB_CleanInvalidateDCache_by_Addr((uint32_t *)waves, NUMBER_OF_NOTES * 20);
+//			SCB_CleanInvalidateDCache_by_Addr((uint32_t *)unitary_waveform, WAVEFORM_TABLE_SIZE * 2);
+//
+//		if (aRandom32bit_Note < (NUMBER_OF_NOTES - 1))
+//			aRandom32bit_Note++;
+//		synth_SetImageData(aRandom32bit_Note, 30000);
+//		synth_SetImageData(aRandom32bit_Note - 1, 0);
+//
+//			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Note) != HAL_OK)
+//			{
+//				/* Random number generation error */
+//				Error_Handler();
+//			}
+//			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Volume) != HAL_OK)
+//			{
+//				/* Random number generation error */
+//				Error_Handler();
+//			}
+//			synth_SetImageData(aRandom32bit_Note % (NUMBER_OF_NOTES - 1), aRandom32bit_Volume % 32000);
+//
+//			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Note) != HAL_OK)
+//			{
+//				/* Random number generation error */
+//				Error_Handler();
+//			}
+//
+//			if (aRandom32bit_Note > 3800000000)
+//			{
+//				for (uint32_t y = 0; y < NUMBER_OF_NOTES - 1; y++)
+//				{
+//					if ((aRandom32bit_Volume % 32000) < synth_GetImageData(y))
+//						synth_SetImageData(y, synth_GetImageData(y) - (aRandom32bit_Volume % 32000));
+//					else
+//						synth_SetImageData(y, 0);
+//				}
+//			}
+//
+//			if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit_Repeat) != HAL_OK)
+//			{
+//				/* Random number generation error */
+//				Error_Handler();
+//			}
+//
+//			aRandom32bit_Repeat = aRandom32bit_Repeat % 200 + 50;
+//
+//			start_tick = HAL_GetTick();
+//		}
 	}
 }
 #pragma GCC pop_options
