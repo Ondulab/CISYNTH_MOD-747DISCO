@@ -52,6 +52,8 @@ int32_t synth_IfftInit(void)
 	printf("---------- SYNTH INIT ---------\n");
 	printf("-------------------------------\n");
 
+	pcm5102_Init();
+
 	// initialize default parameters
 	wavesGeneratorParams.commaPerSemitone = COMMA_PER_SEMITONE;
 	wavesGeneratorParams.startFrequency = START_FREQUENCY;
@@ -115,8 +117,6 @@ int32_t synth_IfftInit(void)
 	}
 	printf("-------------------------------\n");
 #endif
-
-	pcm5102_Init();
 
 	return 0;
 }

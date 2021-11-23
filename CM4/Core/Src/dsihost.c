@@ -175,7 +175,7 @@ void HAL_DSI_MspInit(DSI_HandleTypeDef* dsiHandle)
     HAL_GPIO_Init(GPIOJ, &GPIO_InitStruct);
 
     /* DSI interrupt Init */
-    HAL_NVIC_SetPriority(DSI_IRQn, 5, 0);
+    HAL_NVIC_SetPriority(DSI_IRQn, 15, 0);
     HAL_NVIC_EnableIRQ(DSI_IRQn);
   /* USER CODE BEGIN DSI_MspInit 1 */
 

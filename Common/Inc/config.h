@@ -9,7 +9,7 @@
 /********************            QSPI FLASH definitions            ********************/
 /**************************************************************************************/
 #define BUFFER_SIZE         ((uint32_t)0x0200)
-#define WRITE_READ_ADDR     ((uint32_t)0x50A0000)
+#define WRITE_READ_ADDR     ((uint32_t)0x4000000) //64M offset
 
 /**************************************************************************************/
 /********************              debug definitions               ********************/
@@ -84,7 +84,7 @@
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
 #define AUDIO_BUFFER_SIZE             			(256)
-#define VOLUME									(100)
+#define VOLUME									(30)
 
 /**************************************************************************************/
 /********************         Wave generation definitions          ********************/
@@ -97,7 +97,7 @@
 #define START_FREQUENCY     					(40)
 #define MAX_OCTAVE_NUMBER   					(20)
 #define SEMITONE_PER_OCTAVE 					(12)
-#define COMMA_PER_SEMITONE  					(5)
+#define COMMA_PER_SEMITONE  					(4)
 
 #define NUMBER_OF_NOTES     					(((CIS_ACTIVE_PIXELS_PER_LINE) * (CIS_ADC_OUT_LINES)) / CIS_IFFT_OVERSAMPLING_RATIO)
 

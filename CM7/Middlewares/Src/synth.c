@@ -65,14 +65,14 @@ int32_t synth_IfftInit(void)
 	printf("-------------------------------\n");
 
 #ifdef PRINT_IFFT_FREQUENCY
-	for (uint32_t pix = 0; pix < NUMBER_OF_NOTES; pix++)
+	for (uint32_t note = 0; note < NUMBER_OF_NOTES; note++)
 	{
-		printf("FREQ = %0.2f, SIZE = %d, OCTAVE = %d\n", waves[pix].frequency, (int)waves[pix].area_size, (int)waves[pix].octave_coeff);
+		printf("FREQ = %0.2f, SIZE = %d, OCTAVE = %d\n", waves[note].frequency, (int)waves[note].area_size, (int)waves[note].octave_coeff);
 #ifdef PRINT_IFFT_FREQUENCY_FULL
 		uint16_t output = 0;
-		for (uint32_t idx = 0; idx < (waves[pix].area_size / waves[pix].octave_coeff); idx++)
+		for (uint32_t idx = 0; idx < (waves[note].area_size / waves[note].octave_coeff); idx++)
 		{
-			output = *(waves[pix].start_ptr + (idx *  waves[pix].octave_coeff));
+			output = *(waves[note].start_ptr + (idx *  waves[note].octave_coeff));
 			printf("%d\n", output);
 		}
 #endif
@@ -412,7 +412,16 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		pcm5102_ResetBufferState();
 		udp_serverReceiveImage(imageData);
 #ifdef IFFT_1
-		synth_IfftMode(imageData, half_audio_ptr);
+		/*CM7 try to take the HW sempahore 0*/
+		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
+		{
+			synth_IfftMode(imageData, half_audio_ptr);
+			HAL_HSEM_Release(HSEM_ID_0,0);
+		}
+		else
+		{
+			SCB_InvalidateDCache();
+		}
 #else
 		synth_IfftMode2(imageData, half_audio_ptr);
 #endif
@@ -425,15 +434,24 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		pcm5102_ResetBufferState();
 		udp_serverReceiveImage(imageData);
 #ifdef IFFT_1
-		synth_IfftMode(imageData, full_audio_ptr);
+		/*CM7 try to take the HW sempahore 0*/
+		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
+		{
+			synth_IfftMode(imageData, full_audio_ptr);
+			HAL_HSEM_Release(HSEM_ID_0,0);
+		}
+		else
+		{
+			SCB_InvalidateDCache();
+		}
 #else
 		synth_IfftMode2(imageData, full_audio_ptr);
 #endif
 		SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 	}
 
-	SCB_CleanInvalidateDCache_by_Addr((uint32_t *)waves, NUMBER_OF_NOTES * 20);
-	SCB_CleanInvalidateDCache_by_Addr((uint32_t *)unitary_waveform, WAVEFORM_TABLE_SIZE * 2);
+	//		SCB_InvalidateDCache_by_Addr((uint32_t *)waves, NUMBER_OF_NOTES * 20);
+	//		SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, (WAVEFORM_TABLE_SIZE * 2) / 4);
 
 	if (HAL_GPIO_ReadPin(ARD_D2_GPIO_Port, ARD_D2_Pin) == FALSE)
 	{

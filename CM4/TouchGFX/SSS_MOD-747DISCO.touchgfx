@@ -516,6 +516,7 @@
     "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",
     "PostGenerateCommand": "touchgfx update_project --project-file=simulator/msvs/Application.vcxproj",
     "PostGenerateTargetCommand": "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m7",
+    "PostGenerateTargetCommandOverride": "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m4",
     "CompileSimulatorCommand": "make -f simulator/gcc/Makefile -j8",
     "RunSimulatorCommand": "build\\bin\\simulator.exe",
     "CompileTargetCommandOverride": "make -f gcc/Makefile intflash",

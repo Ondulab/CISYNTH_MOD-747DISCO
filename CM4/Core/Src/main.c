@@ -33,10 +33,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "pictures.h"
-#include "synth.h"
-#include "shared.h"
-#include "quadspi.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,9 +44,6 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-#ifndef HSEM_ID_0
-#define HSEM_ID_0 (0U) /* HW semaphore 0*/
-#endif
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -125,8 +119,6 @@ int main(void)
   MX_CRC_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
-	QSPI_InitSharedData();
-	synth_IfftInit();
 
 	/* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
 	HAL_HSEM_FastTake(HSEM_ID_0);

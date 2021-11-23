@@ -85,6 +85,10 @@ extern __IO uint32_t JoystickStates;
 #define LCD_BL_GPIO_Port GPIOJ
 #define LCD_RESET_Pin GPIO_PIN_3
 #define LCD_RESET_GPIO_Port GPIOG
+
+#ifndef HSEM_ID_0
+#define HSEM_ID_0 (0U) /* HW semaphore 0*/
+#endif
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

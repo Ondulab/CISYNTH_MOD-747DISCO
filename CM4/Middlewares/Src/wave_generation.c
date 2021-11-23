@@ -162,6 +162,10 @@ uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *wa
 	printf("---------- WAVES INIT ---------\n");
 	printf("-------------------------------\n");
 
+	/*CM4 wait to take the HW sempahore 0*/
+	while(HAL_HSEM_FastTake(HSEM_ID_0) != HAL_OK);
+	BSP_AUDIO_OUT_Mute(0);
+
 	//compute cell number for storage all oscillators waveform
 	for (uint32_t comma_cnt = 0; comma_cnt < (SEMITONE_PER_OCTAVE * params->commaPerSemitone); comma_cnt++)
 	{
@@ -216,6 +220,8 @@ uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *wa
 		Error_Handler();
 	}
 
+	BSP_AUDIO_OUT_UnMute(0);
+	HAL_HSEM_Release(HSEM_ID_0,0);
 	return buffer_len;
 }
 
