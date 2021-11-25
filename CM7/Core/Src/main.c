@@ -167,12 +167,17 @@ HSEM notification */
 	printf("--------- Sectral Synth Scanner CIS module START ---------\n");
 	printf("----------------------------------------------------------\n");
 
-	/* CM7 waits for CM4 to finish his task and HW sempahore 0 becomes taken */
-    while(HAL_HSEM_IsSemTaken(HSEM_ID_0) == 0)
-    {
-    }
+//	/* CM7 waits for CM4 to finish his task and HW sempahore 0 becomes taken */
+//    while(HAL_HSEM_IsSemTaken(HSEM_ID_0) == 0)
+//    {
+//    }
 
     MX_LWIP_Init();
+
+	/*CM7 try to take the HW sempahore 0*/
+    while(HAL_HSEM_FastTake(HSEM_ID_0) != HAL_OK)
+    /* Do not forget to release the HW semaphore 0 once needed */
+	HAL_HSEM_Release(HSEM_ID_0, 0);
 
 //	cisynth_eth();
 	cisynth_ifft();
@@ -201,7 +206,7 @@ void SystemClock_Config(void)
 
   /** Supply configuration update enable
   */
-  HAL_PWREx_ConfigSupply(PWR_DIRECT_SMPS_SUPPLY);
+  HAL_PWREx_ConfigSupply(PWR_SMPS_1V8_SUPPLIES_LDO);
   /** Configure the main internal regulator output voltage
   */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
@@ -223,10 +228,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 5;
-  RCC_OscInitStruct.PLL.PLLN = 192;
+  RCC_OscInitStruct.PLL.PLLN = 280;
   RCC_OscInitStruct.PLL.PLLP = 2;
-  RCC_OscInitStruct.PLL.PLLQ = 5;
-  RCC_OscInitStruct.PLL.PLLR = 2;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
+  RCC_OscInitStruct.PLL.PLLR = 4;
   RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
   RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
   RCC_OscInitStruct.PLL.PLLFRACN = 0;
@@ -251,10 +256,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSI, RCC_MCODIV_1);
-  /** Enables the Clock Security System
-  */
-  HAL_RCC_EnableCSS();
 }
 
 /**
@@ -271,7 +272,7 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL2.PLL2M = 25;
   PeriphClkInitStruct.PLL2.PLL2N = 344;
   PeriphClkInitStruct.PLL2.PLL2P = 7;
-  PeriphClkInitStruct.PLL2.PLL2Q = 7;
+  PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
@@ -323,6 +324,27 @@ void MPU_Config(void)
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 
+}
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM4 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM4) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
 }
 
 /**

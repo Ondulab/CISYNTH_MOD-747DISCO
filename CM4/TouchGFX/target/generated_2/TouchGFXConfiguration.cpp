@@ -35,7 +35,7 @@ static STM32DMA dma;
 static LCD24bpp display;
 static ApplicationFontProvider fontProvider;
 static Texts texts;
-static TouchGFXHAL hal(dma, display, tc, 400, 480);
+static TouchGFXHAL hal(dma, display, tc, 800, 480);
 
 void touchgfx_init()
 {

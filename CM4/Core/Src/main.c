@@ -100,10 +100,13 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-	SystemClock_Config();
+//	SystemClock_Config();
   /* USER CODE END Init */
 
   /* USER CODE BEGIN SysInit */
+
+  /* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
+  HAL_HSEM_FastTake(HSEM_ID_0);
 
   /* USER CODE END SysInit */
 
@@ -119,11 +122,6 @@ int main(void)
   MX_CRC_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
-
-	/* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
-	HAL_HSEM_FastTake(HSEM_ID_0);
-	/* Do not forget to release the HW semaphore 0 once needed */
-	HAL_HSEM_Release(HSEM_ID_0, 0);
 
   /* USER CODE END 2 */
 

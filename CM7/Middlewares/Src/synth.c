@@ -190,6 +190,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 			if (new_idx >= waves[note].area_size)
 			{
 				new_idx -= waves[note].area_size;
+			}
 
 #ifdef GAP_LIMITER
 				//gap limiter to minimize glitchs
@@ -208,7 +209,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 #else
 				waves[note].current_volume = current_image_data;
 #endif
-			}
+//			}
 
 
 			if (waves[note].current_volume > max_volume)
@@ -421,6 +422,7 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		else
 		{
 			SCB_InvalidateDCache();
+//			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, (WAVEFORM_TABLE_SIZE * 2) + NUMBER_OF_NOTES * 20);
 		}
 #else
 		synth_IfftMode2(imageData, half_audio_ptr);
@@ -443,6 +445,7 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		else
 		{
 			SCB_InvalidateDCache();
+//			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, (WAVEFORM_TABLE_SIZE * 2) + NUMBER_OF_NOTES * 20);
 		}
 #else
 		synth_IfftMode2(imageData, full_audio_ptr);
@@ -450,9 +453,7 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 	}
 
-	//		SCB_InvalidateDCache_by_Addr((uint32_t *)waves, NUMBER_OF_NOTES * 20);
-	//		SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, (WAVEFORM_TABLE_SIZE * 2) / 4);
-
+#ifdef CV
 	if (HAL_GPIO_ReadPin(ARD_D2_GPIO_Port, ARD_D2_Pin) == FALSE)
 	{
 		if (last_RST_state == TRUE)
@@ -494,4 +495,5 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		/* Setting value Error */
 		Error_Handler();
 	}
+#endif
 }
