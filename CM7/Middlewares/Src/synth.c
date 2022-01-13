@@ -39,7 +39,6 @@ static volatile int16_t* full_audio_ptr;
 
 /* Private function prototypes -----------------------------------------------*/
 static void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData);
-static void synth_IfftMode2(volatile int32_t *imageData, volatile int16_t *audioData);
 
 /* Private user code ---------------------------------------------------------*/
 
@@ -52,17 +51,17 @@ int32_t synth_IfftInit(void)
 {
 	static DAC_ChannelConfTypeDef sConfig;
 
-	printf("---------- SYNTH INIT ---------\n");
-	printf("-------------------------------\n");
+//	printf("---------- SYNTH INIT ---------\n");
+//	printf("-------------------------------\n");
 
 	printf("Note number  = %d\n", (int)NUMBER_OF_NOTES);
 	//	printf("Buffer lengh = %d uint16\n", (int)buffer_len);
 
 
-	printf("First note Freq = %dHz\nSize = %d\n", (int)waves[0].frequency, (int)waves[0].area_size);
-	printf("Last  note Freq = %dHz\nSize = %d\nOctave = %d\n", (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)waves[NUMBER_OF_NOTES - 1].area_size / (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff), (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
+//	printf("First note Freq = %dHz\nSize = %d\n", (int)waves[0].frequency, (int)waves[0].area_size);
+//	printf("Last  note Freq = %dHz\nSize = %d\nOctave = %d\n", (int)waves[NUMBER_OF_NOTES - 1].frequency, (int)waves[NUMBER_OF_NOTES - 1].area_size / (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff), (int)sqrt(waves[NUMBER_OF_NOTES - 1].octave_coeff));
 
-	printf("-------------------------------\n");
+//	printf("-------------------------------\n");
 
 #ifdef PRINT_IFFT_FREQUENCY
 	for (uint32_t note = 0; note < NUMBER_OF_NOTES; note++)
@@ -248,131 +247,6 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 #pragma GCC pop_options
 
 /**
- * @brief  Period elapsed callback in non blocking mode
- * @param  htim : TIM handle
- * @retval None
- */
-#pragma GCC push_options
-#pragma GCC optimize ("unroll-loops")
-void synth_IfftMode2(volatile int32_t *imageData, volatile int16_t *audioData)
-{
-	static int32_t tempWaveformBuffer[AUDIO_BUFFER_SIZE * 2];
-	static int32_t tempVolumeBuffer[AUDIO_BUFFER_SIZE * 2];
-	static int32_t tempWaveformBufferSummation[AUDIO_BUFFER_SIZE];
-	static int32_t tempVolumeBufferSummation[AUDIO_BUFFER_SIZE];
-	static int32_t tempMaxVolumeBuffer[AUDIO_BUFFER_SIZE];
-	static int16_t rfft_R;
-	static int16_t rfft_L;
-	static int32_t note;
-	static uint32_t area_size;
-
-	arm_fill_q31(0, tempWaveformBufferSummation, AUDIO_BUFFER_SIZE);
-	arm_fill_q31(0, tempVolumeBufferSummation, AUDIO_BUFFER_SIZE);
-	arm_fill_q31(0, tempMaxVolumeBuffer, AUDIO_BUFFER_SIZE);
-
-	//Summation for all pixel
-	for (note = NUMBER_OF_NOTES; --note > 1;)
-		//	note = 60;
-	{
-		uint32_t temp_buff_idx = 0;
-		uint32_t generation_step = 0;
-		uint32_t start_copy_idx = 0;
-
-		//fill temporary waveform buffer
-		while (temp_buff_idx < AUDIO_BUFFER_SIZE)
-		{
-			waves[note].current_idx += waves[note].octave_coeff;
-			//detect the end of buffer (y = 0)
-			if (waves[note].current_idx >= waves[note].area_size)
-			{
-				//return to the wave beginning
-				waves[note].current_idx -= waves[note].area_size;
-
-				//store the new volume
-				//				waves[note].current_volume = abs(imageData[note] - imageData[note - 1]);
-
-				//add
-				static int32_t current_image_data;
-
-				if (imageData[note - 1] - imageData[note] > 0)
-					current_image_data = imageData[note - 1] - imageData[note];
-				else
-					current_image_data = 0;//imageData[note] - imageData[note - 1];
-
-				waves[note].current_volume = current_image_data;
-				//endadd
-
-				generation_step++;
-
-				waves[note].phase_polarisation *= -1;
-
-				//store the start index for DSP
-				if (generation_step == 1)
-					start_copy_idx = temp_buff_idx;
-			}
-
-			//fill the temporary buffer with waveform table for old and new volume
-			if (generation_step < 2)
-			{
-				//fill the two first alternations
-				tempWaveformBuffer[temp_buff_idx] = (((*(waves[note].start_ptr + waves[note].current_idx)) * waves[note].current_volume) >> 16) * waves[note].phase_polarisation;
-				//store the current volume
-				tempVolumeBuffer[temp_buff_idx] = waves[note].current_volume;
-
-				if (waves[note].current_volume > tempMaxVolumeBuffer[temp_buff_idx])
-					tempMaxVolumeBuffer[temp_buff_idx] =  waves[note].current_volume;
-
-				temp_buff_idx++;
-			}
-			else
-			{
-				//fill the rest with current volume
-				arm_fill_q31(waves[note].current_volume, &tempVolumeBuffer[temp_buff_idx], AUDIO_BUFFER_SIZE - temp_buff_idx);
-				arm_fill_q31(tempMaxVolumeBuffer[temp_buff_idx - 1], &tempMaxVolumeBuffer[temp_buff_idx], AUDIO_BUFFER_SIZE - temp_buff_idx);
-
-				area_size = temp_buff_idx - start_copy_idx;
-
-				waves[note].phase_polarisation *= -1;
-
-				//second stage for DSP duplications
-				while (temp_buff_idx < AUDIO_BUFFER_SIZE)
-				{
-					//duplicate and invert alternations_
-					arm_copy_q31(&tempWaveformBuffer[start_copy_idx], &tempWaveformBuffer[temp_buff_idx], area_size);
-					arm_negate_q31(&tempWaveformBuffer[temp_buff_idx], &tempWaveformBuffer[temp_buff_idx], area_size);
-					waves[note].phase_polarisation *= -1;
-
-					start_copy_idx = temp_buff_idx;
-					temp_buff_idx += area_size;
-				}
-			}
-		}
-
-		//update current index after DSP duplications
-		waves[note].current_idx = (AUDIO_BUFFER_SIZE - start_copy_idx) * waves[note].octave_coeff;
-
-		//wave accumulator
-		arm_add_q31(tempWaveformBufferSummation, tempWaveformBuffer, tempWaveformBufferSummation, AUDIO_BUFFER_SIZE);
-
-		//volume accumulator
-		arm_add_q31(tempVolumeBufferSummation, tempVolumeBuffer, tempVolumeBufferSummation, AUDIO_BUFFER_SIZE);
-	}
-
-	for (uint32_t idx = 0; idx < AUDIO_BUFFER_SIZE; idx++)
-	{
-		if (tempVolumeBufferSummation[idx] != 0)
-			rfft_R = ((tempWaveformBufferSummation[idx] * (float64_t)(tempMaxVolumeBuffer[idx])) / (float64_t)(tempVolumeBufferSummation[idx]));
-		rfft_L = rfft_R;
-
-		audioData[idx * 2] = rfft_R;
-		audioData[idx * 2 + 1] = rfft_L;
-	}
-
-	shared_var.synth_process_cnt += AUDIO_BUFFER_SIZE;
-}
-#pragma GCC pop_options
-
-/**
  * @brief  Manages Audio process.
  * @param  None
  * @retval Audio error
@@ -412,11 +286,11 @@ void synth_AudioProcess(synthModeTypeDef mode)
 	{
 		pcm5102_ResetBufferState();
 		udp_serverReceiveImage(imageData);
-#ifdef IFFT_1
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
 		{
 			synth_IfftMode(imageData, half_audio_ptr);
+			SCB_CleanDCache_by_Addr((uint32_t *)half_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 			HAL_HSEM_Release(HSEM_ID_0,0);
 		}
 		else
@@ -424,10 +298,6 @@ void synth_AudioProcess(synthModeTypeDef mode)
 			SCB_InvalidateDCache();
 //			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, (WAVEFORM_TABLE_SIZE * 2) + NUMBER_OF_NOTES * 20);
 		}
-#else
-		synth_IfftMode2(imageData, half_audio_ptr);
-#endif
-		SCB_CleanDCache_by_Addr((uint32_t *)half_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 	}
 
 	/* 2nd half buffer played; so fill it and continue playing from top */
@@ -435,11 +305,11 @@ void synth_AudioProcess(synthModeTypeDef mode)
 	{
 		pcm5102_ResetBufferState();
 		udp_serverReceiveImage(imageData);
-#ifdef IFFT_1
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
 		{
 			synth_IfftMode(imageData, full_audio_ptr);
+			SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 			HAL_HSEM_Release(HSEM_ID_0,0);
 		}
 		else
@@ -447,10 +317,6 @@ void synth_AudioProcess(synthModeTypeDef mode)
 			SCB_InvalidateDCache();
 //			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, (WAVEFORM_TABLE_SIZE * 2) + NUMBER_OF_NOTES * 20);
 		}
-#else
-		synth_IfftMode2(imageData, full_audio_ptr);
-#endif
-		SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 	}
 
 #ifdef CV

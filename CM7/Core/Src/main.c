@@ -163,9 +163,9 @@ HSEM notification */
   MX_PDM2PCM_Init();
   /* USER CODE BEGIN 2 */
 
-	printf("----------------------------------------------------------\n");
-	printf("--------- Sectral Synth Scanner CIS module START ---------\n");
-	printf("----------------------------------------------------------\n");
+//	printf("----------------------------------------------------------\n");
+//	printf("--------- Sectral Synth Scanner CIS module START ---------\n");
+//	printf("----------------------------------------------------------\n");
 
 //	/* CM7 waits for CM4 to finish his task and HW sempahore 0 becomes taken */
 //    while(HAL_HSEM_IsSemTaken(HSEM_ID_0) == 0)
@@ -206,7 +206,7 @@ void SystemClock_Config(void)
 
   /** Supply configuration update enable
   */
-  HAL_PWREx_ConfigSupply(PWR_SMPS_1V8_SUPPLIES_LDO);
+  HAL_PWREx_ConfigSupply(PWR_DIRECT_SMPS_SUPPLY);
   /** Configure the main internal regulator output voltage
   */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
@@ -228,7 +228,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 5;
-  RCC_OscInitStruct.PLL.PLLN = 280;
+  RCC_OscInitStruct.PLL.PLLN = 192;
   RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 7;
   RCC_OscInitStruct.PLL.PLLR = 4;
@@ -379,4 +379,3 @@ void assert_failed(uint8_t *file, uint32_t line)
 }
 #endif /* USE_FULL_ASSERT */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -19,6 +19,7 @@ extern "C" {
 #include "stdint.h"
 #include "config.h"
 #include "stm32h7xx_hal_sai.h"
+#include "arm_math.h"
 
 /* Exported types ------------------------------------------------------------*/
 __attribute__ ((packed))
@@ -28,8 +29,8 @@ struct wave {
 	uint16_t area_size;
 	uint16_t octave_coeff;
 	int32_t current_volume;
-	int32_t phase_polarisation;
-	float frequency;
+	int32_t max_gap_per_loop;
+	float32_t frequency;
 };
 
 __attribute__ ((packed))

@@ -28,7 +28,6 @@
 /**************************************************************************************/
 #define SAMPLING_FREQUENCY				      	(48000)
 
-#define IFFT_1
 #define SIN										//SIN-SAW-SQR
 
 #define GAP_LIMITER

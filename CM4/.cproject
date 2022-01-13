@@ -184,7 +184,7 @@
 						<entry excluding="ST/touchgfx|ST/touchgfx/framework/tools|ST/touchgfx/framework/source|ST/touchgfx/framework/include/platform/hal|ST/touchgfx/framework/source/platform/hal|ST/touchgfx/lib|ST/touchgfx/framework/include/platform/hal/simulator" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="PDM2PCM"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Peripheral"/>
-						<entry excluding="target/generated|simulator|generated/simulator|generated/videos" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="TouchGFX"/>
+						<entry excluding="simulator|generated/simulator|generated/videos" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="TouchGFX"/>
 						<entry excluding="lcd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Utilities"/>
 					</sourceEntries>
 				</configuration>
@@ -253,7 +253,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Drivers/STM32H7xx_HAL_Driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/App}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/target}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/target/generated_2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/target/generated}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/generated/fonts/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/generated/gui_generated/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/generated/images/include}&quot;"/>
@@ -294,7 +294,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Drivers/STM32H7xx_HAL_Driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/App}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/target}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/target/generated_2}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/target/generated}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/generated/fonts/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/generated/gui_generated/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/TouchGFX/generated/images/include}&quot;"/>
@@ -373,7 +373,7 @@
 						<entry excluding="ST/touchgfx|ST/touchgfx/framework/tools|ST/touchgfx/framework/source|ST/touchgfx/framework/include/platform/hal|ST/touchgfx/framework/source/platform/hal|ST/touchgfx/lib|ST/touchgfx/framework/include/platform/hal/simulator" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="PDM2PCM"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Peripheral"/>
-						<entry excluding="target/generated|simulator|generated/simulator|generated/videos" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="TouchGFX"/>
+						<entry excluding="simulator|generated/simulator|generated/videos" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="TouchGFX"/>
 						<entry excluding="lcd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Utilities"/>
 					</sourceEntries>
 				</configuration>
@@ -563,7 +563,7 @@
 						<entry excluding="ST/touchgfx|ST/touchgfx/framework/tools|ST/touchgfx/framework/source|ST/touchgfx/framework/include/platform/hal|ST/touchgfx/framework/source/platform/hal|ST/touchgfx/lib|ST/touchgfx/framework/include/platform/hal/simulator" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="PDM2PCM"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Peripheral"/>
-						<entry excluding="target/generated|simulator|generated/simulator|generated/videos" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="TouchGFX"/>
+						<entry excluding="simulator|generated/simulator|generated/videos" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="TouchGFX"/>
 						<entry excluding="lcd" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Utilities"/>
 					</sourceEntries>
 				</configuration>
@@ -581,10 +581,10 @@
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/SSS_MOD-747DISCO_CM4"/>
 		</configuration>
-		<configuration configurationName="Release">
+		<configuration configurationName="Full">
 			<resource resourceType="PROJECT" workspacePath="/SSS_MOD-747DISCO_CM4"/>
 		</configuration>
-		<configuration configurationName="Full">
+		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/SSS_MOD-747DISCO_CM4"/>
 		</configuration>
 	</storageModule>

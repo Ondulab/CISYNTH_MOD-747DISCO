@@ -295,5 +295,3 @@ void Touchscreen_DrawBackground_Circles(uint8_t state);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

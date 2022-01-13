@@ -271,4 +271,4 @@ void AUDIO_OUT_SAIx_DMAx_IRQHandler(void)
 }
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+

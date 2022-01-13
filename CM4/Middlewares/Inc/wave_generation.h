@@ -42,7 +42,6 @@ struct waveParams {
 
 /* Exported functions prototypes ---------------------------------------------*/
 uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *params);
-uint32_t init_waves2(volatile int16_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *params);
 
 /* Private defines -----------------------------------------------------------*/
 

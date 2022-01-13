@@ -33,8 +33,8 @@ void imageEmulator_random(void);
 #pragma GCC optimize ("unroll-loops")
 int cisynth_ifft(void)
 {
-	printf("------ BW IFFT MODE START -----\n");
-	printf("-------------------------------\n");
+//	printf("------ BW IFFT MODE START -----\n");
+//	printf("-------------------------------\n");
 
 	synth_IfftInit();
 
@@ -44,7 +44,7 @@ int cisynth_ifft(void)
 		synth_AudioProcess(IFFT_MODE);
 
 //		imageEmulator_toggle();
-		imageEmulator_slide();
+//		imageEmulator_slide();
 		//		image_random();
 	}
 }

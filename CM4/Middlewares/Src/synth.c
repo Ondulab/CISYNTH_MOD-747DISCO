@@ -62,11 +62,7 @@ int32_t synth_IfftInit(void)
 	wavesGeneratorParams.waveformType = SIN_WAVE;
 	wavesGeneratorParams.waveformOrder = 1;
 
-#ifdef IFFT_1
 	buffer_len = init_waves(unitary_waveform, waves, &wavesGeneratorParams); //24002070 24000C30
-#else
-	buffer_len = init_waves2(unitary_waveform, waves);
-#endif
 
 	// start with random index
 	for (uint32_t i = 0; i < NUMBER_OF_NOTES; i++)
@@ -78,7 +74,6 @@ int32_t synth_IfftInit(void)
 		}
 		waves[i].current_idx = aRandom32bit % waves[i].area_size;
 		waves[i].current_volume = 0;
-		waves[i].phase_polarisation = 1;
 	}
 
 	if (buffer_len > (240000-1))
