@@ -46,7 +46,7 @@ MEMORY
 {
 FLASH (rx)      : ORIGIN = 0x08100000, LENGTH = 1024K
 RAM_D1 (xrw)    : ORIGIN = 0x10000000, LENGTH = 256K
-RAM_SHARED (rw) : ORIGIN = 0x24000000, LENGTH = 480K  
+RAM_SHARED (rw) : ORIGIN = 0x24000000, LENGTH = 256K  
 QSPI (r)    	: ORIGIN = 0x90000000, LENGTH = 128M
 }
 
@@ -86,20 +86,6 @@ SECTIONS
     *(.rodata*)        /* .rodata* sections (constants, strings, etc.) */
     . = ALIGN(4);
   } >FLASH
-  
-  /*ExtFlashSection :
-  {
-    ExtThirdPartyHeader = .;
-    KEEP(*(.ExtFlashSection));
-    ExtThirdPartyHeader_end = .;
-  } >QSPI
-  
-   TextFlashSection :
-  {
-    ExtThirdPartyHeader = .;
-    KEEP(*(.TextFlashSection));
-    ExtThirdPartyHeader_end = .;
-  } >QSPI*/
   
   ExtFlashSection :
   {   *(ExtFlashSection ExtFlashSection.*)

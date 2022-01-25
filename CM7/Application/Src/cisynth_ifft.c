@@ -16,6 +16,8 @@
 
 #include "lwip.h"
 
+#include "udp_server.h"
+
 #include "stdio.h"
 #include "stdbool.h"
 
@@ -33,8 +35,8 @@ void imageEmulator_random(void);
 #pragma GCC optimize ("unroll-loops")
 int cisynth_ifft(void)
 {
-//	printf("------ BW IFFT MODE START -----\n");
-//	printf("-------------------------------\n");
+	printf("------ BW IFFT MODE START -----\n");
+	printf("-------------------------------\n");
 
 	synth_IfftInit();
 
@@ -42,6 +44,7 @@ int cisynth_ifft(void)
 	{
 		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
+		udp_clientSendImage("TOTO M'A TUE");
 
 //		imageEmulator_toggle();
 //		imageEmulator_slide();
@@ -89,7 +92,7 @@ void imageEmulator_slide(void)
 		synth_SetImageData(note - 1, 0);
 		synth_SetImageData(note, volume);
 
-		if (note < (NUMBER_OF_NOTES - 1))
+		if (note < (150 - 1)) //NUMBER_OF_NOTES
 		{
 			note++;
 		}

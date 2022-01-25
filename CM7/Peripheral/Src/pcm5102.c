@@ -41,8 +41,8 @@ uint32_t bytesread;
  */
 void pcm5102_Init(void)
 {
-	printf("----------- DAC INIT ----------\n");
-	printf("-------------------------------\n");
+//	printf("----------- DAC INIT ----------\n");
+//	printf("-------------------------------\n");
 
 	AudioPlayInit.Device = AUDIO_OUT_DEVICE_HEADPHONE;
 	AudioPlayInit.ChannelsNbr = 2;

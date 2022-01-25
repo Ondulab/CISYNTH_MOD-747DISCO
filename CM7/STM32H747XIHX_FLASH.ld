@@ -37,7 +37,7 @@
 ENTRY(Reset_Handler)
 
 /* Highest address of the user mode stack */
-_estack = ORIGIN(RAM_AXI) + LENGTH(RAM_AXI); /* end of "RAM" Ram type memory */
+_estack = ORIGIN(DTCMRAM) + LENGTH(DTCMRAM); /* end of "RAM" Ram type memory */
 
 _Min_Heap_Size = 0x1000 ; /* required amount of heap  */
 _Min_Stack_Size = 0x1000 ; /* required amount of stack */
@@ -47,10 +47,10 @@ MEMORY
 {
   FLASH   (rx)    : ORIGIN = 0x08000000, LENGTH = 1024K 				/* Memory is divided. Actual start is 0x08000000 and actual length is 2048K */
   DTCMRAM (xrw)   : ORIGIN = 0x20000000, LENGTH = 128K
-  RAM_SHARED (r)  : ORIGIN = 0x24000000, LENGTH = 480K    
+  RAM_SHARED (r)  : ORIGIN = 0x24000000, LENGTH = 256K    
   RAM_AXI (xrw)   : ORIGIN = 0x24000000 + LENGTH(RAM_SHARED), LENGTH = 512K - LENGTH(RAM_SHARED)
   RAM_D1 (r)      : ORIGIN = 0x30000000, LENGTH = 128K
-  RAM_D2 (r)      : ORIGIN = 0x30020000, LENGTH = 128K
+  RAM_D2 (xrw)    : ORIGIN = 0x30020000, LENGTH = 128K
   RAM_D3 (xrw)    : ORIGIN = 0x30040000, LENGTH = 32K
   RAM_D4 (xrw)    : ORIGIN = 0x38000000, LENGTH = 64K
   ITCMRAM (xrw)   : ORIGIN = 0x00000000, LENGTH = 64K
@@ -162,7 +162,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >RAM_AXI AT> FLASH
+  } >DTCMRAM AT> FLASH
 
   /* Uninitialized data section into "RAM" Ram type memory */
   . = ALIGN(4);
@@ -178,7 +178,7 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
-  } >RAM_AXI
+  } >RAM_DTCMRAM
 
   /* User_heap_stack section, used to check that there is enough "RAM" Ram  type memory left */
   ._user_heap_stack :
@@ -189,7 +189,7 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
-  } >RAM_AXI
+  } >RAM_DTCMRAM
 
   /* Modification start */
   .lwip_sec (NOLOAD) : 
@@ -202,7 +202,7 @@ SECTIONS
     
     . = ABSOLUTE(0x30040200);
     *(.RxArraySection) 
-  } >RAM_D3
+  } >RAM_D3 AT> FLASH
   
   /* Modification end */
 

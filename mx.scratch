@@ -494,7 +494,7 @@
       <Secure />
       <filestoremove>
         <file>
-          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma2d.c</name>
+          <name>CM7/Core/Src/stm32h7xx_hal_timebase_tim.c</name>
         </file>
         <file>
           <name>Middlewares/Third_Party/FreeRTOS/Source/croutine.c</name>
