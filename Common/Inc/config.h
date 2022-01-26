@@ -43,7 +43,7 @@
 /**************************************************************************************/
 #define SEND_CIS_LINE_FREQUENCY				    (3000)
 #define IMAGE_HEADER							(1397969715) 	//01010011 01010011 01010011 00110011 SSS3
-#define UDP_HEADER_SIZE						(1)				//uint32
+#define UDP_HEADER_SIZE							(1)				//uint32
 
 /* UDP local connection port */
 #define UDP_SERVER_PORT    						((uint16_t)55151U)

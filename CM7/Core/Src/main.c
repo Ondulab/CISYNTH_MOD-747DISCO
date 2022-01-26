@@ -89,7 +89,7 @@ int main(void)
 	memset((uint32_t *)imageData, 0, NUMBER_OF_NOTES * sizeof(int32_t));
 	memset((uint32_t *)waves, 0,  NUMBER_OF_NOTES * sizeof(struct wave));
 	memset((uint32_t *)audioBuff, 0,  AUDIO_BUFFER_SIZE * 4);
-	memset((uint32_t *)unitary_waveform, 0, 200000 * sizeof(int16_t));
+	memset((uint32_t *)unitary_waveform, 0, WAVEFORM_TABLE_SIZE * sizeof(int16_t));
 
   /* USER CODE END 1 */
 /* USER CODE BEGIN Boot_Mode_Sequence_0 */

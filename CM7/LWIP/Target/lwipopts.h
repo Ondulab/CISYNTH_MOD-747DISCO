@@ -106,6 +106,7 @@
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
 #define LWIP_RAM_HEAP_POINTER (0x30044000)
+//#define ETH_RX_BUFFER_SIZE (15360*2)
 /* USER CODE END 1 */
 
 #ifdef __cplusplus

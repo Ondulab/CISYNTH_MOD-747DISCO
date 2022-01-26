@@ -36,7 +36,7 @@
 ENTRY(Reset_Handler)
 
 /* Highest address of the user mode stack */
-_estack = 0x10040000 ; /*ORIGIN(RAM_D1) + LENGTH(RAM_D1); /* end of "RAM_D1" Ram type memory */
+_estack = ORIGIN(RAM_D1) + LENGTH(RAM_D1); /* end of "RAM_D1" Ram type memory */
 /* Generate a link error if heap and stack don't fit into RAM */
 _Min_Heap_Size = 0x800 ;      /* required amount of heap  */
 _Min_Stack_Size = 0x400 ; /* required amount of stack */
@@ -46,7 +46,7 @@ MEMORY
 {
 FLASH (rx)      : ORIGIN = 0x08100000, LENGTH = 1024K
 RAM_D1 (xrw)    : ORIGIN = 0x10000000, LENGTH = 256K
-RAM_SHARED (rw) : ORIGIN = 0x24000000, LENGTH = 256K  
+RAM_SHARED (rw) : ORIGIN = 0x24000000, LENGTH = 480K  
 QSPI (r)    	: ORIGIN = 0x90000000, LENGTH = 128M
 }
 

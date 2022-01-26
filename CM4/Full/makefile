@@ -106,8 +106,7 @@ SSS_MOD-747DISCO_CM4.bin \
 
 
 # All Target
-all:
-	+@$(MAKE) --no-print-directory main-build && $(MAKE) --no-print-directory post-build
+all: main-build
 
 # Main-build Target
 main-build: SSS_MOD-747DISCO_CM4.elf secondary-outputs
@@ -138,10 +137,6 @@ clean:
 	-$(RM) SSS_MOD-747DISCO_CM4.bin SSS_MOD-747DISCO_CM4.elf SSS_MOD-747DISCO_CM4.list default.size.stdout
 	-@echo ' '
 
-post-build:
-	arm-none-eabi-objcopy --remove-section=ExtFlashSection /home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/Full/SSS_MOD-747DISCO_CM4.elf
-	-@echo ' '
-
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
@@ -151,6 +146,6 @@ fail-specified-linker-script-missing:
 warn-no-linker-script-specified:
 	@echo 'Warning: No linker script specified. Check the linker settings in the build configuration.'
 
-.PHONY: all clean dependents main-build fail-specified-linker-script-missing warn-no-linker-script-specified post-build
+.PHONY: all clean dependents main-build fail-specified-linker-script-missing warn-no-linker-script-specified
 
 -include ../makefile.targets

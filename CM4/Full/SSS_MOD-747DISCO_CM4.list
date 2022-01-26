@@ -15,13 +15,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   5 TextFlashSection 000000b8  0812c34c  0812c34c  0003c34c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  6 ExtFlashSection 0053cf6c  90000000  90000000  00090000  2**2
+  6 ExtFlashSection 0053cf6c  90000000  90000000  000c0000  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   7 .init_array   00000014  0812c404  0812c404  0003c404  2**2
                   CONTENTS, ALLOC, LOAD, DATA
   8 .fini_array   00000008  0812c418  0812c418  0003c418  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .shared       000335b0  24000000  24000000  00050000  2**2
+  9 .shared       000642f0  24000000  24000000  00050000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
  10 .data         00000170  10000000  0812c420  00040000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
@@ -29,11 +29,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 ._user_heap_stack 00000c00  10036550  0812c590  00046550  2**0
                   ALLOC
- 13 .ARM.attributes 00000030  00000000  00000000  005ccf6c  2**0
+ 13 .ARM.attributes 00000030  00000000  00000000  005fcf6c  2**0
                   CONTENTS, READONLY
- 14 .comment      000000d2  00000000  00000000  005ccf9c  2**0
+ 14 .comment      000000d2  00000000  00000000  005fcf9c  2**0
                   CONTENTS, READONLY
- 15 .debug_frame  00001570  00000000  00000000  005cd070  2**2
+ 15 .debug_frame  00001570  00000000  00000000  005fd070  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:

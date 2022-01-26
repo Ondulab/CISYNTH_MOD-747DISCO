@@ -111,19 +111,33 @@ void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, 
 
 void udp_serverReceiveImage(volatile int32_t *image_buff)
 {
-	int32_t maxPix = 0;
 	uint32_t maxPixPosition = 0;
 
-	arm_max_q31(udp_imageData, UDP_BUFFER_SIZE / 2, &maxPix, &maxPixPosition);
-	if(maxPix == IMAGE_HEADER)
+//	arm_max_q31(udp_imageData, UDP_BUFFER_SIZE / 2, &maxPix, &maxPixPosition);
+
+	for (int i = 0; i < ((UDP_BUFFER_SIZE / 2) * 4); i+=4)
 	{
-		arm_copy_q31(&udp_imageData[maxPixPosition + UDP_HEADER_SIZE], (int32_t *)image_buff, CIS_PIXELS_NB);
-		for (int i = 0; i < CIS_PIXELS_NB; i++)
+		if (*((uint8_t *)udp_imageData + i) == 0b00110011)
 		{
-			image_buff[i] *= 2;
-			//			image_buff[i] = 65535 - image_buff[i];
+			if (*((uint8_t *)udp_imageData + i + 1) == 0b01010011)
+			{
+				if (*((uint8_t *)udp_imageData + i + 2) == 0b01010011)
+				{
+					if (*((uint8_t *)udp_imageData + i + 3) == 0b01010011)
+					{
+						maxPixPosition = i + UDP_HEADER_SIZE;
+
+						arm_copy_q31(&udp_imageData[maxPixPosition + UDP_HEADER_SIZE], (int32_t *)image_buff, CIS_PIXELS_NB);
+						for (int i = 0; i < CIS_PIXELS_NB; i++)
+						{
+							image_buff[i] *= 2;
+							//			image_buff[i] = 65535 - image_buff[i];
+						}
+					}
+
+				}
+			}
 		}
-		//		arm_mult_q31(image_buff, multiplier, image_buff, NUMBER_OF_NOTES);
 	}
 }
 

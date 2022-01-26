@@ -44,7 +44,7 @@ int cisynth_ifft(void)
 	{
 		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
-		udp_clientSendImage("TOTO M'A TUE");
+//		udp_clientSendImage("TOTO M'A TUE");
 
 //		imageEmulator_toggle();
 //		imageEmulator_slide();

@@ -59,7 +59,7 @@ extern volatile int16_t unitary_waveform[];
 extern int params_size;
 
 /* Exported constants --------------------------------------------------------*/
-#define WAVEFORM_TABLE_SIZE		100000
+#define WAVEFORM_TABLE_SIZE		200000
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/

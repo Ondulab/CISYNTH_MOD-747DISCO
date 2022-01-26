@@ -24,6 +24,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "shared.h"
+#include "lwip.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
