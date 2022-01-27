@@ -42,7 +42,7 @@ int cisynth_ifft(void)
 
 	while (1)
 	{
-		MX_LWIP_Process();
+//		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
 //		udp_clientSendImage("TOTO M'A TUE");
 
