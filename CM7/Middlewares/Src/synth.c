@@ -20,7 +20,6 @@
 #include "shared.h"
 #include "synth.h"
 #include "pcm5102.h"
-#include "udp_server.h"
 
 /* Private includes ----------------------------------------------------------*/
 
@@ -103,7 +102,6 @@ int32_t synth_IfftInit(void)
 		Error_Handler();
 	}
 
-	udp_serverInit();
 	pcm5102_Init();
 	half_audio_ptr = pcm5102_GetDataPtr(0);
 	full_audio_ptr = pcm5102_GetDataPtr(AUDIO_BUFFER_SIZE * 2);

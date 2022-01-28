@@ -19,7 +19,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os.h"
 #include "dac.h"
 #include "dma.h"
 #include "pdm2pcm.h"
@@ -30,7 +29,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "cisynth_ifft.h"
+#include "lwip.h"
+#include "synth_cv.h"
 #include "shared.h"
+#include "stdlib.h"
+#include "stdio.h"
 
 /* USER CODE END Includes */
 
@@ -62,7 +66,6 @@
 void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 static void MPU_Config(void);
-void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 static void MPU_Config(void);
 
@@ -160,26 +163,24 @@ HSEM notification */
   MX_PDM2PCM_Init();
   /* USER CODE BEGIN 2 */
 
-	printf("----------------------------------------------------------\n");
-	printf("--------- Sectral Synth Scanner SSS module START ---------\n");
-	printf("----------------------------------------------------------\n");
-
-//	/* CM7 waits for CM4 to finish his task and HW sempahore 0 becomes taken */
-//    while(HAL_HSEM_IsSemTaken(HSEM_ID_0) == 0)
-//    {
-//    }
+  printf("----------------------------------------------------------\n");
+  printf("--------- Sectral Synth Scanner SSS module START ---------\n");
+  printf("----------------------------------------------------------\n");
 
   /* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
-  /* Start scheduler */
-  osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+    MX_LWIP_Init();
+
+//	/*CM7 try to take the HW sempahore 0*/
+//    while(HAL_HSEM_FastTake(HSEM_ID_0) != HAL_OK)
+//    /* Do not forget to release the HW semaphore 0 once needed */
+//	HAL_HSEM_Release(HSEM_ID_0, 0);
+
+//	cisynth_eth();
+	cisynth_ifft();
 
 	while (1)
 	{

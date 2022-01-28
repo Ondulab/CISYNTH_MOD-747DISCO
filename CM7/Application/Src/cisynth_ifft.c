@@ -38,11 +38,13 @@ int cisynth_ifft(void)
 	printf("------ BW IFFT MODE START -----\n");
 	printf("-------------------------------\n");
 
+	udp_serverInit();
+
 	synth_IfftInit();
 
 	while (1)
 	{
-//		MX_LWIP_Process();
+		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
 //		udp_clientSendImage("TOTO M'A TUE");
 
