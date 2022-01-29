@@ -1432,11 +1432,11 @@ int32_t BSP_AUDIO_IN_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
       mx_config.SynchroExt        = SAI_SYNCEXT_DISABLE;
       /* Disable SAI peripheral to allow access to SAI internal registers */
 
-      if(MX_SAI1_Block_B_Init(&haudio_in_sai, &mx_config) != HAL_OK)
-      {
-        /* Return BSP_ERROR_PERIPH_FAILURE when operations are not correctly done */
-        return BSP_ERROR_PERIPH_FAILURE;
-      }
+//      if(MX_SAI1_Block_B_Init(&haudio_in_sai, &mx_config) != HAL_OK)
+//      {
+//        /* Return BSP_ERROR_PERIPH_FAILURE when operations are not correctly done */
+//        return BSP_ERROR_PERIPH_FAILURE;
+//      }
 
       /* Prepare haudio_out_sai handle */
       haudio_out_sai.Instance       = SAI1_Block_A;
@@ -1532,11 +1532,11 @@ int32_t BSP_AUDIO_IN_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
       mx_config.Synchro           = SAI_ASYNCHRONOUS;
       mx_config.SynchroExt        = SAI_SYNCEXT_DISABLE;
 
-      if(MX_SAI4_Block_A_Init(&haudio_in_sai, &mx_config) != HAL_OK)
-      {
-        /* Return BSP_ERROR_PERIPH_FAILURE when operations are not correctly done */
-        return BSP_ERROR_PERIPH_FAILURE;
-      }
+//      if(MX_SAI4_Block_A_Init(&haudio_in_sai, &mx_config) != HAL_OK)
+//      {
+//        /* Return BSP_ERROR_PERIPH_FAILURE when operations are not correctly done */
+//        return BSP_ERROR_PERIPH_FAILURE;
+//      }
 
 #if (USE_HAL_SAI_REGISTER_CALLBACKS == 1U)
       /* Register SAI TC, HT and Error callbacks */

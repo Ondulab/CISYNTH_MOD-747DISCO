@@ -143,8 +143,6 @@ void QSPI_demo (void);
 #define FMC_NBL0_GPIO_Port GPIOE
 #define ETH_TXD1_Pin GPIO_PIN_12
 #define ETH_TXD1_GPIO_Port GPIOG
-#define SPDIF_RX0_Pin GPIO_PIN_7
-#define SPDIF_RX0_GPIO_Port GPIOD
 #define SDIO1_CK_Pin GPIO_PIN_12
 #define SDIO1_CK_GPIO_Port GPIOC
 #define FMC_D27_Pin GPIO_PIN_3

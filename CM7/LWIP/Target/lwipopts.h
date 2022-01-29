@@ -109,7 +109,6 @@
 #define CHECKSUM_CHECK_ICMP6 0
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
-#define LWIP_RAM_HEAP_POINTER (0x30044000)
 
 /* USER CODE END 1 */
 

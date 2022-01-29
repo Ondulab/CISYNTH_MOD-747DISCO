@@ -109,34 +109,31 @@ void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, 
 	}
 }
 
+uint32_t greyScale(uint32_t rbg888) {
+	static uint32_t grey = 0;
+
+    uint32_t r = rbg888 		& 0xFF; // XXXXX___________
+    uint32_t g = (rbg888 >> 8) 	& 0xFF; // ___________XXXXX
+    uint32_t b = (rbg888 >> 12) & 0xFF; // _____XXXXXX_____
+
+    grey = (r * 299 + g * 587 + b * 114);
+    return grey >>= 2;
+}
+
+
 void udp_serverReceiveImage(volatile int32_t *image_buff)
 {
+	int32_t maxPix = 0;
 	uint32_t maxPixPosition = 0;
 
-//	arm_max_q31(udp_imageData, UDP_BUFFER_SIZE / 2, &maxPix, &maxPixPosition);
-
-	for (int i = 0; i < ((UDP_BUFFER_SIZE / 2) * 4); i+=4)
+	SCB_CleanDCache_by_Addr((uint32_t *)udp_imageData, UDP_BUFFER_SIZE * 4);
+	arm_max_q31(udp_imageData, UDP_BUFFER_SIZE / 2, &maxPix, &maxPixPosition);
+	if(maxPix == IMAGE_HEADER)
 	{
-		if (*((uint8_t *)udp_imageData + i) == 0b00110011)
+		arm_copy_q31(&udp_imageData[maxPixPosition + UDP_HEADER_SIZE], (int32_t *)image_buff, CIS_PIXELS_NB);
+		for (int i = 0; i < CIS_PIXELS_NB; i++)
 		{
-			if (*((uint8_t *)udp_imageData + i + 1) == 0b01010011)
-			{
-				if (*((uint8_t *)udp_imageData + i + 2) == 0b01010011)
-				{
-					if (*((uint8_t *)udp_imageData + i + 3) == 0b01010011)
-					{
-						maxPixPosition = i + UDP_HEADER_SIZE;
-
-						arm_copy_q31(&udp_imageData[maxPixPosition + UDP_HEADER_SIZE], (int32_t *)image_buff, CIS_PIXELS_NB);
-						for (int i = 0; i < CIS_PIXELS_NB; i++)
-						{
-							image_buff[i] *= 2;
-							//			image_buff[i] = 65535 - image_buff[i];
-						}
-					}
-
-				}
-			}
+			image_buff[i] = greyScale(image_buff[i]) / 2;
 		}
 	}
 }

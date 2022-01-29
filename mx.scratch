@@ -763,9 +763,6 @@
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sd_ex.c</name>
             </file>
             <file>
-              <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spdifrx.c</name>
-            </file>
-            <file>
               <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c</name>
             </file>
             <file>

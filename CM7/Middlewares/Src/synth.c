@@ -20,6 +20,7 @@
 #include "shared.h"
 #include "synth.h"
 #include "pcm5102.h"
+#include "udp_server.h"
 
 /* Private includes ----------------------------------------------------------*/
 
