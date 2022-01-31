@@ -49,7 +49,7 @@ int cisynth_ifft(void)
 //		udp_clientSendImage("TOTO M'A TUE");
 
 //		imageEmulator_toggle();
-		imageEmulator_slide();
+//		imageEmulator_slide();
 		//		image_random();
 	}
 }

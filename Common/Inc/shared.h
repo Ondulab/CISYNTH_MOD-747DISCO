@@ -22,7 +22,6 @@ extern "C" {
 #include "arm_math.h"
 
 /* Exported types ------------------------------------------------------------*/
-__attribute__ ((packed))
 struct wave {
 	volatile int16_t *start_ptr;
     uint16_t current_idx;
@@ -33,7 +32,6 @@ struct wave {
 	float32_t frequency;
 };
 
-__attribute__ ((packed))
 struct params {
 	int32_t start_frequency;
 	int32_t comma_per_semitone;
@@ -42,7 +40,6 @@ struct params {
 	int16_t volume;
 };
 
-__attribute__ ((packed))
 struct shared_var {
 	int32_t synth_process_cnt;
 	SAI_HandleTypeDef haudio_out_sai;

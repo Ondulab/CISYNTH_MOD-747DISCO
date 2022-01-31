@@ -42,8 +42,10 @@
 /******************              Ethernet definitions               *******************/
 /**************************************************************************************/
 #define SEND_CIS_LINE_FREQUENCY				    (3000)
-#define IMAGE_HEADER							(1397969715) 	//01010011 01010011 01010011 00110011 SSS3
-#define UDP_HEADER_SIZE							(1)				//uint32
+
+#define UDP_HEADER_SIZE							(1)//uint32
+#define UDP_NB_PACKET_PER_LINE					(6)
+#define UDP_PACKET_SIZE							(((CIS_PIXELS_NB) / UDP_NB_PACKET_PER_LINE) + (UDP_HEADER_SIZE))
 
 /* UDP local connection port */
 #define UDP_SERVER_PORT    						((uint16_t)55151U)
@@ -92,13 +94,13 @@
 #define CIS_ADC_OUT_LINES						(3)
 
 #define WAVE_AMP_RESOLUTION 					(65535)   		//in decimal
-#define START_FREQUENCY     					(200)
+#define START_FREQUENCY     					(40)
 #define MAX_OCTAVE_NUMBER   					(20)
 #define SEMITONE_PER_OCTAVE 					(12)
 #define COMMA_PER_SEMITONE  					(4)
 
 #define CIS_PIXELS_NB							((CIS_ACTIVE_PIXELS_PER_LINE * CIS_ADC_OUT_LINES))
-#define PIXELS_PER_NOTE							(8)
+#define PIXELS_PER_NOTE							(16)
 #define NUMBER_OF_NOTES     					(((CIS_ACTIVE_PIXELS_PER_LINE) * (CIS_ADC_OUT_LINES)) / (PIXELS_PER_NOTE))
 
 #endif // __CONFIG_H__

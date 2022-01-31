@@ -165,7 +165,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 		max_volume = 0;
 
 		//Summation for all pixel
-		for (note = 150; --note >= 5;) //NUMBER_OF_NOTES
+		for (note = NUMBER_OF_NOTES; --note >= 5;) //NUMBER_OF_NOTES
 		{
 #ifdef RELATIVE_MODE
 			//relative mode
@@ -294,8 +294,8 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		}
 		else
 		{
-			SCB_InvalidateDCache();
-//			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, (WAVEFORM_TABLE_SIZE * 2) + NUMBER_OF_NOTES * 20);
+//			SCB_InvalidateDCache();
+			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, WAVEFORM_TABLE_SIZE * 2);
 		}
 	}
 
@@ -313,8 +313,8 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		}
 		else
 		{
-			SCB_InvalidateDCache();
-//			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, (WAVEFORM_TABLE_SIZE * 2) + NUMBER_OF_NOTES * 20);
+//			SCB_InvalidateDCache();
+			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, WAVEFORM_TABLE_SIZE * 2);
 		}
 	}
 

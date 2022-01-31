@@ -9,6 +9,7 @@
 #include "stm32h7xx_hal.h"
 #include "main.h"
 #include "config.h"
+#include "shared.h"
 
 #include "arm_math.h"
 
@@ -23,17 +24,17 @@
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/
-#define UDP_BUFFER_SIZE			((CIS_PIXELS_NB + UDP_HEADER_SIZE) * 2)
 
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-int32_t udp_imageData[UDP_BUFFER_SIZE] = {0};
-int32_t multiplier[CIS_PIXELS_NB] = {2};
+int32_t udp_imageData[CIS_PIXELS_NB] = {0};
+
 struct udp_pcb *upcb;
 
 /* Private function prototypes -----------------------------------------------*/
-void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
+static void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
+static uint32_t greyScale(uint32_t rbg888);
 
 /* Private user code ---------------------------------------------------------*/
 
@@ -82,8 +83,8 @@ void udp_serverInit(void)
  */
 void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
 {
-	struct pbuf *p_tx;
-	static int32_t ptr_position = 0;
+	static struct pbuf *p_tx;
+	static uint32_t curr_packet_header;
 
 	/* allocate pbuf from RAM*/
 	p_tx = pbuf_alloc(PBUF_TRANSPORT,p->len, PBUF_RAM);
@@ -92,14 +93,8 @@ void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, 
 	{
 		pbuf_take(p_tx, (char*)p->payload, p->len);
 
-		if ((ptr_position + (p->len / 4)) > UDP_BUFFER_SIZE - 1)
-		{
-			ptr_position = 0;
-		}
-
-		arm_copy_q31((int32_t*)p->payload, &udp_imageData[ptr_position], p->len / 4);
-
-		ptr_position += (p->len / 4);
+		curr_packet_header = *(int32_t*)p->payload;
+		arm_copy_q31((int32_t*)(p->payload + 1) ,&udp_imageData[curr_packet_header], (p->len / 4) - UDP_HEADER_SIZE);
 
 		/* Free the p_tx buffer */
 		pbuf_free(p_tx);
@@ -109,34 +104,29 @@ void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, 
 	}
 }
 
-uint32_t greyScale(uint32_t rbg888) {
-	static uint32_t grey = 0;
+uint32_t greyScale(uint32_t rbg888)
+{
+	static uint32_t grey, r, g, b;
 
-    uint32_t r = rbg888 		& 0xFF; // XXXXX___________
-    uint32_t g = (rbg888 >> 8) 	& 0xFF; // ___________XXXXX
-    uint32_t b = (rbg888 >> 12) & 0xFF; // _____XXXXXX_____
+	r = rbg888 			& 0xFF; // ___________XXXXX
+	g = (rbg888 >> 8) 	& 0xFF; // _____XXXXXX_____
+	b = (rbg888 >> 12) 	& 0xFF; // XXXXX___________
 
-    grey = (r * 299 + g * 587 + b * 114);
-    return grey >>= 2;
+	grey = (r * 299 + g * 587 + b * 114);
+	return grey >> 2;
 }
 
-
+#pragma GCC push_options
+#pragma GCC optimize ("unroll-loops")
 void udp_serverReceiveImage(volatile int32_t *image_buff)
 {
-	int32_t maxPix = 0;
-	uint32_t maxPixPosition = 0;
-
-	SCB_CleanDCache_by_Addr((uint32_t *)udp_imageData, UDP_BUFFER_SIZE * 4);
-	arm_max_q31(udp_imageData, UDP_BUFFER_SIZE / 2, &maxPix, &maxPixPosition);
-	if(maxPix == IMAGE_HEADER)
+	static int32_t idx;
+	for (idx = NUMBER_OF_NOTES; --idx >= 0;)
 	{
-		arm_copy_q31(&udp_imageData[maxPixPosition + UDP_HEADER_SIZE], (int32_t *)image_buff, CIS_PIXELS_NB);
-		for (int i = 0; i < CIS_PIXELS_NB; i++)
-		{
-			image_buff[i] = greyScale(image_buff[i]) / 2;
-		}
+		image_buff[idx] = greyScale(udp_imageData[(idx * PIXELS_PER_NOTE)]);
 	}
 }
+#pragma GCC pop_options
 
 /**
  * @brief This function is called when an UDP datagrm has been received on the port UDP_PORT.
