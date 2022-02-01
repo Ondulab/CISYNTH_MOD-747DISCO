@@ -184,6 +184,18 @@
     <Filter Include="Source Files\generated\gui_generated\mainscreen_screen">
       <UniqueIdentifier>CA3F0219-159A-93F0-756D-86176A87E06E</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui\ifftscreen_screen">
+      <UniqueIdentifier>15386411-548E-183F-5300-A03AE40625E2</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\ifftscreen_screen">
+      <UniqueIdentifier>AD075EB8-96EC-8A7C-2CC7-D284BAB7F5CC</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\generated\gui_generated\ifftscreen_screen">
+      <UniqueIdentifier>80B1226A-37FB-137B-4BA3-0BA4B69C1335</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\generated\gui_generated\ifftscreen_screen">
+      <UniqueIdentifier>BB693510-0BD5-9D50-813F-E9680D477C38</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(TouchGFXReleasePath)\framework\source\platform\driver\touch\SDL2TouchController.cpp">
@@ -224,6 +236,15 @@
     </ClCompile>
     <ClCompile Include="..\..\generated\gui_generated\src\mainscreen_screen\mainScreenViewBase.cpp">
       <Filter>Source Files\generated\gui_generated\mainscreen_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\ifftscreen_screen\ifftScreenPresenter.cpp">
+      <Filter>Source Files\gui\ifftscreen_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\ifftscreen_screen\ifftScreenView.cpp">
+      <Filter>Source Files\gui\ifftscreen_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\gui_generated\src\ifftscreen_screen\ifftScreenViewBase.cpp">
+      <Filter>Source Files\generated\gui_generated\ifftscreen_screen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -675,6 +696,15 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\mainscreen_screen\mainScreenViewBase.hpp">
       <Filter>Header Files\generated\gui_generated\mainscreen_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\ifftscreen_screen\ifftScreenPresenter.hpp">
+      <Filter>Header Files\gui\ifftscreen_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\ifftscreen_screen\ifftScreenView.hpp">
+      <Filter>Header Files\gui\ifftscreen_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\ifftscreen_screen\ifftScreenViewBase.hpp">
+      <Filter>Header Files\generated\gui_generated\ifftscreen_screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

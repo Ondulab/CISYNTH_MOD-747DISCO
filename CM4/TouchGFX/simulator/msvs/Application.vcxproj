@@ -24,6 +24,9 @@
     <ClCompile Include="..\..\gui\src\mainscreen_screen\mainScreenPresenter.cpp"/>
     <ClCompile Include="..\..\gui\src\mainscreen_screen\mainScreenView.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\mainscreen_screen\mainScreenViewBase.cpp"/>
+    <ClCompile Include="..\..\gui\src\ifftscreen_screen\ifftScreenPresenter.cpp"/>
+    <ClCompile Include="..\..\gui\src\ifftscreen_screen\ifftScreenView.cpp"/>
+    <ClCompile Include="..\..\generated\gui_generated\src\ifftscreen_screen\ifftScreenViewBase.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml"/>
@@ -177,6 +180,9 @@
     <ClInclude Include="..\..\gui\include\gui\mainscreen_screen\mainScreenPresenter.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\mainscreen_screen\mainScreenView.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\mainscreen_screen\mainScreenViewBase.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\ifftscreen_screen\ifftScreenPresenter.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\ifftscreen_screen\ifftScreenView.hpp"/>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\ifftscreen_screen\ifftScreenViewBase.hpp"/>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(ApplicationRoot)\generated\simulator\touchgfx.rc"/>

@@ -31,6 +31,12 @@
     <Text Id="__SingleUse_E089" TypographyId="Default" Alignment="Left" Direction="LTR">
       <Translation Language="GB">Order</Translation>
     </Text>
+    <Text Id="__SingleUse_F1JS" TypographyId="Default" Alignment="Center" Direction="LTR">
+      <Translation Language="GB">iFFT</Translation>
+    </Text>
+    <Text Id="__SingleUse_089L" TypographyId="Typography_00" Alignment="Center" Direction="LTR">
+      <Translation Language="GB">Menu</Translation>
+    </Text>
   </Texts>
   <Typographies>
     <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" FallbackCharacter="?" />

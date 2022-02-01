@@ -11,15 +11,6 @@ public:
     virtual ~mainScreenView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
-    virtual void attackSliderChanged(int value);
-    virtual void releaseSliderChanged(int value);
-    virtual void saveButtonClicked();
-    virtual void sawButtonSelected();
-    virtual void sinButtonSelected();
-    virtual void sqrButtonSelected();
-    virtual void waveFormOrderSliderChanged(int value);
-    virtual void startFreqSliderChanged(int value);
-    virtual void commaSliderChanged(int value);
 protected:
 };
 

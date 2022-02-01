@@ -5,6 +5,8 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 O_SRCS += \
+../TouchGFX/build/MINGW32_NT-6.2/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small.o \
+../TouchGFX/build/MINGW32_NT-6.2/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small_pressed.o \
 ../TouchGFX/build/MINGW32_NT-6.2/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button.o \
 ../TouchGFX/build/MINGW32_NT-6.2/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button_pressed.o \
 ../TouchGFX/build/MINGW32_NT-6.2/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_active.o \

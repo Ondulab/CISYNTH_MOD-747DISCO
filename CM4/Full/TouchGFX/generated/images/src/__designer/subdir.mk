@@ -5,6 +5,8 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small.cpp \
+../TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small_pressed.cpp \
 ../TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button.cpp \
 ../TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button_pressed.cpp \
 ../TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_active.cpp \
@@ -19,6 +21,8 @@ CPP_SRCS += \
 ../TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_fill.cpp 
 
 OBJS += \
+./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small.o \
+./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small_pressed.o \
 ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button.o \
 ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button_pressed.o \
 ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_active.o \
@@ -33,6 +37,8 @@ OBJS += \
 ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_fill.o 
 
 CPP_DEPS += \
+./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small.d \
+./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small_pressed.d \
 ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button.d \
 ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button_pressed.d \
 ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_active.d \
@@ -54,7 +60,7 @@ TouchGFX/generated/images/src/__designer/%.o: ../TouchGFX/generated/images/src/_
 clean: clean-TouchGFX-2f-generated-2f-images-2f-src-2f-__designer
 
 clean-TouchGFX-2f-generated-2f-images-2f-src-2f-__designer:
-	-$(RM) ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button.d ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button.o ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button_pressed.d ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button_pressed.o ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_active.d ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_active.o ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_inactive.d ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_inactive.o ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_normal.d ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_normal.o ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_pressed.d ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_pressed.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Indicators_Slider_Round_nob.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Indicators_Slider_Round_nob.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Slider_Round_back.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Slider_Round_back.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Slider_Round_fill.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Slider_Round_fill.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_back.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_back.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_fill.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_fill.o
+	-$(RM) ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small.d ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small.o ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small_pressed.d ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Round_Edge_small_pressed.o ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button.d ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button.o ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button_pressed.d ./TouchGFX/generated/images/src/__designer/image_Dark_Buttons_Square_icon_button_pressed.o ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_active.d ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_active.o ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_inactive.d ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_inactive.o ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_normal.d ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_normal.o ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_pressed.d ./TouchGFX/generated/images/src/__designer/image_Dark_Check_buttons_Check_mark_pressed.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Indicators_Slider_Round_nob.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Indicators_Slider_Round_nob.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Slider_Round_back.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Slider_Round_back.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Slider_Round_fill.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Horizontal_Large_Slider_Round_fill.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_back.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_back.o ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_fill.d ./TouchGFX/generated/images/src/__designer/image_Dark_Slider_Vertical_Small_Slider3_Vertical_Round_fill.o
 
 .PHONY: clean-TouchGFX-2f-generated-2f-images-2f-src-2f-__designer
 

@@ -9,21 +9,27 @@ CPP_SRCS += \
 ../TouchGFX/generated/images/src/image_Group_Reso-nance_Num_rique_logo-reso.cpp \
 ../TouchGFX/generated/images/src/image_SSS-logo3.cpp \
 ../TouchGFX/generated/images/src/image_SSS-logo4.cpp \
-../TouchGFX/generated/images/src/image_SSS-logo4_24.cpp 
+../TouchGFX/generated/images/src/image_SSS-logo4_24.cpp \
+../TouchGFX/generated/images/src/image_mainScreenBg.cpp \
+../TouchGFX/generated/images/src/image_mainScreenBg.png.cpp 
 
 OBJS += \
 ./TouchGFX/generated/images/src/BitmapDatabase.o \
 ./TouchGFX/generated/images/src/image_Group_Reso-nance_Num_rique_logo-reso.o \
 ./TouchGFX/generated/images/src/image_SSS-logo3.o \
 ./TouchGFX/generated/images/src/image_SSS-logo4.o \
-./TouchGFX/generated/images/src/image_SSS-logo4_24.o 
+./TouchGFX/generated/images/src/image_SSS-logo4_24.o \
+./TouchGFX/generated/images/src/image_mainScreenBg.o \
+./TouchGFX/generated/images/src/image_mainScreenBg.png.o 
 
 CPP_DEPS += \
 ./TouchGFX/generated/images/src/BitmapDatabase.d \
 ./TouchGFX/generated/images/src/image_Group_Reso-nance_Num_rique_logo-reso.d \
 ./TouchGFX/generated/images/src/image_SSS-logo3.d \
 ./TouchGFX/generated/images/src/image_SSS-logo4.d \
-./TouchGFX/generated/images/src/image_SSS-logo4_24.d 
+./TouchGFX/generated/images/src/image_SSS-logo4_24.d \
+./TouchGFX/generated/images/src/image_mainScreenBg.d \
+./TouchGFX/generated/images/src/image_mainScreenBg.png.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -33,7 +39,7 @@ TouchGFX/generated/images/src/%.o: ../TouchGFX/generated/images/src/%.cpp TouchG
 clean: clean-TouchGFX-2f-generated-2f-images-2f-src
 
 clean-TouchGFX-2f-generated-2f-images-2f-src:
-	-$(RM) ./TouchGFX/generated/images/src/BitmapDatabase.d ./TouchGFX/generated/images/src/BitmapDatabase.o ./TouchGFX/generated/images/src/image_Group_Reso-nance_Num_rique_logo-reso.d ./TouchGFX/generated/images/src/image_Group_Reso-nance_Num_rique_logo-reso.o ./TouchGFX/generated/images/src/image_SSS-logo3.d ./TouchGFX/generated/images/src/image_SSS-logo3.o ./TouchGFX/generated/images/src/image_SSS-logo4.d ./TouchGFX/generated/images/src/image_SSS-logo4.o ./TouchGFX/generated/images/src/image_SSS-logo4_24.d ./TouchGFX/generated/images/src/image_SSS-logo4_24.o
+	-$(RM) ./TouchGFX/generated/images/src/BitmapDatabase.d ./TouchGFX/generated/images/src/BitmapDatabase.o ./TouchGFX/generated/images/src/image_Group_Reso-nance_Num_rique_logo-reso.d ./TouchGFX/generated/images/src/image_Group_Reso-nance_Num_rique_logo-reso.o ./TouchGFX/generated/images/src/image_SSS-logo3.d ./TouchGFX/generated/images/src/image_SSS-logo3.o ./TouchGFX/generated/images/src/image_SSS-logo4.d ./TouchGFX/generated/images/src/image_SSS-logo4.o ./TouchGFX/generated/images/src/image_SSS-logo4_24.d ./TouchGFX/generated/images/src/image_SSS-logo4_24.o ./TouchGFX/generated/images/src/image_mainScreenBg.d ./TouchGFX/generated/images/src/image_mainScreenBg.o ./TouchGFX/generated/images/src/image_mainScreenBg.png.d ./TouchGFX/generated/images/src/image_mainScreenBg.png.o
 
 .PHONY: clean-TouchGFX-2f-generated-2f-images-2f-src
 

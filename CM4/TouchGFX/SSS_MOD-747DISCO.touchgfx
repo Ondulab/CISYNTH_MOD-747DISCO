@@ -3,6 +3,59 @@
     "Screens": [
       {
         "Name": "mainScreen",
+        "Components": [
+          {
+            "Type": "Box",
+            "Name": "box1_1",
+            "Width": 800,
+            "Height": 480,
+            "Color": {
+              "Red": 56,
+              "Green": 44,
+              "Blue": 44
+            }
+          },
+          {
+            "Type": "ButtonWithLabel",
+            "Name": "ifftButton",
+            "X": 315,
+            "Y": 210,
+            "Width": 170,
+            "Height": 60,
+            "Pressed": "__designer\\Dark_Buttons_Round_Edge_small_pressed.png",
+            "Released": "__designer\\Dark_Buttons_Round_Edge_small.png",
+            "TextId": "__SingleUse_F1JS",
+            "ReleasedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "PressedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextRotation": "0",
+            "Style": "Style4"
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "iFFT",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "ifftButton"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionNone",
+              "ActionComponent": "ifftScreen"
+            }
+          }
+        ]
+      },
+      {
+        "Name": "ifftScreen",
         "CanvasBufferSize": 12000,
         "Components": [
           {
@@ -91,14 +144,14 @@
             "Y": 45,
             "Width": 224,
             "Height": 178,
-            "DataSeed": -1677191688,
+            "DataSeed": 758781629,
             "NumberOfValues": 100,
             "MaxY": 100.0,
             "Precision": "1",
             "LastIndex": 99,
             "XAxisScale": 1.0,
             "InsertRandomValues": true,
-            "GraphType": "GraphWrapClear",
+            "GraphType": "GraphScroll",
             "GraphDrawers": [
               {
                 "Type": "LineDrawer",
@@ -373,6 +426,29 @@
               "Blue": 176
             },
             "AutoSize": true
+          },
+          {
+            "Type": "ButtonWithLabel",
+            "Name": "menuButton",
+            "X": 740,
+            "Y": 60,
+            "Width": 60,
+            "Height": 60,
+            "Pressed": "__designer\\Dark_Buttons_Square_icon_button_pressed.png",
+            "Released": "__designer\\Dark_Buttons_Square_icon_button.png",
+            "TextId": "__SingleUse_089L",
+            "ReleasedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "PressedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextRotation": "0",
+            "Style": "Style9"
           }
         ],
         "Interactions": [
@@ -474,6 +550,18 @@
               "Type": "ActionCustom",
               "FunctionName": "commaSliderChanged"
             }
+          },
+          {
+            "InteractionName": "Interaction1",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "menuButton"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionNone",
+              "ActionComponent": "mainScreen"
+            }
           }
         ]
       }
@@ -485,7 +573,7 @@
       "Height": 480
     },
     "SelectedColorDepth": 24,
-    "StartupScreenName": "mainScreen",
+    "StartupScreenName": "ifftScreen",
     "SelectedStartupLanguage": "GB",
     "Skin": "Dark",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
