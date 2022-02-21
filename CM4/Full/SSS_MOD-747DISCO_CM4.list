@@ -15,13 +15,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   5 TextFlashSection 000000d8  0812cc3c  0812cc3c  0003cc3c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  6 ExtFlashSection 00725a2c  90000000  90000000  00090000  2**2
+  6 ExtFlashSection 00725a2c  90000000  90000000  000b0000  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   7 .init_array   00000014  0812cd14  0812cd14  0003cd14  2**2
                   CONTENTS, ALLOC, LOAD, DATA
   8 .fini_array   00000008  0812cd28  0812cd28  0003cd28  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .shared       000329d0  24000000  24000000  00050000  2**2
+  9 .shared       00059ad0  24000000  24000000  00050000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
  10 .data         00000170  10000000  0812cd30  00040000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
@@ -29,11 +29,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 ._user_heap_stack 00002000  1001e5a8  0812cea0  0004e5a8  2**0
                   ALLOC
- 13 .ARM.attributes 00000030  00000000  00000000  007b5a2c  2**0
+ 13 .ARM.attributes 00000030  00000000  00000000  007d5a2c  2**0
                   CONTENTS, READONLY
- 14 .comment      000000d2  00000000  00000000  007b5a5c  2**0
+ 14 .comment      000000d2  00000000  00000000  007d5a5c  2**0
                   CONTENTS, READONLY
- 15 .debug_frame  00001570  00000000  00000000  007b5b30  2**2
+ 15 .debug_frame  00001570  00000000  00000000  007d5b30  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2153,10 +2153,10 @@ Disassembly of section .text:
  81019fe:	9105      	str	r1, [sp, #20]
  8101a00:	e9cd 4002 	strd	r4, r0, [sp, #8]
  8101a04:	2200      	movs	r2, #0
- 8101a06:	2063      	movs	r0, #99	; 0x63
+ 8101a06:	203c      	movs	r0, #60	; 0x3c
  8101a08:	685b      	ldr	r3, [r3, #4]
  8101a0a:	f8ad 0010 	strh.w	r0, [sp, #16]
- 8101a0e:	2428      	movs	r4, #40	; 0x28
+ 8101a0e:	2450      	movs	r4, #80	; 0x50
  8101a10:	2504      	movs	r5, #4
  8101a12:	4610      	mov	r0, r2
  8101a14:	f04f 6180 	mov.w	r1, #67108864	; 0x4000000
@@ -15974,7 +15974,7 @@ Disassembly of section .text:
  810a538:	4860      	ldr	r0, [pc, #384]	; (810a6bc <synth_IfftInit+0x1a8>)
  810a53a:	2304      	movs	r3, #4
  810a53c:	8013      	strh	r3, [r2, #0]
- 810a53e:	2328      	movs	r3, #40	; 0x28
+ 810a53e:	2350      	movs	r3, #80	; 0x50
  810a540:	8053      	strh	r3, [r2, #2]
  810a542:	2364      	movs	r3, #100	; 0x64
  810a544:	7114      	strb	r4, [r2, #4]
@@ -21119,7 +21119,7 @@ Disassembly of section .text:
  810da6c:	f64b 3080 	movw	r0, #48000	; 0xbb80
  810da70:	2302      	movs	r3, #2
  810da72:	2410      	movs	r4, #16
- 810da74:	2263      	movs	r2, #99	; 0x63
+ 810da74:	223c      	movs	r2, #60	; 0x3c
  810da76:	6048      	str	r0, [r1, #4]
  810da78:	2000      	movs	r0, #0
  810da7a:	608c      	str	r4, [r1, #8]

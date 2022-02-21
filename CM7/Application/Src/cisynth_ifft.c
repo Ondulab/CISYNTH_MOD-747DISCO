@@ -44,12 +44,12 @@ int cisynth_ifft(void)
 
 	while (1)
 	{
-		MX_LWIP_Process();
+//		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
 		//		udp_clientSendImage("TOTO M'A TUE");
 
 		//		imageEmulator_toggle();
-//				imageEmulator_slide();
+				imageEmulator_slide();
 //		imageEmulator_random();
 	}
 }
@@ -58,7 +58,7 @@ void imageEmulator_toggle(void)
 {
 	static uint32_t start_tick = 0;
 	static uint32_t note = 0;
-	static uint32_t volume = 50000;
+	static uint32_t volume = 20000;
 
 	if (HAL_GetTick() - start_tick >= 100)
 	{
@@ -87,14 +87,14 @@ void imageEmulator_slide(void)
 {
 	static uint32_t start_tick = 0;
 	static uint32_t note = 1;
-	static uint32_t volume = 50000;
+	static uint32_t volume = 65000;
 
-	if (HAL_GetTick() - start_tick >= 10)
+	if (HAL_GetTick() - start_tick >= 100)
 	{
 		synth_SetImageData(note - 1, 0);
 		synth_SetImageData(note, volume);
 
-		if (note < (150 - 1)) //NUMBER_OF_NOTES
+		if (note < (NUMBER_OF_NOTES - 1)) //NUMBER_OF_NOTES
 		{
 			note++;
 		}
@@ -119,7 +119,7 @@ void imageEmulator_random(void)
 		if (aRandom32bit_Note < (NUMBER_OF_NOTES - 1))
 			aRandom32bit_Note++;
 		else
-			aRandom32bit_Note = 0;
+			aRandom32bit_Note = 1;
 
 		synth_SetImageData(aRandom32bit_Note, 30000);
 		synth_SetImageData(aRandom32bit_Note - 1, 0);

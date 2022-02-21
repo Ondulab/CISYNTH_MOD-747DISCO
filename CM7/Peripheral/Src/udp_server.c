@@ -123,7 +123,7 @@ void udp_serverReceiveImage(volatile int32_t *image_buff)
 	static int32_t idx;
 	for (idx = NUMBER_OF_NOTES; --idx >= 0;)
 	{
-		image_buff[idx] = greyScale(udp_imageData[(idx * PIXELS_PER_NOTE)]);
+//		image_buff[idx] = greyScale(udp_imageData[(idx * PIXELS_PER_NOTE)]);
 	}
 }
 #pragma GCC pop_options

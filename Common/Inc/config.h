@@ -85,7 +85,7 @@
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
 #define AUDIO_BUFFER_SIZE             			(512)
-#define VOLUME									(99)
+#define VOLUME									(60)
 
 /**************************************************************************************/
 /********************         Wave generation definitions          ********************/
@@ -94,10 +94,10 @@
 #define CIS_ADC_OUT_LINES						(3)
 
 #define WAVE_AMP_RESOLUTION 					(65535)   		//in decimal
-#define START_FREQUENCY     					(40)
+#define START_FREQUENCY     					(80)
 #define MAX_OCTAVE_NUMBER   					(20)
 #define SEMITONE_PER_OCTAVE 					(12)
-#define COMMA_PER_SEMITONE  					(4)
+#define COMMA_PER_SEMITONE  					(2)
 
 #define CIS_PIXELS_NB							((CIS_ACTIVE_PIXELS_PER_LINE * CIS_ADC_OUT_LINES))
 #define PIXELS_PER_NOTE							(16)
