@@ -315,6 +315,7 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		{
 //			SCB_InvalidateDCache();
 			SCB_InvalidateDCache_by_Addr((uint32_t *)unitary_waveform, WAVEFORM_TABLE_SIZE * 2);
+			SCB_InvalidateDCache_by_Addr((uint32_t *)waves, sizeof(waves));
 		}
 	}
 

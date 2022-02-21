@@ -45,18 +45,19 @@ struct shared_var {
 	SAI_HandleTypeDef haudio_out_sai;
 };
 
+/* Exported constants --------------------------------------------------------*/
+#define WAVEFORM_TABLE_SIZE		180000
+
 extern struct shared_var shared_var;
 extern volatile struct params params;
 extern volatile int32_t cvData[];
 extern volatile int32_t imageData[];
 extern volatile int16_t audioBuff[];
-extern volatile struct wave waves[];
-extern volatile int16_t unitary_waveform[];
+extern volatile struct wave waves[NUMBER_OF_NOTES];
+extern volatile int16_t unitary_waveform[WAVEFORM_TABLE_SIZE];
 
 extern int params_size;
 
-/* Exported constants --------------------------------------------------------*/
-#define WAVEFORM_TABLE_SIZE		180000
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/
