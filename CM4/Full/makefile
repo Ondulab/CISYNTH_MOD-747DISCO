@@ -23,22 +23,6 @@ RM := rm -rf
 -include TouchGFX/generated/gui_generated/src/ifftscreen_screen/subdir.mk
 -include TouchGFX/generated/gui_generated/src/common/subdir.mk
 -include TouchGFX/generated/fonts/src/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/touchgfx/framework/source/platform/hal/simulator/sdl2/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/touchgfx/framework/source/platform/driver/touch/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/simulator/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/model/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/mainscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/ifftscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/gui/src/common/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/texts/src/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/simulator/src/video/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/simulator/src/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/images/src/__designer/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/images/src/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/mainscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/ifftscreen_screen/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/common/subdir.mk
--include TouchGFX/build/MINGW32_NT-6.2/generated/fonts/src/subdir.mk
 -include TouchGFX/App/subdir.mk
 -include Peripheral/Src/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/subdir.mk
@@ -105,9 +89,6 @@ default.size.stdout \
 OBJDUMP_LIST += \
 SSS_MOD-747DISCO_CM4.list \
 
-OBJCOPY_BIN += \
-SSS_MOD-747DISCO_CM4.bin \
-
 
 # All Target
 all: main-build
@@ -116,8 +97,8 @@ all: main-build
 main-build: SSS_MOD-747DISCO_CM4.elf secondary-outputs
 
 # Tool invocations
-SSS_MOD-747DISCO_CM4.elf: $(OBJS) $(USER_OBJS) /home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "SSS_MOD-747DISCO_CM4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SSS_MOD-747DISCO_CM4.map" -Wl,--gc-sections -static -L"/home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/Middlewares/ST/touchgfx/lib/core/cortex_m4f/gcc" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+SSS_MOD-747DISCO_CM4.elf: $(OBJS) $(USER_OBJS) /home/dev/STM32CubeIDE/workspace_1.8.0/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "SSS_MOD-747DISCO_CM4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/dev/STM32CubeIDE/workspace_1.8.0/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SSS_MOD-747DISCO_CM4.map" -Wl,--gc-sections -static -L"/home/dev/STM32CubeIDE/workspace_1.8.0/SSS_MOD-747DISCO/CM4/Middlewares/ST/touchgfx/lib/core/cortex_m4f/gcc" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -131,17 +112,12 @@ SSS_MOD-747DISCO_CM4.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_
 	@echo 'Finished building: $@'
 	@echo ' '
 
-SSS_MOD-747DISCO_CM4.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "SSS_MOD-747DISCO_CM4.bin"
-	@echo 'Finished building: $@'
-	@echo ' '
-
 # Other Targets
 clean:
-	-$(RM) SSS_MOD-747DISCO_CM4.bin SSS_MOD-747DISCO_CM4.elf SSS_MOD-747DISCO_CM4.list default.size.stdout
+	-$(RM) SSS_MOD-747DISCO_CM4.elf SSS_MOD-747DISCO_CM4.list default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

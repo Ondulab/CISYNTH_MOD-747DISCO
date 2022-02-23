@@ -14,18 +14,17 @@ C_SRCS :=
 CPP_SRCS := 
 S_UPPER_SRCS := 
 O_SRCS := 
-OBJDUMP_LIST := 
-C_UPPER_DEPS := 
-S_DEPS := 
-C_DEPS := 
-OBJCOPY_BIN := 
 CC_DEPS := 
 SIZE_OUTPUT := 
+OBJDUMP_LIST := 
 C++_DEPS := 
 EXECUTABLES := 
 OBJS := 
+C_UPPER_DEPS := 
 CXX_DEPS := 
+S_DEPS := 
 S_UPPER_DEPS := 
+C_DEPS := 
 CPP_DEPS := 
 
 # Every subdirectory with source files must be described here
@@ -44,22 +43,6 @@ Middlewares/Src \
 Middlewares/Third_Party/FreeRTOS \
 Peripheral/Src \
 TouchGFX/App \
-TouchGFX/build/MINGW32_NT-6.2/generated/fonts/src \
-TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/common \
-TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/ifftscreen_screen \
-TouchGFX/build/MINGW32_NT-6.2/generated/gui_generated/src/mainscreen_screen \
-TouchGFX/build/MINGW32_NT-6.2/generated/images/src \
-TouchGFX/build/MINGW32_NT-6.2/generated/images/src/__designer \
-TouchGFX/build/MINGW32_NT-6.2/generated/simulator/src \
-TouchGFX/build/MINGW32_NT-6.2/generated/simulator/src/video \
-TouchGFX/build/MINGW32_NT-6.2/generated/texts/src \
-TouchGFX/build/MINGW32_NT-6.2/gui/src/common \
-TouchGFX/build/MINGW32_NT-6.2/gui/src/ifftscreen_screen \
-TouchGFX/build/MINGW32_NT-6.2/gui/src/mainscreen_screen \
-TouchGFX/build/MINGW32_NT-6.2/gui/src/model \
-TouchGFX/build/MINGW32_NT-6.2/simulator \
-TouchGFX/build/MINGW32_NT-6.2/touchgfx/framework/source/platform/driver/touch \
-TouchGFX/build/MINGW32_NT-6.2/touchgfx/framework/source/platform/hal/simulator/sdl2 \
 TouchGFX/generated/fonts/src \
 TouchGFX/generated/gui_generated/src/common \
 TouchGFX/generated/gui_generated/src/ifftscreen_screen \
