@@ -29,6 +29,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 int32_t udp_imageData[CIS_PIXELS_NB] = {0};
+int32_t imageRef[NUMBER_OF_NOTES] = {0};
 
 struct udp_pcb *upcb;
 
@@ -120,11 +121,27 @@ uint32_t greyScale(uint32_t rbg888)
 #pragma GCC optimize ("unroll-loops")
 void udp_serverReceiveImage(volatile int32_t *image_buff)
 {
-	static int32_t idx;
+	static int32_t idx, boot_cal = 0;
+
+	if (boot_cal < 10000)
+	{
+		boot_cal++;
+	}
+
 	for (idx = NUMBER_OF_NOTES; --idx >= 0;)
 	{
-//		image_buff[idx] = greyScale(udp_imageData[(idx * PIXELS_PER_NOTE)]);
+		image_buff[idx] = greyScale(udp_imageData[(idx * PIXELS_PER_NOTE)]);
+		if (boot_cal == 9000)
+		{
+			imageRef[idx] = image_buff[idx];
+		}
+//		if (boot_cal == 1000)
+//		{
+//			imageRef[idx] /= 1000;
+//		}
 	}
+
+	arm_sub_q31((int32_t *)image_buff, imageRef, (int32_t *)image_buff, NUMBER_OF_NOTES);
 }
 #pragma GCC pop_options
 

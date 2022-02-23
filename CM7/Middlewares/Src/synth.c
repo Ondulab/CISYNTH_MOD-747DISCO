@@ -165,7 +165,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 		max_volume = 0;
 
 		//Summation for all pixel
-		for (note = NUMBER_OF_NOTES; --note >= 5;) //NUMBER_OF_NOTES
+		for (note = NUMBER_OF_NOTES; --note >= 1;) //NUMBER_OF_NOTES
 		{
 #ifdef RELATIVE_MODE
 			//relative mode

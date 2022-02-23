@@ -34,7 +34,7 @@
 #define IFFT_GAP_PER_LOOP_INCREASE				(100000)
 #define IFFT_GAP_PER_LOOP_DECREASE				(1000)
 
-#define NOISE_REDUCER							(200)
+#define NOISE_REDUCER							(20)
 //#define STEREO_1
 #define RELATIVE_MODE
 
