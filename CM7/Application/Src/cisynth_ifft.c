@@ -39,6 +39,7 @@ int cisynth_ifft(void)
 	printf("-------------------------------\n");
 
 	udp_serverInit();
+//	udp_clientInit();
 
 	synth_IfftInit();
 
@@ -46,7 +47,7 @@ int cisynth_ifft(void)
 	{
 		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
-		//		udp_clientSendImage("TOTO M'A TUE");
+//		udp_clientSendImage("TOTO M'A TUE"); // /!\ jardinage, mais ce n'est pas comme ça que l'on plante le blé
 
 		//		imageEmulator_toggle();
 //				imageEmulator_slide();
