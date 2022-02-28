@@ -97,8 +97,8 @@ all: main-build
 main-build: SSS_MOD-747DISCO_CM4.elf secondary-outputs
 
 # Tool invocations
-SSS_MOD-747DISCO_CM4.elf: $(OBJS) $(USER_OBJS) /home/dev/STM32CubeIDE/workspace_1.8.0/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "SSS_MOD-747DISCO_CM4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/dev/STM32CubeIDE/workspace_1.8.0/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SSS_MOD-747DISCO_CM4.map" -Wl,--gc-sections -static -L"/home/dev/STM32CubeIDE/workspace_1.8.0/SSS_MOD-747DISCO/CM4/Middlewares/ST/touchgfx/lib/core/cortex_m4f/gcc" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+SSS_MOD-747DISCO_CM4.elf: $(OBJS) $(USER_OBJS) /home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "SSS_MOD-747DISCO_CM4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SSS_MOD-747DISCO_CM4.map" -Wl,--gc-sections -static -L"/home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/Middlewares/ST/touchgfx/lib/core/cortex_m4f/gcc" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
