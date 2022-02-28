@@ -7,27 +7,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00026b90  081002a0  081002a0  000102a0  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00005138  08126e30  08126e30  00036e30  2**3
+  2 .rodata       00005148  08126e30  08126e30  00036e30  2**3
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 FontFlashSection 00000c5a  0812bf68  0812bf68  0003bf68  2**2
+  3 FontFlashSection 00000c5a  0812bf78  0812bf78  0003bf78  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  4 FontSearchFlashSection 00000068  0812cbc4  0812cbc4  0003cbc4  2**2
+  4 FontSearchFlashSection 00000068  0812cbd4  0812cbd4  0003cbd4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 TextFlashSection 000000d8  0812cc2c  0812cc2c  0003cc2c  2**2
+  5 TextFlashSection 000000d8  0812cc3c  0812cc3c  0003cc3c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   6 ExtFlashSection 00725a2c  90000000  90000000  000b0000  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .init_array   00000014  0812cd04  0812cd04  0003cd04  2**2
+  7 .init_array   00000014  0812cd14  0812cd14  0003cd14  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .fini_array   00000008  0812cd18  0812cd18  0003cd18  2**2
+  8 .fini_array   00000008  0812cd28  0812cd28  0003cd28  2**2
                   CONTENTS, ALLOC, LOAD, DATA
   9 .shared       00059ad0  24000000  24000000  00050000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
- 10 .data         00000170  10000000  0812cd20  00040000  2**2
+ 10 .data         00000170  10000000  0812cd30  00040000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
- 11 .bss          0001e438  10000170  0812ce90  00040170  2**3
+ 11 .bss          0001e438  10000170  0812cea0  00040170  2**3
                   ALLOC
- 12 ._user_heap_stack 00002000  1001e5a8  0812ce90  0004e5a8  2**0
+ 12 ._user_heap_stack 00002000  1001e5a8  0812cea0  0004e5a8  2**0
                   ALLOC
  13 .ARM.attributes 00000030  00000000  00000000  007d5a2c  2**0
                   CONTENTS, READONLY
@@ -41,11 +41,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_aranges 00000028  00000000  00000000  007d5bf0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    00000077  00000000  00000000  007d5c18  2**0
+ 19 .debug_str    00000079  00000000  00000000  007d5c18  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_ranges 00000020  00000000  00000000  007d5c90  2**3
+ 20 .debug_ranges 00000020  00000000  00000000  007d5c98  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_frame  00001570  00000000  00000000  007d5cb0  2**2
+ 21 .debug_frame  00001570  00000000  00000000  007d5cb8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2791,7 +2791,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  8101f94:	10000170 	.word	0x10000170
   ldr r2, =_sidata
- 8101f98:	0812cd20 	.word	0x0812cd20
+ 8101f98:	0812cd30 	.word	0x0812cd30
   ldr r2, =_sbss
  8101f9c:	10000170 	.word	0x10000170
   ldr r4, =_ebss
@@ -19764,9 +19764,9 @@ Infinite_Loop:
  810cc12:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
  810cc16:	f884 5034 	strb.w	r5, [r4, #52]	; 0x34
  810cc1a:	e7ca      	b.n	810cbb2 <prvInitialiseNewTask.isra.0+0xde>
- 810cc1c:	0812bf0c 	.word	0x0812bf0c
- 810cc20:	0812becc 	.word	0x0812becc
- 810cc24:	0812beec 	.word	0x0812beec
+ 810cc1c:	0812bf1c 	.word	0x0812bf1c
+ 810cc20:	0812bedc 	.word	0x0812bedc
+ 810cc24:	0812befc 	.word	0x0812befc
 
 0810cc28 <prvIdleTask>:
  810cc28:	4d25      	ldr	r5, [pc, #148]	; (810ccc0 <prvIdleTask+0x98>)
@@ -21446,9 +21446,9 @@ Infinite_Loop:
  810dc82:	bf00      	nop
  810dc84:	10009154 	.word	0x10009154
  810dc88:	10009158 	.word	0x10009158
- 810dc8c:	0812cbc4 	.word	0x0812cbc4
- 810dc90:	0812cc1c 	.word	0x0812cc1c
- 810dc94:	0812c9b8 	.word	0x0812c9b8
+ 810dc8c:	0812cbd4 	.word	0x0812cbd4
+ 810dc90:	0812cc2c 	.word	0x0812cc2c
+ 810dc94:	0812c9c8 	.word	0x0812c9c8
  810dc98:	0810dc21 	.word	0x0810dc21
 
 0810dc9c <__tcf_0>:
@@ -21496,9 +21496,9 @@ Infinite_Loop:
  810dcfe:	bd70      	pop	{r4, r5, r6, pc}
  810dd00:	10009180 	.word	0x10009180
  810dd04:	10009184 	.word	0x10009184
- 810dd08:	0812cbc8 	.word	0x0812cbc8
- 810dd0c:	0812cc20 	.word	0x0812cc20
- 810dd10:	0812c9c8 	.word	0x0812c9c8
+ 810dd08:	0812cbd8 	.word	0x0812cbd8
+ 810dd0c:	0812cc30 	.word	0x0812cc30
+ 810dd10:	0812c9d8 	.word	0x0812c9d8
  810dd14:	0810dc9d 	.word	0x0810dc9d
 
 0810dd18 <__tcf_0>:
@@ -21546,9 +21546,9 @@ Infinite_Loop:
  810dd7a:	bd70      	pop	{r4, r5, r6, pc}
  810dd7c:	100091ac 	.word	0x100091ac
  810dd80:	100091b0 	.word	0x100091b0
- 810dd84:	0812cbcc 	.word	0x0812cbcc
- 810dd88:	0812cc24 	.word	0x0812cc24
- 810dd8c:	0812ca38 	.word	0x0812ca38
+ 810dd84:	0812cbdc 	.word	0x0812cbdc
+ 810dd88:	0812cc34 	.word	0x0812cc34
+ 810dd8c:	0812ca48 	.word	0x0812ca48
  810dd90:	0810dd19 	.word	0x0810dd19
 
 0810dd94 <__tcf_0>:
@@ -21596,9 +21596,9 @@ Infinite_Loop:
  810ddf6:	bf00      	nop
  810ddf8:	100091d8 	.word	0x100091d8
  810ddfc:	100091dc 	.word	0x100091dc
- 810de00:	0812cc18 	.word	0x0812cc18
- 810de04:	0812cc28 	.word	0x0812cc28
- 810de08:	0812cbb4 	.word	0x0812cbb4
+ 810de00:	0812cc28 	.word	0x0812cc28
+ 810de04:	0812cc38 	.word	0x0812cc38
+ 810de08:	0812cbc4 	.word	0x0812cbc4
  810de0c:	0810dd95 	.word	0x0810dd95
 
 0810de10 <_ZN8touchgfx11Application15appSwitchScreenEh>:
@@ -23127,16 +23127,16 @@ Infinite_Loop:
  810ec2c:	f8c4 5b18 	str.w	r5, [r4, #2840]	; 0xb18
  810ec30:	e014      	b.n	810ec5c <_ZN18ifftScreenViewBaseC1Ev+0x3fc>
  810ec32:	bf00      	nop
- 810ec34:	08127c64 	.word	0x08127c64
- 810ec38:	0812a014 	.word	0x0812a014
- 810ec3c:	0812a110 	.word	0x0812a110
+ 810ec34:	08127c6c 	.word	0x08127c6c
+ 810ec38:	0812a024 	.word	0x0812a024
+ 810ec3c:	0812a120 	.word	0x0812a120
  810ec40:	1000ddb8 	.word	0x1000ddb8
- 810ec44:	08127abc 	.word	0x08127abc
- 810ec48:	081297c0 	.word	0x081297c0
- 810ec4c:	081297e0 	.word	0x081297e0
- 810ec50:	0812a27c 	.word	0x0812a27c
+ 810ec44:	08127ac4 	.word	0x08127ac4
+ 810ec48:	081297d0 	.word	0x081297d0
+ 810ec4c:	081297f0 	.word	0x081297f0
+ 810ec50:	0812a28c 	.word	0x0812a28c
  810ec54:	081271b0 	.word	0x081271b0
- 810ec58:	08129f6c 	.word	0x08129f6c
+ 810ec58:	08129f7c 	.word	0x08129f7c
  810ec5c:	f8c4 5b1c 	str.w	r5, [r4, #2844]	; 0xb1c
  810ec60:	f8c4 5b20 	str.w	r5, [r4, #2848]	; 0xb20
  810ec64:	f8c4 5b24 	str.w	r5, [r4, #2852]	; 0xb24
@@ -23483,11 +23483,11 @@ Infinite_Loop:
  810f0de:	4630      	mov	r0, r6
  810f0e0:	e0ea      	b.n	810f2b8 <_ZN18ifftScreenViewBaseC1Ev+0xa58>
  810f0e2:	bf00      	nop
- 810f0e4:	08127c34 	.word	0x08127c34
- 810f0e8:	08127c4c 	.word	0x08127c4c
- 810f0ec:	08127be8 	.word	0x08127be8
+ 810f0e4:	08127c3c 	.word	0x08127c3c
+ 810f0e8:	08127c54 	.word	0x08127c54
+ 810f0ec:	08127bf0 	.word	0x08127bf0
  810f0f0:	0810e725 	.word	0x0810e725
- 810f0f4:	08127c00 	.word	0x08127c00
+ 810f0f4:	08127c08 	.word	0x08127c08
  810f0f8:	0810e695 	.word	0x0810e695
  810f0fc:	01e00320 	.word	0x01e00320
  810f100:	ff382c2c 	.word	0xff382c2c
@@ -24336,13 +24336,13 @@ Infinite_Loop:
  810fbe0:	08127700 	.word	0x08127700
  810fbe4:	0812773c 	.word	0x0812773c
  810fbe8:	081277ac 	.word	0x081277ac
- 810fbec:	08127a60 	.word	0x08127a60
- 810fbf0:	081279b0 	.word	0x081279b0
- 810fbf4:	081279e0 	.word	0x081279e0
- 810fbf8:	0812796c 	.word	0x0812796c
- 810fbfc:	08127838 	.word	0x08127838
- 810fc00:	08127898 	.word	0x08127898
- 810fc04:	081278d4 	.word	0x081278d4
+ 810fbec:	08127a68 	.word	0x08127a68
+ 810fbf0:	081279b8 	.word	0x081279b8
+ 810fbf4:	081279e8 	.word	0x081279e8
+ 810fbf8:	08127974 	.word	0x08127974
+ 810fbfc:	0812783c 	.word	0x0812783c
+ 810fc00:	0812789c 	.word	0x0812789c
+ 810fc04:	081278d8 	.word	0x081278d8
  810fc08:	1000de30 	.word	0x1000de30
 
 0810fc0c <_ZN8touchgfx8Drawable8setWidthEs>:
@@ -24548,9 +24548,9 @@ Infinite_Loop:
  810fdd8:	480e      	ldr	r0, [pc, #56]	; (810fe14 <_ZN18mainScreenViewBaseC1Ev+0x180>)
  810fdda:	21af      	movs	r1, #175	; 0xaf
  810fddc:	f015 fce6 	bl	81257ac <__assert_func>
- 810fde0:	08127cd4 	.word	0x08127cd4
- 810fde4:	0812a014 	.word	0x0812a014
- 810fde8:	08127cbc 	.word	0x08127cbc
+ 810fde0:	08127cdc 	.word	0x08127cdc
+ 810fde4:	0812a024 	.word	0x0812a024
+ 810fde8:	08127cc4 	.word	0x08127cc4
  810fdec:	0810fc7d 	.word	0x0810fc7d
  810fdf0:	ff382c2c 	.word	0xff382c2c
  810fdf4:	00d2013b 	.word	0x00d2013b
@@ -24559,15 +24559,15 @@ Infinite_Loop:
  810fe00:	1000de2c 	.word	0x1000de2c
  810fe04:	1000de30 	.word	0x1000de30
  810fe08:	1000de34 	.word	0x1000de34
- 810fe0c:	0812796c 	.word	0x0812796c
- 810fe10:	081279b0 	.word	0x081279b0
- 810fe14:	081279e0 	.word	0x081279e0
- 810fe18:	08127a60 	.word	0x08127a60
+ 810fe0c:	08127974 	.word	0x08127974
+ 810fe10:	081279b8 	.word	0x081279b8
+ 810fe14:	081279e8 	.word	0x081279e8
+ 810fe18:	08127a68 	.word	0x08127a68
 
 0810fe1c <_ZN14BitmapDatabase11getInstanceEv>:
  810fe1c:	4800      	ldr	r0, [pc, #0]	; (810fe20 <_ZN14BitmapDatabase11getInstanceEv+0x4>)
  810fe1e:	4770      	bx	lr
- 810fe20:	08127d00 	.word	0x08127d00
+ 810fe20:	08127d08 	.word	0x08127d08
 
 0810fe24 <_ZN14BitmapDatabase15getInstanceSizeEv>:
  810fe24:	2014      	movs	r0, #20
@@ -24666,11 +24666,11 @@ Infinite_Loop:
  810fef0:	4803      	ldr	r0, [pc, #12]	; (810ff00 <_ZN8touchgfx12TextProvider15getNextLigatureEh+0x94>)
  810fef2:	21c5      	movs	r1, #197	; 0xc5
  810fef4:	f015 fc5a 	bl	81257ac <__assert_func>
- 810fef8:	08127e90 	.word	0x08127e90
- 810fefc:	08127e9c 	.word	0x08127e9c
- 810ff00:	08127f48 	.word	0x08127f48
- 810ff04:	08127fc8 	.word	0x08127fc8
- 810ff08:	08127fd8 	.word	0x08127fd8
+ 810fef8:	08127e98 	.word	0x08127e98
+ 810fefc:	08127ea4 	.word	0x08127ea4
+ 810ff00:	08127f50 	.word	0x08127f50
+ 810ff04:	08127fd4 	.word	0x08127fd4
+ 810ff08:	08127fe4 	.word	0x08127fe4
 
 0810ff0c <_ZN8touchgfx12TextProvider18initializeInternalEv>:
  810ff0c:	f008 bd62 	b.w	81189d4 <_ZN8touchgfx12TextProvider15fillInputBufferEv>
@@ -24740,9 +24740,9 @@ Infinite_Loop:
  810ff98:	1000de30 	.word	0x1000de30
  810ff9c:	1000de2c 	.word	0x1000de2c
  810ffa0:	1000de28 	.word	0x1000de28
- 810ffa4:	0812cd00 	.word	0x0812cd00
- 810ffa8:	0812cc5c 	.word	0x0812cc5c
- 810ffac:	0812cc2c 	.word	0x0812cc2c
+ 810ffa4:	0812cd10 	.word	0x0812cd10
+ 810ffa8:	0812cc6c 	.word	0x0812cc6c
+ 810ffac:	0812cc3c 	.word	0x0812cc3c
 
 0810ffb0 <_ZNK8touchgfx5Texts7getTextEt>:
  810ffb0:	4a04      	ldr	r2, [pc, #16]	; (810ffc4 <_ZNK8touchgfx5Texts7getTextEt+0x14>)
@@ -24810,7 +24810,7 @@ Infinite_Loop:
  8110032:	6023      	str	r3, [r4, #0]
  8110034:	4620      	mov	r0, r4
  8110036:	bd10      	pop	{r4, pc}
- 8110038:	081280b4 	.word	0x081280b4
+ 8110038:	081280c0 	.word	0x081280c0
 
 0811003c <_ZN19ifftScreenPresenterD1Ev>:
  811003c:	4770      	bx	lr
@@ -24855,7 +24855,7 @@ Infinite_Loop:
  8110080:	e9c0 4200 	strd	r4, r2, [r0]
  8110084:	bc30      	pop	{r4, r5}
  8110086:	4770      	bx	lr
- 8110088:	081280f0 	.word	0x081280f0
+ 8110088:	081280fc 	.word	0x081280fc
 
 0811008c <_ZN14ifftScreenViewD1Ev>:
  811008c:	4770      	bx	lr
@@ -25041,7 +25041,7 @@ Infinite_Loop:
  811023c:	bd38      	pop	{r3, r4, r5, pc}
  811023e:	bf00      	nop
  8110240:	10009224 	.word	0x10009224
- 8110244:	08128120 	.word	0x08128120
+ 8110244:	0812812c 	.word	0x0812812c
 
 08110248 <_ZN19mainScreenPresenterD1Ev>:
  8110248:	4770      	bx	lr
@@ -25086,7 +25086,7 @@ Infinite_Loop:
  811028c:	e9c0 4200 	strd	r4, r2, [r0]
  8110290:	bc30      	pop	{r4, r5}
  8110292:	4770      	bx	lr
- 8110294:	08128170 	.word	0x08128170
+ 8110294:	0812817c 	.word	0x0812817c
 
 08110298 <_ZN14mainScreenViewD1Ev>:
  8110298:	4770      	bx	lr
@@ -25116,7 +25116,7 @@ Infinite_Loop:
  81102be:	6023      	str	r3, [r4, #0]
  81102c0:	4620      	mov	r0, r4
  81102c2:	bd10      	pop	{r4, pc}
- 81102c4:	081281a0 	.word	0x081281a0
+ 81102c4:	081281ac 	.word	0x081281ac
 
 081102c8 <_ZN5ModelC1Ev>:
  81102c8:	2200      	movs	r2, #0
@@ -25168,9 +25168,9 @@ Infinite_Loop:
  8110322:	bf00      	nop
  8110324:	10000094 	.word	0x10000094
  8110328:	10009238 	.word	0x10009238
- 811032c:	081281cc 	.word	0x081281cc
- 8110330:	081281e0 	.word	0x081281e0
- 8110334:	0812820c 	.word	0x0812820c
+ 811032c:	081281d8 	.word	0x081281d8
+ 8110330:	081281ec 	.word	0x081281ec
+ 8110334:	08128218 	.word	0x08128218
 
 08110338 <_ZN20STM32TouchController11sampleTouchERlS0_>:
  8110338:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -25290,9 +25290,9 @@ Infinite_Loop:
  81103f0:	1000ddae 	.word	0x1000ddae
  81103f4:	1000ddb2 	.word	0x1000ddb2
  81103f8:	1000ddb4 	.word	0x1000ddb4
- 81103fc:	08128250 	.word	0x08128250
- 8110400:	081282b4 	.word	0x081282b4
- 8110404:	081282f8 	.word	0x081282f8
+ 81103fc:	0812825c 	.word	0x0812825c
+ 8110400:	081282c0 	.word	0x081282c0
+ 8110404:	08128304 	.word	0x08128304
 
 08110408 <_ZN8touchgfx3HAL15backPorchExitedEv>:
  8110408:	b510      	push	{r4, lr}
@@ -25477,9 +25477,9 @@ Infinite_Loop:
  8110584:	1000924c 	.word	0x1000924c
  8110588:	1000ddb6 	.word	0x1000ddb6
  811058c:	1000ddb7 	.word	0x1000ddb7
- 8110590:	08128374 	.word	0x08128374
- 8110594:	081283ac 	.word	0x081283ac
- 8110598:	081282f8 	.word	0x081282f8
+ 8110590:	08128384 	.word	0x08128384
+ 8110594:	081283bc 	.word	0x081283bc
+ 8110598:	08128304 	.word	0x08128304
 
 0811059c <_ZN11TouchGFXHAL28enableLCDControllerInterruptEv>:
  811059c:	b530      	push	{r4, r5, lr}
@@ -25578,7 +25578,7 @@ Infinite_Loop:
  811069c:	1000ddae 	.word	0x1000ddae
  81106a0:	1000ddb4 	.word	0x1000ddb4
  81106a4:	1000ddb0 	.word	0x1000ddb0
- 81106a8:	08128404 	.word	0x08128404
+ 81106a8:	08128414 	.word	0x08128414
 
 081106ac <DSI_IO_Write>:
  81106ac:	b510      	push	{r4, lr}
@@ -25824,10 +25824,10 @@ Infinite_Loop:
  8110908:	f014 ff50 	bl	81257ac <__assert_func>
  811090c:	1000925c 	.word	0x1000925c
  8110910:	10009258 	.word	0x10009258
- 8110914:	081284cc 	.word	0x081284cc
- 8110918:	08128518 	.word	0x08128518
- 811091c:	08128548 	.word	0x08128548
- 8110920:	08128574 	.word	0x08128574
+ 8110914:	081284dc 	.word	0x081284dc
+ 8110918:	08128528 	.word	0x08128528
+ 811091c:	08128558 	.word	0x08128558
+ 8110920:	08128584 	.word	0x08128584
 
 08110924 <_ZN8touchgfx10OSWrappers24takeFrameBufferSemaphoreEv>:
  8110924:	4b02      	ldr	r3, [pc, #8]	; (8110930 <_ZN8touchgfx10OSWrappers24takeFrameBufferSemaphoreEv+0xc>)
@@ -25911,7 +25911,7 @@ Infinite_Loop:
  81109c2:	f3bf 8f6f 	isb	sy
  81109c6:	4770      	bx	lr
  81109c8:	e000e100 	.word	0xe000e100
- 81109cc:	081286fc 	.word	0x081286fc
+ 81109cc:	0812870c 	.word	0x0812870c
 
 081109d0 <_ZN8STM32DMA11getBlitCapsEv>:
  81109d0:	f240 30ef 	movw	r0, #1007	; 0x3ef
@@ -25934,7 +25934,7 @@ Infinite_Loop:
  81109fc:	bd10      	pop	{r4, pc}
  81109fe:	bf00      	nop
  8110a00:	e000e100 	.word	0xe000e100
- 8110a04:	081286fc 	.word	0x081286fc
+ 8110a04:	0812870c 	.word	0x0812870c
 
 08110a08 <_ZN8STM32DMA10initializeEv>:
  8110a08:	4b10      	ldr	r3, [pc, #64]	; (8110a4c <_ZN8STM32DMA10initializeEv+0x44>)
@@ -25971,9 +25971,9 @@ Infinite_Loop:
  8110a58:	216e      	movs	r1, #110	; 0x6e
  8110a5a:	f014 fea7 	bl	81257ac <__assert_func>
  8110a5e:	bf00      	nop
- 8110a60:	081285d4 	.word	0x081285d4
- 8110a64:	081285b8 	.word	0x081285b8
- 8110a68:	08128620 	.word	0x08128620
+ 8110a60:	081285e4 	.word	0x081285e4
+ 8110a64:	081285c8 	.word	0x081285c8
+ 8110a68:	08128630 	.word	0x08128630
 
 08110a6c <_ZN8STM32DMA23getChromARTOutputFormatEN8touchgfx6Bitmap12BitmapFormatE.isra.0.part.0>:
  8110a6c:	b508      	push	{r3, lr}
@@ -25983,9 +25983,9 @@ Infinite_Loop:
  8110a74:	218f      	movs	r1, #143	; 0x8f
  8110a76:	f014 fe99 	bl	81257ac <__assert_func>
  8110a7a:	bf00      	nop
- 8110a7c:	0812864c 	.word	0x0812864c
- 8110a80:	081285b8 	.word	0x081285b8
- 8110a84:	08128620 	.word	0x08128620
+ 8110a7c:	0812865c 	.word	0x0812865c
+ 8110a80:	081285c8 	.word	0x081285c8
+ 8110a84:	08128630 	.word	0x08128630
 
 08110a88 <_ZN8STM32DMA13setupDataFillERKN8touchgfx6BlitOpE>:
  8110a88:	b570      	push	{r4, r5, r6, lr}
@@ -26222,9 +26222,9 @@ Infinite_Loop:
  8110cd0:	00020009 	.word	0x00020009
  8110cd4:	00010201 	.word	0x00010201
  8110cd8:	0002000a 	.word	0x0002000a
- 8110cdc:	08128698 	.word	0x08128698
- 8110ce0:	081286b4 	.word	0x081286b4
- 8110ce4:	08128620 	.word	0x08128620
+ 8110cdc:	081286a8 	.word	0x081286a8
+ 8110ce0:	081286c4 	.word	0x081286c4
+ 8110ce4:	08128630 	.word	0x08128630
 
 08110ce8 <DMA2D_IRQHandler>:
  8110ce8:	4b0e      	ldr	r3, [pc, #56]	; (8110d24 <DMA2D_IRQHandler+0x3c>)
@@ -26280,7 +26280,7 @@ Infinite_Loop:
  8110d5a:	d1fb      	bne.n	8110d54 <_ZN8STM32DMAC1Ev+0x24>
  8110d5c:	4630      	mov	r0, r6
  8110d5e:	bd70      	pop	{r4, r5, r6, pc}
- 8110d60:	081286fc 	.word	0x081286fc
+ 8110d60:	0812870c 	.word	0x0812870c
 
 08110d64 <_ZNK8touchgfx9PartitionINS_4meta8TypeListINS_12NoTransitionENS2_INS1_3NilES4_EEEELt1EE8capacityEv>:
  8110d64:	2001      	movs	r0, #1
@@ -26354,7 +26354,7 @@ Infinite_Loop:
  8110dd0:	f000 fa52 	bl	8111278 <_ZN8touchgfx17AbstractPartitionD1Ev>
  8110dd4:	4620      	mov	r0, r4
  8110dd6:	bd10      	pop	{r4, pc}
- 8110dd8:	081287b4 	.word	0x081287b4
+ 8110dd8:	081287c4 	.word	0x081287c4
 
 08110ddc <_ZN8touchgfx9PartitionINS_4meta8TypeListINS_12NoTransitionENS2_INS1_3NilES4_EEEELt1EED0Ev>:
  8110ddc:	b510      	push	{r4, lr}
@@ -26367,7 +26367,7 @@ Infinite_Loop:
  8110dec:	f012 f949 	bl	8123082 <_ZdlPvj>
  8110df0:	4620      	mov	r0, r4
  8110df2:	bd10      	pop	{r4, pc}
- 8110df4:	081287b4 	.word	0x081287b4
+ 8110df4:	081287c4 	.word	0x081287c4
 
 08110df8 <_ZN8touchgfx9PartitionINS_4meta8TypeListI14ifftScreenViewNS2_INS1_3NilES4_EEEELt1EED1Ev>:
  8110df8:	b510      	push	{r4, lr}
@@ -26377,7 +26377,7 @@ Infinite_Loop:
  8110e00:	f000 fa3a 	bl	8111278 <_ZN8touchgfx17AbstractPartitionD1Ev>
  8110e04:	4620      	mov	r0, r4
  8110e06:	bd10      	pop	{r4, pc}
- 8110e08:	08128780 	.word	0x08128780
+ 8110e08:	08128790 	.word	0x08128790
 
 08110e0c <_ZN8touchgfx9PartitionINS_4meta8TypeListI14ifftScreenViewNS2_INS1_3NilES4_EEEELt1EED0Ev>:
  8110e0c:	b510      	push	{r4, lr}
@@ -26391,7 +26391,7 @@ Infinite_Loop:
  8110e22:	4620      	mov	r0, r4
  8110e24:	bd10      	pop	{r4, pc}
  8110e26:	bf00      	nop
- 8110e28:	08128780 	.word	0x08128780
+ 8110e28:	08128790 	.word	0x08128790
 
 08110e2c <_ZN8touchgfx9PartitionINS_4meta8TypeListI19ifftScreenPresenterNS2_INS1_3NilES4_EEEELt1EED1Ev>:
  8110e2c:	b510      	push	{r4, lr}
@@ -26401,7 +26401,7 @@ Infinite_Loop:
  8110e34:	f000 fa20 	bl	8111278 <_ZN8touchgfx17AbstractPartitionD1Ev>
  8110e38:	4620      	mov	r0, r4
  8110e3a:	bd10      	pop	{r4, pc}
- 8110e3c:	0812874c 	.word	0x0812874c
+ 8110e3c:	0812875c 	.word	0x0812875c
 
 08110e40 <_ZN8touchgfx9PartitionINS_4meta8TypeListI19ifftScreenPresenterNS2_INS1_3NilES4_EEEELt1EED0Ev>:
  8110e40:	b510      	push	{r4, lr}
@@ -26414,7 +26414,7 @@ Infinite_Loop:
  8110e50:	f012 f917 	bl	8123082 <_ZdlPvj>
  8110e54:	4620      	mov	r0, r4
  8110e56:	bd10      	pop	{r4, pc}
- 8110e58:	0812874c 	.word	0x0812874c
+ 8110e58:	0812875c 	.word	0x0812875c
 
 08110e5c <_ZN12FrontendHeapD1Ev>:
  8110e5c:	b510      	push	{r4, lr}
@@ -26437,10 +26437,10 @@ Infinite_Loop:
  8110e8a:	4620      	mov	r0, r4
  8110e8c:	bd10      	pop	{r4, pc}
  8110e8e:	bf00      	nop
- 8110e90:	081287e8 	.word	0x081287e8
- 8110e94:	081287b4 	.word	0x081287b4
- 8110e98:	08128780 	.word	0x08128780
- 8110e9c:	0812874c 	.word	0x0812874c
+ 8110e90:	081287f8 	.word	0x081287f8
+ 8110e94:	081287c4 	.word	0x081287c4
+ 8110e98:	08128790 	.word	0x08128790
+ 8110e9c:	0812875c 	.word	0x0812875c
 
 08110ea0 <__tcf_0>:
  8110ea0:	b510      	push	{r4, lr}
@@ -26463,10 +26463,10 @@ Infinite_Loop:
  8110ece:	f000 b9d3 	b.w	8111278 <_ZN8touchgfx17AbstractPartitionD1Ev>
  8110ed2:	bf00      	nop
  8110ed4:	10009264 	.word	0x10009264
- 8110ed8:	081287e8 	.word	0x081287e8
- 8110edc:	081287b4 	.word	0x081287b4
- 8110ee0:	08128780 	.word	0x08128780
- 8110ee4:	0812874c 	.word	0x0812874c
+ 8110ed8:	081287f8 	.word	0x081287f8
+ 8110edc:	081287c4 	.word	0x081287c4
+ 8110ee0:	08128790 	.word	0x08128790
+ 8110ee4:	0812875c 	.word	0x0812875c
 
 08110ee8 <_ZN12FrontendHeapD0Ev>:
  8110ee8:	b510      	push	{r4, lr}
@@ -26491,10 +26491,10 @@ Infinite_Loop:
  8110f1c:	f012 f8b1 	bl	8123082 <_ZdlPvj>
  8110f20:	4620      	mov	r0, r4
  8110f22:	bd10      	pop	{r4, pc}
- 8110f24:	081287e8 	.word	0x081287e8
- 8110f28:	081287b4 	.word	0x081287b4
- 8110f2c:	08128780 	.word	0x08128780
- 8110f30:	0812874c 	.word	0x0812874c
+ 8110f24:	081287f8 	.word	0x081287f8
+ 8110f28:	081287c4 	.word	0x081287c4
+ 8110f2c:	08128790 	.word	0x08128790
+ 8110f30:	0812875c 	.word	0x0812875c
 
 08110f34 <touchgfx_init>:
  8110f34:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -26572,10 +26572,10 @@ Infinite_Loop:
  8111000:	1000dcd4 	.word	0x1000dcd4
  8111004:	10009264 	.word	0x10009264
  8111008:	1000cf40 	.word	0x1000cf40
- 811100c:	081287e8 	.word	0x081287e8
- 8111010:	0812874c 	.word	0x0812874c
- 8111014:	08128780 	.word	0x08128780
- 8111018:	081287b4 	.word	0x081287b4
+ 811100c:	081287f8 	.word	0x081287f8
+ 8111010:	0812875c 	.word	0x0812875c
+ 8111014:	08128790 	.word	0x08128790
+ 8111018:	081287c4 	.word	0x081287c4
  811101c:	08110ea1 	.word	0x08110ea1
 
 08111020 <touchgfx_taskEntry>:
@@ -26610,7 +26610,7 @@ Infinite_Loop:
  8111064:	1000d0b4 	.word	0x1000d0b4
  8111068:	1000d0b0 	.word	0x1000d0b0
  811106c:	1000dd54 	.word	0x1000dd54
- 8111070:	08128240 	.word	0x08128240
+ 8111070:	0812824c 	.word	0x0812824c
  8111074:	1000dcd4 	.word	0x1000dcd4
 
 08111078 <_GLOBAL__sub_D_touchgfx_init>:
@@ -26677,9 +26677,9 @@ Infinite_Loop:
  81110f2:	bf00      	nop
  81110f4:	1000ddb6 	.word	0x1000ddb6
  81110f8:	1000ddb7 	.word	0x1000ddb7
- 81110fc:	08128374 	.word	0x08128374
- 8111100:	081283ac 	.word	0x081283ac
- 8111104:	081282f8 	.word	0x081282f8
+ 81110fc:	08128384 	.word	0x08128384
+ 8111100:	081283bc 	.word	0x081283bc
+ 8111104:	08128304 	.word	0x08128304
 
 08111108 <_ZN20TouchGFXGeneratedHAL16flushFrameBufferERKN8touchgfx4RectE>:
  8111108:	f000 bec7 	b.w	8111e9a <_ZN8touchgfx3HAL16flushFrameBufferERKNS_4RectE>
@@ -26781,10 +26781,10 @@ Infinite_Loop:
  81111d6:	e7e7      	b.n	81111a8 <_ZN8touchgfx17AbstractPartition7indexOfEPKv+0x2c>
  81111d8:	4620      	mov	r0, r4
  81111da:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
- 81111dc:	081287f4 	.word	0x081287f4
- 81111e0:	08128962 	.word	0x08128962
- 81111e4:	08128809 	.word	0x08128809
- 81111e8:	08128837 	.word	0x08128837
+ 81111dc:	08128804 	.word	0x08128804
+ 81111e0:	08128972 	.word	0x08128972
+ 81111e4:	08128819 	.word	0x08128819
+ 81111e8:	08128847 	.word	0x08128847
 
 081111ec <_ZN8touchgfx17AbstractPartition8allocateEt>:
  81111ec:	b538      	push	{r3, r4, r5, lr}
@@ -26820,10 +26820,10 @@ Infinite_Loop:
  811122a:	3301      	adds	r3, #1
  811122c:	80a3      	strh	r3, [r4, #4]
  811122e:	bd38      	pop	{r3, r4, r5, pc}
- 8111230:	081288b1 	.word	0x081288b1
- 8111234:	081289a5 	.word	0x081289a5
- 8111238:	08128809 	.word	0x08128809
- 811123c:	081288c8 	.word	0x081288c8
+ 8111230:	081288c1 	.word	0x081288c1
+ 8111234:	081289b5 	.word	0x081289b5
+ 8111238:	08128819 	.word	0x08128819
+ 811123c:	081288d8 	.word	0x081288d8
 
 08111240 <_ZN8touchgfx17AbstractPartition10allocateAtEtt>:
  8111240:	b570      	push	{r4, r5, r6, lr}
@@ -26846,9 +26846,9 @@ Infinite_Loop:
  8111264:	6a5b      	ldr	r3, [r3, #36]	; 0x24
  8111266:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
  811126a:	4718      	bx	r3
- 811126c:	081288b1 	.word	0x081288b1
- 8111270:	08128918 	.word	0x08128918
- 8111274:	08128809 	.word	0x08128809
+ 811126c:	081288c1 	.word	0x081288c1
+ 8111270:	08128928 	.word	0x08128928
+ 8111274:	08128819 	.word	0x08128819
 
 08111278 <_ZN8touchgfx17AbstractPartitionD1Ev>:
  8111278:	4770      	bx	lr
@@ -26861,7 +26861,7 @@ Infinite_Loop:
  8111282:	8082      	strh	r2, [r0, #4]
  8111284:	4770      	bx	lr
  8111286:	bf00      	nop
- 8111288:	081288ec 	.word	0x081288ec
+ 8111288:	081288fc 	.word	0x081288fc
 
 0811128c <_ZN8touchgfx8Drawable16handleClickEventERKNS_10ClickEventE>:
  811128c:	4770      	bx	lr
@@ -27033,11 +27033,11 @@ Infinite_Loop:
  81113b6:	e7e1      	b.n	811137c <_ZN8touchgfx9Container3addERNS_8DrawableE+0xc>
  81113b8:	6199      	str	r1, [r3, #24]
  81113ba:	e7ed      	b.n	8111398 <_ZN8touchgfx9Container3addERNS_8DrawableE+0x28>
- 81113bc:	081289e3 	.word	0x081289e3
- 81113c0:	08128b38 	.word	0x08128b38
- 81113c4:	08128a0f 	.word	0x08128a0f
- 81113c8:	08128a42 	.word	0x08128a42
- 81113cc:	08128a78 	.word	0x08128a78
+ 81113bc:	081289f3 	.word	0x081289f3
+ 81113c0:	08128b48 	.word	0x08128b48
+ 81113c4:	08128a1f 	.word	0x08128a1f
+ 81113c8:	08128a52 	.word	0x08128a52
+ 81113cc:	08128a88 	.word	0x08128a88
 
 081113d0 <_ZN8touchgfx9Container12getLastChildEssPPNS_8DrawableE>:
  81113d0:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -27664,9 +27664,9 @@ Infinite_Loop:
  811198c:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  8111990:	4710      	bx	r2
  8111992:	bf00      	nop
- 8111994:	08128c52 	.word	0x08128c52
- 8111998:	08128ef5 	.word	0x08128ef5
- 811199c:	08128caa 	.word	0x08128caa
+ 8111994:	08128c62 	.word	0x08128c62
+ 8111998:	08128f05 	.word	0x08128f05
+ 811199c:	08128cba 	.word	0x08128cba
 
 081119a0 <_ZN8touchgfx6Slider16handleClickEventERKNS_10ClickEventE>:
  81119a0:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -27764,7 +27764,7 @@ Infinite_Loop:
  8111a70:	2201      	movs	r2, #1
  8111a72:	f880 2025 	strb.w	r2, [r0, #37]	; 0x25
  8111a76:	4770      	bx	lr
- 8111a78:	0812a6e4 	.word	0x0812a6e4
+ 8111a78:	0812a6f4 	.word	0x0812a6f4
 
 08111a7c <_ZN8touchgfx8Drawable5setXYEss>:
  8111a7c:	b570      	push	{r4, r5, r6, lr}
@@ -27859,9 +27859,9 @@ Infinite_Loop:
  8111b5c:	b003      	add	sp, #12
  8111b5e:	e8bd 4ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
  8111b62:	4718      	bx	r3
- 8111b64:	08128d4c 	.word	0x08128d4c
- 8111b68:	08128f96 	.word	0x08128f96
- 8111b6c:	08128caa 	.word	0x08128caa
+ 8111b64:	08128d5c 	.word	0x08128d5c
+ 8111b68:	08128fa6 	.word	0x08128fa6
+ 8111b6c:	08128cba 	.word	0x08128cba
 
 08111b70 <_ZN8touchgfx6Slider19setupVerticalSliderEttttt>:
  8111b70:	e92d 4ff1 	stmdb	sp!, {r0, r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -27922,9 +27922,9 @@ Infinite_Loop:
  8111c0c:	b001      	add	sp, #4
  8111c0e:	e8bd 4ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
  8111c12:	4718      	bx	r3
- 8111c14:	08128cda 	.word	0x08128cda
- 8111c18:	08128f31 	.word	0x08128f31
- 8111c1c:	08128caa 	.word	0x08128caa
+ 8111c14:	08128cea 	.word	0x08128cea
+ 8111c18:	08128f41 	.word	0x08128f41
+ 8111c1c:	08128cba 	.word	0x08128cba
 
 08111c20 <_ZN8touchgfx6Slider23updateIndicatorPositionEs>:
  8111c20:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -28038,7 +28038,7 @@ Infinite_Loop:
  8111d3a:	4620      	mov	r0, r4
  8111d3c:	bd38      	pop	{r3, r4, r5, pc}
  8111d3e:	bf00      	nop
- 8111d40:	0812a174 	.word	0x0812a174
+ 8111d40:	0812a184 	.word	0x0812a184
 
 08111d44 <_ZN8touchgfx6SliderC1Ev>:
  8111d44:	e92d 4ff7 	stmdb	sp!, {r0, r1, r2, r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -28099,8 +28099,8 @@ Infinite_Loop:
  8111dec:	b003      	add	sp, #12
  8111dee:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  8111df2:	bf00      	nop
- 8111df4:	08128dc8 	.word	0x08128dc8
- 8111df8:	08128ab4 	.word	0x08128ab4
+ 8111df4:	08128dd8 	.word	0x08128dd8
+ 8111df8:	08128ac4 	.word	0x08128ac4
 
 08111dfc <_ZN8touchgfx6Slider10setBitmapsERKNS_6BitmapES3_S3_>:
  8111dfc:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -28142,9 +28142,9 @@ Infinite_Loop:
  8111e62:	f7ff fe18 	bl	8111a96 <_ZN8touchgfx8Drawable14setWidthHeightEss>
  8111e66:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  8111e6a:	bf00      	nop
- 8111e6c:	08128b73 	.word	0x08128b73
- 8111e70:	08128e88 	.word	0x08128e88
- 8111e74:	08128caa 	.word	0x08128caa
+ 8111e6c:	08128b83 	.word	0x08128b83
+ 8111e70:	08128e98 	.word	0x08128e98
+ 8111e74:	08128cba 	.word	0x08128cba
 
 08111e78 <_ZN8touchgfx3HAL27drawDrawableInDynamicBitmapERNS_8DrawableEt>:
  8111e78:	b513      	push	{r0, r1, r4, lr}
@@ -28598,11 +28598,11 @@ Infinite_Loop:
  81122a6:	1a9a      	subs	r2, r3, r2
  81122a8:	63e2      	str	r2, [r4, #60]	; 0x3c
  81122aa:	e7f2      	b.n	8112292 <_ZN8touchgfx3HAL27configurePartialFrameBufferEtttt+0x6a>
- 81122ac:	0812916a 	.word	0x0812916a
- 81122b0:	08129428 	.word	0x08129428
- 81122b4:	081291af 	.word	0x081291af
+ 81122ac:	0812917a 	.word	0x0812917a
+ 81122b0:	08129438 	.word	0x08129438
+ 81122b4:	081291bf 	.word	0x081291bf
  81122b8:	1000ddb2 	.word	0x1000ddb2
- 81122bc:	081291d5 	.word	0x081291d5
+ 81122bc:	081291e5 	.word	0x081291e5
 
 081122c0 <_ZN8touchgfx3HAL8blitCopyEPKtttttthbb>:
  81122c0:	b5f0      	push	{r4, r5, r6, r7, lr}
@@ -28959,10 +28959,10 @@ Infinite_Loop:
  8112640:	4798      	blx	r3
  8112642:	b008      	add	sp, #32
  8112644:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
- 8112648:	08128ffd 	.word	0x08128ffd
- 811264c:	0812925d 	.word	0x0812925d
- 8112650:	081291af 	.word	0x081291af
- 8112654:	08129035 	.word	0x08129035
+ 8112648:	0812900d 	.word	0x0812900d
+ 811264c:	0812926d 	.word	0x0812926d
+ 8112650:	081291bf 	.word	0x081291bf
+ 8112654:	08129045 	.word	0x08129045
 
 08112658 <_ZN8touchgfx3HAL12blitFillWordEtttttt>:
  8112658:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -29017,10 +29017,10 @@ Infinite_Loop:
  81126e4:	b009      	add	sp, #36	; 0x24
  81126e6:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  81126ea:	bf00      	nop
- 81126ec:	0812907a 	.word	0x0812907a
- 81126f0:	081292d3 	.word	0x081292d3
- 81126f4:	081291af 	.word	0x081291af
- 81126f8:	081290b2 	.word	0x081290b2
+ 81126ec:	0812908a 	.word	0x0812908a
+ 81126f0:	081292e3 	.word	0x081292e3
+ 81126f4:	081291bf 	.word	0x081291bf
+ 81126f8:	081290c2 	.word	0x081290c2
 
 081126fc <_ZN8touchgfx3HAL15lockFrameBufferEv>:
  81126fc:	b510      	push	{r4, lr}
@@ -29070,9 +29070,9 @@ Infinite_Loop:
  8112766:	2000      	movs	r0, #0
  8112768:	e7ef      	b.n	811274a <_ZNK8touchgfx3HAL11getBitDepthENS_6Bitmap12BitmapFormatE+0x1a>
  811276a:	bf00      	nop
- 811276c:	0812922b 	.word	0x0812922b
- 8112770:	081295fe 	.word	0x081295fe
- 8112774:	081291af 	.word	0x081291af
+ 811276c:	0812923b 	.word	0x0812923b
+ 8112770:	0812960e 	.word	0x0812960e
+ 8112774:	081291bf 	.word	0x081291bf
 
 08112778 <_ZNK8touchgfx3HAL13getDstAddressEttPttNS_6Bitmap12BitmapFormatE>:
  8112778:	b570      	push	{r4, r5, r6, lr}
@@ -29171,10 +29171,10 @@ Infinite_Loop:
  8112870:	b00a      	add	sp, #40	; 0x28
  8112872:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
  8112876:	bf00      	nop
- 8112878:	08128ffd 	.word	0x08128ffd
- 811287c:	0812948c 	.word	0x0812948c
- 8112880:	081291af 	.word	0x081291af
- 8112884:	08129035 	.word	0x08129035
+ 8112878:	0812900d 	.word	0x0812900d
+ 811287c:	0812949c 	.word	0x0812949c
+ 8112880:	081291bf 	.word	0x081291bf
+ 8112884:	08129045 	.word	0x08129045
 
 08112888 <_ZN8touchgfx3HAL8blitFillENS_9colortypeEtttthtNS_6Bitmap12BitmapFormatEb>:
  8112888:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -29232,9 +29232,9 @@ Infinite_Loop:
  811291c:	4798      	blx	r3
  811291e:	b00b      	add	sp, #44	; 0x2c
  8112920:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 8112924:	08129035 	.word	0x08129035
- 8112928:	08129563 	.word	0x08129563
- 811292c:	081291af 	.word	0x081291af
+ 8112924:	08129045 	.word	0x08129045
+ 8112928:	08129573 	.word	0x08129573
+ 811292c:	081291bf 	.word	0x081291bf
 
 08112930 <_ZNK8touchgfx3HAL13getDstAddressEttPt>:
  8112930:	e92d 41f3 	stmdb	sp!, {r0, r1, r4, r5, r6, r7, r8, lr}
@@ -29324,10 +29324,10 @@ Infinite_Loop:
  8112a0e:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  8112a12:	bf00      	nop
  8112a14:	1000ddb2 	.word	0x1000ddb2
- 8112a18:	08128ffd 	.word	0x08128ffd
- 8112a1c:	08129338 	.word	0x08129338
- 8112a20:	081291af 	.word	0x081291af
- 8112a24:	08129035 	.word	0x08129035
+ 8112a18:	0812900d 	.word	0x0812900d
+ 8112a1c:	08129348 	.word	0x08129348
+ 8112a20:	081291bf 	.word	0x081291bf
+ 8112a24:	08129045 	.word	0x08129045
 
 08112a28 <_ZN8touchgfx3HAL20copyFBRegionToMemoryENS_4RectE>:
  8112a28:	b5f0      	push	{r4, r5, r6, r7, lr}
@@ -29386,9 +29386,9 @@ Infinite_Loop:
  8112ab4:	b00b      	add	sp, #44	; 0x2c
  8112ab6:	bdf0      	pop	{r4, r5, r6, r7, pc}
  8112ab8:	1000ddb7 	.word	0x1000ddb7
- 8112abc:	081290fc 	.word	0x081290fc
- 8112ac0:	081293e2 	.word	0x081293e2
- 8112ac4:	081291af 	.word	0x081291af
+ 8112abc:	0812910c 	.word	0x0812910c
+ 8112ac0:	081293f2 	.word	0x081293f2
+ 8112ac4:	081291bf 	.word	0x081291bf
  8112ac8:	1000ddb2 	.word	0x1000ddb2
 
 08112acc <_ZN8touchgfx3HAL20copyFBRegionToMemoryENS_4RectEPtm>:
@@ -29578,9 +29578,9 @@ Infinite_Loop:
  8112c56:	4798      	blx	r3
  8112c58:	e7eb      	b.n	8112c32 <_ZN8touchgfx13DMA_Interface7executeEv+0x6e>
  8112c5a:	bf00      	nop
- 8112c5c:	08129647 	.word	0x08129647
- 8112c60:	08129708 	.word	0x08129708
- 8112c64:	0812966c 	.word	0x0812966c
+ 8112c5c:	08129657 	.word	0x08129657
+ 8112c60:	08129718 	.word	0x08129718
+ 8112c64:	0812967c 	.word	0x0812967c
 
 08112c68 <_ZN8touchgfx13DMA_Interface10addToQueueERKNS_6BlitOpE>:
  8112c68:	b570      	push	{r4, r5, r6, lr}
@@ -29684,9 +29684,9 @@ Infinite_Loop:
  8112d38:	2139      	movs	r1, #57	; 0x39
  8112d3a:	f012 fd37 	bl	81257ac <__assert_func>
  8112d3e:	bf00      	nop
- 8112d40:	08129692 	.word	0x08129692
- 8112d44:	08129738 	.word	0x08129738
- 8112d48:	0812966c 	.word	0x0812966c
+ 8112d40:	081296a2 	.word	0x081296a2
+ 8112d44:	08129748 	.word	0x08129748
+ 8112d48:	0812967c 	.word	0x0812967c
 
 08112d4c <_ZN8touchgfx17LockFreeDMA_Queue3popEv>:
  8112d4c:	b510      	push	{r4, lr}
@@ -29709,9 +29709,9 @@ Infinite_Loop:
  8112d72:	1a9b      	suble	r3, r3, r2
  8112d74:	6123      	str	r3, [r4, #16]
  8112d76:	bd10      	pop	{r4, pc}
- 8112d78:	081296b5 	.word	0x081296b5
- 8112d7c:	08129786 	.word	0x08129786
- 8112d80:	0812966c 	.word	0x0812966c
+ 8112d78:	081296c5 	.word	0x081296c5
+ 8112d7c:	08129796 	.word	0x08129796
+ 8112d80:	0812967c 	.word	0x0812967c
 
 08112d84 <_ZN8touchgfx13DMA_Interface16executeCompletedEv>:
  8112d84:	b570      	push	{r4, r5, r6, lr}
@@ -29751,7 +29751,7 @@ Infinite_Loop:
  8112dcc:	e9c0 2203 	strd	r2, r2, [r0, #12]
  8112dd0:	bd10      	pop	{r4, pc}
  8112dd2:	bf00      	nop
- 8112dd4:	081296ec 	.word	0x081296ec
+ 8112dd4:	081296fc 	.word	0x081296fc
 
 08112dd8 <_ZN8touchgfx13DMA_Interface15isDmaQueueEmptyEv>:
  8112dd8:	6840      	ldr	r0, [r0, #4]
@@ -30042,9 +30042,9 @@ Infinite_Loop:
  8113080:	2126      	movs	r1, #38	; 0x26
  8113082:	f012 fb93 	bl	81257ac <__assert_func>
  8113086:	bd08      	pop	{r3, pc}
- 8113088:	081297f8 	.word	0x081297f8
- 811308c:	081298d8 	.word	0x081298d8
- 8113090:	0812981f 	.word	0x0812981f
+ 8113088:	08129808 	.word	0x08129808
+ 811308c:	081298e8 	.word	0x081298e8
+ 8113090:	0812982f 	.word	0x0812982f
 
 08113094 <_ZNK8touchgfx4Rect9intersectERKS0_>:
  8113094:	b510      	push	{r4, lr}
@@ -30249,7 +30249,7 @@ Infinite_Loop:
  8113288:	f880 202e 	strb.w	r2, [r0, #46]	; 0x2e
  811328c:	4770      	bx	lr
  811328e:	bf00      	nop
- 8113290:	08129864 	.word	0x08129864
+ 8113290:	08129874 	.word	0x08129874
 
 08113294 <_ZN8touchgfx17AbstractDataGraph8setScaleEi>:
  8113294:	62c1      	str	r1, [r0, #44]	; 0x2c
@@ -30490,9 +30490,9 @@ Infinite_Loop:
  811347e:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  8113482:	f004 b9a4 	b.w	81177ce <_ZNK8touchgfx8Drawable10invalidateEv>
  8113486:	bd10      	pop	{r4, pc}
- 8113488:	08129926 	.word	0x08129926
- 811348c:	08129b98 	.word	0x08129b98
- 8113490:	08129931 	.word	0x08129931
+ 8113488:	08129936 	.word	0x08129936
+ 811348c:	08129ba8 	.word	0x08129ba8
+ 8113490:	08129941 	.word	0x08129941
 
 08113494 <_ZN8touchgfx22AbstractDataGraphWithY20setGraphRangeYScaledEii>:
  8113494:	4291      	cmp	r1, r2
@@ -30524,9 +30524,9 @@ Infinite_Loop:
  81134de:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  81134e2:	f004 b974 	b.w	81177ce <_ZNK8touchgfx8Drawable10invalidateEv>
  81134e6:	bd10      	pop	{r4, pc}
- 81134e8:	08129926 	.word	0x08129926
- 81134ec:	08129be0 	.word	0x08129be0
- 81134f0:	08129931 	.word	0x08129931
+ 81134e8:	08129936 	.word	0x08129936
+ 81134ec:	08129bf0 	.word	0x08129bf0
+ 81134f0:	08129941 	.word	0x08129941
 
 081134f4 <_ZN8touchgfx17AbstractDataGraph16handleClickEventERKNS_10ClickEventE>:
  81134f4:	b530      	push	{r4, r5, lr}
@@ -31328,8 +31328,8 @@ Infinite_Loop:
  8113c7c:	b005      	add	sp, #20
  8113c7e:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  8113c82:	bf00      	nop
- 8113c84:	08129984 	.word	0x08129984
- 8113c88:	08128ab4 	.word	0x08128ab4
+ 8113c84:	08129994 	.word	0x08129994
+ 8113c88:	08128ac4 	.word	0x08128ac4
 
 08113c8c <_ZNK8touchgfx17AbstractDataGraph19convertToGraphScaleEii>:
  8113c8c:	460b      	mov	r3, r1
@@ -31386,10 +31386,10 @@ Infinite_Loop:
  8113d10:	f7ff fb90 	bl	8113434 <_ZN8touchgfx22AbstractDataGraphWithY14setGraphRangeXEii>
  8113d14:	4620      	mov	r0, r4
  8113d16:	bd70      	pop	{r4, r5, r6, pc}
- 8113d18:	08129a78 	.word	0x08129a78
- 8113d1c:	0812996f 	.word	0x0812996f
- 8113d20:	08129c2e 	.word	0x08129c2e
- 8113d24:	08129931 	.word	0x08129931
+ 8113d18:	08129a88 	.word	0x08129a88
+ 8113d1c:	0812997f 	.word	0x0812997f
+ 8113d20:	08129c3e 	.word	0x08129c3e
+ 8113d24:	08129941 	.word	0x08129941
 
 08113d28 <_ZN8touchgfx22AbstractDataGraphWithY18addDataPointScaledEi>:
  8113d28:	b570      	push	{r4, r5, r6, lr}
@@ -31561,7 +31561,7 @@ Infinite_Loop:
  8113ea2:	6323      	str	r3, [r4, #48]	; 0x30
  8113ea4:	4620      	mov	r0, r4
  8113ea6:	bd10      	pop	{r4, pc}
- 8113ea8:	08129c80 	.word	0x08129c80
+ 8113ea8:	08129c90 	.word	0x08129c90
 
 08113eac <_ZN8touchgfx20AbstractGraphElement8setScaleEi>:
  8113eac:	6301      	str	r1, [r0, #48]	; 0x30
@@ -31732,7 +31732,7 @@ Infinite_Loop:
  811403e:	4620      	mov	r0, r4
  8114040:	bd10      	pop	{r4, pc}
  8114042:	bf00      	nop
- 8114044:	08129d00 	.word	0x08129d00
+ 8114044:	08129d10 	.word	0x08129d10
 
 08114048 <_ZN8touchgfx16GraphElementLine12setLineWidthEh>:
  8114048:	f880 1034 	strb.w	r1, [r0, #52]	; 0x34
@@ -32015,7 +32015,7 @@ Infinite_Loop:
  81142ee:	4620      	mov	r0, r4
  81142f0:	bd10      	pop	{r4, pc}
  81142f2:	bf00      	nop
- 81142f4:	08129d80 	.word	0x08129d80
+ 81142f4:	08129d90 	.word	0x08129d90
 
 081142f8 <_ZNK8touchgfx8TextArea12getSolidRectEv>:
  81142f8:	2200      	movs	r2, #0
@@ -32087,11 +32087,11 @@ Infinite_Loop:
  8114380:	2000      	movs	r0, #0
  8114382:	e7fb      	b.n	811437c <_ZNK8touchgfx8TextArea12getTextWidthEv+0x5c>
  8114384:	1000de28 	.word	0x1000de28
- 8114388:	08129ea4 	.word	0x08129ea4
- 811438c:	08129fdc 	.word	0x08129fdc
- 8114390:	08129ee6 	.word	0x08129ee6
+ 8114388:	08129eb4 	.word	0x08129eb4
+ 811438c:	08129fec 	.word	0x08129fec
+ 8114390:	08129ef6 	.word	0x08129ef6
  8114394:	1000de2c 	.word	0x1000de2c
- 8114398:	08129f0f 	.word	0x08129f0f
+ 8114398:	08129f1f 	.word	0x08129f1f
  811439c:	1000de30 	.word	0x1000de30
  81143a0:	1000de34 	.word	0x1000de34
 
@@ -32133,11 +32133,11 @@ Infinite_Loop:
  81143f0:	4718      	bx	r3
  81143f2:	bf00      	nop
  81143f4:	1000de28 	.word	0x1000de28
- 81143f8:	08129ea4 	.word	0x08129ea4
- 81143fc:	08129fdc 	.word	0x08129fdc
- 8114400:	08129ee6 	.word	0x08129ee6
+ 81143f8:	08129eb4 	.word	0x08129eb4
+ 81143fc:	08129fec 	.word	0x08129fec
+ 8114400:	08129ef6 	.word	0x08129ef6
  8114404:	1000de2c 	.word	0x1000de2c
- 8114408:	08129f0f 	.word	0x08129f0f
+ 8114408:	08129f1f 	.word	0x08129f1f
  811440c:	1000de30 	.word	0x1000de30
 
 08114410 <_ZNK8touchgfx8TextArea4drawERKNS_4RectE>:
@@ -32224,11 +32224,11 @@ Infinite_Loop:
  81144e6:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
  81144ea:	bf00      	nop
  81144ec:	1000de28 	.word	0x1000de28
- 81144f0:	08129ea4 	.word	0x08129ea4
- 81144f4:	08129fdc 	.word	0x08129fdc
- 81144f8:	08129ee6 	.word	0x08129ee6
+ 81144f0:	08129eb4 	.word	0x08129eb4
+ 81144f4:	08129fec 	.word	0x08129fec
+ 81144f8:	08129ef6 	.word	0x08129ef6
  81144fc:	1000de2c 	.word	0x1000de2c
- 8114500:	08129f0f 	.word	0x08129f0f
+ 8114500:	08129f1f 	.word	0x08129f1f
  8114504:	1000de30 	.word	0x1000de30
  8114508:	1000ddb8 	.word	0x1000ddb8
  811450c:	1000de34 	.word	0x1000de34
@@ -32326,10 +32326,10 @@ Infinite_Loop:
  81145fa:	dcf7      	bgt.n	81145ec <_ZNK8touchgfx8TextArea19calculateTextHeightEPKtz+0xdc>
  81145fc:	2700      	movs	r7, #0
  81145fe:	e7f5      	b.n	81145ec <_ZNK8touchgfx8TextArea19calculateTextHeightEPKtz+0xdc>
- 8114600:	08129ea4 	.word	0x08129ea4
- 8114604:	08129fdc 	.word	0x08129fdc
- 8114608:	08129ee6 	.word	0x08129ee6
- 811460c:	08129f0f 	.word	0x08129f0f
+ 8114600:	08129eb4 	.word	0x08129eb4
+ 8114604:	08129fec 	.word	0x08129fec
+ 8114608:	08129ef6 	.word	0x08129ef6
+ 811460c:	08129f1f 	.word	0x08129f1f
  8114610:	1000de28 	.word	0x1000de28
  8114614:	1000de2c 	.word	0x1000de2c
  8114618:	1000de30 	.word	0x1000de30
@@ -32381,11 +32381,11 @@ Infinite_Loop:
  8114678:	2000      	movs	r0, #0
  811467a:	bd70      	pop	{r4, r5, r6, pc}
  811467c:	1000de28 	.word	0x1000de28
- 8114680:	08129ea4 	.word	0x08129ea4
- 8114684:	08129fdc 	.word	0x08129fdc
- 8114688:	08129ee6 	.word	0x08129ee6
+ 8114680:	08129eb4 	.word	0x08129eb4
+ 8114684:	08129fec 	.word	0x08129fec
+ 8114688:	08129ef6 	.word	0x08129ef6
  811468c:	1000de2c 	.word	0x1000de2c
- 8114690:	08129f0f 	.word	0x08129f0f
+ 8114690:	08129f1f 	.word	0x08129f1f
  8114694:	1000de34 	.word	0x1000de34
 
 08114698 <_ZN8touchgfx8TextArea19resizeToCurrentTextEv>:
@@ -32653,9 +32653,9 @@ Infinite_Loop:
  81148de:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  81148e2:	bf00      	nop
  81148e4:	1000de60 	.word	0x1000de60
- 81148e8:	0812a070 	.word	0x0812a070
- 81148ec:	0812a0d2 	.word	0x0812a0d2
- 81148f0:	0812a0ac 	.word	0x0812a0ac
+ 81148e8:	0812a080 	.word	0x0812a080
+ 81148ec:	0812a0e2 	.word	0x0812a0e2
+ 81148f0:	0812a0bc 	.word	0x0812a0bc
  81148f4:	1000ddb8 	.word	0x1000ddb8
 
 081148f8 <_ZN8touchgfx13BoxWithBorderD1Ev>:
@@ -33021,11 +33021,11 @@ Infinite_Loop:
  8114c82:	f104 023c 	add.w	r2, r4, #60	; 0x3c
  8114c86:	e7b6      	b.n	8114bf6 <_ZNK8touchgfx15ButtonWithLabel4drawERKNS_4RectE+0xda>
  8114c88:	1000de28 	.word	0x1000de28
- 8114c8c:	08129ea4 	.word	0x08129ea4
- 8114c90:	0812a244 	.word	0x0812a244
- 8114c94:	08129ee6 	.word	0x08129ee6
+ 8114c8c:	08129eb4 	.word	0x08129eb4
+ 8114c90:	0812a254 	.word	0x0812a254
+ 8114c94:	08129ef6 	.word	0x08129ef6
  8114c98:	1000de2c 	.word	0x1000de2c
- 8114c9c:	08129f0f 	.word	0x08129f0f
+ 8114c9c:	08129f1f 	.word	0x08129f1f
  8114ca0:	1000de30 	.word	0x1000de30
  8114ca4:	1000ddb8 	.word	0x1000ddb8
  8114ca8:	1000de34 	.word	0x1000de34
@@ -33064,7 +33064,7 @@ Infinite_Loop:
  8114cf8:	f880 2045 	strb.w	r2, [r0, #69]	; 0x45
  8114cfc:	bd10      	pop	{r4, pc}
  8114cfe:	bf00      	nop
- 8114d00:	0812a1dc 	.word	0x0812a1dc
+ 8114d00:	0812a1ec 	.word	0x0812a1ec
  8114d04:	081271b0 	.word	0x081271b0
 
 08114d08 <_ZN8touchgfx11RadioButtonD1Ev>:
@@ -33188,9 +33188,9 @@ Infinite_Loop:
  8114e14:	b00b      	add	sp, #44	; 0x2c
  8114e16:	bdf0      	pop	{r4, r5, r6, r7, pc}
  8114e18:	1000de60 	.word	0x1000de60
- 8114e1c:	0812a070 	.word	0x0812a070
- 8114e20:	0812a2e4 	.word	0x0812a2e4
- 8114e24:	0812a0ac 	.word	0x0812a0ac
+ 8114e1c:	0812a080 	.word	0x0812a080
+ 8114e20:	0812a2f4 	.word	0x0812a2f4
+ 8114e24:	0812a0bc 	.word	0x0812a0bc
  8114e28:	1000ddb8 	.word	0x1000ddb8
 
 08114e2c <_ZNK8touchgfx11RadioButton12getSolidRectEv>:
@@ -33378,13 +33378,13 @@ Infinite_Loop:
  8114fb8:	1000ddd0 	.word	0x1000ddd0
  8114fbc:	1000ddd8 	.word	0x1000ddd8
  8114fc0:	1000ddd4 	.word	0x1000ddd4
- 8114fc4:	0812a317 	.word	0x0812a317
- 8114fc8:	0812a3df 	.word	0x0812a3df
- 8114fcc:	0812a350 	.word	0x0812a350
+ 8114fc4:	0812a327 	.word	0x0812a327
+ 8114fc8:	0812a3ef 	.word	0x0812a3ef
+ 8114fcc:	0812a360 	.word	0x0812a360
  8114fd0:	1000dddc 	.word	0x1000dddc
  8114fd4:	1000ddcc 	.word	0x1000ddcc
  8114fd8:	1000ddc4 	.word	0x1000ddc4
- 8114fdc:	0812a39a 	.word	0x0812a39a
+ 8114fdc:	0812a3aa 	.word	0x0812a3aa
 
 08114fe0 <_ZN8touchgfx20CanvasWidgetRenderer9hasBufferEv>:
  8114fe0:	4b04      	ldr	r3, [pc, #16]	; (8114ff4 <_ZN8touchgfx20CanvasWidgetRenderer9hasBufferEv+0x14>)
@@ -35856,9 +35856,9 @@ Infinite_Loop:
  8116822:	bf00      	nop
  8116824:	1000de18 	.word	0x1000de18
  8116828:	1000de14 	.word	0x1000de14
- 811682c:	0812a45e 	.word	0x0812a45e
- 8116830:	0812a648 	.word	0x0812a648
- 8116834:	0812a46c 	.word	0x0812a46c
+ 811682c:	0812a46e 	.word	0x0812a46e
+ 8116830:	0812a658 	.word	0x0812a658
+ 8116834:	0812a47c 	.word	0x0812a47c
 
 08116838 <_ZN8touchgfx11Application12switchScreenEPNS_6ScreenE>:
  8116838:	b570      	push	{r4, r5, r6, lr}
@@ -35888,9 +35888,9 @@ Infinite_Loop:
  811686c:	6b1b      	ldr	r3, [r3, #48]	; 0x30
  811686e:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
  8116872:	4718      	bx	r3
- 8116874:	0812a42a 	.word	0x0812a42a
- 8116878:	0812a508 	.word	0x0812a508
- 811687c:	0812a434 	.word	0x0812a434
+ 8116874:	0812a43a 	.word	0x0812a43a
+ 8116878:	0812a518 	.word	0x0812a518
+ 811687c:	0812a444 	.word	0x0812a444
  8116880:	1000de14 	.word	0x1000de14
 
 08116884 <_ZNK8touchgfx4Rect8includesERKS0_>:
@@ -35998,7 +35998,7 @@ Infinite_Loop:
  811696c:	f001 fab4 	bl	8117ed8 <_ZN8touchgfx6Screen4drawEv>
  8116970:	e7ec      	b.n	811694c <_ZN8touchgfx11ApplicationC1Ev+0x44>
  8116972:	bf00      	nop
- 8116974:	0812a4cc 	.word	0x0812a4cc
+ 8116974:	0812a4dc 	.word	0x0812a4dc
  8116978:	b5e8b5cd 	.word	0xb5e8b5cd
  811697c:	f407a5c2 	.word	0xf407a5c2
  8116980:	1000de14 	.word	0x1000de14
@@ -36028,9 +36028,9 @@ Infinite_Loop:
  81169c2:	685a      	ldr	r2, [r3, #4]
  81169c4:	6062      	str	r2, [r4, #4]
  81169c6:	bd10      	pop	{r4, pc}
- 81169c8:	0812a45e 	.word	0x0812a45e
- 81169cc:	0812a54c 	.word	0x0812a54c
- 81169d0:	0812a46c 	.word	0x0812a46c
+ 81169c8:	0812a46e 	.word	0x0812a46e
+ 81169cc:	0812a55c 	.word	0x0812a55c
+ 81169d0:	0812a47c 	.word	0x0812a47c
 
 081169d4 <_ZN8touchgfx6VectorINS_4RectELt8EE3addES1_>:
  81169d4:	b537      	push	{r0, r1, r2, r4, r5, lr}
@@ -36054,9 +36054,9 @@ Infinite_Loop:
  8116a06:	b003      	add	sp, #12
  8116a08:	bd30      	pop	{r4, r5, pc}
  8116a0a:	bf00      	nop
- 8116a0c:	0812a495 	.word	0x0812a495
- 8116a10:	0812a5e2 	.word	0x0812a5e2
- 8116a14:	0812a46c 	.word	0x0812a46c
+ 8116a0c:	0812a4a5 	.word	0x0812a4a5
+ 8116a10:	0812a5f2 	.word	0x0812a5f2
+ 8116a14:	0812a47c 	.word	0x0812a47c
 
 08116a18 <_ZN8touchgfx11Application14invalidateAreaENS_4RectE>:
  8116a18:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -37581,7 +37581,7 @@ Infinite_Loop:
  811795a:	4b01      	ldr	r3, [pc, #4]	; (8117960 <_ZN8touchgfx9ConstFontC1EPKNS_9GlyphNodeEtthhhhhtt+0x40>)
  811795c:	6003      	str	r3, [r0, #0]
  811795e:	bd30      	pop	{r4, r5, pc}
- 8117960:	0812a748 	.word	0x0812a748
+ 8117960:	0812a758 	.word	0x0812a758
 
 08117964 <_ZNK8touchgfx9ConstFont4findEt>:
  8117964:	b5f0      	push	{r4, r5, r6, r7, lr}
@@ -37930,7 +37930,7 @@ Infinite_Loop:
  8117c32:	b007      	add	sp, #28
  8117c34:	bd30      	pop	{r4, r5, pc}
  8117c36:	bf00      	nop
- 8117c38:	0812a7c8 	.word	0x0812a7c8
+ 8117c38:	0812a7d8 	.word	0x0812a7d8
 
 08117c3c <_ZN8touchgfx6Screen16handleClickEventERKNS_10ClickEventE>:
  8117c3c:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -37997,7 +37997,7 @@ Infinite_Loop:
  8117cd6:	e9c4 660c 	strd	r6, r6, [r4, #48]	; 0x30
  8117cda:	b00a      	add	sp, #40	; 0x28
  8117cdc:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
- 8117ce0:	0812a7a0 	.word	0x0812a7a0
+ 8117ce0:	0812a7b0 	.word	0x0812a7b0
 
 08117ce4 <_ZN8touchgfx6Screen15handleDragEventERKNS_9DragEventE>:
  8117ce4:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -38099,8 +38099,8 @@ Infinite_Loop:
  8117dd0:	b008      	add	sp, #32
  8117dd2:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  8117dd6:	bf00      	nop
- 8117dd8:	0812a7a0 	.word	0x0812a7a0
- 8117ddc:	0812a7b4 	.word	0x0812a7b4
+ 8117dd8:	0812a7b0 	.word	0x0812a7b0
+ 8117ddc:	0812a7c4 	.word	0x0812a7c4
 
 08117de0 <_ZN8touchgfx8Drawable20getCachedVisibleRectEv>:
  8117de0:	b537      	push	{r0, r1, r2, r4, r5, lr}
@@ -38200,8 +38200,8 @@ Infinite_Loop:
  8117ec2:	4798      	blx	r3
  8117ec4:	4620      	mov	r0, r4
  8117ec6:	bd70      	pop	{r4, r5, r6, pc}
- 8117ec8:	0812a7dc 	.word	0x0812a7dc
- 8117ecc:	08128ab4 	.word	0x08128ab4
+ 8117ec8:	0812a7ec 	.word	0x0812a7ec
+ 8117ecc:	08128ac4 	.word	0x08128ac4
  8117ed0:	1000ddae 	.word	0x1000ddae
  8117ed4:	1000ddac 	.word	0x1000ddac
 
@@ -38837,9 +38837,9 @@ Infinite_Loop:
  8118518:	2300      	movs	r3, #0
  811851a:	e7b6      	b.n	811848a <_ZN8touchgfx12TextProvider15adjustThaiGlyphEPKNS_4FontEPKNS_9GlyphNodeE+0x192>
  811851c:	3fc00079 	.word	0x3fc00079
- 8118520:	0812a808 	.word	0x0812a808
- 8118524:	0812aa7a 	.word	0x0812aa7a
- 8118528:	0812a811 	.word	0x0812a811
+ 8118520:	0812a818 	.word	0x0812a818
+ 8118524:	0812aa8a 	.word	0x0812aa8a
+ 8118528:	0812a821 	.word	0x0812a821
 
 0811852c <_ZN8touchgfx12TextProvider17adjustArabicGlyphEPKNS_4FontEPKNS_9GlyphNodeEt>:
  811852c:	e92d 43f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, lr}
@@ -39198,9 +39198,9 @@ Infinite_Loop:
  811890c:	f7ff fcc6 	bl	811829c <_ZN8touchgfx12TextProvider16adjustHindiGlyphEPKNS_9GlyphNodeE>
  8118910:	e7d9      	b.n	81188c6 <_ZN8touchgfx12TextProvider15getNextLigatureEhPKNS_4FontERPKNS_9GlyphNodeE+0x56>
  8118912:	bf00      	nop
- 8118914:	0812a808 	.word	0x0812a808
- 8118918:	0812aa7a 	.word	0x0812aa7a
- 811891c:	0812a811 	.word	0x0812a811
+ 8118914:	0812a818 	.word	0x0812a818
+ 8118918:	0812aa8a 	.word	0x0812aa8a
+ 811891c:	0812a821 	.word	0x0812a821
 
 08118920 <_ZN8touchgfx12TextProvider15getNextLigatureEhPKNS_4FontERPKNS_9GlyphNodeERPKhRh>:
  8118920:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -39269,9 +39269,9 @@ Infinite_Loop:
  81189c0:	4620      	mov	r0, r4
  81189c2:	f7ff fc6b 	bl	811829c <_ZN8touchgfx12TextProvider16adjustHindiGlyphEPKNS_9GlyphNodeE>
  81189c6:	e7d9      	b.n	811897c <_ZN8touchgfx12TextProvider15getNextLigatureEhPKNS_4FontERPKNS_9GlyphNodeERPKhRh+0x5c>
- 81189c8:	0812a808 	.word	0x0812a808
- 81189cc:	0812aa7a 	.word	0x0812aa7a
- 81189d0:	0812a811 	.word	0x0812a811
+ 81189c8:	0812a818 	.word	0x0812a818
+ 81189cc:	0812aa8a 	.word	0x0812aa8a
+ 81189d0:	0812a821 	.word	0x0812a821
 
 081189d4 <_ZN8touchgfx12TextProvider15fillInputBufferEv>:
  81189d4:	b510      	push	{r4, lr}
@@ -39331,9 +39331,9 @@ Infinite_Loop:
  8118a52:	8458      	strh	r0, [r3, #34]	; 0x22
  8118a54:	e7c0      	b.n	81189d8 <_ZN8touchgfx12TextProvider15fillInputBufferEv+0x4>
  8118a56:	bd10      	pop	{r4, pc}
- 8118a58:	0812a83d 	.word	0x0812a83d
- 8118a5c:	0812abd0 	.word	0x0812abd0
- 8118a60:	0812a811 	.word	0x0812a811
+ 8118a58:	0812a84d 	.word	0x0812a84d
+ 8118a5c:	0812abe0 	.word	0x0812abe0
+ 8118a60:	0812a821 	.word	0x0812a821
 
 08118a64 <_ZN8touchgfx12TextProvider11getNextCharEv>:
  8118a64:	b538      	push	{r3, r4, r5, lr}
@@ -39376,9 +39376,9 @@ Infinite_Loop:
  8118ab6:	8365      	strh	r5, [r4, #26]
  8118ab8:	bd38      	pop	{r3, r4, r5, pc}
  8118aba:	bf00      	nop
- 8118abc:	0812a808 	.word	0x0812a808
- 8118ac0:	0812ab25 	.word	0x0812ab25
- 8118ac4:	0812a811 	.word	0x0812a811
+ 8118abc:	0812a818 	.word	0x0812a818
+ 8118ac0:	0812ab35 	.word	0x0812ab35
+ 8118ac4:	0812a821 	.word	0x0812a821
 
 08118ac8 <_ZN8touchgfx12TextProvider22replaceInputCharactersEttPKt>:
  8118ac8:	b538      	push	{r3, r4, r5, lr}
@@ -39438,15 +39438,15 @@ Infinite_Loop:
  8118b3a:	e7e6      	b.n	8118b0a <_ZN8touchgfx12TextProvider22replaceInputCharactersEttPKt+0x42>
  8118b3c:	e8bd 4038 	ldmia.w	sp!, {r3, r4, r5, lr}
  8118b40:	f7ff bf48 	b.w	81189d4 <_ZN8touchgfx12TextProvider15fillInputBufferEv>
- 8118b44:	0812a808 	.word	0x0812a808
- 8118b48:	0812a8fe 	.word	0x0812a8fe
- 8118b4c:	0812a811 	.word	0x0812a811
- 8118b50:	0812a849 	.word	0x0812a849
- 8118b54:	0812a9a8 	.word	0x0812a9a8
- 8118b58:	0812a857 	.word	0x0812a857
- 8118b5c:	0812ac7f 	.word	0x0812ac7f
- 8118b60:	0812a863 	.word	0x0812a863
- 8118b64:	0812a876 	.word	0x0812a876
+ 8118b44:	0812a818 	.word	0x0812a818
+ 8118b48:	0812a90e 	.word	0x0812a90e
+ 8118b4c:	0812a821 	.word	0x0812a821
+ 8118b50:	0812a859 	.word	0x0812a859
+ 8118b54:	0812a9b8 	.word	0x0812a9b8
+ 8118b58:	0812a867 	.word	0x0812a867
+ 8118b5c:	0812ac8f 	.word	0x0812ac8f
+ 8118b60:	0812a873 	.word	0x0812a873
+ 8118b64:	0812a886 	.word	0x0812a886
 
 08118b68 <_ZN8touchgfx12TextProvider13gsubRuleMatchEPKtttt>:
  8118b68:	3a01      	subs	r2, #1
@@ -39506,10 +39506,10 @@ Infinite_Loop:
  8118be2:	2001      	movs	r0, #1
  8118be4:	e7e0      	b.n	8118ba8 <_ZN8touchgfx12TextProvider13gsubRuleMatchEPKtttt+0x40>
  8118be6:	bf00      	nop
- 8118be8:	0812a849 	.word	0x0812a849
- 8118bec:	0812ad03 	.word	0x0812ad03
- 8118bf0:	0812a811 	.word	0x0812a811
- 8118bf4:	0812a9a8 	.word	0x0812a9a8
+ 8118be8:	0812a859 	.word	0x0812a859
+ 8118bec:	0812ad13 	.word	0x0812ad13
+ 8118bf0:	0812a821 	.word	0x0812a821
+ 8118bf4:	0812a9b8 	.word	0x0812a9b8
 
 08118bf8 <_ZN8touchgfx12TextProvider14applyGsubRulesEPKtt>:
  8118bf8:	e92d 4ff7 	stmdb	sp!, {r0, r1, r2, r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -39613,9 +39613,9 @@ Infinite_Loop:
  8118ce4:	d1e1      	bne.n	8118caa <_ZN8touchgfx12TextProvider16substituteGlyphsEv+0xe>
  8118ce6:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  8118cea:	bf00      	nop
- 8118cec:	0812a808 	.word	0x0812a808
- 8118cf0:	0812aa7a 	.word	0x0812aa7a
- 8118cf4:	0812a811 	.word	0x0812a811
+ 8118cec:	0812a818 	.word	0x0812a818
+ 8118cf0:	0812aa8a 	.word	0x0812aa8a
+ 8118cf4:	0812a821 	.word	0x0812a821
 
 08118cf8 <_ZN8touchgfx8ceil28_4El>:
  8118cf8:	f110 030f 	adds.w	r3, r0, #15
@@ -39661,9 +39661,9 @@ Infinite_Loop:
  8118d56:	6818      	ldr	r0, [r3, #0]
  8118d58:	1a09      	subs	r1, r1, r0
  8118d5a:	e7ed      	b.n	8118d38 <_ZN8touchgfx11floorDivModEllRlS0_+0x20>
- 8118d5c:	0812add4 	.word	0x0812add4
- 8118d60:	0812ae13 	.word	0x0812ae13
- 8118d64:	0812ade4 	.word	0x0812ade4
+ 8118d5c:	0812ade4 	.word	0x0812ade4
+ 8118d60:	0812ae23 	.word	0x0812ae23
+ 8118d64:	0812adf4 	.word	0x0812adf4
 
 08118d68 <_ZN8touchgfx9GradientsC1EPKNS_7Point3DE>:
  8118d68:	b570      	push	{r4, r5, r6, lr}
@@ -40108,9 +40108,9 @@ Infinite_Loop:
  8119284:	1000de48 	.word	0x1000de48
  8119288:	1000de5c 	.word	0x1000de5c
  811928c:	1000de58 	.word	0x1000de58
- 8119290:	0812aeb1 	.word	0x0812aeb1
- 8119294:	0812af0a 	.word	0x0812af0a
- 8119298:	0812ae8c 	.word	0x0812ae8c
+ 8119290:	0812aec1 	.word	0x0812aec1
+ 8119294:	0812af1a 	.word	0x0812af1a
+ 8119298:	0812ae9c 	.word	0x0812ae9c
  811929c:	1000de44 	.word	0x1000de44
  81192a0:	1000de3c 	.word	0x1000de3c
 
@@ -40172,9 +40172,9 @@ Infinite_Loop:
  811931c:	e7ea      	b.n	81192f4 <_ZNK8touchgfx6Bitmap8getWidthEv+0x28>
  811931e:	bf00      	nop
  8119320:	1000de60 	.word	0x1000de60
- 8119324:	0812a070 	.word	0x0812a070
- 8119328:	0812afb7 	.word	0x0812afb7
- 811932c:	0812ae8c 	.word	0x0812ae8c
+ 8119324:	0812a080 	.word	0x0812a080
+ 8119328:	0812afc7 	.word	0x0812afc7
+ 811932c:	0812ae9c 	.word	0x0812ae9c
  8119330:	1000de58 	.word	0x1000de58
  8119334:	1000de5c 	.word	0x1000de5c
  8119338:	1000de40 	.word	0x1000de40
@@ -40219,9 +40219,9 @@ Infinite_Loop:
  8119390:	e7ea      	b.n	8119368 <_ZNK8touchgfx6Bitmap9getHeightEv+0x28>
  8119392:	bf00      	nop
  8119394:	1000de60 	.word	0x1000de60
- 8119398:	0812a070 	.word	0x0812a070
- 811939c:	0812afe3 	.word	0x0812afe3
- 81193a0:	0812ae8c 	.word	0x0812ae8c
+ 8119398:	0812a080 	.word	0x0812a080
+ 811939c:	0812aff3 	.word	0x0812aff3
+ 81193a0:	0812ae9c 	.word	0x0812ae9c
  81193a4:	1000de58 	.word	0x1000de58
  81193a8:	1000de5c 	.word	0x1000de5c
  81193ac:	1000de40 	.word	0x1000de40
@@ -40290,9 +40290,9 @@ Infinite_Loop:
  8119440:	e7d8      	b.n	81193f4 <_ZNK8touchgfx6Bitmap12getSolidRectEv+0x40>
  8119442:	bf00      	nop
  8119444:	1000de60 	.word	0x1000de60
- 8119448:	0812a070 	.word	0x0812a070
- 811944c:	0812af50 	.word	0x0812af50
- 8119450:	0812ae8c 	.word	0x0812ae8c
+ 8119448:	0812a080 	.word	0x0812a080
+ 811944c:	0812af60 	.word	0x0812af60
+ 8119450:	0812ae9c 	.word	0x0812ae9c
  8119454:	1000de58 	.word	0x1000de58
  8119458:	1000de5c 	.word	0x1000de5c
  811945c:	1000de40 	.word	0x1000de40
@@ -40334,9 +40334,9 @@ Infinite_Loop:
  81194b0:	e7f1      	b.n	8119496 <_ZNK8touchgfx6Bitmap7getDataEv+0x2e>
  81194b2:	bf00      	nop
  81194b4:	1000de60 	.word	0x1000de60
- 81194b8:	0812a070 	.word	0x0812a070
- 81194bc:	0812af86 	.word	0x0812af86
- 81194c0:	0812ae8c 	.word	0x0812ae8c
+ 81194b8:	0812a080 	.word	0x0812a080
+ 81194bc:	0812af96 	.word	0x0812af96
+ 81194c0:	0812ae9c 	.word	0x0812ae9c
  81194c4:	1000ddb8 	.word	0x1000ddb8
  81194c8:	1000de3c 	.word	0x1000de3c
 
@@ -42747,9 +42747,9 @@ Infinite_Loop:
  811af86:	6cc0      	ldr	r0, [r0, #76]	; 0x4c
  811af88:	e795      	b.n	811aeb6 <_ZN8touchgfx8LCD24bpp28getTextureMapperDrawScanLineERKNS_14TextureSurfaceEth+0x6e>
  811af8a:	bf00      	nop
- 811af8c:	0812b12c 	.word	0x0812b12c
- 811af90:	0812b89f 	.word	0x0812b89f
- 811af94:	0812b178 	.word	0x0812b178
+ 811af8c:	0812b13c 	.word	0x0812b13c
+ 811af90:	0812b8af 	.word	0x0812b8af
+ 811af94:	0812b188 	.word	0x0812b188
 
 0811af98 <_ZNK8touchgfx8LCD24bpp17framebufferStrideEv>:
  811af98:	b508      	push	{r3, lr}
@@ -42765,9 +42765,9 @@ Infinite_Loop:
  811afb0:	b280      	uxth	r0, r0
  811afb2:	bd08      	pop	{r3, pc}
  811afb4:	1000ddb2 	.word	0x1000ddb2
- 811afb8:	0812b384 	.word	0x0812b384
- 811afbc:	0812b864 	.word	0x0812b864
- 811afc0:	0812b3c6 	.word	0x0812b3c6
+ 811afb8:	0812b394 	.word	0x0812b394
+ 811afbc:	0812b874 	.word	0x0812b874
+ 811afc0:	0812b3d6 	.word	0x0812b3d6
 
 0811afc4 <_ZN8touchgfx8LCD24bpp8blitCopyEPKtRKNS_4RectES5_hb>:
  811afc4:	e92d 43f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, lr}
@@ -43338,14 +43338,14 @@ Infinite_Loop:
  811b51e:	f109 0901 	add.w	r9, r9, #1
  811b522:	e7ee      	b.n	811b502 <_ZN8touchgfx8LCD24bpp29copyFrameBufferRegionToMemoryERKNS_4RectES3_t+0x2b2>
  811b524:	1000ddb8 	.word	0x1000ddb8
- 811b528:	0812b1aa 	.word	0x0812b1aa
- 811b52c:	0812b949 	.word	0x0812b949
- 811b530:	0812b178 	.word	0x0812b178
- 811b534:	0812b25c 	.word	0x0812b25c
- 811b538:	0812b2b1 	.word	0x0812b2b1
+ 811b528:	0812b1ba 	.word	0x0812b1ba
+ 811b52c:	0812b959 	.word	0x0812b959
+ 811b530:	0812b188 	.word	0x0812b188
+ 811b534:	0812b26c 	.word	0x0812b26c
+ 811b538:	0812b2c1 	.word	0x0812b2c1
  811b53c:	1000ddb2 	.word	0x1000ddb2
  811b540:	1000ddb4 	.word	0x1000ddb4
- 811b544:	0812b2ef 	.word	0x0812b2ef
+ 811b544:	0812b2ff 	.word	0x0812b2ff
 
 0811b548 <_ZN8touchgfx8LCD24bpp10fillBufferEPhtRKNS_4RectENS_9colortypeEh>:
  811b548:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -43510,7 +43510,7 @@ Infinite_Loop:
  811b6f8:	e9c0 2214 	strd	r2, r2, [r0, #80]	; 0x50
  811b6fc:	4770      	bx	lr
  811b6fe:	bf00      	nop
- 811b700:	0812b594 	.word	0x0812b594
+ 811b700:	0812b5a4 	.word	0x0812b5a4
 
 0811b704 <_ZN8touchgfx8LCD24bpp19blitCopyL8_ARGB8888EPKhS2_RKNS_4RectES5_h>:
  811b704:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -43670,9 +43670,9 @@ Infinite_Loop:
  811b8ba:	4798      	blx	r3
  811b8bc:	e782      	b.n	811b7c4 <_ZN8touchgfx8LCD24bpp19blitCopyL8_ARGB8888EPKhS2_RKNS_4RectES5_h+0xc0>
  811b8be:	bf00      	nop
- 811b8c0:	0812b0dc 	.word	0x0812b0dc
- 811b8c4:	0812b76b 	.word	0x0812b76b
- 811b8c8:	0812b178 	.word	0x0812b178
+ 811b8c0:	0812b0ec 	.word	0x0812b0ec
+ 811b8c4:	0812b77b 	.word	0x0812b77b
+ 811b8c8:	0812b188 	.word	0x0812b188
  811b8cc:	1000ddb8 	.word	0x1000ddb8
  811b8d0:	1000ddb2 	.word	0x1000ddb2
 
@@ -43830,9 +43830,9 @@ Infinite_Loop:
  811ba8e:	4798      	blx	r3
  811ba90:	e785      	b.n	811b99e <_ZN8touchgfx8LCD24bpp17blitCopyL8_RGB888EPKhS2_RKNS_4RectES5_h+0xca>
  811ba92:	bf00      	nop
- 811ba94:	0812b05b 	.word	0x0812b05b
- 811ba98:	0812b65e 	.word	0x0812b65e
- 811ba9c:	0812b178 	.word	0x0812b178
+ 811ba94:	0812b06b 	.word	0x0812b06b
+ 811ba98:	0812b66e 	.word	0x0812b66e
+ 811ba9c:	0812b188 	.word	0x0812b188
  811baa0:	1000ddb8 	.word	0x1000ddb8
  811baa4:	1000ddb2 	.word	0x1000ddb2
 
@@ -43857,9 +43857,9 @@ Infinite_Loop:
  811bad2:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
  811bad6:	f7ff befd 	b.w	811b8d4 <_ZN8touchgfx8LCD24bpp17blitCopyL8_RGB888EPKhS2_RKNS_4RectES5_h>
  811bada:	bd70      	pop	{r4, r5, r6, pc}
- 811badc:	0812b010 	.word	0x0812b010
- 811bae0:	0812b5dc 	.word	0x0812b5dc
- 811bae4:	0812b178 	.word	0x0812b178
+ 811badc:	0812b020 	.word	0x0812b020
+ 811bae0:	0812b5ec 	.word	0x0812b5ec
+ 811bae4:	0812b188 	.word	0x0812b188
 
 0811bae8 <_ZN8touchgfx8LCD24bpp14blitCopyRGB565EPKtRKNS_4RectES5_h>:
  811bae8:	e92d 43f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, lr}
@@ -44244,9 +44244,9 @@ Infinite_Loop:
  811bf10:	2147      	movs	r1, #71	; 0x47
  811bf12:	f009 fc4b 	bl	81257ac <__assert_func>
  811bf16:	bf00      	nop
- 811bf18:	0812b0a9 	.word	0x0812b0a9
- 811bf1c:	0812b6e7 	.word	0x0812b6e7
- 811bf20:	0812b178 	.word	0x0812b178
+ 811bf18:	0812b0b9 	.word	0x0812b0b9
+ 811bf1c:	0812b6f7 	.word	0x0812b6f7
+ 811bf20:	0812b188 	.word	0x0812b188
 
 0811bf24 <_ZN8touchgfx8LCD24bpp8blitCopyEPKhNS_6Bitmap12BitmapFormatERKNS_4RectES7_hb>:
  811bf24:	b570      	push	{r4, r5, r6, lr}
@@ -44286,9 +44286,9 @@ Infinite_Loop:
  811bf80:	f009 fc14 	bl	81257ac <__assert_func>
  811bf84:	bd70      	pop	{r4, r5, r6, pc}
  811bf86:	bf00      	nop
- 811bf88:	0812b34f 	.word	0x0812b34f
- 811bf8c:	0812b9cf 	.word	0x0812b9cf
- 811bf90:	0812b178 	.word	0x0812b178
+ 811bf88:	0812b35f 	.word	0x0812b35f
+ 811bf8c:	0812b9df 	.word	0x0812b9df
+ 811bf90:	0812b188 	.word	0x0812b188
 
 0811bf94 <_ZN8touchgfx8LCD24bpp9nextPixelEbNS_12TextRotationE>:
  811bf94:	b158      	cbz	r0, 811bfae <_ZN8touchgfx8LCD24bpp9nextPixelEbNS_12TextRotationE+0x1a>
@@ -45369,9 +45369,9 @@ Infinite_Loop:
  811ca90:	708f      	strb	r7, [r1, #2]
  811ca92:	b007      	add	sp, #28
  811ca94:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 811ca98:	0812b33e 	.word	0x0812b33e
- 811ca9c:	0812b7f6 	.word	0x0812b7f6
- 811caa0:	0812b3c6 	.word	0x0812b3c6
+ 811ca98:	0812b34e 	.word	0x0812b34e
+ 811ca9c:	0812b806 	.word	0x0812b806
+ 811caa0:	0812b3d6 	.word	0x0812b3d6
 
 0811caa4 <_ZN8touchgfx8LCD24bpp55TextureMapper_L8_RGB888_Opaque_BilinearInterpolation_GA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
  811caa4:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -45938,9 +45938,9 @@ Infinite_Loop:
  811d112:	f881 a002 	strb.w	sl, [r1, #2]
  811d116:	b003      	add	sp, #12
  811d118:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 811d11c:	0812b33e 	.word	0x0812b33e
- 811d120:	0812b7f6 	.word	0x0812b7f6
- 811d124:	0812b3c6 	.word	0x0812b3c6
+ 811d11c:	0812b34e 	.word	0x0812b34e
+ 811d120:	0812b806 	.word	0x0812b806
+ 811d124:	0812b3d6 	.word	0x0812b3d6
 
 0811d128 <_ZN8touchgfx8LCD24bpp57TextureMapper_L8_RGB888_Opaque_BilinearInterpolation_NoGA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
  811d128:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -46515,9 +46515,9 @@ Infinite_Loop:
  811d7d4:	b003      	add	sp, #12
  811d7d6:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  811d7da:	bf00      	nop
- 811d7dc:	0812b33e 	.word	0x0812b33e
- 811d7e0:	0812b7f6 	.word	0x0812b7f6
- 811d7e4:	0812b3c6 	.word	0x0812b3c6
+ 811d7dc:	0812b34e 	.word	0x0812b34e
+ 811d7e0:	0812b806 	.word	0x0812b806
+ 811d7e4:	0812b3d6 	.word	0x0812b3d6
 
 0811d7e8 <_ZN8touchgfx8LCD24bpp60TextureMapper_L8_ARGB8888_NonOpaque_BilinearInterpolation_GA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
  811d7e8:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -47359,9 +47359,9 @@ Infinite_Loop:
  811e1d6:	f881 e002 	strb.w	lr, [r1, #2]
  811e1da:	b003      	add	sp, #12
  811e1dc:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 811e1e0:	0812b33e 	.word	0x0812b33e
- 811e1e4:	0812b7f6 	.word	0x0812b7f6
- 811e1e8:	0812b3c6 	.word	0x0812b3c6
+ 811e1e0:	0812b34e 	.word	0x0812b34e
+ 811e1e4:	0812b806 	.word	0x0812b806
+ 811e1e8:	0812b3d6 	.word	0x0812b3d6
 
 0811e1ec <_ZN8touchgfx8LCD24bpp62TextureMapper_L8_ARGB8888_NonOpaque_BilinearInterpolation_NoGA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
  811e1ec:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -48160,9 +48160,9 @@ Infinite_Loop:
  811eb12:	4688      	mov	r8, r1
  811eb14:	e783      	b.n	811ea1e <_ZN8touchgfx8LCD24bpp52TextureMapper_RGB888_Opaque_BilinearInterpolation_GA16writePixelOnEdgeEPhPKhssiihhh+0x11e>
  811eb16:	bf00      	nop
- 811eb18:	0812b33e 	.word	0x0812b33e
- 811eb1c:	0812b7f6 	.word	0x0812b7f6
- 811eb20:	0812b3c6 	.word	0x0812b3c6
+ 811eb18:	0812b34e 	.word	0x0812b34e
+ 811eb1c:	0812b806 	.word	0x0812b806
+ 811eb20:	0812b3d6 	.word	0x0812b3d6
 
 0811eb24 <_ZN8touchgfx8LCD24bpp52TextureMapper_RGB888_Opaque_BilinearInterpolation_GA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
  811eb24:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -48702,9 +48702,9 @@ Infinite_Loop:
  811f104:	b005      	add	sp, #20
  811f106:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  811f10a:	bf00      	nop
- 811f10c:	0812b33e 	.word	0x0812b33e
- 811f110:	0812b7f6 	.word	0x0812b7f6
- 811f114:	0812b3c6 	.word	0x0812b3c6
+ 811f10c:	0812b34e 	.word	0x0812b34e
+ 811f110:	0812b806 	.word	0x0812b806
+ 811f114:	0812b3d6 	.word	0x0812b3d6
 
 0811f118 <_ZN8touchgfx8LCD24bpp54TextureMapper_RGB888_Opaque_BilinearInterpolation_NoGA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
  811f118:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -49260,9 +49260,9 @@ Infinite_Loop:
  811f772:	f881 e002 	strb.w	lr, [r1, #2]
  811f776:	b003      	add	sp, #12
  811f778:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 811f77c:	0812b33e 	.word	0x0812b33e
- 811f780:	0812b7f6 	.word	0x0812b7f6
- 811f784:	0812b3c6 	.word	0x0812b3c6
+ 811f77c:	0812b34e 	.word	0x0812b34e
+ 811f780:	0812b806 	.word	0x0812b806
+ 811f784:	0812b3d6 	.word	0x0812b3d6
 
 0811f788 <_ZN8touchgfx8LCD24bpp57TextureMapper_ARGB8888_NonOpaque_BilinearInterpolation_GA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
  811f788:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -50080,9 +50080,9 @@ Infinite_Loop:
  812013a:	f881 e002 	strb.w	lr, [r1, #2]
  812013e:	b003      	add	sp, #12
  8120140:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 8120144:	0812b33e 	.word	0x0812b33e
- 8120148:	0812b7f6 	.word	0x0812b7f6
- 812014c:	0812b3c6 	.word	0x0812b3c6
+ 8120144:	0812b34e 	.word	0x0812b34e
+ 8120148:	0812b806 	.word	0x0812b806
+ 812014c:	0812b3d6 	.word	0x0812b3d6
 
 08120150 <_ZN8touchgfx8LCD24bpp59TextureMapper_ARGB8888_NonOpaque_BilinearInterpolation_NoGA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
  8120150:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -50840,9 +50840,9 @@ Infinite_Loop:
  8120a36:	d1a1      	bne.n	812097c <_ZN8touchgfx8LCD24bpp41TextureMapper_A4_BilinearInterpolation_GA16writePixelOnEdgeEPhPKtsssiihhh+0x100>
  8120a38:	462c      	mov	r4, r5
  8120a3a:	e7f8      	b.n	8120a2e <_ZN8touchgfx8LCD24bpp41TextureMapper_A4_BilinearInterpolation_GA16writePixelOnEdgeEPhPKtsssiihhh+0x1b2>
- 8120a3c:	0812b33e 	.word	0x0812b33e
- 8120a40:	0812b7f6 	.word	0x0812b7f6
- 8120a44:	0812b3c6 	.word	0x0812b3c6
+ 8120a3c:	0812b34e 	.word	0x0812b34e
+ 8120a40:	0812b806 	.word	0x0812b806
+ 8120a44:	0812b3d6 	.word	0x0812b3d6
  8120a48:	1000dde0 	.word	0x1000dde0
 
 08120a4c <_ZN8touchgfx8LCD24bpp41TextureMapper_A4_BilinearInterpolation_GA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
@@ -51440,9 +51440,9 @@ Infinite_Loop:
  81210fe:	462c      	mov	r4, r5
  8121100:	e7f8      	b.n	81210f4 <_ZN8touchgfx8LCD24bpp43TextureMapper_A4_BilinearInterpolation_NoGA16writePixelOnEdgeEPhPKtsssiihh+0x1a4>
  8121102:	bf00      	nop
- 8121104:	0812b33e 	.word	0x0812b33e
- 8121108:	0812b7f6 	.word	0x0812b7f6
- 812110c:	0812b3c6 	.word	0x0812b3c6
+ 8121104:	0812b34e 	.word	0x0812b34e
+ 8121108:	0812b806 	.word	0x0812b806
+ 812110c:	0812b3d6 	.word	0x0812b3d6
  8121110:	1000dde0 	.word	0x1000dde0
 
 08121114 <_ZN8touchgfx8LCD24bpp43TextureMapper_A4_BilinearInterpolation_NoGA34drawTextureMapScanLineSubdivisionsEiiiifffllllfffffRKNS_14DrawingSurfaceEiiRKNS_14TextureSurfaceEhfff>:
@@ -52012,7 +52012,7 @@ Infinite_Loop:
  8121724:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
  8121728:	2000      	movs	r0, #0
  812172a:	e7fa      	b.n	8121722 <_ZN8touchgfx8Gestures17registerDragEventEtttt+0x7a>
- 812172c:	0812a7b4 	.word	0x0812a7b4
+ 812172c:	0812a7c4 	.word	0x0812a7c4
 
 08121730 <_ZN8touchgfx8Gestures18registerClickEventENS_10ClickEvent14ClickEventTypeEtt>:
  8121730:	b5f0      	push	{r4, r5, r6, r7, lr}
@@ -52085,8 +52085,8 @@ Infinite_Loop:
  81217e6:	73a1      	strb	r1, [r4, #14]
  81217e8:	e7e5      	b.n	81217b6 <_ZN8touchgfx8Gestures18registerClickEventENS_10ClickEvent14ClickEventTypeEtt+0x86>
  81217ea:	bf00      	nop
- 81217ec:	0812a7a0 	.word	0x0812a7a0
- 81217f0:	0812a7c8 	.word	0x0812a7c8
+ 81217ec:	0812a7b0 	.word	0x0812a7b0
+ 81217f0:	0812a7d8 	.word	0x0812a7d8
 
 081217f4 <_ZNK8touchgfx10Rasterizer14calculateAlphaEi.isra.14>:
  81217f4:	10c9      	asrs	r1, r1, #3
@@ -52356,12 +52356,12 @@ Infinite_Loop:
  8121ad6:	4a03      	ldr	r2, [pc, #12]	; (8121ae4 <_ZN8touchgfx6CanvasC1EPKNS_12CanvasWidgetERKNS_4RectE+0x250>)
  8121ad8:	216c      	movs	r1, #108	; 0x6c
  8121ada:	e70d      	b.n	81218f8 <_ZN8touchgfx6CanvasC1EPKNS_12CanvasWidgetERKNS_4RectE+0x64>
- 8121adc:	0812bb1c 	.word	0x0812bb1c
- 8121ae0:	0812ba66 	.word	0x0812ba66
- 8121ae4:	0812bb24 	.word	0x0812bb24
- 8121ae8:	0812bac2 	.word	0x0812bac2
+ 8121adc:	0812bb2c 	.word	0x0812bb2c
+ 8121ae0:	0812ba76 	.word	0x0812ba76
+ 8121ae4:	0812bb34 	.word	0x0812bb34
+ 8121ae8:	0812bad2 	.word	0x0812bad2
  8121aec:	1000ddb8 	.word	0x1000ddb8
- 8121af0:	0812baf6 	.word	0x0812baf6
+ 8121af0:	0812bb06 	.word	0x0812bb06
 
 08121af4 <_ZNK8touchgfx6Canvas9isOutsideERKNS_7CWRUtil2Q5ES4_S4_S4_>:
  8121af4:	6812      	ldr	r2, [r2, #0]
@@ -52760,7 +52760,7 @@ Infinite_Loop:
  8121ed0:	f001 f8b5 	bl	812303e <_ZN8touchgfx15RenderingBufferD1Ev>
  8121ed4:	4620      	mov	r0, r4
  8121ed6:	bd38      	pop	{r3, r4, r5, pc}
- 8121ed8:	0812bb1c 	.word	0x0812bb1c
+ 8121ed8:	0812bb2c 	.word	0x0812bb2c
  8121edc:	1000ddb8 	.word	0x1000ddb8
 
 08121ee0 <_ZN8touchgfx6CanvasD0Ev>:
@@ -52864,7 +52864,7 @@ Infinite_Loop:
  8121fc6:	4620      	mov	r0, r4
  8121fc8:	bd10      	pop	{r4, pc}
  8121fca:	bf00      	nop
- 8121fcc:	0812bbec 	.word	0x0812bbec
+ 8121fcc:	0812bbfc 	.word	0x0812bbfc
 
 08121fd0 <_ZN8touchgfx7Outline10renderLineEiiii>:
  8121fd0:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -53252,9 +53252,9 @@ Infinite_Loop:
  81223b4:	8322      	strh	r2, [r4, #24]
  81223b6:	fb0e 1303 	mla	r3, lr, r3, r1
  81223ba:	e687      	b.n	81220cc <_ZN8touchgfx7Outline10renderLineEiiii+0xfc>
- 81223bc:	0812bb73 	.word	0x0812bb73
- 81223c0:	0812bbf4 	.word	0x0812bbf4
- 81223c4:	0812bba4 	.word	0x0812bba4
+ 81223bc:	0812bb83 	.word	0x0812bb83
+ 81223c0:	0812bc04 	.word	0x0812bc04
+ 81223c4:	0812bbb4 	.word	0x0812bbb4
  81223c8:	f1bb 0f00 	cmp.w	fp, #0
  81223cc:	f2c0 8124 	blt.w	8122618 <_ZN8touchgfx7Outline10renderLineEiiii+0x648>
  81223d0:	2201      	movs	r2, #1
@@ -54446,7 +54446,7 @@ Infinite_Loop:
  8122fc2:	4620      	mov	r0, r4
  8122fc4:	bd10      	pop	{r4, pc}
  8122fc6:	bf00      	nop
- 8122fc8:	0812bc2c 	.word	0x0812bc2c
+ 8122fc8:	0812bc3c 	.word	0x0812bc3c
 
 08122fcc <_ZN8touchgfx8Scanline7addSpanEiijj>:
  8122fcc:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -54520,7 +54520,7 @@ Infinite_Loop:
  812305e:	6142      	str	r2, [r0, #20]
  8123060:	4770      	bx	lr
  8123062:	bf00      	nop
- 8123064:	0812bc3c 	.word	0x0812bc3c
+ 8123064:	0812bc4c 	.word	0x0812bc4c
 
 08123068 <_ZN8touchgfx15RenderingBuffer6attachEPhhjji>:
  8123068:	60c3      	str	r3, [r0, #12]
@@ -54744,7 +54744,7 @@ Infinite_Loop:
  81232a0:	00000000 	.word	0x00000000
  81232a4:	fff00000 	.word	0xfff00000
  81232a8:	10000104 	.word	0x10000104
- 81232ac:	0812becb 	.word	0x0812becb
+ 81232ac:	0812bedb 	.word	0x0812bedb
 
 081232b0 <pow>:
  81232b0:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -55175,10 +55175,10 @@ Infinite_Loop:
  812374c:	7fefffff 	.word	0x7fefffff
  8123750:	3fd62e42 	.word	0x3fd62e42
  8123754:	3ff0a2b1 	.word	0x3ff0a2b1
- 8123758:	0812bc58 	.word	0x0812bc58
- 812375c:	0812bc68 	.word	0x0812bc68
+ 8123758:	0812bc68 	.word	0x0812bc68
+ 812375c:	0812bc78 	.word	0x0812bc78
  8123760:	3ff00000 	.word	0x3ff00000
- 8123764:	0812bc48 	.word	0x0812bc48
+ 8123764:	0812bc58 	.word	0x0812bc58
  8123768:	3e2fffff 	.word	0x3e2fffff
  812376c:	00000000 	.word	0x00000000
 
@@ -55697,7 +55697,7 @@ Infinite_Loop:
  8123d00:	8800759c 	.word	0x8800759c
  8123d04:	7e37e43c 	.word	0x7e37e43c
  8123d08:	7ff00000 	.word	0x7ff00000
- 8123d0c:	0812becb 	.word	0x0812becb
+ 8123d0c:	0812bedb 	.word	0x0812bedb
  8123d10:	433fffff 	.word	0x433fffff
  8123d14:	3ff00000 	.word	0x3ff00000
  8123d18:	3fefffff 	.word	0x3fefffff
@@ -56173,11 +56173,11 @@ Infinite_Loop:
  812422c:	43400000 	.word	0x43400000
  8124230:	0003988e 	.word	0x0003988e
  8124234:	000bb679 	.word	0x000bb679
- 8124238:	0812bc78 	.word	0x0812bc78
+ 8124238:	0812bc88 	.word	0x0812bc88
  812423c:	3ff00000 	.word	0x3ff00000
  8124240:	40080000 	.word	0x40080000
- 8124244:	0812bc98 	.word	0x0812bc98
- 8124248:	0812bc88 	.word	0x0812bc88
+ 8124244:	0812bca8 	.word	0x0812bca8
+ 8124248:	0812bc98 	.word	0x0812bc98
  812424c:	a3b5      	add	r3, pc, #724	; (adr r3, 8124524 <__ieee754_pow+0xa3c>)
  812424e:	e9d3 2300 	ldrd	r2, r3, [r3]
  8124252:	4640      	mov	r0, r8
@@ -56729,7 +56729,7 @@ Infinite_Loop:
  8124870:	3ff921fb 	.word	0x3ff921fb
  8124874:	413921fb 	.word	0x413921fb
  8124878:	3fe00000 	.word	0x3fe00000
- 812487c:	0812bca8 	.word	0x0812bca8
+ 812487c:	0812bcb8 	.word	0x0812bcb8
  8124880:	7fefffff 	.word	0x7fefffff
  8124884:	ea4f 5428 	mov.w	r4, r8, asr #20
  8124888:	f2a4 4416 	subw	r4, r4, #1046	; 0x416
@@ -56797,7 +56797,7 @@ Infinite_Loop:
  8124938:	e73a      	b.n	81247b0 <__ieee754_rem_pio2+0x280>
  812493a:	bf00      	nop
  812493c:	41700000 	.word	0x41700000
- 8124940:	0812bd28 	.word	0x0812bd28
+ 8124940:	0812bd38 	.word	0x0812bd38
 
 08124944 <__ieee754_sqrt>:
  8124944:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -57371,13 +57371,13 @@ Infinite_Loop:
  8124f5e:	e754      	b.n	8124e0a <__kernel_rem_pio2+0x1ca>
 	...
  8124f6c:	3ff00000 	.word	0x3ff00000
- 8124f70:	0812be70 	.word	0x0812be70
+ 8124f70:	0812be80 	.word	0x0812be80
  8124f74:	40200000 	.word	0x40200000
  8124f78:	3ff00000 	.word	0x3ff00000
  8124f7c:	3e700000 	.word	0x3e700000
  8124f80:	41700000 	.word	0x41700000
  8124f84:	3fe00000 	.word	0x3fe00000
- 8124f88:	0812be30 	.word	0x0812be30
+ 8124f88:	0812be40 	.word	0x0812be40
  8124f8c:	1e62      	subs	r2, r4, #1
  8124f8e:	ab0c      	add	r3, sp, #48	; 0x30
  8124f90:	f853 3022 	ldr.w	r3, [r3, r2, lsl #2]
@@ -58026,7 +58026,7 @@ Infinite_Loop:
  812567a:	fa44 f202 	asrne.w	r2, r4, r2
  812567e:	ea41 0402 	orrne.w	r4, r1, r2
  8125682:	e7cd      	b.n	8125620 <rint+0xa8>
- 8125684:	0812be80 	.word	0x0812be80
+ 8125684:	0812be90 	.word	0x0812be90
  8125688:	000fffff 	.word	0x000fffff
  812568c:	00000000 	.word	0x00000000
 
@@ -58155,9 +58155,9 @@ Infinite_Loop:
  81257d4:	e7f3      	b.n	81257be <__assert_func+0x12>
  81257d6:	bf00      	nop
  81257d8:	10000108 	.word	0x10000108
- 81257dc:	0812be90 	.word	0x0812be90
- 81257e0:	0812be9d 	.word	0x0812be9d
- 81257e4:	0812becb 	.word	0x0812becb
+ 81257dc:	0812bea0 	.word	0x0812bea0
+ 81257e0:	0812bead 	.word	0x0812bead
+ 81257e4:	0812bedb 	.word	0x0812bedb
 
 081257e8 <atexit>:
  81257e8:	2300      	movs	r3, #0
@@ -58310,7 +58310,7 @@ Infinite_Loop:
  812592e:	61a3      	str	r3, [r4, #24]
  8125930:	e7d2      	b.n	81258d8 <__sinit+0xc>
  8125932:	bf00      	nop
- 8125934:	0812bf2c 	.word	0x0812bf2c
+ 8125934:	0812bf3c 	.word	0x0812bf3c
  8125938:	08125865 	.word	0x08125865
 
 0812593c <__sfp>:
@@ -58365,7 +58365,7 @@ Infinite_Loop:
  81259ba:	603b      	str	r3, [r7, #0]
  81259bc:	e7ee      	b.n	812599c <__sfp+0x60>
  81259be:	bf00      	nop
- 81259c0:	0812bf2c 	.word	0x0812bf2c
+ 81259c0:	0812bf3c 	.word	0x0812bf3c
  81259c4:	ffff0001 	.word	0xffff0001
 
 081259c8 <fiprintf>:
@@ -58438,10 +58438,10 @@ Infinite_Loop:
  8125a5e:	4798      	blx	r3
  8125a60:	3601      	adds	r6, #1
  8125a62:	e7f2      	b.n	8125a4a <__libc_init_array+0x1e>
- 8125a64:	0812cd04 	.word	0x0812cd04
- 8125a68:	0812cd04 	.word	0x0812cd04
- 8125a6c:	0812cd04 	.word	0x0812cd04
- 8125a70:	0812cd18 	.word	0x0812cd18
+ 8125a64:	0812cd14 	.word	0x0812cd14
+ 8125a68:	0812cd14 	.word	0x0812cd14
+ 8125a6c:	0812cd14 	.word	0x0812cd14
+ 8125a70:	0812cd28 	.word	0x0812cd28
 
 08125a74 <__retarget_lock_init_recursive>:
  8125a74:	4770      	bx	lr
@@ -58930,14 +58930,14 @@ Infinite_Loop:
  8125ea8:	f000 f880 	bl	8125fac <_printf_i>
  8125eac:	e7e4      	b.n	8125e78 <_vfiprintf_r+0x208>
  8125eae:	bf00      	nop
- 8125eb0:	0812beec 	.word	0x0812beec
- 8125eb4:	0812bf0c 	.word	0x0812bf0c
- 8125eb8:	0812becc 	.word	0x0812becc
- 8125ebc:	0812bf30 	.word	0x0812bf30
- 8125ec0:	0812bf3a 	.word	0x0812bf3a
+ 8125eb0:	0812befc 	.word	0x0812befc
+ 8125eb4:	0812bf1c 	.word	0x0812bf1c
+ 8125eb8:	0812bedc 	.word	0x0812bedc
+ 8125ebc:	0812bf40 	.word	0x0812bf40
+ 8125ec0:	0812bf4a 	.word	0x0812bf4a
  8125ec4:	00000000 	.word	0x00000000
  8125ec8:	08125c4b 	.word	0x08125c4b
- 8125ecc:	0812bf36 	.word	0x0812bf36
+ 8125ecc:	0812bf46 	.word	0x0812bf46
 
 08125ed0 <_printf_common>:
  8125ed0:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -59273,8 +59273,8 @@ Infinite_Loop:
  81261e8:	f104 0619 	add.w	r6, r4, #25
  81261ec:	e7f5      	b.n	81261da <_printf_i+0x22e>
  81261ee:	bf00      	nop
- 81261f0:	0812bf41 	.word	0x0812bf41
- 81261f4:	0812bf52 	.word	0x0812bf52
+ 81261f0:	0812bf51 	.word	0x0812bf51
+ 81261f4:	0812bf62 	.word	0x0812bf62
 
 081261f8 <iprintf>:
  81261f8:	b40f      	push	{r0, r1, r2, r3}
@@ -59394,9 +59394,9 @@ Infinite_Loop:
  81262f2:	6022      	str	r2, [r4, #0]
  81262f4:	701d      	strb	r5, [r3, #0]
  81262f6:	e7db      	b.n	81262b0 <_puts_r+0x88>
- 81262f8:	0812beec 	.word	0x0812beec
- 81262fc:	0812bf0c 	.word	0x0812bf0c
- 8126300:	0812becc 	.word	0x0812becc
+ 81262f8:	0812befc 	.word	0x0812befc
+ 81262fc:	0812bf1c 	.word	0x0812bf1c
+ 8126300:	0812bedc 	.word	0x0812bedc
 
 08126304 <puts>:
  8126304:	4b02      	ldr	r3, [pc, #8]	; (8126310 <puts+0xc>)
@@ -59740,9 +59740,9 @@ Infinite_Loop:
  81265e8:	f04f 37ff 	mov.w	r7, #4294967295	; 0xffffffff
  81265ec:	e7ea      	b.n	81265c4 <__swbuf_r+0x6c>
  81265ee:	bf00      	nop
- 81265f0:	0812beec 	.word	0x0812beec
- 81265f4:	0812bf0c 	.word	0x0812bf0c
- 81265f8:	0812becc 	.word	0x0812becc
+ 81265f0:	0812befc 	.word	0x0812befc
+ 81265f4:	0812bf1c 	.word	0x0812bf1c
+ 81265f8:	0812bedc 	.word	0x0812bedc
 
 081265fc <_write_r>:
  81265fc:	b538      	push	{r3, r4, r5, lr}
@@ -59852,9 +59852,9 @@ Infinite_Loop:
  81266e8:	e7f7      	b.n	81266da <__swsetup_r+0xba>
  81266ea:	bf00      	nop
  81266ec:	10000108 	.word	0x10000108
- 81266f0:	0812beec 	.word	0x0812beec
- 81266f4:	0812bf0c 	.word	0x0812bf0c
- 81266f8:	0812becc 	.word	0x0812becc
+ 81266f0:	0812befc 	.word	0x0812befc
+ 81266f4:	0812bf1c 	.word	0x0812bf1c
+ 81266f8:	0812bedc 	.word	0x0812bedc
 
 081266fc <__register_exitproc>:
  81266fc:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -59921,7 +59921,7 @@ Infinite_Loop:
  81267aa:	e7c6      	b.n	812673a <__register_exitproc+0x3e>
  81267ac:	1000e050 	.word	0x1000e050
  81267b0:	1000dfc4 	.word	0x1000dfc4
- 81267b4:	0812bf64 	.word	0x0812bf64
+ 81267b4:	0812bf74 	.word	0x0812bf74
  81267b8:	08125a7d 	.word	0x08125a7d
  81267bc:	1000016c 	.word	0x1000016c
 
@@ -60115,9 +60115,9 @@ Infinite_Loop:
  8126952:	bf08      	it	eq
  8126954:	68ec      	ldreq	r4, [r5, #12]
  8126956:	e7da      	b.n	812690e <_fflush_r+0x22>
- 8126958:	0812beec 	.word	0x0812beec
- 812695c:	0812bf0c 	.word	0x0812bf0c
- 8126960:	0812becc 	.word	0x0812becc
+ 8126958:	0812befc 	.word	0x0812befc
+ 812695c:	0812bf1c 	.word	0x0812bf1c
+ 8126960:	0812bedc 	.word	0x0812bedc
 
 08126964 <_lseek_r>:
  8126964:	b538      	push	{r3, r4, r5, lr}
@@ -60571,11 +60571,11 @@ Infinite_Loop:
  8126d84:	f7ff f912 	bl	8125fac <_printf_i>
  8126d88:	e7eb      	b.n	8126d62 <_svfiprintf_r+0x1c2>
  8126d8a:	bf00      	nop
- 8126d8c:	0812bf30 	.word	0x0812bf30
- 8126d90:	0812bf3a 	.word	0x0812bf3a
+ 8126d8c:	0812bf40 	.word	0x0812bf40
+ 8126d90:	0812bf4a 	.word	0x0812bf4a
  8126d94:	00000000 	.word	0x00000000
  8126d98:	08126ae9 	.word	0x08126ae9
- 8126d9c:	0812bf36 	.word	0x0812bf36
+ 8126d9c:	0812bf46 	.word	0x0812bf46
 
 08126da0 <_read_r>:
  8126da0:	b538      	push	{r3, r4, r5, lr}
