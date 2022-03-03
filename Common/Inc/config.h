@@ -34,7 +34,7 @@
 #define IFFT_GAP_PER_LOOP_INCREASE				(100000)
 #define IFFT_GAP_PER_LOOP_DECREASE				(1000)
 
-#define NOISE_REDUCER							(20)
+#define NOISE_REDUCER							(2)
 //#define STEREO_1
 #define RELATIVE_MODE
 
@@ -85,7 +85,7 @@
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
 #define AUDIO_BUFFER_SIZE             			(512)
-#define VOLUME									(40)
+#define VOLUME									(60)
 
 /**************************************************************************************/
 /********************         Wave generation definitions          ********************/
@@ -94,7 +94,7 @@
 #define CIS_ADC_OUT_LINES						(3)
 
 #define WAVE_AMP_RESOLUTION 					(65535)   		//in decimal
-#define START_FREQUENCY     					(80)
+#define START_FREQUENCY     					(70)
 #define MAX_OCTAVE_NUMBER   					(20)
 #define SEMITONE_PER_OCTAVE 					(12)
 #define COMMA_PER_SEMITONE  					(2)

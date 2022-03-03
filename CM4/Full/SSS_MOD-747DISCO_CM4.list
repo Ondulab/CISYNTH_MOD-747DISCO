@@ -2168,7 +2168,7 @@ Disassembly of section .text:
  8101a06:	203c      	movs	r0, #60	; 0x3c
  8101a08:	685b      	ldr	r3, [r3, #4]
  8101a0a:	f8ad 0010 	strh.w	r0, [sp, #16]
- 8101a0e:	2450      	movs	r4, #80	; 0x50
+ 8101a0e:	2446      	movs	r4, #70	; 0x46
  8101a10:	2502      	movs	r5, #2
  8101a12:	4610      	mov	r0, r2
  8101a14:	f04f 6180 	mov.w	r1, #67108864	; 0x4000000
@@ -16043,7 +16043,7 @@ Infinite_Loop:
  810a538:	4860      	ldr	r0, [pc, #384]	; (810a6bc <synth_IfftInit+0x1a8>)
  810a53a:	2302      	movs	r3, #2
  810a53c:	8013      	strh	r3, [r2, #0]
- 810a53e:	2350      	movs	r3, #80	; 0x50
+ 810a53e:	2346      	movs	r3, #70	; 0x46
  810a540:	8053      	strh	r3, [r2, #2]
  810a542:	2364      	movs	r3, #100	; 0x64
  810a544:	7114      	strb	r4, [r2, #4]

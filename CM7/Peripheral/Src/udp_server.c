@@ -121,24 +121,19 @@ uint32_t greyScale(uint32_t rbg888)
 #pragma GCC optimize ("unroll-loops")
 void udp_serverReceiveImage(volatile int32_t *image_buff)
 {
-	static int32_t idx, boot_cal = 0;
-
-	if (boot_cal < 10000)
-	{
-		boot_cal++;
-	}
+	static int32_t idx, acc, nbAcc;
 
 	for (idx = NUMBER_OF_NOTES; --idx >= 0;)
 	{
-		image_buff[idx] = greyScale(udp_imageData[(idx * PIXELS_PER_NOTE)]);
-		if (boot_cal == 9000)
+		image_buff[idx] = 0;
+		nbAcc = 0;
+		for (acc = 12; --acc >= 6;)
 		{
-			imageRef[idx] = image_buff[idx];
+			nbAcc++;
+			image_buff[idx] += greyScale(udp_imageData[(idx * PIXELS_PER_NOTE + acc)]);
 		}
-//		if (boot_cal == 1000)
-//		{
-//			imageRef[idx] /= 1000;
-//		}
+		image_buff[idx] /= nbAcc;
+//		image_buff[idx] = 65535 - image_buff[idx];
 	}
 
 	arm_sub_q31((int32_t *)image_buff, imageRef, (int32_t *)image_buff, NUMBER_OF_NOTES);
