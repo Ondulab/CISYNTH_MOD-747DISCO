@@ -36,7 +36,7 @@
 
 #define NOISE_REDUCER							(2)
 //#define STEREO_1
-#define RELATIVE_MODE
+//#define RELATIVE_MODE
 
 /**************************************************************************************/
 /******************              Ethernet definitions               *******************/
@@ -84,8 +84,8 @@
 /**************************************************************************************/
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
-#define AUDIO_BUFFER_SIZE             			(512)
-#define VOLUME									(60)
+#define AUDIO_BUFFER_SIZE             			(128)
+#define VOLUME									(30)
 
 /**************************************************************************************/
 /********************         Wave generation definitions          ********************/
@@ -97,10 +97,10 @@
 #define START_FREQUENCY     					(70)
 #define MAX_OCTAVE_NUMBER   					(20)
 #define SEMITONE_PER_OCTAVE 					(12)
-#define COMMA_PER_SEMITONE  					(2)
+#define COMMA_PER_SEMITONE  					(5)
 
 #define CIS_PIXELS_NB							((CIS_ACTIVE_PIXELS_PER_LINE * CIS_ADC_OUT_LINES))
-#define PIXELS_PER_NOTE							(16)
+#define PIXELS_PER_NOTE							(8)
 #define NUMBER_OF_NOTES     					(((CIS_ACTIVE_PIXELS_PER_LINE) * (CIS_ADC_OUT_LINES)) / (PIXELS_PER_NOTE))
 
 #endif // __CONFIG_H__
