@@ -45,7 +45,7 @@ void pcm5102_Init(void)
 //	printf("-------------------------------\n");
 
 	AudioPlayInit.Device = AUDIO_OUT_DEVICE_HEADPHONE;
-	AudioPlayInit.ChannelsNbr = 1;
+	AudioPlayInit.ChannelsNbr = 2;
 	AudioPlayInit.SampleRate = 48000U ;
 	AudioPlayInit.BitsPerSample = AUDIO_RESOLUTION_32B;
 	AudioPlayInit.Volume = VOLUME;
@@ -55,7 +55,7 @@ void pcm5102_Init(void)
 	}
 
 	bufferAudioState = AUDIO_BUFFER_OFFSET_NONE;
-	HAL_SAI_Transmit_DMA(&haudio_out_sai,(uint8_t *)&audioBuff[0], AUDIO_BUFFER_SIZE * 4);
+	HAL_SAI_Transmit_DMA(&haudio_out_sai,(uint8_t *)audioBuff, AUDIO_BUFFER_SIZE * 4);
 }
 
 /**

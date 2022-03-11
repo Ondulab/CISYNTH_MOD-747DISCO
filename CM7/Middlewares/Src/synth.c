@@ -195,7 +195,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 
 #ifdef GAP_LIMITER
 		//gap limiter to minimize glitchs
-		for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE; buff_idx++)
+		for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE - 1; buff_idx++)
 		{
 			if (waves[note].current_volume < imageBuffer[note])
 			{
@@ -203,6 +203,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 				if (waves[note].current_volume > imageBuffer[note])
 				{
 					waves[note].current_volume = imageBuffer[note];
+					//fill buffer with current volume evolution
 					break;
 				}
 			}
@@ -212,6 +213,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 				if (waves[note].current_volume < imageBuffer[note])
 				{
 					waves[note].current_volume = imageBuffer[note];
+					//fill buffer with current volume evolution
 					break;
 				}
 			}
@@ -223,7 +225,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 		//fill constant volume buffer
 		if (buff_idx < AUDIO_BUFFER_SIZE)
 		{
-			arm_fill_f32(imageBuffer[note], &volumeBuffer[buff_idx], AUDIO_BUFFER_SIZE - buff_idx);
+			arm_fill_f32(waves[note].current_volume, &volumeBuffer[buff_idx], AUDIO_BUFFER_SIZE - buff_idx);
 		}
 
 #else

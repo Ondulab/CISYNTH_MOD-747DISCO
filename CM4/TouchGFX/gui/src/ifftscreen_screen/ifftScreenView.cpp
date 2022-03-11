@@ -25,6 +25,8 @@ ifftScreenView::ifftScreenView()
 #ifndef SIMULATOR
 	attackSlider.setValue(guiValues.attackSlider);
 	releasaSlider.setValue(guiValues.releaseSlider);
+	commaSlider.setValue(guiValues.commaPerSemitoneSlider);
+	startFreqSlider.setValue(guiValues.startFreqSlider);
 #endif
 }
 
@@ -112,20 +114,38 @@ void ifftScreenView::waveFormOrderSliderChanged(int value)
 void ifftScreenView::startFreqSliderChanged(int value)
 {
 #ifndef SIMULATOR
+	//sanity check
+	if (value < 20)
+		value = 20;
+	if (value > 10000)
+		value = 10000;
 	/* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
 	HAL_HSEM_FastTake(HSEM_ID_1);
 	wavesGeneratorParams.startFrequency = value;
+	params.start_frequency = value;
 	init_waves(unitary_waveform, waves, &wavesGeneratorParams);
 	/* Do not forget to release the HW semaphore 0 once needed */
 	HAL_HSEM_Release(HSEM_ID_1, 0);
+	guiValues.startFreqSlider = value;
 #endif
 }
 
 void ifftScreenView::commaSliderChanged(int value)
 {
 #ifndef SIMULATOR
+	//sanity check
+	if (value < 2)
+		value = 2;
+	if (value > 8)
+		value = 8;
+	/* CM4 takes HW sempahore 0 to inform CM7 that he finished his job */
+	HAL_HSEM_FastTake(HSEM_ID_1);
 	wavesGeneratorParams.commaPerSemitone = value;
+	params.comma_per_semitone = value;
 	init_waves(unitary_waveform, waves, &wavesGeneratorParams);
+	/* Do not forget to release the HW semaphore 0 once needed */
+	HAL_HSEM_Release(HSEM_ID_1, 0);
+	guiValues.commaPerSemitoneSlider = value;
 #endif
 }
 

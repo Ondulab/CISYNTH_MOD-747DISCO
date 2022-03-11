@@ -250,6 +250,8 @@ void QSPI_InitSharedData(void)
 	params.volume					= tmp_Rxflash_params->params.volume;
 	guiValues.attackSlider			= tmp_Rxflash_params->guiValues.attackSlider;
 	guiValues.releaseSlider			= tmp_Rxflash_params->guiValues.releaseSlider;
+	guiValues.startFreqSlider		= tmp_Rxflash_params->guiValues.startFreqSlider;
+	guiValues.commaPerSemitoneSlider= tmp_Rxflash_params->guiValues.commaPerSemitoneSlider;
 
 	QSPI_indirectToMemoryMapped();
 }
@@ -268,13 +270,17 @@ void QSPI_UpdateData(void)
 
 	QSPI_memoryMappedToIndirect();
 
-	tmp_Txflash_params->params.start_frequency = START_FREQUENCY;
-	tmp_Txflash_params->params.comma_per_semitone = COMMA_PER_SEMITONE;
+	tmp_Txflash_params->params.start_frequency = params.start_frequency;
+	tmp_Txflash_params->params.comma_per_semitone = params.comma_per_semitone;
 	tmp_Txflash_params->params.ifft_attack = params.ifft_attack;
 	tmp_Txflash_params->params.ifft_release = params.ifft_release;
+	tmp_Txflash_params->params.start_frequency = params.start_frequency;
+	tmp_Txflash_params->params.comma_per_semitone = params.comma_per_semitone;
 	tmp_Txflash_params->params.volume = VOLUME;
 	tmp_Txflash_params->guiValues.attackSlider = guiValues.attackSlider;
 	tmp_Txflash_params->guiValues.releaseSlider = guiValues.releaseSlider;
+	tmp_Txflash_params->guiValues.startFreqSlider = guiValues.startFreqSlider;
+	tmp_Txflash_params->guiValues.commaPerSemitoneSlider = guiValues.commaPerSemitoneSlider;
 
 	/* Erase QSPI memory */
 	if(BSP_QSPI_EraseBlock(0,WRITE_READ_ADDR,BSP_QSPI_ERASE_8K) != BSP_ERROR_NONE)

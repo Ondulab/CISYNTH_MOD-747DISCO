@@ -16,6 +16,8 @@
 struct guiValues {
 	int32_t attackSlider;
 	int32_t releaseSlider;
+	int32_t commaPerSemitoneSlider;
+	int32_t startFreqSlider;
 };
 
 /* Exported constants --------------------------------------------------------*/

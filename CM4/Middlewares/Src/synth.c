@@ -55,8 +55,8 @@ int32_t synth_IfftInit(void)
 	pcm5102_Init();
 
 	// initialize default parameters
-	wavesGeneratorParams.commaPerSemitone = COMMA_PER_SEMITONE;
-	wavesGeneratorParams.startFrequency = START_FREQUENCY;
+	wavesGeneratorParams.commaPerSemitone = params.comma_per_semitone;
+	wavesGeneratorParams.startFrequency = params.start_frequency;
 	wavesGeneratorParams.harmonizationType = MAJOR;
 	wavesGeneratorParams.harmonizationLevel = 100;
 	wavesGeneratorParams.waveformType = SIN_WAVE;

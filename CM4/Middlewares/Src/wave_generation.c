@@ -217,7 +217,7 @@ uint32_t init_waves(volatile float32_t *unitary_waveform, volatile struct wave *
 					//store octave divider
 					waves[note].octave_divider = 2;
 					//store max_volume_increment
-					waves[note].max_volume_increment = (*(waves[note].start_ptr + 1)) / 2.00;
+					waves[note].max_volume_increment = ((*(waves[note].start_ptr + 1)) / 2.00) / (WAVE_AMP_RESOLUTION / VOLUME_AMP_RESOLUTION);
 					waves[note].max_volume_decrement = waves[note].max_volume_increment;
 				}
 				else
@@ -227,7 +227,7 @@ uint32_t init_waves(volatile float32_t *unitary_waveform, volatile struct wave *
 					//store octave divider
 					waves[note].octave_divider = 1;
 					//store max_volume_increment
-					waves[note].max_volume_increment = *(waves[note].start_ptr + waves[note].octave_coeff);
+					waves[note].max_volume_increment = (*(waves[note].start_ptr + waves[note].octave_coeff)) / (WAVE_AMP_RESOLUTION / VOLUME_AMP_RESOLUTION);
 					waves[note].max_volume_decrement = waves[note].max_volume_increment;
 				}
 			}

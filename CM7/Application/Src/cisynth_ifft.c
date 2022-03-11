@@ -53,22 +53,21 @@ int cisynth_ifft(void)
 		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
 
-		//		imageEmulator_toggle();
+//		imageEmulator_toggle();
 		imageEmulator_slide();
-//				imageEmulator_random();
+//		imageEmulator_random();
 	}
 }
 
 void imageEmulator_toggle(void)
 {
 	static uint32_t start_tick = 0;
-	static uint32_t note = 0;
-	static uint32_t volume = 20000;
+	static uint32_t note = 1;
+	static uint32_t volume = 65000;
 
 	if (HAL_GetTick() - start_tick >= 100)
 	{
 		synth_SetImageData(note, volume);
-
 	}
 
 	if (HAL_GetTick() - start_tick >= 200)
