@@ -37,11 +37,11 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-static volatile int16_t* half_audio_ptr;
-static volatile int16_t* full_audio_ptr;
+static volatile int32_t* half_audio_ptr;
+static volatile int32_t* full_audio_ptr;
 
 /* Private function prototypes -----------------------------------------------*/
-static void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData);
+static void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData);
 
 /* Private user code ---------------------------------------------------------*/
 
@@ -145,120 +145,10 @@ int32_t synth_SetImageData(uint32_t index, int32_t value)
  */
 #pragma GCC push_options
 #pragma GCC optimize ("unroll-loops")
-void synth_OldIfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
+void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 {
-	static int32_t signal_summation_R;
-	static int32_t signal_summation_L;
-	static uint32_t signal_power_summation;
-	static int16_t rfft_R;
-	//	static int16_t rfft_L;
-	static uint16_t new_idx;
-	static uint32_t write_data_nbr;
-	static int32_t note;
-	static int32_t max_volume;
-	static int32_t current_image_data;
-
-	write_data_nbr = 0;
-
-	while(write_data_nbr < AUDIO_BUFFER_SIZE)
-	{
-		signal_summation_R = 0;
-		signal_summation_L = 0;
-		signal_power_summation = 0;
-		max_volume = 0;
-
-		//Summation for all pixel
-		for (note = NUMBER_OF_NOTES; --note >= 1;) //NUMBER_OF_NOTES
-		{
-#ifdef RELATIVE_MODE
-			//relative mode
-			if (imageData[note - 1] - imageData[note] > 0)
-				current_image_data = imageData[note - 1] - imageData[note];
-			else
-				current_image_data = 0;//imageData[note] - imageData[note - 1];
-
-			if (current_image_data < NOISE_REDUCER)
-				current_image_data /= 4;
-
-
-#else
-			current_image_data = (imageData[note - 1] + imageData[note]) / 2;
-#endif
-
-			//octave_coeff jump current pointer into the fundamental waveform, for example : the 3th octave increment the current pointer 8 per 8 (2^3)
-			//example for 17 cell waveform and 3th octave : [X][Y][Z][X][Y][Z][X][Y][Z][X][Y][[Z][X][Y][[Z][X][Y], X for the first pass, Y for second etc...
-			new_idx = (waves[note].current_idx + waves[note].octave_coeff);
-			if (new_idx >= waves[note].area_size)
-			{
-				new_idx -= waves[note].area_size;
-			}
-
-#ifdef GAP_LIMITER
-			//gap limiter to minimize glitchs
-			if (waves[note].current_volume < current_image_data)
-			{
-				waves[note].current_volume += params.ifft_attack; //IFFT_GAP_PER_MS_INCREASE / (SAMPLING_FREQUENCY / 1000);
-				if (waves[note].current_volume > current_image_data)
-					waves[note].current_volume = current_image_data;
-			}
-			else
-			{
-				waves[note].current_volume -= params.ifft_release; //IFFT_GAP_PER_LOOP_DECREASE / (SAMPLING_FREQUENCY / 1000);
-				if (waves[note].current_volume < current_image_data)
-					waves[note].current_volume = current_image_data;
-			}
-#else
-			waves[note].current_volume = current_image_data;
-#endif
-			//			}
-
-
-			if (waves[note].current_volume > max_volume)
-				max_volume = waves[note].current_volume;
-
-			//current audio point summation
-			signal_summation_R += ((*(waves[note].start_ptr + new_idx)) * waves[note].current_volume) >> 16;
-			//			signal_summation_L += ((*(waves[note + 1].start_ptr + new_idx)) * waves[note + 1].current_volume) >> 16;
-			//			signal_summation_L += ((*(waves[NUMBER_OF_NOTES - note].start_ptr + new_idx)) * waves[NUMBER_OF_NOTES - note].current_volume) >> 16;
-
-			// 			signal_summation_L = signal_summation_R;
-
-			//read equivalent power of current pixel
-			signal_power_summation += waves[note].current_volume;
-
-			waves[note].current_idx = new_idx;
-		}
-
-		rfft_R = (signal_summation_R * ((double)max_volume) / (double)signal_power_summation);
-		//		rfft_L = (signal_summation_L * ((double)max_volume) / (double)signal_power_summation);
-
-		//		rfft_R = (signal_summation_R * (65535.00) / (double)signal_power_summation);
-		//		rfft_L = (signal_summation_L * (65535.00) / (double)signal_power_summation);
-
-#ifdef STEREO_1
-		audioData[write_data_nbr * 2] = rfft_L;		//L
-#else
-		audioData[write_data_nbr * 2] = rfft_R;
-#endif
-		audioData[write_data_nbr * 2 + 1] = rfft_R;	//R
-		write_data_nbr++;
-	}
-
-	shared_var.synth_process_cnt += AUDIO_BUFFER_SIZE;
-}
-#pragma GCC pop_options
-
-/**
- * @brief  Period elapsed callback in non blocking mode
- * @param  htim : TIM handle
- * @retval None
- */
-#pragma GCC push_options
-#pragma GCC optimize ("unroll-loops")
-void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
-{
-	static int16_t signal_R;
-	static int16_t signal_L;
+	static int32_t signal_R;
+	static int32_t signal_L;
 
 	static int32_t new_idx;
 	static int32_t buff_idx;
@@ -297,7 +187,9 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 				new_idx -= waves[note].area_size;
 			}
 			//fill buffer with current note waveform
-			waveBuffer[buff_idx] = (float32_t)(*(waves[note].start_ptr + new_idx));
+			waveBuffer[buff_idx] = (*(waves[note].start_ptr + new_idx));
+			if (waves[note].octave_divider == 2)
+				waveBuffer[++buff_idx] = (*(waves[note].start_ptr + new_idx));
 			waves[note].current_idx = new_idx;
 		}
 
@@ -307,7 +199,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 		{
 			if (waves[note].current_volume < imageBuffer[note])
 			{
-				waves[note].current_volume += params.ifft_attack; //IFFT_GAP_PER_MS_INCREASE / (SAMPLING_FREQUENCY / 1000);
+				waves[note].current_volume += waves[note].volume_increment;
 				if (waves[note].current_volume > imageBuffer[note])
 				{
 					waves[note].current_volume = imageBuffer[note];
@@ -316,7 +208,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 			}
 			else
 			{
-				waves[note].current_volume -= params.ifft_release; //IFFT_GAP_PER_LOOP_DECREASE / (SAMPLING_FREQUENCY / 1000);
+				waves[note].current_volume -= waves[note].volume_decrement;
 				if (waves[note].current_volume < imageBuffer[note])
 				{
 					waves[note].current_volume = imageBuffer[note];
@@ -325,7 +217,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 			}
 
 			//fill buffer with current volume evolution
-			volumeBuffer[buff_idx] = (float32_t)waves[note].current_volume;
+			volumeBuffer[buff_idx] = waves[note].current_volume;
 		}
 
 		//fill constant volume buffer
@@ -362,12 +254,12 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int16_t *audioData)
 	}
 
 	arm_mult_f32(ifftBuffer, maxVolumeBuffer, ifftBuffer, AUDIO_BUFFER_SIZE);
-	arm_scale_f32(sumVolumeBuffer, 65535, sumVolumeBuffer, AUDIO_BUFFER_SIZE);
+	arm_scale_f32(sumVolumeBuffer, 256, sumVolumeBuffer, AUDIO_BUFFER_SIZE);
 
 	for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE; buff_idx++)
 	{
 		if (sumVolumeBuffer[buff_idx] != 0)
-			signal_R = (int16_t)(ifftBuffer[buff_idx] / (sumVolumeBuffer[buff_idx]));
+			signal_R = (int32_t)(ifftBuffer[buff_idx] / (sumVolumeBuffer[buff_idx]));
 		else
 			signal_R = 0;
 
@@ -418,7 +310,7 @@ void synth_AudioProcess(synthModeTypeDef mode)
 	if(*pcm5102_GetBufferState() == AUDIO_BUFFER_OFFSET_HALF)
 	{
 		pcm5102_ResetBufferState();
-//		udp_serverReceiveImage(imageData);
+		//		udp_serverReceiveImage(imageData);
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
 		{
@@ -437,7 +329,7 @@ void synth_AudioProcess(synthModeTypeDef mode)
 	if(*pcm5102_GetBufferState() == AUDIO_BUFFER_OFFSET_FULL)
 	{
 		pcm5102_ResetBufferState();
-//		udp_serverReceiveImage(imageData);
+		//		udp_serverReceiveImage(imageData);
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
 		{

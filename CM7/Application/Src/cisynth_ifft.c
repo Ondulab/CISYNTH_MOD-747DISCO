@@ -43,7 +43,7 @@ int cisynth_ifft(void)
 
 	synth_IfftInit();
 
-	arm_fill_q31(65000, (int32_t *)imageData, NUMBER_OF_NOTES);
+//	arm_fill_q31(117600, (int32_t *)imageData, NUMBER_OF_NOTES);
 //	synth_SetImageData(187, 65000);
 //	synth_SetImageData(170, 65535);
 //	synth_SetImageData(130, 65535);
@@ -52,11 +52,10 @@ int cisynth_ifft(void)
 	{
 		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
-		//		udp_clientSendImage("TOTO M'A TUE"); // /!\ jardinage, mais ce n'est pas comme ça que l'on plante le blé
 
 		//		imageEmulator_toggle();
-		//						imageEmulator_slide();
-				imageEmulator_random();
+		imageEmulator_slide();
+//				imageEmulator_random();
 	}
 }
 
@@ -95,7 +94,7 @@ void imageEmulator_slide(void)
 	static uint32_t note = 1;
 	static uint32_t volume = 65000;
 
-	if (HAL_GetTick() - start_tick >= 100)
+	if (HAL_GetTick() - start_tick >= 50)
 	{
 		synth_SetImageData(note - 1, 0);
 		synth_SetImageData(note, volume);

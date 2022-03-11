@@ -31,8 +31,8 @@
 #define SIN										//SIN-SAW-SQR
 
 #define GAP_LIMITER
-#define IFFT_GAP_PER_LOOP_INCREASE				(100000)
-#define IFFT_GAP_PER_LOOP_DECREASE				(1000)
+#define IFFT_GAP_PER_LOOP_INCREASE				(1)
+#define IFFT_GAP_PER_LOOP_DECREASE				(1)
 
 #define NOISE_REDUCER							(2)
 //#define STEREO_1
@@ -85,7 +85,7 @@
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
 #define AUDIO_BUFFER_SIZE             			(128)
-#define VOLUME									(30)
+#define VOLUME									(40)
 
 /**************************************************************************************/
 /********************         Wave generation definitions          ********************/
@@ -93,7 +93,7 @@
 #define CIS_ACTIVE_PIXELS_PER_LINE				(576)
 #define CIS_ADC_OUT_LINES						(3)
 
-#define WAVE_AMP_RESOLUTION 					(65535)   		//in decimal
+#define WAVE_AMP_RESOLUTION 					(16777215)   		//in decimal
 #define START_FREQUENCY     					(70)
 #define MAX_OCTAVE_NUMBER   					(20)
 #define SEMITONE_PER_OCTAVE 					(12)

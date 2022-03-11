@@ -41,7 +41,7 @@ struct waveParams {
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/
-uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *params);
+uint32_t init_waves(volatile float32_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *parameters);
 
 /* Private defines -----------------------------------------------------------*/
 

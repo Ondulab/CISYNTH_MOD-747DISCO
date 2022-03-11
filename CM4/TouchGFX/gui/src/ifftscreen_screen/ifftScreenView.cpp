@@ -41,7 +41,15 @@ void ifftScreenView::tearDownScreen()
 void ifftScreenView::attackSliderChanged(int value)
 {
 #ifndef SIMULATOR
-	params.ifft_attack = (int32_t)pow((((float64_t)(100 - value))/100.00)*(log10(20000.00)-log10(1.00))+log10(1.00), 10);
+	//sanity check
+	if (value == 0)
+		value = 1;
+	if (value > 100)
+		value = 100;
+	for (int32_t note = 0; note < NUMBER_OF_NOTES; note++)
+	{
+		waves[note].volume_increment = 1.00/(float32_t)value * waves[note].max_volume_increment;
+	}
 	guiValues.attackSlider = value;
 #endif
 }
@@ -49,7 +57,15 @@ void ifftScreenView::attackSliderChanged(int value)
 void ifftScreenView::releaseSliderChanged(int value)
 {
 #ifndef SIMULATOR
-	params.ifft_release = (int32_t)pow((((float64_t)(100 - value))/100.00)*(log10(20000.00)-log10(1.00))+log10(1.00), 10);
+	//sanity check
+	if (value == 0)
+		value = 1;
+	if (value > 100)
+		value = 100;
+	for (int32_t note = 0; note < NUMBER_OF_NOTES; note++)
+	{
+		waves[note].volume_decrement = 1.00/(float32_t)value * waves[note].max_volume_decrement;
+	}
 	guiValues.releaseSlider = value;
 #endif
 }

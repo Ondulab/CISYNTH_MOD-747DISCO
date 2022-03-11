@@ -9,6 +9,7 @@
 #include "stm32h7xx_hal.h"
 #include "config.h"
 #include "main.h"
+#include "shared.h"
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -153,7 +154,7 @@ static uint32_t calculate_waveform(uint32_t current_aera_size, uint32_t current_
  * @param  params wave parameters,
  * @retval buffer length on success, negative value otherwise
  */
-uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *params)
+uint32_t init_waves(volatile float32_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *parameters)
 {
 	uint32_t buffer_len = 0;
 	uint32_t note = 0;
@@ -167,28 +168,28 @@ uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *wa
 	BSP_AUDIO_OUT_Mute(0);
 
 	//compute cell number for storage all oscillators waveform
-	for (uint32_t comma_cnt = 0; comma_cnt < (SEMITONE_PER_OCTAVE * params->commaPerSemitone); comma_cnt++)
+	for (uint32_t comma_cnt = 0; comma_cnt < (SEMITONE_PER_OCTAVE * parameters->commaPerSemitone); comma_cnt++)
 	{
 		//store only first octave_coeff frequencies ---- logarithmic distribution
-		float64_t frequency = calculate_frequency(comma_cnt, params);
+		float64_t frequency = calculate_frequency(comma_cnt, parameters);
 		buffer_len += (uint32_t)(SAMPLING_FREQUENCY / frequency);
 	}
 
 	//todo add check buffer_len size
 
-	//compute and store the waveform into unitary_waveform only for the first octave_coeff
-	for (uint32_t comma_cnt = 0; comma_cnt < (SEMITONE_PER_OCTAVE * params->commaPerSemitone); comma_cnt++)
+	//compute and store the waveform into unitary_waveform only for the reference octave_coeff
+	for (uint32_t comma_cnt = 0; comma_cnt < (SEMITONE_PER_OCTAVE * parameters->commaPerSemitone); comma_cnt++)
 	{
-		//compute frequency for each comma into the first octave_coeff
-		float64_t frequency = calculate_frequency(comma_cnt, params);
+		//compute frequency for each comma into the reference octave_coeff
+		float64_t frequency = calculate_frequency(comma_cnt, parameters);
 
 		//current aera size is the number of char cell for storage a waveform at the current frequency (one pixel per frequency oscillator)
-		uint32_t current_aera_size = (uint32_t)(SAMPLING_FREQUENCY / frequency);
+		uint32_t current_aera_size = (uint32_t)((SAMPLING_FREQUENCY / frequency) / 2.00); //To save ram usage we divide per two for store first octave (fundamental octave use octave divider)
 
-		current_unitary_waveform_cell = calculate_waveform(current_aera_size, current_unitary_waveform_cell, buffer_len, params);
+		current_unitary_waveform_cell = calculate_waveform(current_aera_size, current_unitary_waveform_cell, buffer_len, parameters);
 
-		//for each octave (only the first octave_coeff stay in RAM, for multiple octave_coeff start_ptr stay on first octave waveform but current_ptr jump cell according to multiple frequencies)
-		for (uint32_t octave = 0; octave <= (NUMBER_OF_NOTES / (SEMITONE_PER_OCTAVE * params->commaPerSemitone)); octave++)
+		//for each octave (only the first octave_coeff stay in RAM, for multiple octave_coeff start_ptr stay on reference octave waveform but current_ptr jump cell according to multiple frequencies)
+		for (uint32_t octave = 0; octave <= (NUMBER_OF_NOTES / (SEMITONE_PER_OCTAVE * parameters->commaPerSemitone)); octave++)
 		{
 			//compute the current pixel to associate an waveform pointer,
 			// *** is current pix, --- octave separation
@@ -196,20 +197,39 @@ uint32_t init_waves(volatile int16_t *unitary_waveform, volatile struct wave *wa
 			// ---*---------*---------*---------*---------*---------*---------*---------*------ for the second comma...
 			// ------*---------*---------*---------*---------*---------*---------*---------*---
 			// ---------*---------*---------*---------*---------*---------*---------*---------*
-			note = comma_cnt + (SEMITONE_PER_OCTAVE * params->commaPerSemitone) * octave;
+			note = comma_cnt + (SEMITONE_PER_OCTAVE * parameters->commaPerSemitone) * octave;
 			//sanity check, if user demand is't possible
 			if (note < NUMBER_OF_NOTES)
 			{
 				//store frequencies
 				waves[note].frequency = frequency * pow(2, octave);
-				//store octave number
-				waves[note].octave_coeff = pow(2, octave);
 				//store aera size
 				waves[note].area_size = current_aera_size;
 				//store pointer address
 				waves[note].start_ptr = &unitary_waveform[current_unitary_waveform_cell - current_aera_size];
 				//set current pointer at the same address
 				waves[note].current_idx = 0;
+
+				if (octave == 0)
+				{
+					//store octave number
+					waves[note].octave_coeff = 1;
+					//store octave divider
+					waves[note].octave_divider = 2;
+					//store max_volume_increment
+					waves[note].max_volume_increment = (*(waves[note].start_ptr + 1)) / 2.00;
+					waves[note].max_volume_decrement = waves[note].max_volume_increment;
+				}
+				else
+				{
+					//store octave number
+					waves[note].octave_coeff = pow(2, octave - 1);
+					//store octave divider
+					waves[note].octave_divider = 1;
+					//store max_volume_increment
+					waves[note].max_volume_increment = *(waves[note].start_ptr + waves[note].octave_coeff);
+					waves[note].max_volume_decrement = waves[note].max_volume_increment;
+				}
 			}
 		}
 	}

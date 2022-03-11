@@ -31,8 +31,8 @@ typedef enum {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void pcm5102_Init(void);
-int16_t pcm5102_GetAudioData(uint32_t index);
-volatile int16_t * pcm5102_GetDataPtr(uint32_t index);
+int32_t pcm5102_GetAudioData(uint32_t index);
+volatile int32_t * pcm5102_GetDataPtr(uint32_t index);
 BUFFER_AUDIO_StateTypeDef * pcm5102_GetBufferState(void);
 void pcm5102_ResetBufferState(void);
 

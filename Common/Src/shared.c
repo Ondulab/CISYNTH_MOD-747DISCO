@@ -31,13 +31,13 @@ __attribute__ ((section(".image")))
 volatile int32_t imageData[NUMBER_OF_NOTES];
 
 __attribute__ ((section(".audio")))
-volatile int16_t audioBuff[AUDIO_BUFFER_SIZE * 4];
+volatile int32_t audioBuff[AUDIO_BUFFER_SIZE * 4];
 
 __attribute__ ((section(".wave")))
 volatile struct wave waves[NUMBER_OF_NOTES];
 
 __attribute__ ((section(".unitary_waveform")))
-volatile int16_t unitary_waveform[WAVEFORM_TABLE_SIZE];
+volatile float32_t unitary_waveform[WAVEFORM_TABLE_SIZE];
 
 /* Private function prototypes -----------------------------------------------*/
 

@@ -23,12 +23,16 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 struct wave {
-	volatile int16_t *start_ptr;
-    uint16_t current_idx;
-	uint16_t area_size;
-	uint16_t octave_coeff;
-	int32_t current_volume;
-	int32_t max_gap_per_loop;
+	volatile float32_t *start_ptr;
+    uint32_t current_idx;
+	uint32_t area_size;
+	uint32_t octave_coeff;
+	uint32_t octave_divider;
+	float32_t current_volume;
+	float32_t volume_increment;
+	float32_t max_volume_increment;
+	float32_t volume_decrement;
+	float32_t max_volume_decrement;
 	float32_t frequency;
 };
 
@@ -37,7 +41,7 @@ struct params {
 	int32_t comma_per_semitone;
 	int32_t ifft_attack;
 	int32_t ifft_release;
-	int16_t volume;
+	int32_t volume;
 };
 
 struct shared_var {
@@ -46,15 +50,15 @@ struct shared_var {
 };
 
 /* Exported constants --------------------------------------------------------*/
-#define WAVEFORM_TABLE_SIZE		180000
+#define WAVEFORM_TABLE_SIZE		90000
 
 extern struct shared_var shared_var;
 extern volatile struct params params;
 extern volatile int32_t cvData[];
 extern volatile int32_t imageData[];
-extern volatile int16_t audioBuff[];
+extern volatile int32_t audioBuff[];
 extern volatile struct wave waves[NUMBER_OF_NOTES];
-extern volatile int16_t unitary_waveform[WAVEFORM_TABLE_SIZE];
+extern volatile float32_t unitary_waveform[WAVEFORM_TABLE_SIZE];
 
 extern int params_size;
 
