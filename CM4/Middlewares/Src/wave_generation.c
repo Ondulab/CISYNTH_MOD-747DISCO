@@ -156,9 +156,9 @@ static uint32_t calculate_waveform(uint32_t current_aera_size, uint32_t current_
  */
 uint32_t init_waves(volatile float32_t *unitary_waveform, volatile struct wave *waves, volatile struct waveParams *parameters)
 {
-	uint32_t buffer_len = 0;
-	uint32_t note = 0;
-	uint32_t current_unitary_waveform_cell = 0;
+	int32_t buffer_len = 0;
+	int32_t note = 0;
+	int32_t current_unitary_waveform_cell = 0;
 
 	printf("---------- WAVES INIT ---------\n");
 	printf("-------------------------------\n");
@@ -184,7 +184,7 @@ uint32_t init_waves(volatile float32_t *unitary_waveform, volatile struct wave *
 		float64_t frequency = calculate_frequency(comma_cnt, parameters);
 
 		//current aera size is the number of char cell for storage a waveform at the current frequency (one pixel per frequency oscillator)
-		uint32_t current_aera_size = (uint32_t)((SAMPLING_FREQUENCY / frequency) / 2.00); //To save ram usage we divide per two for store first octave (fundamental octave use octave divider)
+		uint32_t current_aera_size = (uint32_t)((SAMPLING_FREQUENCY / frequency) / (WAVEFORM_OCTAVE_REF + 1)); //To save ram usage we use octave divider
 
 		current_unitary_waveform_cell = calculate_waveform(current_aera_size, current_unitary_waveform_cell, buffer_len, parameters);
 
@@ -210,20 +210,20 @@ uint32_t init_waves(volatile float32_t *unitary_waveform, volatile struct wave *
 				//set current pointer at the same address
 				waves[note].current_idx = 0;
 
-				if (octave == 0)
+				if (octave < WAVEFORM_OCTAVE_REF)
 				{
 					//store octave number
 					waves[note].octave_coeff = 1;
 					//store octave divider
-					waves[note].octave_divider = 2;
+					waves[note].octave_divider = pow(2, WAVEFORM_OCTAVE_REF - octave);
 					//store max_volume_increment
-					waves[note].max_volume_increment = ((*(waves[note].start_ptr + 1)) / 2.00) / (WAVE_AMP_RESOLUTION / VOLUME_AMP_RESOLUTION);
+					waves[note].max_volume_increment = ((*(waves[note].start_ptr + 1)) / waves[note].octave_divider) / (WAVE_AMP_RESOLUTION / VOLUME_AMP_RESOLUTION);
 					waves[note].max_volume_decrement = waves[note].max_volume_increment;
 				}
 				else
 				{
 					//store octave number
-					waves[note].octave_coeff = pow(2, octave - 1);
+					waves[note].octave_coeff = pow(2, octave - WAVEFORM_OCTAVE_REF);
 					//store octave divider
 					waves[note].octave_divider = 1;
 					//store max_volume_increment

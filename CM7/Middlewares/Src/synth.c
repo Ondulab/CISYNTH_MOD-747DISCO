@@ -152,6 +152,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 
 	static int32_t new_idx;
 	static int32_t buff_idx;
+	static int32_t octaveDiv_idx;
 	static int32_t note;
 
 	static float32_t imageBuffer[NUMBER_OF_NOTES];
@@ -186,10 +187,23 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 			{
 				new_idx -= waves[note].area_size;
 			}
+
 			//fill buffer with current note waveform
-			waveBuffer[buff_idx] = (*(waves[note].start_ptr + new_idx));
-			if (waves[note].octave_divider == 2)
-				waveBuffer[++buff_idx] = (*(waves[note].start_ptr + new_idx));
+//			for (octaveDiv_idx = 0; octaveDiv_idx < waves[note].octave_divider; octaveDiv_idx++)
+//			{
+//				waveBuffer[buff_idx + octaveDiv_idx] = (*(waves[note].start_ptr + new_idx));
+//			}
+
+			if (waves[note].octave_divider > 1)
+			{
+				arm_fill_f32((*(waves[note].start_ptr + new_idx)), &waveBuffer[buff_idx], waves[note].octave_divider);
+				buff_idx += (waves[note].octave_divider - 1);
+			}
+			else
+			{
+				waveBuffer[buff_idx] = (*(waves[note].start_ptr + new_idx));
+			}
+
 			waves[note].current_idx = new_idx;
 		}
 
@@ -243,10 +257,9 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 				maxVolumeBuffer[buff_idx] = volumeBuffer[buff_idx];
 		}
 
-		//		arm_sub_f32(volumeBuffer, maxVolumeBuffer, tmpMaxVolumeBuffer, AUDIO_BUFFER_SIZE);
-		//		arm_clip_f32(tmpMaxVolumeBuffer, tmpMaxVolumeBuffer, 0, 65535, AUDIO_BUFFER_SIZE);
-		//		arm_add_f32(maxVolumeBuffer, tmpMaxVolumeBuffer, maxVolumeBuffer, AUDIO_BUFFER_SIZE);
-
+//		arm_sub_q31(volumeBuffer, maxVolumeBuffer, tmpMaxVolumeBuffer, AUDIO_BUFFER_SIZE);
+//		arm_clip_q31(tmpMaxVolumeBuffer, tmpMaxVolumeBuffer, 0, VOLUME_AMP_RESOLUTION, AUDIO_BUFFER_SIZE);
+//		arm_add_q31(maxVolumeBuffer, tmpMaxVolumeBuffer, maxVolumeBuffer, AUDIO_BUFFER_SIZE);
 
 		//ifft summation
 		arm_add_f32(waveBuffer, ifftBuffer, ifftBuffer, AUDIO_BUFFER_SIZE);

@@ -43,7 +43,7 @@ int cisynth_ifft(void)
 
 	synth_IfftInit();
 
-//	arm_fill_q31(117600, (int32_t *)imageData, NUMBER_OF_NOTES);
+//	arm_fill_q31(65535, (int32_t *)imageData, NUMBER_OF_NOTES);
 //	synth_SetImageData(187, 65000);
 //	synth_SetImageData(170, 65535);
 //	synth_SetImageData(130, 65535);
