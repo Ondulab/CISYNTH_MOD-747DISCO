@@ -139,47 +139,34 @@ int32_t synth_SetImageData(uint32_t index, int32_t value)
 }
 
 /**
- * @brief  Period elapsed callback in non blocking mode
- * @param  htim : TIM handle
+ * @brief  Ifft wave copy and scaling
+ * @param  imageData pointer
+ * @param  numberOfNote
+ * @param  sumVolumeBuffer pointer
+ * @param  maxVolumeBuffer pointer
+ * @param  audioBufferSize
  * @retval None
  */
 #pragma GCC push_options
 #pragma GCC optimize ("unroll-loops")
-void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
+static inline void synth_ifftSum(volatile int32_t *imageData, int32_t numberOfNote, float32_t *ifftBuffer, float32_t *sumVolumeBuffer, int32_t audioBufferSize)
 {
-	static int32_t signal_R;
-	static int32_t signal_L;
-
 	static int32_t new_idx;
 	static int32_t buff_idx;
-	static int32_t octaveDiv_idx;
 	static int32_t note;
 
 	static float32_t imageBuffer[NUMBER_OF_NOTES];
-
 	static float32_t waveBuffer[AUDIO_BUFFER_SIZE];
-	static float32_t ifftBuffer[AUDIO_BUFFER_SIZE];
-	static float32_t sumVolumeBuffer[AUDIO_BUFFER_SIZE];
 	static float32_t volumeBuffer[AUDIO_BUFFER_SIZE];
-	static float32_t maxVolumeBuffer[AUDIO_BUFFER_SIZE];
-	static float32_t tmpMaxVolumeBuffer[AUDIO_BUFFER_SIZE];
 
-	arm_fill_f32(0, ifftBuffer, AUDIO_BUFFER_SIZE);
-	arm_fill_f32(0, sumVolumeBuffer, AUDIO_BUFFER_SIZE);
-	arm_fill_f32(0, maxVolumeBuffer, AUDIO_BUFFER_SIZE);
+//	arm_fill_f32(0, ifftBuffer, audioBufferSize);
+//	arm_fill_f32(0, sumVolumeBuffer, audioBufferSize);
 
-	//handle image / apply different algorithms
-#ifdef RELATIVE_MODE
-	//relative mode
-	arm_sub_q31((int32_t *)imageData, (int32_t *)&imageData[1], (int32_t *)imageData, NUMBER_OF_NOTES - 1);
-	arm_clip_q31((int32_t *)imageData, (int32_t *)imageData, 0, 65535, NUMBER_OF_NOTES);
-#endif
-
-	for (note = 0; note < NUMBER_OF_NOTES; note++)
+	for (note = 0; note < numberOfNote; note++)
 	{
 		imageBuffer[note] = (float32_t)imageData[note];
 
-		for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE; buff_idx++)
+		for (buff_idx = 0; buff_idx < audioBufferSize; buff_idx++)
 		{
 			//octave_coeff jump current pointer into the fundamental waveform, for example : the 3th octave increment the current pointer 8 per 8 (2^3)
 			new_idx = (waves[note].current_idx + waves[note].octave_coeff);
@@ -189,10 +176,10 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 			}
 
 			//fill buffer with current note waveform
-//			for (octaveDiv_idx = 0; octaveDiv_idx < waves[note].octave_divider; octaveDiv_idx++)
-//			{
-//				waveBuffer[buff_idx + octaveDiv_idx] = (*(waves[note].start_ptr + new_idx));
-//			}
+			//			for (octaveDiv_idx = 0; octaveDiv_idx < waves[note].octave_divider; octaveDiv_idx++)
+			//			{
+			//				waveBuffer[buff_idx + octaveDiv_idx] = (*(waves[note].start_ptr + new_idx));
+			//			}
 
 			if (waves[note].octave_divider > 1)
 			{
@@ -209,7 +196,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 
 #ifdef GAP_LIMITER
 		//gap limiter to minimize glitchs
-		for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE - 1; buff_idx++)
+		for (buff_idx = 0; buff_idx < audioBufferSize; buff_idx++)
 		{
 			if (waves[note].current_volume < imageBuffer[note])
 			{
@@ -237,44 +224,97 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 		}
 
 		//fill constant volume buffer
-		if (buff_idx < AUDIO_BUFFER_SIZE)
+		if (buff_idx < audioBufferSize)
 		{
-			arm_fill_f32(waves[note].current_volume, &volumeBuffer[buff_idx], AUDIO_BUFFER_SIZE - buff_idx);
+			arm_fill_f32(waves[note].current_volume, &volumeBuffer[buff_idx], audioBufferSize - buff_idx);
 		}
 
 #else
 		//		waves[note].current_volume = imageBuffer[note];
-		arm_fill_f32(imageBuffer[note], volumeBuffer, AUDIO_BUFFER_SIZE);
+		arm_fill_f32(imageBuffer[note], volumeBuffer, audioBufferSize);
 #endif
 
 		//apply volume scaling at current note waveform
-		arm_mult_f32(waveBuffer, volumeBuffer, waveBuffer, AUDIO_BUFFER_SIZE);
-
-		for (buff_idx = AUDIO_BUFFER_SIZE; --buff_idx >= 0;)
-		{
-			//store max volume
-			if (volumeBuffer[buff_idx] > maxVolumeBuffer[buff_idx])
-				maxVolumeBuffer[buff_idx] = volumeBuffer[buff_idx];
-		}
-
-//		arm_sub_q31(volumeBuffer, maxVolumeBuffer, tmpMaxVolumeBuffer, AUDIO_BUFFER_SIZE);
-//		arm_clip_q31(tmpMaxVolumeBuffer, tmpMaxVolumeBuffer, 0, VOLUME_AMP_RESOLUTION, AUDIO_BUFFER_SIZE);
-//		arm_add_q31(maxVolumeBuffer, tmpMaxVolumeBuffer, maxVolumeBuffer, AUDIO_BUFFER_SIZE);
+		arm_mult_f32(waveBuffer, volumeBuffer, waveBuffer, audioBufferSize);
 
 		//ifft summation
-		arm_add_f32(waveBuffer, ifftBuffer, ifftBuffer, AUDIO_BUFFER_SIZE);
+		arm_add_f32(ifftBuffer, waveBuffer, ifftBuffer, audioBufferSize);
 
 		//volume summation
-		arm_add_f32(volumeBuffer, sumVolumeBuffer, sumVolumeBuffer, AUDIO_BUFFER_SIZE);
+		arm_add_f32(sumVolumeBuffer, volumeBuffer, sumVolumeBuffer, audioBufferSize);
+	}
+}
+
+/**
+ * @brief  Ifft main summation
+ * @param  imageData pointer
+ * @param  audioData pointer
+ * @retval None
+ */
+void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
+{
+	static int32_t signal_R;
+	static int32_t signal_L;
+
+	static int32_t buff_idx;
+	//	static int32_t numberOfNotePerOctave;
+	//
+	//	static float32_t ifftBuffer[AUDIO_BUFFER_SIZE];
+	//	static float32_t sumVolumeBuffer[AUDIO_BUFFER_SIZE];
+
+	static float32_t ifftBuffer_1[AUDIO_BUFFER_SIZE];
+	static float32_t sumVolumeBuffer_1[AUDIO_BUFFER_SIZE];
+
+	static float32_t ifftBuffer_2[AUDIO_BUFFER_SIZE];
+	static float32_t sumVolumeBuffer_2[AUDIO_BUFFER_SIZE];
+
+	static float32_t ifftBuffer_3[AUDIO_BUFFER_SIZE];
+	static float32_t sumVolumeBuffer_3[AUDIO_BUFFER_SIZE];
+
+	arm_fill_f32(0, ifftBuffer_1, AUDIO_BUFFER_SIZE);
+	arm_fill_f32(0, sumVolumeBuffer_1, AUDIO_BUFFER_SIZE);
+	arm_fill_f32(0, ifftBuffer_2, AUDIO_BUFFER_SIZE);
+	arm_fill_f32(0, sumVolumeBuffer_2, AUDIO_BUFFER_SIZE);
+	arm_fill_f32(0, ifftBuffer_3, AUDIO_BUFFER_SIZE);
+	arm_fill_f32(0, sumVolumeBuffer_3, AUDIO_BUFFER_SIZE);
+
+	//handle image / apply different algorithms
+#ifdef RELATIVE_MODE
+	//relative mode
+	arm_sub_q31((int32_t *)imageData, (int32_t *)&imageData[1], (int32_t *)imageData, NUMBER_OF_NOTES - 1);
+	arm_clip_q31((int32_t *)imageData, (int32_t *)imageData, 0, 65535, NUMBER_OF_NOTES);
+#endif
+
+	//	numberOfNotePerOctave = params.comma_per_semitone * SEMITONE_PER_OCTAVE;
+
+	//first pass
+//	synth_ifftSum(&imageData[NUMBER_OF_NOTES / 2], NUMBER_OF_NOTES / 2, ifftBuffer_1, sumVolumeBuffer_1, AUDIO_BUFFER_SIZE);
+
+	//second pass
+	synth_ifftSum(&imageData[0], NUMBER_OF_NOTES / 2, ifftBuffer_2, sumVolumeBuffer_2, AUDIO_BUFFER_SIZE / 2);
+
+	//	for (buff_idx = AUDIO_BUFFER_SIZE / 4; --buff_idx >= 0;)
+	for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE / 2; buff_idx++)
+	{
+		ifftBuffer_3[buff_idx * 2] = ifftBuffer_2[buff_idx];
+		ifftBuffer_3[buff_idx * 2 + 1] = ifftBuffer_2[buff_idx];
+		sumVolumeBuffer_3[buff_idx * 2] = sumVolumeBuffer_2[buff_idx];
+		sumVolumeBuffer_3[buff_idx * 2 + 1] = sumVolumeBuffer_2[buff_idx];
 	}
 
-	arm_mult_f32(ifftBuffer, maxVolumeBuffer, ifftBuffer, AUDIO_BUFFER_SIZE);
-	arm_scale_f32(sumVolumeBuffer, 256, sumVolumeBuffer, AUDIO_BUFFER_SIZE);
+	//ifft summation
+	arm_add_f32(ifftBuffer_1, ifftBuffer_3, ifftBuffer_1, AUDIO_BUFFER_SIZE);
+	//volume summation
+	arm_add_f32(sumVolumeBuffer_1, sumVolumeBuffer_3, sumVolumeBuffer_1, AUDIO_BUFFER_SIZE);
+
+	arm_scale_f32(ifftBuffer_1, 256, ifftBuffer_1, AUDIO_BUFFER_SIZE);
+	//	arm_mult_f32(ifftBuffer, maxVolumeBuffer, ifftBuffer, AUDIO_BUFFER_SIZE);
+//	arm_scale_f32(sumVolumeBuffer_1, 0.00390625, sumVolumeBuffer_1, AUDIO_BUFFER_SIZE);
 
 	for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE; buff_idx++)
 	{
-		if (sumVolumeBuffer[buff_idx] != 0)
-			signal_R = (int32_t)(ifftBuffer[buff_idx] / (sumVolumeBuffer[buff_idx]));
+		if (sumVolumeBuffer_1[buff_idx] != 0)
+			signal_R = (int32_t)(ifftBuffer_1[buff_idx] / (sumVolumeBuffer_1[buff_idx]));
 		else
 			signal_R = 0;
 

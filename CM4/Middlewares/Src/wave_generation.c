@@ -43,7 +43,7 @@ static float64_t calculate_frequency(uint32_t comma_cnt, volatile struct wavePar
 {
 	float64_t frequency = 0.00;
 	frequency = params->startFrequency * pow(2, ((float64_t)comma_cnt / (12.0 * ((SEMITONE_PER_OCTAVE * (float64_t)params->commaPerSemitone) / (12.00 / (log(2)) * log((params->startFrequency * 2.00) / (float64_t)params->startFrequency))))));
-
+//warning add x 4 on startFreq
 	return frequency;
 }
 

@@ -26,7 +26,7 @@
 /**************************************************************************************/
 /********************              Synth definitions               ********************/
 /**************************************************************************************/
-#define SAMPLING_FREQUENCY				      	(48000)
+#define SAMPLING_FREQUENCY				      	(96000)
 
 #define SIN										//SIN-SAW-SQR
 
@@ -84,8 +84,8 @@
 /**************************************************************************************/
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
-#define AUDIO_BUFFER_SIZE             			(1024)
-#define VOLUME									(10)
+#define AUDIO_BUFFER_SIZE             			(2048)
+#define VOLUME									(60)
 
 /**************************************************************************************/
 /********************         Wave generation definitions          ********************/
@@ -93,7 +93,7 @@
 #define CIS_ACTIVE_PIXELS_PER_LINE				(576)
 #define CIS_ADC_OUT_LINES						(3)
 
-#define WAVEFORM_OCTAVE_REF						(2)
+#define WAVEFORM_OCTAVE_REF						(1)
 #define WAVE_AMP_RESOLUTION 					(16777215)   	//in decimal
 #define VOLUME_AMP_RESOLUTION 					(65535)   		//in decimal
 
@@ -103,7 +103,7 @@
 #define COMMA_PER_SEMITONE  					(5)
 
 #define CIS_PIXELS_NB							((CIS_ACTIVE_PIXELS_PER_LINE * CIS_ADC_OUT_LINES))
-#define PIXELS_PER_NOTE							(8)
+#define PIXELS_PER_NOTE							(16)
 #define NUMBER_OF_NOTES     					(((CIS_ACTIVE_PIXELS_PER_LINE) * (CIS_ADC_OUT_LINES)) / (PIXELS_PER_NOTE))
 
 #endif // __CONFIG_H__

@@ -46,7 +46,7 @@ void pcm5102_Init(void)
 
 	AudioPlayInit.Device = AUDIO_OUT_DEVICE_HEADPHONE;
 	AudioPlayInit.ChannelsNbr = 2;
-	AudioPlayInit.SampleRate = 48000U ;
+	AudioPlayInit.SampleRate = 96000U ;
 	AudioPlayInit.BitsPerSample = AUDIO_RESOLUTION_32B;
 	AudioPlayInit.Volume = VOLUME;
 	if(BSP_AUDIO_OUT_Init(0, &AudioPlayInit) != HAL_OK)

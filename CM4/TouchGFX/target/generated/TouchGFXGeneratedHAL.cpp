@@ -93,6 +93,10 @@ void TouchGFXGeneratedHAL::flushFrameBuffer(const touchgfx::Rect& rect)
     // the DCache must be flushed prior to DMA2D accessing it. That's done
     // using the function SCB_CleanInvalidateDCache(). Remember to enable "CPU Cache" in the
     // "System Core" settings for "Cortex M7" in CubeMX in order for this function call to work.
+//    if (SCB->CCR & SCB_CCR_DC_Msk)
+//    {
+//        SCB_CleanInvalidateDCache();
+//    }
 }
 
 bool TouchGFXGeneratedHAL::blockCopy(void* RESTRICT dest, const void* RESTRICT src, uint32_t numBytes)
@@ -106,6 +110,10 @@ void TouchGFXGeneratedHAL::InvalidateCache()
     // the DCache must be flushed prior to DMA2D accessing it. That's done
     // using the function SCB_CleanInvalidateDCache(). Remember to enable "CPU Cache" in the
     // "System Core" settings for "Cortex M7" in CubeMX in order for this function call to work.
+//    if (SCB->CCR & SCB_CCR_DC_Msk)
+//    {
+//        SCB_CleanInvalidateDCache();
+//    }
 }
 
 void TouchGFXGeneratedHAL::FlushCache()
@@ -114,6 +122,10 @@ void TouchGFXGeneratedHAL::FlushCache()
     // the DCache must be flushed prior to DMA2D accessing it. That's done
     // using the function SCB_CleanInvalidateDCache(). Remember to enable "CPU Cache" in the
     // "System Core" settings for "Cortex M7" in CubeMX in order for this function call to work.
+//    if (SCB->CCR & SCB_CCR_DC_Msk)
+//    {
+//        SCB_CleanInvalidateDCache();
+//    }
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

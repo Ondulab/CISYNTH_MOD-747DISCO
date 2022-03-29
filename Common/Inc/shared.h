@@ -50,7 +50,7 @@ struct shared_var {
 };
 
 /* Exported constants --------------------------------------------------------*/
-#define WAVEFORM_TABLE_SIZE		90000
+#define WAVEFORM_TABLE_SIZE		40000
 
 extern struct shared_var shared_var;
 extern volatile struct params params;

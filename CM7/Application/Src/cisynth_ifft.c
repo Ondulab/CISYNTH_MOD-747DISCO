@@ -25,6 +25,7 @@ extern __IO uint32_t synth_process_cnt;
 
 void imageEmulator_toggle(void);
 void imageEmulator_slide(void);
+void imageEmulator_volume(void);
 void imageEmulator_random(void);
 
 /**
@@ -43,19 +44,20 @@ int cisynth_ifft(void)
 
 	synth_IfftInit();
 
-//	arm_fill_q31(65535, (int32_t *)imageData, NUMBER_OF_NOTES);
-//	synth_SetImageData(187, 65000);
-//	synth_SetImageData(170, 65535);
-//	synth_SetImageData(130, 65535);
+	//	arm_fill_q31(65535, (int32_t *)imageData, NUMBER_OF_NOTES);
+	//	synth_SetImageData(87, 65000);
+	//	synth_SetImageData(70, 65535);
+	//	synth_SetImageData(30, 35535);
 
 	while (1)
 	{
 		MX_LWIP_Process();
 		synth_AudioProcess(IFFT_MODE);
 
-//		imageEmulator_toggle();
-		imageEmulator_slide();
-//		imageEmulator_random();
+		//		imageEmulator_toggle();
+//		imageEmulator_slide();
+		//		imageEmulator_random();
+		imageEmulator_volume();
 	}
 }
 
@@ -90,22 +92,62 @@ void imageEmulator_toggle(void)
 void imageEmulator_slide(void)
 {
 	static uint32_t start_tick = 0;
-	static uint32_t note = 1;
+	static uint32_t note = 0;
 	static uint32_t volume = 65000;
 
 	if (HAL_GetTick() - start_tick >= 50)
 	{
-		synth_SetImageData(note - 1, 0);
-		synth_SetImageData(note, volume);
-
-		if (note < (NUMBER_OF_NOTES - 1))
+		if (note > 0)
 		{
+			synth_SetImageData(note - 1, 0);
+		}
+		if (note < NUMBER_OF_NOTES)
+		{
+			synth_SetImageData(note, volume);
 			note++;
 		}
 		else
 		{
-			synth_SetImageData(note, 0);
-			note = 1;
+			note = 0;
+		}
+		start_tick = HAL_GetTick();
+	}
+}
+
+void imageEmulator_volume(void)
+{
+	static uint32_t start_tick = 0;
+	static uint32_t note = 50;
+	static int32_t volume = 0;
+	static int32_t dir = 0;
+
+	if (HAL_GetTick() - start_tick >= 1)
+	{
+		if (dir == 0)
+		{
+			if (volume <= 65535)
+			{
+				synth_SetImageData(note, volume);
+				volume+=100;
+			}
+			else
+			{
+				dir = 1;
+				volume = 65535;
+			}
+		}
+		else
+		{
+			if (volume > 0)
+			{
+				synth_SetImageData(note, volume);
+				volume-=100;
+			}
+			else
+			{
+				dir = 0;
+				volume = 0;
+			}
 		}
 		start_tick = HAL_GetTick();
 	}
