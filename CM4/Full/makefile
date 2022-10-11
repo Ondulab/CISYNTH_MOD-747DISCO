@@ -38,6 +38,7 @@ RM := rm -rf
 -include Core/Src/subdir.mk
 -include Core/Inc/subdir.mk
 -include Common/Src/subdir.mk
+-include Application/Src/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

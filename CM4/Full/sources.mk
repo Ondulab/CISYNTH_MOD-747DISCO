@@ -31,6 +31,7 @@ CPP_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Application/Src \
 Common/Src \
 Core/Inc \
 Core/Src \

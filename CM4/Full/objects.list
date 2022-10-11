@@ -1,3 +1,4 @@
+"./Application/Src/gui_var.o"
 "./Common/Src/shared.o"
 "./Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.o"
 "./Core/Inc/nema_hal_threadx.o"

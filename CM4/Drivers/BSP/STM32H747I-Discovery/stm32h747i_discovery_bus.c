@@ -161,7 +161,7 @@ static osSemaphoreId BspI2cSemaphore = 0;
 /** @defgroup STM32H747I_DISCO_BUS_Exported_Variables Exported Variables
   * @{
   */
-I2C_HandleTypeDef hi2c4;
+//I2C_HandleTypeDef hi2c4;
 /**
   * @}
   */

@@ -9,6 +9,10 @@
 #ifndef __GUI_VAR_H
 #define __GUI_VAR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stdint.h"
 
@@ -21,10 +25,14 @@ struct guiValues {
 };
 
 /* Exported constants --------------------------------------------------------*/
-volatile struct guiValues guiValues;
+extern volatile struct guiValues guiValues;
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __GUI_VAR_H */
 
