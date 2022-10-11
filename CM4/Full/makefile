@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
+# Toolchain: GNU Tools for STM32 (10.3-2021.10)
 ################################################################################
 
 -include ../makefile.init
@@ -36,6 +36,7 @@ RM := rm -rf
 -include Drivers/BSP/Components/ft6x06/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
+-include Core/Inc/subdir.mk
 -include Common/Src/subdir.mk
 -include objects.mk
 
@@ -83,6 +84,9 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 EXECUTABLES += \
 SSS_MOD-747DISCO_CM4.elf \
 
+MAP_FILES += \
+SSS_MOD-747DISCO_CM4.map \
+
 SIZE_OUTPUT += \
 default.size.stdout \
 
@@ -97,7 +101,7 @@ all: main-build
 main-build: SSS_MOD-747DISCO_CM4.elf secondary-outputs
 
 # Tool invocations
-SSS_MOD-747DISCO_CM4.elf: $(OBJS) $(USER_OBJS) /home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+SSS_MOD-747DISCO_CM4.elf SSS_MOD-747DISCO_CM4.map: $(OBJS) $(USER_OBJS) /home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-g++ -o "SSS_MOD-747DISCO_CM4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SSS_MOD-747DISCO_CM4.map" -Wl,--gc-sections -static -L"/home/zhonx/Documents/Workspace_Cube_SSS/SSS_MOD-747DISCO/CM4/Middlewares/ST/touchgfx/lib/core/cortex_m4f/gcc" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
@@ -114,7 +118,7 @@ SSS_MOD-747DISCO_CM4.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_
 
 # Other Targets
 clean:
-	-$(RM) SSS_MOD-747DISCO_CM4.elf SSS_MOD-747DISCO_CM4.list default.size.stdout
+	-$(RM) SSS_MOD-747DISCO_CM4.elf SSS_MOD-747DISCO_CM4.list SSS_MOD-747DISCO_CM4.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

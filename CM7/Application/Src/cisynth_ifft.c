@@ -39,7 +39,6 @@ int cisynth_ifft(void)
 	printf("-------------------------------\n");
 
 	udp_serverInit();
-	//	udp_clientInit();
 
 	synth_IfftInit();
 
@@ -54,7 +53,7 @@ int cisynth_ifft(void)
 		synth_AudioProcess(IFFT_MODE);
 
 //		imageEmulator_toggle();
-		imageEmulator_slide();
+//		imageEmulator_slide();
 //		imageEmulator_random();
 	}
 }

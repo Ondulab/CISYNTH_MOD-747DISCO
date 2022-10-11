@@ -50,7 +50,6 @@
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Drivers/CMSIS/DSP/PrivateInclude}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Drivers/CMSIS/DSP}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SSS_CIS/CM7/Middlewares/CMSIS/DSP/Include}&quot;"/>
 									<listOptionValue builtIn="false" value="../../Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include"/>
 									<listOptionValue builtIn="false" value="../../Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/PrivateInclude"/>
 									<listOptionValue builtIn="false" value="../../Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/"/>
@@ -143,7 +142,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Application"/>
 						<entry excluding="Application" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Common"/>
 						<entry excluding="Src/sai.c|Src/audio_play.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry excluding="CMSIS/DSP/FastMathFunctions/FastMathFunctions.c|CMSIS/DSP/FastMathFunctions/FastMathFunctionsF16.c|CMSIS/DSP/ComplexMathFunctions/ComplexMathFunctionsF16.c|CMSIS/DSP/ComplexMathFunctions/ComplexMathFunctions.c|CMSIS/DSP/SupportFunctions/SupportFunctions.c|CMSIS/DSP/SupportFunctions/SupportFunctionsF16.c|CMSIS/DSP/BasicMathFunctions/BasicMathFunctionsF16.c|CMSIS/DSP/BasicMathFunctions/BasicMathFunctions.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="CMSIS/DSP/StatisticsFunctions/StatisticsFunctions.c|CMSIS/DSP/StatisticsFunctions/StatisticsFunctionsF16.c|CMSIS/DSP/FastMathFunctions/FastMathFunctions.c|CMSIS/DSP/FastMathFunctions/FastMathFunctionsF16.c|CMSIS/DSP/ComplexMathFunctions/ComplexMathFunctionsF16.c|CMSIS/DSP/ComplexMathFunctions/ComplexMathFunctions.c|CMSIS/DSP/SupportFunctions/SupportFunctions.c|CMSIS/DSP/SupportFunctions/SupportFunctionsF16.c|CMSIS/DSP/BasicMathFunctions/BasicMathFunctionsF16.c|CMSIS/DSP/BasicMathFunctions/BasicMathFunctions.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="LWIP"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Library"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
@@ -203,12 +202,12 @@
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Drivers/CMSIS/DSP/PrivateInclude}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Drivers/CMSIS/DSP}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SSS_CIS/CM7/Middlewares/CMSIS/DSP/Include}&quot;"/>
 									<listOptionValue builtIn="false" value="../../Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include"/>
 									<listOptionValue builtIn="false" value="../../Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/PrivateInclude"/>
 									<listOptionValue builtIn="false" value="../../Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/"/>
 									<listOptionValue builtIn="false" value="../../Middlewares/ST/ARM/DSP/Inc"/>
 									<listOptionValue builtIn="false" value="../../Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/PrivateInclude/"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SSS_MOD-747DISCO/CM7/Utilities/Middlewares/ST/ARM/DSP/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SSS_MOD-747DISCO/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SSS_MOD-747DISCO/Middlewares/Third_Party/FreeRTOS/Source/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SSS_MOD-747DISCO/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1}&quot;"/>
@@ -296,13 +295,13 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Application"/>
 						<entry excluding="Application" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Common"/>
 						<entry excluding="Src/sai.c|Src/audio_play.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry excluding="CMSIS/DSP/FastMathFunctions/FastMathFunctions.c|CMSIS/DSP/FastMathFunctions/FastMathFunctionsF16.c|CMSIS/DSP/ComplexMathFunctions/ComplexMathFunctionsF16.c|CMSIS/DSP/ComplexMathFunctions/ComplexMathFunctions.c|CMSIS/DSP/SupportFunctions/SupportFunctions.c|CMSIS/DSP/SupportFunctions/SupportFunctionsF16.c|CMSIS/DSP/BasicMathFunctions/BasicMathFunctionsF16.c|CMSIS/DSP/BasicMathFunctions/BasicMathFunctions.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="CMSIS/DSP/StatisticsFunctions/StatisticsFunctionsF16.c|CMSIS/DSP/StatisticsFunctions/StatisticsFunctions.c|CMSIS/DSP/FastMathFunctions/FastMathFunctions.c|CMSIS/DSP/FastMathFunctions/FastMathFunctionsF16.c|CMSIS/DSP/ComplexMathFunctions/ComplexMathFunctionsF16.c|CMSIS/DSP/ComplexMathFunctions/ComplexMathFunctions.c|CMSIS/DSP/SupportFunctions/SupportFunctions.c|CMSIS/DSP/SupportFunctions/SupportFunctionsF16.c|CMSIS/DSP/BasicMathFunctions/BasicMathFunctionsF16.c|CMSIS/DSP/BasicMathFunctions/BasicMathFunctions.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="LWIP"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Library"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="PDM2PCM"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Peripheral"/>
-						<entry excluding="CPU/cpu_utils.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Utilities"/>
+						<entry excluding="Middlewares/Third_Party/FreeRTOS|Middlewares/Third_Party/LwIP|CPU/cpu_utils.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Utilities"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -177,6 +177,7 @@ void HAL_DSI_MspInit(DSI_HandleTypeDef* dsiHandle)
 	    HAL_NVIC_EnableIRQ(DSI_IRQn);
 #if 0
   /* USER CODE END DSI_MspInit 0 */
+
   /** Initializes the peripherals clock
   */
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_DSI;
@@ -189,7 +190,6 @@ void HAL_DSI_MspInit(DSI_HandleTypeDef* dsiHandle)
     /* DSI clock enable */
     __HAL_RCC_DSI_CLK_ENABLE();
 
-    ();
     __HAL_RCC_GPIOJ_CLK_ENABLE();
     /**DSIHOST GPIO Configuration
     DSI_D1P     ------> DSIHOST_D1P

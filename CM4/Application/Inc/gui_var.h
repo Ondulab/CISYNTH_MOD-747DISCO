@@ -26,6 +26,6 @@ volatile struct guiValues guiValues;
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-#endif /* __MENU_H */
+#endif /* __GUI_VAR_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

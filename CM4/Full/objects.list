@@ -1,5 +1,6 @@
 "./Common/Src/shared.o"
 "./Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.o"
+"./Core/Inc/nema_hal_threadx.o"
 "./Core/Src/crc.o"
 "./Core/Src/dma.o"
 "./Core/Src/dma2d.o"

@@ -29,13 +29,11 @@
 
 /* Private variables ---------------------------------------------------------*/
 int32_t udp_imageData[CIS_PIXELS_NB] = {0};
-int32_t imageRef[NUMBER_OF_NOTES] = {0};
 
 struct udp_pcb *upcb;
 
 /* Private function prototypes -----------------------------------------------*/
 static void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
-static uint32_t greyScale(uint32_t rbg888);
 
 /* Private user code ---------------------------------------------------------*/
 
@@ -105,38 +103,11 @@ void udp_serverReceiveCallback(void *arg, struct udp_pcb *upcb, struct pbuf *p, 
 	}
 }
 
-uint32_t greyScale(uint32_t rbg888)
-{
-	static uint32_t grey, r, g, b;
-
-	r = rbg888 			& 0xFF; // ___________XXXXX
-	g = (rbg888 >> 8) 	& 0xFF; // _____XXXXXX_____
-	b = (rbg888 >> 12) 	& 0xFF; // XXXXX___________
-
-	grey = (r * 299 + g * 587 + b * 114);
-	return grey >> 2;
-}
-
 #pragma GCC push_options
 #pragma GCC optimize ("unroll-loops")
 void udp_serverReceiveImage(volatile int32_t *image_buff)
 {
-	static int32_t idx, acc, nbAcc;
-
-	for (idx = NUMBER_OF_NOTES; --idx >= 0;)
-	{
-		image_buff[idx] = 0;
-		nbAcc = 0;
-		for (acc = 12; --acc >= 6;)
-		{
-			nbAcc++;
-			image_buff[idx] += greyScale(udp_imageData[(idx * PIXELS_PER_NOTE + acc)]);
-		}
-		image_buff[idx] /= nbAcc;
-//		image_buff[idx] = 65535 - image_buff[idx];
-	}
-
-	arm_sub_q31((int32_t *)image_buff, imageRef, (int32_t *)image_buff, NUMBER_OF_NOTES);
+	arm_copy_q31(udp_imageData, (int32_t *)image_buff, CIS_PIXELS_NB);
 }
 #pragma GCC pop_options
 

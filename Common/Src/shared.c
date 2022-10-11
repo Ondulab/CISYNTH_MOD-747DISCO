@@ -28,7 +28,7 @@ __attribute__ ((section(".cvdata")))
 volatile int32_t cvData[NUMBER_OF_NOTES / IMAGE_WEIGHT];
 
 __attribute__ ((section(".image")))
-volatile int32_t imageData[NUMBER_OF_NOTES];
+volatile int32_t imageData[CIS_PIXELS_NB];
 
 __attribute__ ((section(".audio")))
 volatile int32_t audioBuff[AUDIO_BUFFER_SIZE * 4];

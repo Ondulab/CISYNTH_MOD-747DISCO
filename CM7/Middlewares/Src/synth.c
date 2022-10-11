@@ -39,8 +39,10 @@
 /* Private variables ---------------------------------------------------------*/
 static volatile int32_t* half_audio_ptr;
 static volatile int32_t* full_audio_ptr;
+static int32_t imageRef[NUMBER_OF_NOTES] = {0};
 
 /* Private function prototypes -----------------------------------------------*/
+static uint32_t greyScale(uint32_t rbg888);
 static void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData);
 
 /* Private user code ---------------------------------------------------------*/
@@ -110,6 +112,8 @@ int32_t synth_IfftInit(void)
 	half_audio_ptr = pcm5102_GetDataPtr(0);
 	full_audio_ptr = pcm5102_GetDataPtr(AUDIO_BUFFER_SIZE * 2);
 
+	arm_fill_q31(65535, (int32_t *)imageRef, NUMBER_OF_NOTES);
+
 	return 0;
 }
 
@@ -138,6 +142,67 @@ int32_t synth_SetImageData(uint32_t index, int32_t value)
 	return 0;
 }
 
+uint32_t greyScale(uint32_t rbg888)
+{
+	static uint32_t grey, r, g, b;
+
+	r = rbg888 			& 0xFF; // ___________XXXXX
+	g = (rbg888 >> 8) 	& 0xFF; // _____XXXXXX_____
+	b = (rbg888 >> 12) 	& 0xFF; // XXXXX___________
+
+	return grey = (r * 299 + g * 587 + b * 114);
+}
+
+/**
+ * @brief  Period elapsed callback in non blocking mode
+ * @param  htim : TIM handle
+ * @retval None
+ */
+#pragma GCC push_options
+#pragma GCC optimize ("unroll-loops")
+void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData)
+{
+	static int32_t signal_R;
+	static int32_t image_idx_UP = 0;
+	static int32_t image_idx_DW = 0;
+	static int32_t buff_idx = 0;
+	static int32_t idx = 0;
+	static int32_t imageBuffer_q31[CIS_PIXELS_NB];
+
+	for (idx = CIS_PIXELS_NB; --idx >= 0;)
+	{
+		imageBuffer_q31[idx] = greyScale(imageData[idx]) * 16843;
+	}
+
+	for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE; buff_idx++)
+	{
+		if (image_idx_UP < CIS_PIXELS_NB)
+		{
+			signal_R = imageBuffer_q31[image_idx_UP];
+			image_idx_UP++;
+		}
+		else
+		{
+			if (image_idx_DW > 1)
+			{
+				image_idx_DW--;
+				signal_R = imageBuffer_q31[image_idx_DW];
+			}
+			else
+			{
+				image_idx_UP = 0;
+				image_idx_DW = CIS_PIXELS_NB - 1;
+			}
+		}
+
+		audioData[buff_idx * 2] = signal_R;
+		audioData[buff_idx * 2 + 1] = signal_R;
+	}
+
+	shared_var.synth_process_cnt += AUDIO_BUFFER_SIZE;
+}
+#pragma GCC pop_options
+
 /**
  * @brief  Period elapsed callback in non blocking mode
  * @param  htim : TIM handle
@@ -147,6 +212,8 @@ int32_t synth_SetImageData(uint32_t index, int32_t value)
 #pragma GCC optimize ("unroll-loops")
 void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 {
+	static int32_t idx, acc, nbAcc;
+
 	static int32_t signal_R;
 	static int32_t signal_L;
 
@@ -154,7 +221,8 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 	static int32_t buff_idx;
 	static int32_t note;
 
-	static float32_t imageBuffer[NUMBER_OF_NOTES];
+	static int32_t imageBuffer_q31[NUMBER_OF_NOTES];
+	static float32_t imageBuffer_f32[NUMBER_OF_NOTES];
 
 	static float32_t waveBuffer[AUDIO_BUFFER_SIZE];
 	static float32_t ifftBuffer[AUDIO_BUFFER_SIZE];
@@ -167,16 +235,31 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 	arm_fill_f32(0, sumVolumeBuffer, AUDIO_BUFFER_SIZE);
 	arm_fill_f32(0, maxVolumeBuffer, AUDIO_BUFFER_SIZE);
 
+	for (idx = NUMBER_OF_NOTES; --idx >= 0;)
+	{
+		imageBuffer_q31[idx] = 0;
+		nbAcc = 0;
+		for (acc = 6; --acc >= 4;)
+		{
+			nbAcc++;
+			imageBuffer_q31[idx] += greyScale(imageData[(idx * PIXELS_PER_NOTE + acc)]) >> 2;
+		}
+		imageBuffer_q31[idx] /= nbAcc;
+	}
+
+	arm_sub_q31(imageRef, (int32_t *)imageBuffer_q31, (int32_t *)imageBuffer_q31, NUMBER_OF_NOTES);
+	arm_clip_q31((int32_t *)imageBuffer_q31, (int32_t *)imageBuffer_q31, 0, 65535, NUMBER_OF_NOTES);
+
 	//handle image / apply different algorithms
 #ifdef RELATIVE_MODE
 	//relative mode
-	arm_sub_q31((int32_t *)imageData, (int32_t *)&imageData[1], (int32_t *)imageData, NUMBER_OF_NOTES - 1);
-	arm_clip_q31((int32_t *)imageData, (int32_t *)imageData, 0, 65535, NUMBER_OF_NOTES);
+	arm_sub_q31((int32_t *)imageBuffer_q31, (int32_t *)&imageBuffer_q31[1], (int32_t *)imageBuffer_q31, NUMBER_OF_NOTES - 1);
+	arm_clip_q31((int32_t *)imageBuffer_q31, (int32_t *)imageBuffer_q31, 0, 65535, NUMBER_OF_NOTES);
 #endif
 
 	for (note = 0; note < NUMBER_OF_NOTES; note++)
 	{
-		imageBuffer[note] = (float32_t)imageData[note];
+		imageBuffer_f32[note] = (float32_t)imageBuffer_q31[note];
 
 		for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE; buff_idx++)
 		{
@@ -197,12 +280,12 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 		//gap limiter to minimize glitchs
 		for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE - 1; buff_idx++)
 		{
-			if (waves[note].current_volume < imageBuffer[note])
+			if (waves[note].current_volume < imageBuffer_f32[note])
 			{
 				waves[note].current_volume += waves[note].volume_increment;
-				if (waves[note].current_volume > imageBuffer[note])
+				if (waves[note].current_volume > imageBuffer_f32[note])
 				{
-					waves[note].current_volume = imageBuffer[note];
+					waves[note].current_volume = imageBuffer_f32[note];
 					//fill buffer with current volume evolution
 					break;
 				}
@@ -210,9 +293,9 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 			else
 			{
 				waves[note].current_volume -= waves[note].volume_decrement;
-				if (waves[note].current_volume < imageBuffer[note])
+				if (waves[note].current_volume < imageBuffer_f32[note])
 				{
-					waves[note].current_volume = imageBuffer[note];
+					waves[note].current_volume = imageBuffer_f32[note];
 					//fill buffer with current volume evolution
 					break;
 				}
@@ -312,11 +395,12 @@ void synth_AudioProcess(synthModeTypeDef mode)
 	if(*pcm5102_GetBufferState() == AUDIO_BUFFER_OFFSET_HALF)
 	{
 		pcm5102_ResetBufferState();
-		//		udp_serverReceiveImage(imageData);
+		udp_serverReceiveImage(imageData);
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
 		{
-			synth_IfftMode(imageData, half_audio_ptr);
+//			synth_IfftMode(imageData, half_audio_ptr);
+			synth_DirectMode(imageData, half_audio_ptr);
 			SCB_CleanDCache_by_Addr((uint32_t *)half_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 			HAL_HSEM_Release(HSEM_ID_0,0);
 		}
@@ -331,11 +415,12 @@ void synth_AudioProcess(synthModeTypeDef mode)
 	if(*pcm5102_GetBufferState() == AUDIO_BUFFER_OFFSET_FULL)
 	{
 		pcm5102_ResetBufferState();
-		//		udp_serverReceiveImage(imageData);
+		udp_serverReceiveImage(imageData);
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
 		{
-			synth_IfftMode(imageData, full_audio_ptr);
+//			synth_IfftMode(imageData, full_audio_ptr);
+			synth_DirectMode(imageData, full_audio_ptr);
 			SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 			HAL_HSEM_Release(HSEM_ID_0,0);
 		}
