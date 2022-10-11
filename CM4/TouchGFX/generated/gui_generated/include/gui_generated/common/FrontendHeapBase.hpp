@@ -16,6 +16,8 @@
 #include <gui/mainscreen_screen/mainScreenPresenter.hpp>
 #include <gui/ifftscreen_screen/ifftScreenView.hpp>
 #include <gui/ifftscreen_screen/ifftScreenPresenter.hpp>
+#include <gui/dwavescreen_screen/dWaveScreenView.hpp>
+#include <gui/dwavescreen_screen/dWaveScreenPresenter.hpp>
 
 
 /**
@@ -40,7 +42,8 @@ public:
      */
     typedef touchgfx::meta::TypeList< mainScreenView,
             touchgfx::meta::TypeList< ifftScreenView,
-            touchgfx::meta::Nil >
+            touchgfx::meta::TypeList< dWaveScreenView,
+            touchgfx::meta::Nil > >
             > GeneratedViewTypes;
 
     /**
@@ -54,7 +57,8 @@ public:
      */
     typedef touchgfx::meta::TypeList< mainScreenPresenter,
             touchgfx::meta::TypeList< ifftScreenPresenter,
-            touchgfx::meta::Nil >
+            touchgfx::meta::TypeList< dWaveScreenPresenter,
+            touchgfx::meta::Nil > >
             > GeneratedPresenterTypes;
 
     /**

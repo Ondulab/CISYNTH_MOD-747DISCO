@@ -50,7 +50,7 @@ int cisynth_ifft(void)
 	while (1)
 	{
 		MX_LWIP_Process();
-		synth_AudioProcess(IFFT_MODE);
+		synth_AudioProcess();
 
 //		imageEmulator_toggle();
 //		imageEmulator_slide();

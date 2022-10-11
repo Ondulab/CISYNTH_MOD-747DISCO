@@ -42,6 +42,23 @@
         <Translation Language="GB">Menu</Translation>
       </Text>
     </TextGroup>
+    <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_NKO5" Alignment="Center" TypographyId="Typography_00">
+        <Translation Language="GB">Menu</Translation>
+      </Text>
+      <Text Id="__SingleUse_M7OA" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">CV</Translation>
+      </Text>
+      <Text Id="__SingleUse_PIGV" Alignment="Center" TypographyId="Typography_00">
+        <Translation Language="GB">Save</Translation>
+      </Text>
+      <Text Id="__SingleUse_LHNO" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">Speed</Translation>
+      </Text>
+      <Text Id="__SingleUse_GFIW" Alignment="Center" TypographyId="Default">
+        <Translation Language="GB">dWave</Translation>
+      </Text>
+    </TextGroup>
   </Texts>
   <Typographies>
     <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" Direction="LTR" FallbackCharacter="?" />

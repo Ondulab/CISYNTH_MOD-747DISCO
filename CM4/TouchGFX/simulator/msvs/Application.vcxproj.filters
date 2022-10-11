@@ -196,6 +196,18 @@
     <Filter Include="Header Files\generated\gui_generated\ifftscreen_screen">
       <UniqueIdentifier>BB693510-0BD5-9D50-813F-E9680D477C38</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui\dwavescreen_screen">
+      <UniqueIdentifier>0AF2B597-619D-8BA9-84F2-3CA9F352D17C</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\dwavescreen_screen">
+      <UniqueIdentifier>E7CC2FD1-5073-46A6-DBCA-0089A8F7563A</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\generated\gui_generated\dwavescreen_screen">
+      <UniqueIdentifier>C7A38D43-AB6A-1F51-38E7-7BAF4409E265</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\generated\gui_generated\dwavescreen_screen">
+      <UniqueIdentifier>42479526-84B8-DF2C-CFC4-14682DC7598D</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(TouchGFXReleasePath)\framework\source\platform\driver\touch\SDL2TouchController.cpp">
@@ -245,6 +257,15 @@
     </ClCompile>
     <ClCompile Include="..\..\generated\gui_generated\src\ifftscreen_screen\ifftScreenViewBase.cpp">
       <Filter>Source Files\generated\gui_generated\ifftscreen_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\dwavescreen_screen\dWaveScreenPresenter.cpp">
+      <Filter>Source Files\gui\dwavescreen_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\dwavescreen_screen\dWaveScreenView.cpp">
+      <Filter>Source Files\gui\dwavescreen_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\gui_generated\src\dwavescreen_screen\dWaveScreenViewBase.cpp">
+      <Filter>Source Files\generated\gui_generated\dwavescreen_screen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -705,6 +726,15 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\ifftscreen_screen\ifftScreenViewBase.hpp">
       <Filter>Header Files\generated\gui_generated\ifftscreen_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\dwavescreen_screen\dWaveScreenPresenter.hpp">
+      <Filter>Header Files\gui\dwavescreen_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\dwavescreen_screen\dWaveScreenView.hpp">
+      <Filter>Header Files\gui\dwavescreen_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\dwavescreen_screen\dWaveScreenViewBase.hpp">
+      <Filter>Header Files\generated\gui_generated\dwavescreen_screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

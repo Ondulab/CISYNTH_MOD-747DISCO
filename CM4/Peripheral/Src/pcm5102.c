@@ -54,6 +54,27 @@ void pcm5102_Init(void)
 }
 
 /**
+ * @brief  Mute
+ * @param  void
+ * @retval void
+ */
+void pcm5102_Mute(void)
+{
+	BSP_AUDIO_OUT_Mute(0);
+}
+
+/**
+ * @brief  Unmute
+ * @param  void
+ * @retval void
+ */
+void pcm5102_UnMute(void)
+{
+
+	BSP_AUDIO_OUT_UnMute(0);
+}
+
+/**
  * @brief  Get audio buffer data
  * @param  Index
  * @retval Value

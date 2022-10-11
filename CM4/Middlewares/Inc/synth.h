@@ -15,10 +15,6 @@
 /* Private includes ----------------------------------------------------------*/
 
 /* Exported types ------------------------------------------------------------*/
-typedef enum {
-	IFFT_MODE = 0,
-	PLAY_MODE,
-}synthModeTypeDef;
 
 /* Exported variables --------------------------------------------------------*/
 extern volatile struct waveParams wavesGeneratorParams;
@@ -29,9 +25,6 @@ extern volatile struct waveParams wavesGeneratorParams;
 
 /* Exported functions prototypes ---------------------------------------------*/
 int32_t synth_IfftInit(void);
-int32_t synth_GetImageData(uint32_t index);
-int32_t synth_SetImageData(uint32_t index, int32_t value);
-void synth_AudioProcess(synthModeTypeDef mode);
 
 /* Private defines -----------------------------------------------------------*/
 

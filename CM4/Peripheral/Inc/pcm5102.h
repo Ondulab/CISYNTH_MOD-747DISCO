@@ -26,6 +26,8 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void pcm5102_Init(void);
+void pcm5102_Mute(void);
+void pcm5102_UnMute(void);
 int32_t pcm5102_GetAudioData(uint32_t index);
 volatile int32_t * pcm5102_GetDataPtr(uint32_t index);
 

@@ -26,6 +26,9 @@ public:
     // ifftScreen
     void gotoifftScreenScreenNoTransition();
 
+    // dWaveScreen
+    void gotodWaveScreenScreenNoTransition();
+
 protected:
     touchgfx::Callback<FrontendApplicationBase> transitionCallback;
     FrontendHeap& frontendHeap;
@@ -36,6 +39,9 @@ protected:
 
     // ifftScreen
     void gotoifftScreenScreenNoTransitionImpl();
+
+    // dWaveScreen
+    void gotodWaveScreenScreenNoTransitionImpl();
 };
 
 #endif // FRONTENDAPPLICATIONBASE_HPP

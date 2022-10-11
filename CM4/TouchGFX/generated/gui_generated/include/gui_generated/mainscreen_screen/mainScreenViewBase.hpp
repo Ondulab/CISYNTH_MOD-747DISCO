@@ -8,6 +8,7 @@
 #include <mvp/View.hpp>
 #include <gui/mainscreen_screen/mainScreenPresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/ButtonWithLabel.hpp>
 
 class mainScreenViewBase : public touchgfx::View<mainScreenPresenter>
@@ -27,7 +28,9 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::Box box1_1;
+    touchgfx::Image image1;
     touchgfx::ButtonWithLabel ifftButton;
+    touchgfx::ButtonWithLabel dWaveButton;
 
 private:
 

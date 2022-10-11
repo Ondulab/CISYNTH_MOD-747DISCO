@@ -16,16 +16,29 @@ mainScreenViewBase::mainScreenViewBase() :
     box1_1.setPosition(0, 0, 800, 480);
     box1_1.setColor(touchgfx::Color::getColorFromRGB(56, 44, 44));
 
-    ifftButton.setXY(315, 210);
+    image1.setXY(0, 40);
+    image1.setBitmap(touchgfx::Bitmap(BITMAP_MAINSCREENBG_ID));
+    image1.setAlpha(44);
+
+    ifftButton.setXY(315, 260);
     ifftButton.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_BUTTONS_ROUND_EDGE_SMALL_ID), touchgfx::Bitmap(BITMAP_DARK_BUTTONS_ROUND_EDGE_SMALL_PRESSED_ID));
     ifftButton.setLabelText(touchgfx::TypedText(T___SINGLEUSE_F1JS));
     ifftButton.setLabelColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     ifftButton.setLabelColorPressed(touchgfx::Color::getColorFromRGB(255, 255, 255));
     ifftButton.setAction(buttonCallback);
 
+    dWaveButton.setXY(315, 159);
+    dWaveButton.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_BUTTONS_ROUND_EDGE_SMALL_ID), touchgfx::Bitmap(BITMAP_DARK_BUTTONS_ROUND_EDGE_SMALL_PRESSED_ID));
+    dWaveButton.setLabelText(touchgfx::TypedText(T___SINGLEUSE_GFIW));
+    dWaveButton.setLabelColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    dWaveButton.setLabelColorPressed(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    dWaveButton.setAction(buttonCallback);
+
     add(__background);
     add(box1_1);
+    add(image1);
     add(ifftButton);
+    add(dWaveButton);
 }
 
 void mainScreenViewBase::setupScreen()
@@ -41,5 +54,12 @@ void mainScreenViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& s
         //When ifftButton clicked change screen to ifftScreen
         //Go to ifftScreen with no screen transition
         application().gotoifftScreenScreenNoTransition();
+    }
+    else if (&src == &dWaveButton)
+    {
+        //dWave
+        //When dWaveButton clicked change screen to dWaveScreen
+        //Go to dWaveScreen with no screen transition
+        application().gotodWaveScreenScreenNoTransition();
     }
 }

@@ -22,6 +22,13 @@ extern "C" {
 #include "arm_math.h"
 
 /* Exported types ------------------------------------------------------------*/
+
+typedef enum {
+	IFFT_MODE = 0,
+	DWAVE_MODE,
+	MENU_MODE
+}synthModeTypeDef;
+
 struct wave {
 	volatile float32_t *start_ptr;
     uint32_t current_idx;
@@ -45,6 +52,7 @@ struct params {
 };
 
 struct shared_var {
+	synthModeTypeDef mode;
 	int32_t synth_process_cnt;
 	SAI_HandleTypeDef haudio_out_sai;
 };

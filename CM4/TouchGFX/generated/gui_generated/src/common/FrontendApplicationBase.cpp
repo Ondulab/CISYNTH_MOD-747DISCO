@@ -13,6 +13,8 @@
 #include <gui/mainscreen_screen/mainScreenPresenter.hpp>
 #include <gui/ifftscreen_screen/ifftScreenView.hpp>
 #include <gui/ifftscreen_screen/ifftScreenPresenter.hpp>
+#include <gui/dwavescreen_screen/dWaveScreenView.hpp>
+#include <gui/dwavescreen_screen/dWaveScreenPresenter.hpp>
 
 using namespace touchgfx;
 
@@ -55,4 +57,17 @@ void FrontendApplicationBase::gotoifftScreenScreenNoTransition()
 void FrontendApplicationBase::gotoifftScreenScreenNoTransitionImpl()
 {
     touchgfx::makeTransition<ifftScreenView, ifftScreenPresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
+}
+
+// dWaveScreen
+
+void FrontendApplicationBase::gotodWaveScreenScreenNoTransition()
+{
+    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplication::gotodWaveScreenScreenNoTransitionImpl);
+    pendingScreenTransitionCallback = &transitionCallback;
+}
+
+void FrontendApplicationBase::gotodWaveScreenScreenNoTransitionImpl()
+{
+    touchgfx::makeTransition<dWaveScreenView, dWaveScreenPresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
 }

@@ -383,7 +383,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
  *                                                                                FULL
  *                                                                              COMPLETE
  */
-void synth_AudioProcess(synthModeTypeDef mode)
+void synth_AudioProcess(void)
 {
 	static uint32_t cnt = 0;
 	static uint32_t last_TRG_state = 0;
@@ -399,8 +399,11 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
 		{
-//			synth_IfftMode(imageData, half_audio_ptr);
-			synth_DirectMode(imageData, half_audio_ptr);
+			if (shared_var.mode == IFFT_MODE)
+				synth_IfftMode(imageData, half_audio_ptr);
+			if (shared_var.mode == DWAVE_MODE)
+				synth_DirectMode(imageData, half_audio_ptr);
+
 			SCB_CleanDCache_by_Addr((uint32_t *)half_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 			HAL_HSEM_Release(HSEM_ID_0,0);
 		}
@@ -419,8 +422,11 @@ void synth_AudioProcess(synthModeTypeDef mode)
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
 		{
-//			synth_IfftMode(imageData, full_audio_ptr);
-			synth_DirectMode(imageData, full_audio_ptr);
+			if (shared_var.mode == IFFT_MODE)
+				synth_IfftMode(imageData, full_audio_ptr);
+			if (shared_var.mode == DWAVE_MODE)
+				synth_DirectMode(imageData, full_audio_ptr);
+
 			SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
 			HAL_HSEM_Release(HSEM_ID_0,0);
 		}

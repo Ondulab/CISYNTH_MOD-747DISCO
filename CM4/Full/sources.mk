@@ -49,12 +49,14 @@ Peripheral/Src \
 TouchGFX/App \
 TouchGFX/generated/fonts/src \
 TouchGFX/generated/gui_generated/src/common \
+TouchGFX/generated/gui_generated/src/dwavescreen_screen \
 TouchGFX/generated/gui_generated/src/ifftscreen_screen \
 TouchGFX/generated/gui_generated/src/mainscreen_screen \
 TouchGFX/generated/images/src \
 TouchGFX/generated/images/src/__designer \
 TouchGFX/generated/texts/src \
 TouchGFX/gui/src/common \
+TouchGFX/gui/src/dwavescreen_screen \
 TouchGFX/gui/src/ifftscreen_screen \
 TouchGFX/gui/src/mainscreen_screen \
 TouchGFX/gui/src/model \
