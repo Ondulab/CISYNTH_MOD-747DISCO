@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.18.0">
+<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.20.0">
+  <Languages>
+    <Language Id="GB" />
+  </Languages>
   <Texts>
-    <Text Id="__SingleUse_9TY6" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">Harmo.</Translation>
-    </Text>
-    <Text Id="__SingleUse_ECYK" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">Attack</Translation>
-    </Text>
-    <Text Id="__SingleUse_ISHT" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">Release</Translation>
-    </Text>
-    <Text Id="__SingleUse_SYL5" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">SAW</Translation>
-    </Text>
-    <Text Id="__SingleUse_XHCB" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">SIN</Translation>
-    </Text>
-    <Text Id="__SingleUse_XP6B" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">SQR</Translation>
-    </Text>
-    <Text Id="__SingleUse_M30I" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">Comma</Translation>
-    </Text>
-    <Text Id="__SingleUse_SKGI" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">Start F</Translation>
-    </Text>
-    <Text Id="__SingleUse_YOFK" TypographyId="Typography_00" Alignment="Center" Direction="LTR">
-      <Translation Language="GB">Save</Translation>
-    </Text>
-    <Text Id="__SingleUse_E089" TypographyId="Default" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">Order</Translation>
-    </Text>
-    <Text Id="__SingleUse_F1JS" TypographyId="Default" Alignment="Center" Direction="LTR">
-      <Translation Language="GB">iFFT</Translation>
-    </Text>
-    <Text Id="__SingleUse_089L" TypographyId="Typography_00" Alignment="Center" Direction="LTR">
-      <Translation Language="GB">Menu</Translation>
-    </Text>
+    <TextGroup Id="Group1">
+      <Text Id="__SingleUse_9TY6" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">Harmo.</Translation>
+      </Text>
+      <Text Id="__SingleUse_ECYK" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">Attack</Translation>
+      </Text>
+      <Text Id="__SingleUse_ISHT" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">Release</Translation>
+      </Text>
+      <Text Id="__SingleUse_SYL5" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">SAW</Translation>
+      </Text>
+      <Text Id="__SingleUse_XHCB" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">SIN</Translation>
+      </Text>
+      <Text Id="__SingleUse_XP6B" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">SQR</Translation>
+      </Text>
+      <Text Id="__SingleUse_M30I" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">Comma</Translation>
+      </Text>
+      <Text Id="__SingleUse_SKGI" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">Start F</Translation>
+      </Text>
+      <Text Id="__SingleUse_YOFK" Alignment="Center" TypographyId="Typography_00">
+        <Translation Language="GB">Save</Translation>
+      </Text>
+      <Text Id="__SingleUse_E089" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">Order</Translation>
+      </Text>
+      <Text Id="__SingleUse_F1JS" Alignment="Center" TypographyId="Default">
+        <Translation Language="GB">iFFT</Translation>
+      </Text>
+      <Text Id="__SingleUse_089L" Alignment="Center" TypographyId="Typography_00">
+        <Translation Language="GB">Menu</Translation>
+      </Text>
+    </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" FallbackCharacter="?" />
-    <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" FallbackCharacter="?" />
-    <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" FallbackCharacter="?" />
-    <Typography Id="Typography_00" Font="verdana.ttf" Size="16" Bpp="4" FallbackCharacter="?" />
+    <Typography Id="Default" Font="verdana.ttf" Size="20" Bpp="4" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Typography_00" Font="verdana.ttf" Size="16" Bpp="4" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" Direction="LTR" FallbackCharacter="?" />
   </Typographies>
 </TextDatabase>

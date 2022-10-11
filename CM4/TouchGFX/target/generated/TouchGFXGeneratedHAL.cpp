@@ -19,7 +19,7 @@
 #include <TouchGFXGeneratedHAL.hpp>
 #include <touchgfx/hal/OSWrappers.hpp>
 #include <gui/common/FrontendHeap.hpp>
-//#include <touchgfx/hal/PaintRGB565Impl.hpp>
+#include <touchgfx/hal/PaintRGB565Impl.hpp>
 
 #include "stm32h7xx.h"
 

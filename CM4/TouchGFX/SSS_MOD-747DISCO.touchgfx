@@ -249,7 +249,7 @@
             "X": 710,
             "Y": 277,
             "Width": 74,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_9TY6",
             "TextRotation": "0",
             "Color": {
@@ -265,7 +265,7 @@
             "X": 710,
             "Y": 366,
             "Width": 64,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_ECYK",
             "TextRotation": "0",
             "Color": {
@@ -281,7 +281,7 @@
             "X": 709,
             "Y": 434,
             "Width": 77,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_ISHT",
             "TextRotation": "0",
             "Color": {
@@ -297,7 +297,7 @@
             "X": 324,
             "Y": 48,
             "Width": 46,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_SYL5",
             "TextRotation": "0",
             "Color": {
@@ -313,7 +313,7 @@
             "X": 327,
             "Y": 122,
             "Width": 37,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_XHCB",
             "TextRotation": "0",
             "Color": {
@@ -329,7 +329,7 @@
             "X": 324,
             "Y": 198,
             "Width": 43,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_XP6B",
             "TextRotation": "0",
             "Color": {
@@ -345,7 +345,7 @@
             "X": 512,
             "Y": 13,
             "Width": 77,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_M30I",
             "TextRotation": "0",
             "Color": {
@@ -379,7 +379,7 @@
             "X": 629,
             "Y": 13,
             "Width": 69,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_SKGI",
             "TextRotation": "0",
             "Color": {
@@ -417,7 +417,7 @@
             "X": 370,
             "Y": 13,
             "Width": 57,
-            "Height": 25,
+            "Height": 24,
             "TextId": "__SingleUse_E089",
             "TextRotation": "0",
             "Color": {
@@ -603,7 +603,7 @@
     },
     "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",
     "PostGenerateCommand": "touchgfx update_project --project-file=simulator/msvs/Application.vcxproj",
-    "PostGenerateTargetCommand": "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m7",
+    "PostGenerateTargetCommand": "touchgfx update_project",
     "PostGenerateTargetCommandOverride": "touchgfx update_project --project-file=../../SSS_MOD-747DISCO.ioc --platform=m4",
     "CompileSimulatorCommand": "make -f simulator/gcc/Makefile -j8",
     "RunSimulatorCommand": "build\\bin\\simulator.exe",
@@ -613,7 +613,11 @@
     "PortraitSkinX": 0,
     "PortraitSkinY": 0,
     "DisplayOrientation": "Landscape",
-    "Family": "STM32H7"
+    "Family": "STM32H7",
+    "Platform": "m7",
+    "ProjectFile": "../../SSS_MOD-747DISCO.ioc",
+    "OptionalComponentsRoot": "../Middlewares/ST/touchgfx_components",
+    "OptionalComponents": []
   },
-  "Version": "4.18.1"
+  "Version": "4.20.0"
 }
