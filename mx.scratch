@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <ScratchFile FileVersion="3.1">
   <FileVersion>3.1</FileVersion>
   <Workspace>
@@ -13,7 +13,7 @@
     <Project>
       <ProjectName>SSS_MOD-747DISCO_CM4</ProjectName>
       <ProjectNature>Cpp</ProjectNature>
-      <Secure />
+      <Secure/>
       <filestoremove>
         <file>
           <name>Middlewares/Third_Party/LwIP/src/netif/ppp/auth.c</name>
@@ -260,7 +260,7 @@
         </file>
       </filestoremove>
       <sourceEntriesToRemove>
-        <sourceEntry />
+        <sourceEntry/>
       </sourceEntriesToRemove>
       <configs>
         <config>
@@ -271,29 +271,29 @@
           <cpucore>ARM Cortex-M4</cpucore>
           <fpu>DP</fpu>
           <memories>
-            <memory access="xrw" name="RAM_D2" size="288" start="0x10000000" />
-            <memory access="xrw" name="RAM_D3" size="64" start="0x18000000" />
-            <memory access="rx" name="FLASH" size="1024" start="0x8100000" />
+            <memory access="xrw" name="RAM_D2" size="288" start="0x10000000"/>
+            <memory access="xrw" name="RAM_D3" size="64" start="0x18000000"/>
+            <memory access="rx" name="FLASH" size="1024" start="0x8100000"/>
           </memories>
           <startup>/home/zhonx/STM32Cube/Repository/STM32Cube_FW_H7_V1.10.0/Drivers/CMSIS/Device\ST\STM32H7xx\Source\Templates\gcc\startup_stm32h747xx.s</startup>
           <LinkSettings>
-            <LinkAdditionalLibs />
+            <LinkAdditionalLibs/>
           </LinkSettings>
           <heapSize>0x1000</heapSize>
           <stackSize>0x1000</stackSize>
           <board>STM32H747I-DISCO</board>
           <debugprobe>swd</debugprobe>
-          <optimization />
+          <optimization/>
           <Aincludes>
-            <include />
+            <include/>
           </Aincludes>
-          <Adefines />
+          <Adefines/>
           <Cdefines>
             <define>CORE_CM4</define>
             <define>USE_HAL_DRIVER</define>
             <define>STM32H747xx</define>
           </Cdefines>
-          <Ldefines />
+          <Ldefines/>
           <Cincludes>
             <include>CM4/Core/Inc</include>
             <include>CM4/TouchGFX/App</include>
@@ -308,18 +308,18 @@
             <include>Drivers/CMSIS/Include</include>
           </Cincludes>
           <definestoremove>
-            <Adefines />
+            <Adefines/>
             <Cdefines>
               <define>USE_FULL_LL_DRIVER</define>
               <define>USE_FULL_ASSERT=1U</define>
             </Cdefines>
-            <Ldefines />
+            <Ldefines/>
           </definestoremove>
           <inctoremove>
             <Aincludes>
-              <include />
+              <include/>
             </Aincludes>
-            <Cincludes />
+            <Cincludes/>
           </inctoremove>
         </config>
       </configs>
@@ -491,7 +491,7 @@
     <Project>
       <ProjectName>SSS_MOD-747DISCO_CM7</ProjectName>
       <ProjectNature>Cpp</ProjectNature>
-      <Secure />
+      <Secure/>
       <filestoremove>
         <file>
           <name>Middlewares/Third_Party/FreeRTOS/Source/croutine.c</name>
@@ -525,7 +525,7 @@
         </file>
       </filestoremove>
       <sourceEntriesToRemove>
-        <sourceEntry />
+        <sourceEntry/>
       </sourceEntriesToRemove>
       <configs>
         <config>
@@ -536,35 +536,34 @@
           <cpucore>ARM Cortex-M7</cpucore>
           <fpu>DP</fpu>
           <memories>
-            <memory access="xrw" name="RAM_D2" size="288" start="0x10000000" />
-            <memory access="xrw" name="RAM_D3" size="64" start="0x18000000" />
-            <memory access="rx" name="FLASH" size="1024" start="0x8100000" />
+            <memory access="xrw" name="RAM_D2" size="288" start="0x10000000"/>
+            <memory access="xrw" name="RAM_D3" size="64" start="0x18000000"/>
+            <memory access="rx" name="FLASH" size="1024" start="0x8100000"/>
           </memories>
           <startup>/home/zhonx/STM32Cube/Repository/STM32Cube_FW_H7_V1.10.0/Drivers/CMSIS/Device\ST\STM32H7xx\Source\Templates\gcc\startup_stm32h747xx.s</startup>
           <LinkSettings>
-            <LinkAdditionalLibs />
+            <LinkAdditionalLibs/>
           </LinkSettings>
           <heapSize>0x1000</heapSize>
           <stackSize>0x1000</stackSize>
           <board>STM32H747I-DISCO</board>
           <debugprobe>swd</debugprobe>
-          <optimization />
+          <optimization/>
           <Aincludes>
-            <include />
+            <include/>
           </Aincludes>
-          <Adefines />
+          <Adefines/>
           <Cdefines>
             <define>CORE_CM7</define>
             <define>USE_HAL_DRIVER</define>
             <define>STM32H747xx</define>
           </Cdefines>
-          <Ldefines />
+          <Ldefines/>
           <Cincludes>
             <include>CM7/Core/Inc</include>
             <include>CM7/LWIP/App</include>
             <include>CM7/LWIP/Target</include>
             <include>CM7/PDM2PCM/App</include>
-            <include>Middlewares\ST\ARM\DSP\Inc</include>
             <include>Middlewares/Third_Party/LwIP/src/include</include>
             <include>Middlewares/Third_Party/LwIP/system</include>
             <include>Middlewares/Third_Party/LwIP/src/include</include>
@@ -589,18 +588,18 @@
             <include>Drivers/CMSIS/Include</include>
           </Cincludes>
           <definestoremove>
-            <Adefines />
+            <Adefines/>
             <Cdefines>
               <define>USE_FULL_LL_DRIVER</define>
               <define>USE_FULL_ASSERT=1U</define>
             </Cdefines>
-            <Ldefines />
+            <Ldefines/>
           </definestoremove>
           <inctoremove>
             <Aincludes>
-              <include />
+              <include/>
             </Aincludes>
-            <Cincludes />
+            <Cincludes/>
           </inctoremove>
         </config>
       </configs>
@@ -629,9 +628,6 @@
         </sourceEntry>
         <sourceEntry>
           <name>CM7/PDM2PCM</name>
-        </sourceEntry>
-        <sourceEntry>
-          <name>CM7/Library</name>
         </sourceEntry>
       </sourceEntries>
       <Groups>
@@ -1047,4 +1043,3 @@
     </Project>
   </Workspace>
 </ScratchFile>
-
