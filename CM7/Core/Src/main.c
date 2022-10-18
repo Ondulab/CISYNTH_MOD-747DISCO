@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "dac.h"
 #include "dma.h"
 #include "pdm2pcm.h"
@@ -155,12 +156,13 @@ HSEM notification */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_USART1_UART_Init();
+  MX_ADC1_Init();
   MX_RNG_Init();
   MX_DAC1_Init();
   MX_TIM6_Init();
   MX_PDM2PCM_Init();
+  MX_DMA_Init();
   /* USER CODE BEGIN 2 */
 
   printf("----------------------------------------------------------\n");
@@ -172,7 +174,7 @@ HSEM notification */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-    MX_LWIP_Init();
+  MX_LWIP_Init();
 
 //	/*CM7 try to take the HW sempahore 0*/
 //    while(HAL_HSEM_FastTake(HSEM_ID_0) != HAL_OK)

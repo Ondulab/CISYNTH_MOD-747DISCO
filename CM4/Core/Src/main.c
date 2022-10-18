@@ -111,7 +111,6 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_DMA_Init();
   MX_GPIO_Init();
   MX_DSIHOST_DSI_Init();
   MX_FMC_Init();
@@ -120,6 +119,7 @@ int main(void)
   MX_RNG_Init();
   MX_QUADSPI_Init();
   MX_CRC_Init();
+  MX_DMA_Init();
   MX_TouchGFX_Init();
   /* Call PreOsInit function */
   MX_TouchGFX_PreOSInit();

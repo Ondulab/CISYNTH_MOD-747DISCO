@@ -82,10 +82,10 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef* dacHandle)
     /**DAC1 GPIO Configuration
     PA4     ------> DAC1_OUT1
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_4;
+    GPIO_InitStruct.Pin = ARD_A0_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(ARD_A0_GPIO_Port, &GPIO_InitStruct);
 
     /* DAC1 DMA Init */
     /* DAC1_CH1 Init */
@@ -126,7 +126,7 @@ void HAL_DAC_MspDeInit(DAC_HandleTypeDef* dacHandle)
     /**DAC1 GPIO Configuration
     PA4     ------> DAC1_OUT1
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_4);
+    HAL_GPIO_DeInit(ARD_A0_GPIO_Port, ARD_A0_Pin);
 
     /* DAC1 DMA DeInit */
     HAL_DMA_DeInit(dacHandle->DMA_Handle1);

@@ -11,6 +11,7 @@
 #include "config.h"
 #include "rng.h"
 #include "dac.h"
+#include "adc.h"
 
 #include "basetypes.h"
 #include "arm_math.h"
@@ -40,6 +41,9 @@
 static volatile int32_t* half_audio_ptr;
 static volatile int32_t* full_audio_ptr;
 static int32_t imageRef[NUMBER_OF_NOTES] = {0};
+
+/* Variable used to get converted value */
+__IO uint16_t uhADCxConvertedValue = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 static uint32_t greyScale(uint32_t rbg888);
@@ -84,14 +88,14 @@ int32_t synth_IfftInit(void)
 	printf("-------------------------------\n");
 #endif
 
-	/*##-1- Initialize the DAC peripheral ######################################*/
+	/* Initialize the DAC peripheral ######################################*/
 	if (HAL_DAC_Init(&hdac1) != HAL_OK)
 	{
 		/* Initialization Error */
 		Error_Handler();
 	}
 
-	/*##-1- DAC channel1 Configuration #########################################*/
+	/* DAC channel1 Configuration #########################################*/
 	//	sConfig.DAC_Trigger = DAC_TRIGGER_T6_TRGO;
 	sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
 
@@ -101,10 +105,22 @@ int32_t synth_IfftInit(void)
 		Error_Handler();
 	}
 
-	/*##-4- Enable DAC Channel1 ################################################*/
+	/* Enable DAC Channel1 ################################################*/
 	if (HAL_DAC_Start(&hdac1, DAC1_CHANNEL_1) != HAL_OK)
 	{
 		/* Start Error */
+		Error_Handler();
+	}
+
+	/* Start calibration ################################################# */
+	if (HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	/* Start conversion ################################################## */
+	if (HAL_ADC_Start_IT(&hadc1) != HAL_OK)
+	{
 		Error_Handler();
 	}
 
@@ -385,12 +401,6 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
  */
 void synth_AudioProcess(void)
 {
-	static uint32_t cnt = 0;
-	static uint32_t last_TRG_state = 0;
-	static uint32_t last_RST_state = 0;
-	static int32_t i = 0;
-	uint32_t tmp_accumulation = 0;
-
 	/* 1st half buffer played; so fill it and continue playing from bottom*/
 	if(*pcm5102_GetBufferState() == AUDIO_BUFFER_OFFSET_HALF)
 	{
@@ -438,7 +448,17 @@ void synth_AudioProcess(void)
 		}
 	}
 
+	uint16_t toto = uhADCxConvertedValue;
+
+
 #ifdef CV
+
+	static uint32_t cnt = 0;
+	static uint32_t last_TRG_state = 0;
+	static uint32_t last_RST_state = 0;
+	static int32_t i = 0;
+	uint32_t tmp_accumulation = 0;
+
 	if (HAL_GPIO_ReadPin(ARD_D2_GPIO_Port, ARD_D2_Pin) == FALSE)
 	{
 		if (last_RST_state == TRUE)
@@ -482,3 +502,17 @@ void synth_AudioProcess(void)
 	}
 #endif
 }
+
+/**
+  * @brief  Conversion complete callback in non blocking mode
+  * @param  AdcHandle : AdcHandle handle
+  * @note   This example shows a simple way to report end of conversion, and
+  *         you can add your own implementation.
+  * @retval None
+  */
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* AdcHandle)
+{
+  /* Get the converted value of regular channel */
+  uhADCxConvertedValue = HAL_ADC_GetValue(AdcHandle);
+}
+
