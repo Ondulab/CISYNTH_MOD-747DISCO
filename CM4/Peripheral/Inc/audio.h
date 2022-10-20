@@ -6,8 +6,8 @@
  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __PCM5102_H__
-#define __PCM5102_H__
+#ifndef __AUDIO_H__
+#define __AUDIO_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,11 +25,11 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/
-void pcm5102_Init(void);
-void pcm5102_Mute(void);
-void pcm5102_UnMute(void);
-int32_t pcm5102_GetAudioData(uint32_t index);
-volatile int32_t * pcm5102_GetDataPtr(uint32_t index);
+void audio_Init(void);
+void audio_Mute(void);
+void audio_UnMute(void);
+int32_t audio_GetAudioData(uint32_t index);
+volatile int32_t * audio_GetDataPtr(uint32_t index);
 
 /* Private defines -----------------------------------------------------------*/
 
@@ -37,4 +37,4 @@ volatile int32_t * pcm5102_GetDataPtr(uint32_t index);
 }
 #endif
 
-#endif /*__PCM5102_H__*/
+#endif /*__AUDIO_H__*/

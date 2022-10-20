@@ -44,10 +44,11 @@ _Min_Stack_Size = 0x1000 ; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-FLASH (rx)      : ORIGIN = 0x08100000, LENGTH = 1024K
-RAM_D1 (xrw)    : ORIGIN = 0x10000000, LENGTH = 256K
-RAM_SHARED (rw) : ORIGIN = 0x24000000, LENGTH = 380K  
-QSPI (r)    	: ORIGIN = 0x90000000, LENGTH = 128M
+FLASH (rx)      	: ORIGIN = 0x08100000, LENGTH = 1024K
+RAM_D1 (xrw)    	: ORIGIN = 0x10000000, LENGTH = 256K
+RAM_SHARED_NC (rw)	: ORIGIN = 0x24000000, LENGTH = 512  
+RAM_SHARED (rw)		: ORIGIN = 0x24000000 + LENGTH(RAM_SHARED_NC), LENGTH = 380K  
+QSPI (r)    		: ORIGIN = 0x90000000, LENGTH = 128M
 }
 
 /* Define output sections */
@@ -119,10 +120,14 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
   
-  .shared :
+  .shared_nc :
   {
     KEEP (*(.shared_var));
     KEEP (*(.params));
+  } >RAM_SHARED_NC
+  
+  .shared :
+  {
     KEEP (*(.cvdata));
     KEEP (*(.image));
     KEEP (*(.audio));

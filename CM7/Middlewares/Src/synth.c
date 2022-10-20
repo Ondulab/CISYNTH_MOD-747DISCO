@@ -23,7 +23,7 @@
 
 #include "shared.h"
 #include "synth.h"
-#include "pcm5102.h"
+#include "audio.h"
 #include "udp_server.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -48,6 +48,7 @@ __IO uint16_t uhADCxConvertedValue = 0;
 /* Private function prototypes -----------------------------------------------*/
 static uint32_t greyScale(uint32_t rbg888);
 static void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData);
+static void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData, uint16_t CV_in);
 
 /* Private user code ---------------------------------------------------------*/
 
@@ -124,9 +125,9 @@ int32_t synth_IfftInit(void)
 		Error_Handler();
 	}
 
-	pcm5102_Init();
-	half_audio_ptr = pcm5102_GetDataPtr(0);
-	full_audio_ptr = pcm5102_GetDataPtr(AUDIO_BUFFER_SIZE * 2);
+	audio_Init();
+	half_audio_ptr = audio_GetDataPtr(0);
+	full_audio_ptr = audio_GetDataPtr(AUDIO_BUFFER_SIZE * 2);
 
 	arm_fill_q31(65535, (int32_t *)imageRef, NUMBER_OF_NOTES);
 
@@ -176,7 +177,7 @@ uint32_t greyScale(uint32_t rbg888)
  */
 #pragma GCC push_options
 #pragma GCC optimize ("unroll-loops")
-void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData)
+void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData, uint16_t CV_in)
 {
 	static int32_t signal_R;
 	static int32_t image_idx_UP = 0;
@@ -184,19 +185,45 @@ void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData)
 	static int32_t buff_idx = 0;
 	static int32_t idx = 0;
 	static int32_t imageBuffer_q31[CIS_PIXELS_NB];
+//	static int32_t scale_number = 4;
+	static const int32_t noScaled_freq = SAMPLING_FREQUENCY / CIS_PIXELS_NB; // 27,7 Hz;
+	static float32_t note_freq = 0.0;
+	static float32_t scale_factor = 0.0;
+	static uint32_t scaledPixel_nb = 0;
 
-	for (idx = CIS_PIXELS_NB; --idx >= 0;)
+	static const float32_t LAMAX = 1760;
+	static const float32_t LAMIN = 55;
+	static const float32_t adc_LAMIN_HZ = 55800;
+	static const float32_t adc_LAMAX_HZ = 17300;
+	static const float32_t gain = (adc_LAMIN_HZ - adc_LAMAX_HZ) / (LAMAX - LAMIN);
+	static const float32_t offset = LAMIN - (adc_LAMAX_HZ / gain);
+
+//	note_freq = CV_in / (gain * 1.55) + offset;
+	note_freq = 440;
+	scale_factor = note_freq / noScaled_freq;
+
+	scaledPixel_nb = CIS_PIXELS_NB / (uint32_t)scale_factor;
+
+	for (idx = scaledPixel_nb / 2; --idx >= 0;)
 	{
-		imageBuffer_q31[idx] = greyScale(imageData[idx]) * 16843;
+		imageBuffer_q31[idx] = -0xFFFFFFF;//greyScale(imageData[(int32_t)(idx * scale_factor)]) * 16843; //16843 is factor to translate in a 32bit number
 	}
 
+	for (idx = scaledPixel_nb; --idx >= scaledPixel_nb / 2;)
+	{
+		imageBuffer_q31[idx] = 0xFFFFFFF;//greyScale(imageData[(int32_t)(idx * scale_factor)]) * 16843; //16843 is factor to translate in a 32bit number
+	}
+
+	// Fill audio buffer
 	for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE; buff_idx++)
 	{
-		if (image_idx_UP < CIS_PIXELS_NB)
+		// Check if current idx is below than a complete CIS line
+		if (image_idx_UP < scaledPixel_nb)
 		{
 			signal_R = imageBuffer_q31[image_idx_UP];
 			image_idx_UP++;
 		}
+		// Else fill the audio buffer with mirror CIS image
 		else
 		{
 			if (image_idx_DW > 1)
@@ -204,14 +231,16 @@ void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData)
 				image_idx_DW--;
 				signal_R = imageBuffer_q31[image_idx_DW];
 			}
+			// Restart counters
 			else
 			{
 				image_idx_UP = 0;
-				image_idx_DW = CIS_PIXELS_NB - 1;
+				image_idx_DW = scaledPixel_nb - 1;
 			}
 		}
 
-		audioData[buff_idx * 2] = signal_R;
+		// Buffer copies for right channels
+//		audioData[buff_idx * 2] = signal_R;
 		audioData[buff_idx * 2 + 1] = signal_R;
 	}
 
@@ -364,7 +393,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 		else
 			signal_R = 0;
 
-		audioData[buff_idx * 2] = signal_R;
+//		audioData[buff_idx * 2] = signal_R;
 		audioData[buff_idx * 2 + 1] = signal_R;
 	}
 
@@ -402,9 +431,9 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 void synth_AudioProcess(void)
 {
 	/* 1st half buffer played; so fill it and continue playing from bottom*/
-	if(*pcm5102_GetBufferState() == AUDIO_BUFFER_OFFSET_HALF)
+	if(*audio_GetBufferState() == AUDIO_BUFFER_OFFSET_HALF)
 	{
-		pcm5102_ResetBufferState();
+		audio_ResetBufferState();
 		udp_serverReceiveImage(imageData);
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
@@ -412,9 +441,9 @@ void synth_AudioProcess(void)
 			if (shared_var.mode == IFFT_MODE)
 				synth_IfftMode(imageData, half_audio_ptr);
 			if (shared_var.mode == DWAVE_MODE)
-				synth_DirectMode(imageData, half_audio_ptr);
+				synth_DirectMode(imageData, half_audio_ptr, uhADCxConvertedValue);
 
-			SCB_CleanDCache_by_Addr((uint32_t *)half_audio_ptr, AUDIO_BUFFER_SIZE * 4);
+			SCB_CleanDCache_by_Addr((uint32_t *)half_audio_ptr, AUDIO_BUFFER_SIZE * 8);
 			HAL_HSEM_Release(HSEM_ID_0,0);
 		}
 		else
@@ -425,9 +454,9 @@ void synth_AudioProcess(void)
 	}
 
 	/* 2nd half buffer played; so fill it and continue playing from top */
-	if(*pcm5102_GetBufferState() == AUDIO_BUFFER_OFFSET_FULL)
+	if(*audio_GetBufferState() == AUDIO_BUFFER_OFFSET_FULL)
 	{
-		pcm5102_ResetBufferState();
+		audio_ResetBufferState();
 		udp_serverReceiveImage(imageData);
 		/*CM7 try to take the HW sempahore 0*/
 		if(HAL_HSEM_FastTake(HSEM_ID_0) == HAL_OK)
@@ -435,9 +464,9 @@ void synth_AudioProcess(void)
 			if (shared_var.mode == IFFT_MODE)
 				synth_IfftMode(imageData, full_audio_ptr);
 			if (shared_var.mode == DWAVE_MODE)
-				synth_DirectMode(imageData, full_audio_ptr);
+				synth_DirectMode(imageData, full_audio_ptr, uhADCxConvertedValue);
 
-			SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 4);
+			SCB_CleanDCache_by_Addr((uint32_t *)full_audio_ptr, AUDIO_BUFFER_SIZE * 8);
 			HAL_HSEM_Release(HSEM_ID_0,0);
 		}
 		else
@@ -447,9 +476,6 @@ void synth_AudioProcess(void)
 			SCB_InvalidateDCache_by_Addr((uint32_t *)waves, sizeof(waves));
 		}
 	}
-
-	uint16_t toto = uhADCxConvertedValue;
-
 
 #ifdef CV
 

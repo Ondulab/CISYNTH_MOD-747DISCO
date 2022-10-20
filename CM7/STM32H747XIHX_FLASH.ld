@@ -45,15 +45,16 @@ _Min_Stack_Size = 0x1000 ; /* required amount of stack */
 /* Memories definition */
 MEMORY
 {
-  FLASH   (rx)    : ORIGIN = 0x08000000, LENGTH = 1024K 				/* Memory is divided. Actual start is 0x08000000 and actual length is 2048K */
-  DTCMRAM (xrw)   : ORIGIN = 0x20000000, LENGTH = 128K
-  RAM_SHARED (rw) : ORIGIN = 0x24000000, LENGTH = 380K    
-  RAM_AXI (xrw)   : ORIGIN = 0x24000000 + LENGTH(RAM_SHARED), LENGTH = (512K - LENGTH(RAM_SHARED))
-  RAM_D1 (r)      : ORIGIN = 0x30000000, LENGTH = 128K
-  RAM_D2 (r)      : ORIGIN = 0x30020000, LENGTH = 128K
-  RAM_D3 (xrw)    : ORIGIN = 0x30040000, LENGTH = 32K
-  RAM_D4 (xrw)    : ORIGIN = 0x38000000, LENGTH = 64K
-  ITCMRAM (xrw)   : ORIGIN = 0x00000000, LENGTH = 64K
+  FLASH   (rx)    	: ORIGIN = 0x08000000, LENGTH = 1024K 				/* Memory is divided. Actual start is 0x08000000 and actual length is 2048K */
+  DTCMRAM (xrw)   	: ORIGIN = 0x20000000, LENGTH = 128K
+  RAM_SHARED_NC (rw): ORIGIN = 0x24000000, LENGTH = 512 
+  RAM_SHARED (rw)	: ORIGIN = 0x24000000 + LENGTH(RAM_SHARED_NC), LENGTH = 380K    
+  RAM_AXI (xrw)   	: ORIGIN = 0x24000000 + LENGTH(RAM_SHARED) + LENGTH(RAM_SHARED_NC), LENGTH = (512K - LENGTH(RAM_SHARED) - LENGTH(RAM_SHARED_NC))
+  RAM_D1 (r)      	: ORIGIN = 0x30000000, LENGTH = 128K
+  RAM_D2 (r)      	: ORIGIN = 0x30020000, LENGTH = 128K
+  RAM_D3 (xrw)    	: ORIGIN = 0x30040000, LENGTH = 32K
+  RAM_D4 (xrw)    	: ORIGIN = 0x38000000, LENGTH = 64K
+  ITCMRAM (xrw)   	: ORIGIN = 0x00000000, LENGTH = 64K
 }
 
 /* Sections */
@@ -136,10 +137,14 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
   
-  .shared :
+  .shared_nc :
   {
     KEEP (*(.shared_var));
     KEEP (*(.params));
+  } >RAM_SHARED_NC
+  
+  .shared :
+  {
     KEEP (*(.cvdata));
     KEEP (*(.image));
     KEEP (*(.audio));

@@ -1,11 +1,12 @@
 /**
  ******************************************************************************
- * @file           : pcm5102.c
+ * @file           : audio.c
  * @brief          : Audio Stereo DAC with 32-bit, 384kHz PCM Interface
  ******************************************************************************
  */
 
 /* Includes ------------------------------------------------------------------*/
+#include <audio.h>
 #include "stdio.h"
 
 #include "main.h"
@@ -13,7 +14,6 @@
 #include "shared.h"
 
 /* Private includes ----------------------------------------------------------*/
-#include "pcm5102.h"
 
 /* Private define ------------------------------------------------------------*/
 
@@ -37,14 +37,14 @@ BSP_AUDIO_Init_t AudioPlayInit;
  * @param  void
  * @retval void
  */
-void pcm5102_Init(void)
+void audio_Init(void)
 {
 	printf("----------- DAC INIT ----------\n");
 	printf("-------------------------------\n");
 
 	AudioPlayInit.Device = AUDIO_OUT_DEVICE_HEADPHONE;
 	AudioPlayInit.ChannelsNbr = 2;
-	AudioPlayInit.SampleRate = 48000 ;
+	AudioPlayInit.SampleRate = SAMPLING_FREQUENCY ;
 	AudioPlayInit.BitsPerSample = AUDIO_RESOLUTION_32B;
 	AudioPlayInit.Volume = VOLUME;
 	if(BSP_AUDIO_OUT_Init(0, &AudioPlayInit) != HAL_OK)
@@ -58,7 +58,7 @@ void pcm5102_Init(void)
  * @param  void
  * @retval void
  */
-void pcm5102_Mute(void)
+void audio_Mute(void)
 {
 	BSP_AUDIO_OUT_Mute(0);
 }
@@ -68,7 +68,7 @@ void pcm5102_Mute(void)
  * @param  void
  * @retval void
  */
-void pcm5102_UnMute(void)
+void audio_UnMute(void)
 {
 
 	BSP_AUDIO_OUT_UnMute(0);
@@ -79,7 +79,7 @@ void pcm5102_UnMute(void)
  * @param  Index
  * @retval Value
  */
-int32_t pcm5102_GetAudioData(uint32_t index)
+int32_t audio_GetAudioData(uint32_t index)
 {
 	//	if (index >= RFFT_BUFFER_SIZE)
 	//		Error_Handler();
@@ -91,7 +91,7 @@ int32_t pcm5102_GetAudioData(uint32_t index)
  * @param  index
  * @retval index address
  */
-volatile int32_t * pcm5102_GetDataPtr(uint32_t index)
+volatile int32_t * audio_GetDataPtr(uint32_t index)
 {
 	return &audioBuff[index];
 }

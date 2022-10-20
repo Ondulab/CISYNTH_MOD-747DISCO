@@ -19,7 +19,7 @@
 
 #include "shared.h"
 #include "wave_generation.h"
-#include "pcm5102.h"
+#include "audio.h"
 #include "synth.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -52,7 +52,7 @@ int32_t synth_IfftInit(void)
 	printf("---------- SYNTH INIT ---------\n");
 	printf("-------------------------------\n");
 
-	pcm5102_Init();
+	audio_Init();
 
 	// initialize default parameters
 	wavesGeneratorParams.commaPerSemitone = params.comma_per_semitone;

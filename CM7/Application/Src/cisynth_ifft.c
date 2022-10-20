@@ -10,7 +10,7 @@
 #include "cisynth_ifft.h"
 #include "synth.h"
 #include "config.h"
-#include "pcm5102.h"
+#include "audio.h"
 #include "rng.h"
 #include "shared.h"
 
