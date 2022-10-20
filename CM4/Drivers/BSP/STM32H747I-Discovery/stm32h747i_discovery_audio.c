@@ -276,8 +276,8 @@ int32_t BSP_AUDIO_OUT_Init(uint32_t Instance, BSP_AUDIO_Init_t* AudioInit)
           mx_sai_config.ClockStrobing     = SAI_CLOCKSTROBING_RISINGEDGE;
           mx_sai_config.MonoStereoMode    = (AudioInit->ChannelsNbr == 1U) ? SAI_MONOMODE : SAI_STEREOMODE;
           mx_sai_config.DataSize          = (AudioInit->BitsPerSample == AUDIO_RESOLUTION_32B) ? SAI_DATASIZE_32 : SAI_DATASIZE_16;
-          mx_sai_config.FrameLength       = 128;
-          mx_sai_config.ActiveFrameLength = 64;
+          mx_sai_config.FrameLength       = FRAME_LENGHT;
+          mx_sai_config.ActiveFrameLength = ACTIVE_FRAME_LENGHT;
           mx_sai_config.OutputDrive       = SAI_OUTPUTDRIVE_ENABLE;
           mx_sai_config.Synchro           = SAI_ASYNCHRONOUS;
           mx_sai_config.SynchroExt        = SAI_SYNCEXT_DISABLE;

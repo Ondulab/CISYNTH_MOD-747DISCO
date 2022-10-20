@@ -185,8 +185,7 @@ void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData, 
 	static int32_t buff_idx = 0;
 	static int32_t idx = 0;
 	static int32_t imageBuffer_q31[CIS_PIXELS_NB];
-//	static int32_t scale_number = 4;
-	static const int32_t noScaled_freq = SAMPLING_FREQUENCY / CIS_PIXELS_NB; // 27,7 Hz;
+	static const float32_t noScaled_freq = (SAMPLING_FREQUENCY / 2) / CIS_PIXELS_NB; // 27,7 Hz;
 	static float32_t note_freq = 0.0;
 	static float32_t scale_factor = 0.0;
 	static uint32_t scaledPixel_nb = 0;
@@ -199,19 +198,19 @@ void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData, 
 	static const float32_t offset = LAMIN - (adc_LAMAX_HZ / gain);
 
 //	note_freq = CV_in / (gain * 1.55) + offset;
-	note_freq = 440;
+	note_freq = 20;
 	scale_factor = note_freq / noScaled_freq;
 
-	scaledPixel_nb = CIS_PIXELS_NB / (uint32_t)scale_factor;
+	scaledPixel_nb = (uint32_t)((float32_t)CIS_PIXELS_NB / scale_factor);
 
 	for (idx = scaledPixel_nb / 2; --idx >= 0;)
 	{
-		imageBuffer_q31[idx] = -0xFFFFFFF;//greyScale(imageData[(int32_t)(idx * scale_factor)]) * 16843; //16843 is factor to translate in a 32bit number
+		imageBuffer_q31[idx] = -0x7FFFFFFF;//greyScale(imageData[(int32_t)(idx * scale_factor)]) * 16843; //16843 is factor to translate in a 32bit number
 	}
 
 	for (idx = scaledPixel_nb; --idx >= scaledPixel_nb / 2;)
 	{
-		imageBuffer_q31[idx] = 0xFFFFFFF;//greyScale(imageData[(int32_t)(idx * scale_factor)]) * 16843; //16843 is factor to translate in a 32bit number
+		imageBuffer_q31[idx] = 0x7FFFFFFF;//greyScale(imageData[(int32_t)(idx * scale_factor)]) * 16843; //16843 is factor to translate in a 32bit number
 	}
 
 	// Fill audio buffer
