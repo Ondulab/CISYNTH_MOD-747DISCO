@@ -105,7 +105,7 @@ protected:
     touchgfx::Slider startFreqSlider;
     touchgfx::TextArea textStartFreq;
     touchgfx::ButtonWithLabel saveButton;
-    touchgfx::TextArea textComma_1;
+    touchgfx::TextArea textOrder;
     touchgfx::ButtonWithLabel menuButton;
     touchgfx::RadioButtonGroup<3> radioButtonGroup1;
 

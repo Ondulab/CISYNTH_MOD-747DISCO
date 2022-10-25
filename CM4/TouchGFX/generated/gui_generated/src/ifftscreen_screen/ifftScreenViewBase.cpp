@@ -243,10 +243,10 @@ ifftScreenViewBase::ifftScreenViewBase() :
     saveButton.setLabelColorPressed(touchgfx::Color::getColorFromRGB(255, 255, 255));
     saveButton.setAction(buttonCallback);
 
-    textComma_1.setXY(370, 13);
-    textComma_1.setColor(touchgfx::Color::getColorFromRGB(176, 176, 176));
-    textComma_1.setLinespacing(0);
-    textComma_1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_E089));
+    textOrder.setXY(370, 13);
+    textOrder.setColor(touchgfx::Color::getColorFromRGB(176, 176, 176));
+    textOrder.setLinespacing(0);
+    textOrder.setTypedText(touchgfx::TypedText(T___SINGLEUSE_E089));
 
     menuButton.setXY(740, 60);
     menuButton.setBitmaps(touchgfx::Bitmap(BITMAP_DARK_BUTTONS_SQUARE_ICON_BUTTON_ID), touchgfx::Bitmap(BITMAP_DARK_BUTTONS_SQUARE_ICON_BUTTON_PRESSED_ID));
@@ -277,7 +277,7 @@ ifftScreenViewBase::ifftScreenViewBase() :
     add(startFreqSlider);
     add(textStartFreq);
     add(saveButton);
-    add(textComma_1);
+    add(textOrder);
     add(menuButton);
     radioButtonGroup1.add(SIN_Button);
     radioButtonGroup1.add(SQR_Button);

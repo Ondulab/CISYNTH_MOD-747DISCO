@@ -29,6 +29,17 @@ typedef enum {
 	MENU_MODE
 }synthModeTypeDef;
 
+typedef enum {
+	CV_ON = 0,
+	KEYBOARD_ON
+}synthCVTypeDef;
+
+typedef enum {
+	NORMAL_READ = 0,
+	NORMAL_REVERSE_READ,
+	DUAL_READ
+}synthReadModeTypeDef;
+
 struct wave {
 	volatile float32_t *start_ptr;
     uint32_t current_idx;
@@ -53,6 +64,8 @@ struct params {
 
 struct shared_var {
 	synthModeTypeDef mode;
+	synthCVTypeDef CV_or_Keyboard;
+	synthReadModeTypeDef directRead_Mode;
 	int32_t synth_process_cnt;
 	SAI_HandleTypeDef haudio_out_sai;
 };

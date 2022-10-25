@@ -34,11 +34,16 @@ mainScreenViewBase::mainScreenViewBase() :
     dWaveButton.setLabelColorPressed(touchgfx::Color::getColorFromRGB(255, 255, 255));
     dWaveButton.setAction(buttonCallback);
 
+    scalableImage1.setBitmap(touchgfx::Bitmap(BITMAP_GROUP_RESO_NANCE_NUM_RIQUE_LOGO_RESO_ID));
+    scalableImage1.setPosition(5, 44, 179, 54);
+    scalableImage1.setScalingAlgorithm(touchgfx::ScalableImage::NEAREST_NEIGHBOR);
+
     add(__background);
     add(box1_1);
     add(image1);
     add(ifftButton);
     add(dWaveButton);
+    add(scalableImage1);
 }
 
 void mainScreenViewBase::setupScreen()

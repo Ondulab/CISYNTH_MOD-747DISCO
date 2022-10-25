@@ -5,16 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Peripheral/Src/buttons.c \
-../Peripheral/Src/pcm5102.c 
+../Peripheral/Src/audio.c \
+../Peripheral/Src/buttons.c 
 
 C_DEPS += \
-./Peripheral/Src/buttons.d \
-./Peripheral/Src/pcm5102.d 
+./Peripheral/Src/audio.d \
+./Peripheral/Src/buttons.d 
 
 OBJS += \
-./Peripheral/Src/buttons.o \
-./Peripheral/Src/pcm5102.o 
+./Peripheral/Src/audio.o \
+./Peripheral/Src/buttons.o 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -24,7 +24,7 @@ Peripheral/Src/%.o Peripheral/Src/%.su: ../Peripheral/Src/%.c Peripheral/Src/sub
 clean: clean-Peripheral-2f-Src
 
 clean-Peripheral-2f-Src:
-	-$(RM) ./Peripheral/Src/buttons.d ./Peripheral/Src/buttons.o ./Peripheral/Src/buttons.su ./Peripheral/Src/pcm5102.d ./Peripheral/Src/pcm5102.o ./Peripheral/Src/pcm5102.su
+	-$(RM) ./Peripheral/Src/audio.d ./Peripheral/Src/audio.o ./Peripheral/Src/audio.su ./Peripheral/Src/buttons.d ./Peripheral/Src/buttons.o ./Peripheral/Src/buttons.su
 
 .PHONY: clean-Peripheral-2f-Src
 

@@ -69,6 +69,16 @@
             },
             "TextRotation": "0",
             "Style": "Style4"
+          },
+          {
+            "Type": "ScalableImage",
+            "Name": "scalableImage1",
+            "X": 5,
+            "Y": 44,
+            "Width": 179,
+            "Height": 54,
+            "Filename": "Group_Reso-nance_Num_rique_logo-reso.png",
+            "ScalingAlgorithm": "Nearest-neighbor"
           }
         ],
         "Interactions": [
@@ -457,7 +467,7 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textComma_1",
+            "Name": "textOrder",
             "X": 370,
             "Y": 13,
             "Width": 57,
@@ -625,97 +635,352 @@
             }
           },
           {
-            "Type": "Slider",
-            "Name": "slider1",
-            "X": 15,
-            "Y": 255,
-            "Width": 683,
-            "Height": 68,
-            "IsHorizontalSlider": true,
-            "BackgroundUnselected": "__designer\\Dark_Slider_Horizontal_Large_Slider_Round_back.png",
-            "BackgroundSelected": "__designer\\Dark_Slider_Horizontal_Large_Slider_Round_fill.png",
-            "Indicator": "__designer\\Dark_Slider_Horizontal_Large_Indicators_Slider_Round_nob.png",
-            "BackgroundX": 5,
-            "BackgroundY": 24,
-            "IndicatorMax": 615,
-            "ValueMax": 100,
-            "InitValue": 90,
-            "Style": "Style1"
-          },
-          {
-            "Type": "BoxWithBorder",
-            "Name": "boxWithBorder1",
-            "X": 15,
-            "Y": 38,
-            "Width": 237,
-            "Height": 193,
+            "Type": "Box",
+            "Name": "box2",
+            "X": 50,
+            "Y": 184,
+            "Width": 700,
+            "Height": 50,
             "Color": {
-              "Red": 64,
-              "Green": 64,
-              "Blue": 64
-            },
-            "BorderSize": 5
+              "Red": 88,
+              "Green": 88,
+              "Blue": 88
+            }
           },
           {
-            "Type": "DynamicGraph",
-            "Name": "dynamicGraph1_1",
-            "X": 21,
-            "Y": 45,
-            "Width": 224,
-            "Height": 178,
-            "DataSeed": 758781629,
-            "NumberOfValues": 100,
-            "MaxY": 100.0,
-            "Precision": "1",
-            "LastIndex": 99,
-            "XAxisScale": 1.0,
-            "InsertRandomValues": true,
-            "GraphType": "GraphScroll",
-            "GraphDrawers": [
+            "Type": "FlexButton",
+            "Name": "flexButton_C",
+            "X": 50,
+            "Y": 240,
+            "Width": 100,
+            "Height": 230,
+            "ButtonTrigger": {
+              "Type": "TouchButtonTrigger"
+            },
+            "ButtonStyles": [
               {
-                "Type": "LineDrawer",
-                "LineWidth": 2,
-                "Color": {
-                  "Red": 157,
-                  "Green": 240,
-                  "Blue": 137
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 100,
+                "Height": 230,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 201,
+                  "Green": 201,
+                  "Blue": 201
+                },
+                "ColorPressed": {
+                  "Red": 112,
+                  "Green": 112,
+                  "Blue": 112
                 }
               }
             ]
           },
           {
-            "Type": "Slider",
-            "Name": "waveFormOrderSlider",
-            "X": 378,
-            "Y": 38,
-            "Width": 40,
-            "Height": 193,
-            "BackgroundUnselected": "__designer\\Dark_Slider_Vertical_Small_Slider3_Vertical_Round_back.png",
-            "BackgroundSelected": "__designer\\Dark_Slider_Vertical_Small_Slider3_Vertical_Round_fill.png",
-            "Indicator": "__designer\\Dark_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.png",
-            "IndicatorPos": 3,
-            "IndicatorMax": 135,
-            "IndicatorMin": 4,
-            "ValueMax": 25,
-            "ValueMin": 1,
-            "InitValue": 5,
-            "Style": "Style1"
+            "Type": "FlexButton",
+            "Name": "flexButton_D",
+            "X": 150,
+            "Y": 241,
+            "Width": 100,
+            "Height": 230,
+            "ButtonTrigger": {
+              "Type": "TouchButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 100,
+                "Height": 230,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 201,
+                  "Green": 201,
+                  "Blue": 201
+                },
+                "ColorPressed": {
+                  "Red": 112,
+                  "Green": 112,
+                  "Blue": 112
+                }
+              }
+            ]
           },
           {
-            "Type": "TextArea",
-            "Name": "textHarmonization",
-            "X": 716,
-            "Y": 277,
-            "Width": 62,
-            "Height": 24,
-            "TextId": "__SingleUse_LHNO",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 176,
-              "Green": 176,
-              "Blue": 176
+            "Type": "FlexButton",
+            "Name": "flexButton_E",
+            "X": 250,
+            "Y": 241,
+            "Width": 100,
+            "Height": 230,
+            "ButtonTrigger": {
+              "Type": "TouchButtonTrigger"
             },
-            "AutoSize": true
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 100,
+                "Height": 230,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 201,
+                  "Green": 201,
+                  "Blue": 201
+                },
+                "ColorPressed": {
+                  "Red": 112,
+                  "Green": 112,
+                  "Blue": 112
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_F",
+            "X": 350,
+            "Y": 241,
+            "Width": 100,
+            "Height": 230,
+            "ButtonTrigger": {
+              "Type": "TouchButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 100,
+                "Height": 230,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 201,
+                  "Green": 201,
+                  "Blue": 201
+                },
+                "ColorPressed": {
+                  "Red": 112,
+                  "Green": 112,
+                  "Blue": 112
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_G",
+            "X": 450,
+            "Y": 241,
+            "Width": 100,
+            "Height": 230,
+            "ButtonTrigger": {
+              "Type": "TouchButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 100,
+                "Height": 230,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 201,
+                  "Green": 201,
+                  "Blue": 201
+                },
+                "ColorPressed": {
+                  "Red": 112,
+                  "Green": 112,
+                  "Blue": 112
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_A",
+            "X": 550,
+            "Y": 241,
+            "Width": 100,
+            "Height": 230,
+            "ButtonTrigger": {
+              "Type": "TouchButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 100,
+                "Height": 230,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 201,
+                  "Green": 201,
+                  "Blue": 201
+                },
+                "ColorPressed": {
+                  "Red": 112,
+                  "Green": 112,
+                  "Blue": 112
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_B",
+            "X": 650,
+            "Y": 241,
+            "Width": 100,
+            "Height": 230,
+            "ButtonTrigger": {
+              "Type": "TouchButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 100,
+                "Height": 230,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 201,
+                  "Green": 201,
+                  "Blue": 201
+                },
+                "ColorPressed": {
+                  "Red": 112,
+                  "Green": 112,
+                  "Blue": 112
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_Cd",
+            "X": 110,
+            "Y": 241,
+            "Width": 80,
+            "Height": 130,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 80,
+                "Height": 130,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 61,
+                  "Green": 61,
+                  "Blue": 61
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_Dd",
+            "X": 210,
+            "Y": 241,
+            "Width": 80,
+            "Height": 130,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 80,
+                "Height": 130,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 61,
+                  "Green": 61,
+                  "Blue": 61
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_Fd",
+            "X": 410,
+            "Y": 241,
+            "Width": 80,
+            "Height": 130,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 80,
+                "Height": 130,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 61,
+                  "Green": 61,
+                  "Blue": 61
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_Gd",
+            "X": 510,
+            "Y": 241,
+            "Width": 80,
+            "Height": 130,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 80,
+                "Height": 130,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 61,
+                  "Green": 61,
+                  "Blue": 61
+                }
+              }
+            ]
+          },
+          {
+            "Type": "FlexButton",
+            "Name": "flexButton_Ad",
+            "X": 610,
+            "Y": 241,
+            "Width": 80,
+            "Height": 130,
+            "ButtonTrigger": {
+              "Type": "ClickButtonTrigger"
+            },
+            "ButtonStyles": [
+              {
+                "Type": "BoxWithBorderButtonStyle",
+                "Width": 80,
+                "Height": 130,
+                "LockToFlexButtonSize": true,
+                "BorderSize": 5,
+                "ColorReleased": {
+                  "Red": 61,
+                  "Green": 61,
+                  "Blue": 61
+                }
+              }
+            ]
           },
           {
             "Type": "ButtonWithLabel",
@@ -725,7 +990,7 @@
             "Height": 60,
             "Pressed": "__designer\\Dark_Buttons_Square_icon_button_pressed.png",
             "Released": "__designer\\Dark_Buttons_Square_icon_button.png",
-            "TextId": "__SingleUse_PIGV",
+            "TextId": "__SingleUse_9TQX",
             "ReleasedColor": {
               "Red": 255,
               "Green": 255,
@@ -738,22 +1003,6 @@
             },
             "TextRotation": "0",
             "Style": "Style9"
-          },
-          {
-            "Type": "TextArea",
-            "Name": "textComma_1",
-            "X": 384,
-            "Y": 13,
-            "Width": 28,
-            "Height": 24,
-            "TextId": "__SingleUse_M7OA",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 176,
-              "Green": 176,
-              "Blue": 176
-            },
-            "AutoSize": true
           },
           {
             "Type": "ButtonWithLabel",
@@ -764,7 +1013,7 @@
             "Height": 60,
             "Pressed": "__designer\\Dark_Buttons_Square_icon_button_pressed.png",
             "Released": "__designer\\Dark_Buttons_Square_icon_button.png",
-            "TextId": "__SingleUse_NKO5",
+            "TextId": "__SingleUse_MI7Z",
             "ReleasedColor": {
               "Red": 255,
               "Green": 255,
@@ -777,103 +1026,289 @@
             },
             "TextRotation": "0",
             "Style": "Style9"
+          },
+          {
+            "Type": "Slider",
+            "Name": "slider_CV",
+            "X": 114,
+            "Y": 14,
+            "Width": 193,
+            "Height": 40,
+            "IsHorizontalSlider": true,
+            "BackgroundUnselected": "__designer\\Dark_Slider_Horizontal_Small_slider_horizontal_small_round_back.png",
+            "BackgroundSelected": "__designer\\Dark_Slider_Horizontal_Small_slider_horizontal_small_round_fill.png",
+            "Indicator": "__designer\\Dark_Slider_Horizontal_Small_Indicators_slider_horizontal_small_round_knob.png",
+            "IndicatorPos": 4,
+            "IndicatorMax": 135,
+            "IndicatorMin": 3,
+            "ValueMax": 100,
+            "InitValue": 50,
+            "Style": "Style13"
+          },
+          {
+            "Type": "Slider",
+            "Name": "slider_Blur",
+            "X": 114,
+            "Y": 73,
+            "Width": 193,
+            "Height": 40,
+            "IsHorizontalSlider": true,
+            "BackgroundUnselected": "__designer\\Dark_Slider_Horizontal_Small_slider_horizontal_small_round_back.png",
+            "BackgroundSelected": "__designer\\Dark_Slider_Horizontal_Small_slider_horizontal_small_round_fill.png",
+            "Indicator": "__designer\\Dark_Slider_Horizontal_Small_Indicators_slider_horizontal_small_round_knob.png",
+            "IndicatorPos": 4,
+            "IndicatorMax": 135,
+            "IndicatorMin": 3,
+            "ValueMax": 100,
+            "Style": "Style13"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea_CV",
+            "X": 50,
+            "Y": 18,
+            "Width": 28,
+            "Height": 24,
+            "TextId": "__SingleUse_UW14",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea_Blur",
+            "X": 50,
+            "Y": 80,
+            "Width": 39,
+            "Height": 24,
+            "TextId": "__SingleUse_4TJ8",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "ToggleButton",
+            "Name": "toggleButton_CV",
+            "X": 336,
+            "Y": 15,
+            "Width": 128,
+            "Height": 38,
+            "Pressed": "__designer\\Dark_Togglebars_Toggle_round_large_button_On.png",
+            "Released": "__designer\\Dark_Togglebars_Toggle_round_large_button_Off.png",
+            "Style": "Style4"
+          },
+          {
+            "Type": "ToggleButton",
+            "Name": "toggleButton_BLR",
+            "X": 336,
+            "Y": 74,
+            "Width": 128,
+            "Height": 38,
+            "Pressed": "__designer\\Dark_Togglebars_Toggle_round_large_button_On.png",
+            "Released": "__designer\\Dark_Togglebars_Toggle_round_large_button_Off.png",
+            "Style": "Style4"
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton_Oct_0",
+            "X": 50,
+            "Y": 133,
+            "Width": 44,
+            "Height": 44,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_Round_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_Round_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style6"
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton_Oct_2",
+            "X": 378,
+            "Y": 133,
+            "Width": 44,
+            "Height": 44,
+            "Selected": true,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_Round_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_Round_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style6"
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton_Oct_4",
+            "X": 706,
+            "Y": 133,
+            "Width": 44,
+            "Height": 44,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_Round_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_Round_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style6"
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton_Oct_3",
+            "X": 546,
+            "Y": 133,
+            "Width": 44,
+            "Height": 44,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_Round_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_Round_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style6"
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton_Oct_1",
+            "X": 210,
+            "Y": 133,
+            "Width": 44,
+            "Height": 44,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_Round_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_Round_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_Round_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style6"
+          },
+          {
+            "Type": "DynamicGraph",
+            "Name": "dynamicGraph1",
+            "X": 50,
+            "Y": 184,
+            "Width": 700,
+            "Height": 50,
+            "DataSeed": 977222268,
+            "NumberOfValues": 1059,
+            "MaxY": 100.0,
+            "Precision": "1",
+            "LastIndex": 1058,
+            "XAxisScale": 1.0,
+            "InsertRandomValues": true,
+            "GraphType": "GraphWrapClear",
+            "GraphDrawers": [
+              {
+                "Type": "LineDrawer",
+                "LineWidth": 2,
+                "Color": {
+                  "Red": 201,
+                  "Green": 201,
+                  "Blue": 201
+                }
+              }
+            ]
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton_NormalReverseRead",
+            "X": 575,
+            "Y": 50,
+            "Width": 44,
+            "Height": 44,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style4"
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton_DualRead",
+            "X": 629,
+            "Y": 50,
+            "Width": 44,
+            "Height": 44,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style4"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea_NormalRead",
+            "X": 534,
+            "Y": 26,
+            "Width": 15,
+            "Height": 24,
+            "TextId": "__SingleUse_TTT7",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea_NormalReverseRead",
+            "X": 583,
+            "Y": 26,
+            "Width": 29,
+            "Height": 24,
+            "TextId": "__SingleUse_LJI8",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "textArea_DualRead",
+            "X": 644,
+            "Y": 26,
+            "Width": 15,
+            "Height": 24,
+            "TextId": "__SingleUse_5RXM",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "RadioButton",
+            "Name": "radioButton_NormalRead",
+            "X": 519,
+            "Y": 50,
+            "Width": 44,
+            "Height": 44,
+            "Selected": true,
+            "FileNameSelected": "__designer\\Dark_Check_buttons_Check_mark_active.png",
+            "FileNameSelectedPressed": "__designer\\Dark_Check_buttons_Check_mark_normal.png",
+            "FileNameUnselected": "__designer\\Dark_Check_buttons_Check_mark_inactive.png",
+            "FileNameUnselectedPressed": "__designer\\Dark_Check_buttons_Check_mark_pressed.png",
+            "RadioButtonGroup": "radioButtonGroup1",
+            "Style": "Style4"
           }
         ],
         "Interactions": [
           {
-            "InteractionName": "attackSliderChanged",
-            "Trigger": {
-              "Type": "TriggerSliderValueChanged"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "attackSliderChanged"
-            }
-          },
-          {
-            "InteractionName": "releaseSliderChanged",
-            "Trigger": {
-              "Type": "TriggerSliderValueChanged"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "releaseSliderChanged"
-            }
-          },
-          {
-            "InteractionName": "saveButtonClicked",
-            "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "saveButton"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "saveButtonClicked"
-            }
-          },
-          {
-            "InteractionName": "sawButtonSelected",
-            "Trigger": {
-              "Type": "TriggerRadioButtonSelected"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "sawButtonSelected"
-            }
-          },
-          {
-            "InteractionName": "sqrButtonSelected",
-            "Trigger": {
-              "Type": "TriggerRadioButtonSelected"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "sqrButtonSelected"
-            }
-          },
-          {
-            "InteractionName": "sinButtonSelected",
-            "Trigger": {
-              "Type": "TriggerRadioButtonSelected"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "sinButtonSelected"
-            }
-          },
-          {
-            "InteractionName": "waveFormOrderSliderChanged",
-            "Trigger": {
-              "Type": "TriggerSliderValueConfirmed",
-              "TriggerComponent": "waveFormOrderSlider"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "waveFormOrderSliderChanged"
-            }
-          },
-          {
-            "InteractionName": "startFreqSliderChanged",
-            "Trigger": {
-              "Type": "TriggerSliderValueConfirmed"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "startFreqSliderChanged"
-            }
-          },
-          {
-            "InteractionName": "commaSliderChanged",
-            "Trigger": {
-              "Type": "TriggerSliderValueConfirmed"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "commaSliderChanged"
-            }
-          },
-          {
-            "InteractionName": "Interaction1",
+            "InteractionName": "Menu",
             "Trigger": {
               "Type": "TriggerClicked",
               "TriggerComponent": "menuButton"
@@ -882,6 +1317,270 @@
               "Type": "ActionGotoScreen",
               "ScreenTransitionType": "ScreenTransitionNone",
               "ActionComponent": "mainScreen"
+            }
+          },
+          {
+            "InteractionName": "OCT_1",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "radioButton_Oct_1"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "oct_1"
+            }
+          },
+          {
+            "InteractionName": "OCT_2",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "radioButton_Oct_2"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "oct_2"
+            }
+          },
+          {
+            "InteractionName": "OCT_0",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "radioButton_Oct_0"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "oct_0"
+            }
+          },
+          {
+            "InteractionName": "OCT_3",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "radioButton_Oct_3"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "oct_3"
+            }
+          },
+          {
+            "InteractionName": "OCT_4",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "radioButton_Oct_4"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "oct_4"
+            }
+          },
+          {
+            "InteractionName": "BLUR",
+            "Trigger": {
+              "Type": "TriggerSliderValueChanged",
+              "TriggerComponent": "slider_Blur"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "slider_Blur_Updated"
+            }
+          },
+          {
+            "InteractionName": "CV",
+            "Trigger": {
+              "Type": "TriggerSliderValueChanged",
+              "TriggerComponent": "slider_CV"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "slider_CV_Updated"
+            }
+          },
+          {
+            "InteractionName": "Ad",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_Ad"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_Ad"
+            }
+          },
+          {
+            "InteractionName": "Gd",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_Gd"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_Gd"
+            }
+          },
+          {
+            "InteractionName": "Fd",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_Fd"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_Fd"
+            }
+          },
+          {
+            "InteractionName": "Dd",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_Dd"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_Dd"
+            }
+          },
+          {
+            "InteractionName": "Cd",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_Cd"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_Cd"
+            }
+          },
+          {
+            "InteractionName": "A",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_B"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_A"
+            }
+          },
+          {
+            "InteractionName": "B",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_B"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_B"
+            }
+          },
+          {
+            "InteractionName": "C",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_C"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_C"
+            }
+          },
+          {
+            "InteractionName": "D",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_D"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_D"
+            }
+          },
+          {
+            "InteractionName": "E",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_E"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_E"
+            }
+          },
+          {
+            "InteractionName": "F",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_F"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_F"
+            }
+          },
+          {
+            "InteractionName": "G",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "flexButton_G"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "note_G"
+            }
+          },
+          {
+            "InteractionName": "toggle_Button_CV",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "toggleButton_CV"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "toggle_Button_CV"
+            }
+          },
+          {
+            "InteractionName": "toggle_Button_Blur",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "toggleButton_BLR"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "toggle_Button_Blur"
+            }
+          },
+          {
+            "InteractionName": "Normal_Read",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "radioButton_NormalRead"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "normaRead"
+            }
+          },
+          {
+            "InteractionName": "Normal_Reverse_Read",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "radioButton_NormalReverseRead"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "normalReverseRead"
+            }
+          },
+          {
+            "InteractionName": "Dual_Read",
+            "Trigger": {
+              "Type": "TriggerRadioButtonSelected",
+              "TriggerComponent": "radioButton_DualRead"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "dualRead"
             }
           }
         ]

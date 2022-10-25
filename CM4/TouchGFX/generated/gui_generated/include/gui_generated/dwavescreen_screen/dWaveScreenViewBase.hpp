@@ -8,13 +8,16 @@
 #include <mvp/View.hpp>
 #include <gui/dwavescreen_screen/dWaveScreenPresenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
+#include <touchgfx/containers/buttons/Buttons.hpp>
+#include <touchgfx/widgets/ButtonWithLabel.hpp>
 #include <touchgfx/containers/Slider.hpp>
-#include <touchgfx/widgets/BoxWithBorder.hpp>
-#include <touchgfx/widgets/graph/GraphScroll.hpp>
+#include <touchgfx/widgets/TextArea.hpp>
+#include <touchgfx/widgets/ToggleButton.hpp>
+#include <touchgfx/widgets/RadioButton.hpp>
+#include <touchgfx/widgets/graph/GraphWrapAndClear.hpp>
 #include <touchgfx/widgets/graph/GraphElements.hpp>
 #include <touchgfx/widgets/canvas/PainterRGB888.hpp>
-#include <touchgfx/widgets/TextArea.hpp>
-#include <touchgfx/widgets/ButtonWithLabel.hpp>
+#include <touchgfx/widgets/RadioButtonGroup.hpp>
 
 class dWaveScreenViewBase : public touchgfx::View<dWaveScreenPresenter>
 {
@@ -26,12 +29,122 @@ public:
     /*
      * Virtual Action Handlers
      */
-    virtual void saveButtonClicked()
+    virtual void oct_1()
     {
         // Override and implement this function in dWaveScreen
     }
 
-    virtual void waveFormOrderSliderChanged(int value)
+    virtual void oct_2()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void oct_0()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void oct_3()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void oct_4()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void slider_Blur_Updated(int value)
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void slider_CV_Updated(int value)
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_Ad()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_Gd()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_Fd()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_Dd()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_Cd()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_A()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_B()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_C()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_D()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_E()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_F()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void note_G()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void toggle_Button_CV()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void toggle_Button_Blur()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void normaRead()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void normalReverseRead()
+    {
+        // Override and implement this function in dWaveScreen
+    }
+
+    virtual void dualRead()
     {
         // Override and implement this function in dWaveScreen
     }
@@ -46,16 +159,42 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::Box box1;
-    touchgfx::Slider slider1;
-    touchgfx::BoxWithBorder boxWithBorder1;
-    touchgfx::GraphScroll<100> dynamicGraph1_1;
-    touchgfx::GraphElementLine dynamicGraph1_1Line1;
-    touchgfx::PainterRGB888 dynamicGraph1_1Line1Painter;
-    touchgfx::Slider waveFormOrderSlider;
-    touchgfx::TextArea textHarmonization;
+    touchgfx::Box box2;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::TouchButtonTrigger >  flexButton_C;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::TouchButtonTrigger >  flexButton_D;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::TouchButtonTrigger >  flexButton_E;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::TouchButtonTrigger >  flexButton_F;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::TouchButtonTrigger >  flexButton_G;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::TouchButtonTrigger >  flexButton_A;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::TouchButtonTrigger >  flexButton_B;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton_Cd;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton_Dd;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton_Fd;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton_Gd;
+    touchgfx::BoxWithBorderButtonStyle< touchgfx::ClickButtonTrigger >  flexButton_Ad;
     touchgfx::ButtonWithLabel saveButton;
-    touchgfx::TextArea textComma_1;
     touchgfx::ButtonWithLabel menuButton;
+    touchgfx::Slider slider_CV;
+    touchgfx::Slider slider_Blur;
+    touchgfx::TextArea textArea_CV;
+    touchgfx::TextArea textArea_Blur;
+    touchgfx::ToggleButton toggleButton_CV;
+    touchgfx::ToggleButton toggleButton_BLR;
+    touchgfx::RadioButton radioButton_Oct_0;
+    touchgfx::RadioButton radioButton_Oct_2;
+    touchgfx::RadioButton radioButton_Oct_4;
+    touchgfx::RadioButton radioButton_Oct_3;
+    touchgfx::RadioButton radioButton_Oct_1;
+    touchgfx::GraphWrapAndClear<1059> dynamicGraph1;
+    touchgfx::GraphElementLine dynamicGraph1Line1;
+    touchgfx::PainterRGB888 dynamicGraph1Line1Painter;
+    touchgfx::RadioButton radioButton_NormalReverseRead;
+    touchgfx::RadioButton radioButton_DualRead;
+    touchgfx::TextArea textArea_NormalRead;
+    touchgfx::TextArea textArea_NormalReverseRead;
+    touchgfx::TextArea textArea_DualRead;
+    touchgfx::RadioButton radioButton_NormalRead;
+    touchgfx::RadioButtonGroup<8> radioButtonGroup1;
 
 private:
 
@@ -63,13 +202,17 @@ private:
      * Callback Declarations
      */
     touchgfx::Callback<dWaveScreenViewBase, const touchgfx::AbstractButton&> buttonCallback;
-    touchgfx::Callback<dWaveScreenViewBase, const touchgfx::Slider&, int> sliderValueConfirmedCallback;
+    touchgfx::Callback<dWaveScreenViewBase, const touchgfx::AbstractButtonContainer&> flexButtonCallback;
+    touchgfx::Callback<dWaveScreenViewBase, const touchgfx::Slider&, int> sliderValueChangedCallback;
+    touchgfx::Callback<dWaveScreenViewBase, const touchgfx::AbstractButton&> radioButtonSelectedCallback;
 
     /*
      * Callback Handler Declarations
      */
     void buttonCallbackHandler(const touchgfx::AbstractButton& src);
-    void sliderValueConfirmedCallbackHandler(const touchgfx::Slider& src, int value);
+    void flexButtonCallbackHandler(const touchgfx::AbstractButtonContainer& src);
+    void sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value);
+    void radioButtonSelectedCallbackHandler(const touchgfx::AbstractButton& src);
 
     /*
      * Canvas Buffer Size

@@ -83,7 +83,7 @@
 /********************              DAC definitions                 ********************/
 /**************************************************************************************/
 #define SAMPLING_FREQUENCY				      	(48000)
-#define AUDIO_BUFFER_SIZE             			(128)
+#define AUDIO_BUFFER_SIZE             			(256)
 #define FRAME_LENGHT							(AUDIO_BUFFER_SIZE)
 #define ACTIVE_FRAME_LENGHT						((AUDIO_BUFFER_SIZE) / 2)
 #define VOLUME									(70)

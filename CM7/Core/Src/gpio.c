@@ -67,11 +67,17 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(CEC_CK_MCO1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PJPin PJPin */
-  GPIO_InitStruct.Pin = ARD_D7_Pin|ARD_D2_Pin;
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = ARD_D7_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOJ, &GPIO_InitStruct);
+  HAL_GPIO_Init(ARD_D7_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = ARD_D2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(ARD_D2_GPIO_Port, &GPIO_InitStruct);
 
 }
 

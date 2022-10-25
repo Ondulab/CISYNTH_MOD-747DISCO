@@ -10,6 +10,7 @@
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/ButtonWithLabel.hpp>
+#include <touchgfx/widgets/ScalableImage.hpp>
 
 class mainScreenViewBase : public touchgfx::View<mainScreenPresenter>
 {
@@ -31,6 +32,7 @@ protected:
     touchgfx::Image image1;
     touchgfx::ButtonWithLabel ifftButton;
     touchgfx::ButtonWithLabel dWaveButton;
+    touchgfx::ScalableImage scalableImage1;
 
 private:
 

@@ -185,33 +185,85 @@ void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData, 
 	static int32_t buff_idx = 0;
 	static int32_t idx = 0;
 	static int32_t imageBuffer_q31[CIS_PIXELS_NB];
-	static const float32_t noScaled_freq = (SAMPLING_FREQUENCY / 2) / CIS_PIXELS_NB; // 27,7 Hz;
+	static int32_t imageData_ref_q31[CIS_PIXELS_NB];
+	static const float32_t noScaled_freq = (SAMPLING_FREQUENCY) / CIS_PIXELS_NB; // 27,7 Hz;
 	static float32_t note_freq = 0.0;
 	static float32_t scale_factor = 0.0;
 	static uint32_t scaledPixel_nb = 0;
 
-	static const float32_t LAMAX = 1760;
-	static const float32_t LAMIN = 55;
-	static const float32_t adc_LAMIN_HZ = 55800;
-	static const float32_t adc_LAMAX_HZ = 17300;
-	static const float32_t gain = (adc_LAMIN_HZ - adc_LAMAX_HZ) / (LAMAX - LAMIN);
-	static const float32_t offset = LAMIN - (adc_LAMAX_HZ / gain);
+	static const float32_t LAMIN = 440;
+	static const float32_t LAMAX = 880;
+	static const float32_t adc_LAMIN = 14290;
+	static const float32_t adc_LAMAX = 30630;
+	static const float32_t gain = (LAMAX - LAMIN) / (adc_LAMAX - adc_LAMIN);
+	static const float32_t offset = -300;//LAMIN - (adc_LAMIN / gain);
 
-//	note_freq = CV_in / (gain * 1.55) + offset;
-	note_freq = 20;
+	static int32_t adc_history[100];
+	static int32_t idx_adc = 0;
+	static int32_t avrg_adc = 0;
+
+	static int32_t glide = 5;
+
+	adc_history[idx_adc] = CV_in;
+	idx_adc++;
+	if (idx_adc > glide - 1)
+		idx_adc = 0;
+
+	avrg_adc = 0;
+
+	for (int i = 0; i < glide; i++)
+	{
+		avrg_adc += adc_history[i];
+	}
+
+	CV_in = avrg_adc / glide;
+
+	//	printf("ADC_val = %d\n", CV_in);
+
+	note_freq = CV_in * gain + offset;
+	//	note_freq = 55;
+
+//	printf("Freq = %d\n", (int)note_freq);
+
+	if (note_freq < 30)
+		note_freq = 30;
+	if (note_freq > 20000)
+		note_freq = 20000;
+
 	scale_factor = note_freq / noScaled_freq;
 
 	scaledPixel_nb = (uint32_t)((float32_t)CIS_PIXELS_NB / scale_factor);
 
-	for (idx = scaledPixel_nb / 2; --idx >= 0;)
+	// Sanity check
+	if (scaledPixel_nb < 1)
+		scale_factor = 1;
+	if (scaledPixel_nb > CIS_PIXELS_NB)
+		scaledPixel_nb = CIS_PIXELS_NB;
+
+	if (shared_var.directRead_Mode == DUAL_READ)
 	{
-		imageBuffer_q31[idx] = -0x7FFFFFFF;//greyScale(imageData[(int32_t)(idx * scale_factor)]) * 16843; //16843 is factor to translate in a 32bit number
+		for (idx = CIS_PIXELS_NB; --idx >= 0;)
+		{
+			imageData_ref_q31[idx] = imageData[idx];
+		}
 	}
 
-	for (idx = scaledPixel_nb; --idx >= scaledPixel_nb / 2;)
+	imageData_ref_q31[CIS_PIXELS_NB];
+
+	for (idx = scaledPixel_nb; --idx >= 0;)
 	{
-		imageBuffer_q31[idx] = 0x7FFFFFFF;//greyScale(imageData[(int32_t)(idx * scale_factor)]) * 16843; //16843 is factor to translate in a 32bit number
+		imageBuffer_q31[idx] = (greyScale(imageData_ref_q31[(int32_t)(idx * scale_factor)]) - greyScale(imageData[(int32_t)(idx * scale_factor)])) * (16843 / 2); //16843 is factor to translate in a 32bit number
 	}
+
+
+	//	for (idx = scaledPixel_nb; --idx >= scaledPixel_nb / 2;)
+	//	{
+	//		imageBuffer_q31[idx] = 0x7FFFFFFF;
+	//	}
+	//	for (idx = scaledPixel_nb / 2; --idx >= 0;)
+	//	{
+	//		imageBuffer_q31[idx] = -0x7FFFFFFF;
+	//	}
 
 	// Fill audio buffer
 	for (buff_idx = 0; buff_idx < AUDIO_BUFFER_SIZE; buff_idx++)
@@ -225,12 +277,20 @@ void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData, 
 		// Else fill the audio buffer with mirror CIS image
 		else
 		{
-			if (image_idx_DW > 1)
+			if (shared_var.directRead_Mode == NORMAL_REVERSE_READ)
 			{
-				image_idx_DW--;
-				signal_R = imageBuffer_q31[image_idx_DW];
+				if (image_idx_DW > 1)
+				{
+					image_idx_DW--;
+					signal_R = imageBuffer_q31[image_idx_DW];
+				}
+				// Restart counters
+				else
+				{
+					image_idx_UP = 0;
+					image_idx_DW = scaledPixel_nb - 1;
+				}
 			}
-			// Restart counters
 			else
 			{
 				image_idx_UP = 0;
@@ -239,7 +299,7 @@ void synth_DirectMode(volatile int32_t *imageData, volatile int32_t *audioData, 
 		}
 
 		// Buffer copies for right channels
-//		audioData[buff_idx * 2] = signal_R;
+		//		audioData[buff_idx * 2] = signal_R;
 		audioData[buff_idx * 2 + 1] = signal_R;
 	}
 
@@ -392,7 +452,7 @@ void synth_IfftMode(volatile int32_t *imageData, volatile int32_t *audioData)
 		else
 			signal_R = 0;
 
-//		audioData[buff_idx * 2] = signal_R;
+		//		audioData[buff_idx * 2] = signal_R;
 		audioData[buff_idx * 2 + 1] = signal_R;
 	}
 
@@ -529,15 +589,15 @@ void synth_AudioProcess(void)
 }
 
 /**
-  * @brief  Conversion complete callback in non blocking mode
-  * @param  AdcHandle : AdcHandle handle
-  * @note   This example shows a simple way to report end of conversion, and
-  *         you can add your own implementation.
-  * @retval None
-  */
+ * @brief  Conversion complete callback in non blocking mode
+ * @param  AdcHandle : AdcHandle handle
+ * @note   This example shows a simple way to report end of conversion, and
+ *         you can add your own implementation.
+ * @retval None
+ */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* AdcHandle)
 {
-  /* Get the converted value of regular channel */
-  uhADCxConvertedValue = HAL_ADC_GetValue(AdcHandle);
+	/* Get the converted value of regular channel */
+	uhADCxConvertedValue = HAL_ADC_GetValue(AdcHandle);
 }
 
